@@ -4,13 +4,7 @@ const eslintConfigPrettier = require('eslint-config-prettier');
 const eslintPluginPrettier = require('eslint-plugin-prettier');
 
 module.exports = defineConfig([
-  globalIgnores([
-    'dist/*',
-    'build/*',
-    '.expo/*',
-    'node_modules/*',
-    'coverage/*',
-  ]),
+  globalIgnores(['dist/*', 'build/*', '.expo/*', 'node_modules/*', 'coverage/*']),
   expoConfig,
   eslintConfigPrettier,
   {
