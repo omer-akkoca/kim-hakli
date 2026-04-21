@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "expo": "~54.0.33",
     "expo-status-bar": "~3.0.9",
+    "firebase": "^12.12.1",
     "nativewind": "^4.1.23",
     "react": "19.1.0",
     "react-aria": "^3.33.0",
