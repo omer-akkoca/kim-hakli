@@ -42,3 +42,5 @@ yarn-error.*
 
 # enviremont
 .env
+GoogleService-Info.plist
+google-services.json

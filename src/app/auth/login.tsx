@@ -1,37 +1,26 @@
-import { View, Text, Pressable } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { setUser, useAppDispatch } from '@/src/store';
-import { IUser } from '@/src/types';
+import { Box, Button, ButtonText, Text } from '@/components/ui';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { signInWithGoogle } from '@/src/services';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { redirect } = useLocalSearchParams<{ redirect?: string }>();
-
   const handleLogin = async () => {
-    const fakeUser: IUser = {
-      displayName: 'Ömer Akkoca',
-      email: 'omerakkoca1042@gmail.com',
-      photoURL: 'https://omerakkoca.com/static/media/home-profile.7694082619d7f4d8e844.jpeg',
-    };
-
-    dispatch(setUser(fakeUser as any));
-
-    if (redirect) {
-      router.replace(String(redirect));
-      return;
-    }
-
-    router.replace('/home');
+    await signInWithGoogle();
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>
-      <Text style={{ fontSize: 24, marginBottom: 24 }}>Giriş Yap</Text>
+    <Box className="flex-1 justify-center items-center px-6 bg-white">
+      <Box className="w-full max-w-md p-6 rounded-2xl bg-white shadow-md">
+        <Text className="text-2xl font-bold text-center mb-3">Giriş Yap</Text>
 
-      <Pressable onPress={handleLogin}>
-        <Text>Demo login</Text>
-      </Pressable>
-    </View>
+        <Text className="text-gray-500 text-center mb-6">
+          Bu sayfayı görüntülemek için giriş yapmalısın.
+        </Text>
+
+        <Button onPress={handleLogin} className="bg-black h-11 rounded-lg">
+          <AntDesign name="google" size={20} color="white" />
+          <ButtonText className="text-white text-center font-semibold">Giriş Yap</ButtonText>
+        </Button>
+      </Box>
+    </Box>
   );
 }

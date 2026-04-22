@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { onAuthStateChanged } from '@/src/services';
-import { setAuthLoading, useAppDispatch } from '@/src/store';
+import { getUser, onAuthStateChanged } from '@/src/services';
+import { setAuthLoading, setUser, useAppDispatch } from '@/src/store';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -10,8 +10,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       dispatch(setAuthLoading(true));
       if (user) {
         const userId = user.uid;
-        // userId ile users collection'dan user bilgilerini çek
-        // çekilen bilgileri redux user state'ine yaz
+        const userInfo = await getUser(userId);
+        if (userInfo) {
+          dispatch(setUser(userInfo));
+        }
       } else {
         // user yokken yapılacaklar
       }
