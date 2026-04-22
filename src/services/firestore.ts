@@ -1,14 +1,19 @@
 import { User } from 'firebase/auth';
 import { db } from '../configs';
 import {
+  collection,
   doc,
   DocumentData,
   DocumentReference,
   getDoc,
+  getDocs,
+  orderBy,
+  query,
   setDoc,
   Timestamp,
 } from 'firebase/firestore';
 import { IUser, providerType } from '../types';
+import { IStory } from '../types/story';
 
 export const getUserRefIfNotExist = async (
   user: User,
@@ -46,4 +51,16 @@ export const getUser = async (userId: string): Promise<IUser | null> => {
   }
 
   return null;
+};
+
+export const getStories = async (): Promise<IStory[] | null> => {
+  try {
+    const storiesRef = collection(db, 'stories');
+    const q = query(storiesRef, orderBy('createdAt'));
+    const snapshot = await getDocs(q);
+    const stories = snapshot.docs.map((doc) => doc.data() as IStory);
+    return stories;
+  } catch {
+    return null;
+  }
 };
