@@ -88,7 +88,7 @@ export default function StoryDetailPage() {
                     backgroundColor: 'rgba(255,255,255,0.08)',
                   }}
                 >
-                  <Text className="text-xs font-medium text-white">{side}</Text>
+                  <Text className="text-xs font-medium text-white">{side.name}</Text>
                 </Box>
               ))}
             </Box>
