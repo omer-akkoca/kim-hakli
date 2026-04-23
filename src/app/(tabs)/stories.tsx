@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { View, Pressable, FlatList, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { IStory } from '@/src/types/story';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box, Text } from '@/components/ui';
 import { HStack } from '@gluestack-ui/nativewind';
 import { getStories } from '@/src/services';
+import { IStory } from '@/src/types';
 
 export default function StoriesPage() {
   const router = useRouter();

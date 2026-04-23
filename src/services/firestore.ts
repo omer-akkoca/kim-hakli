@@ -12,8 +12,7 @@ import {
   setDoc,
   Timestamp,
 } from 'firebase/firestore';
-import { IUser, providerType } from '../types';
-import { IStory } from '../types/story';
+import { IUser, providerType, IStory } from '../types';
 
 export const getUserRefIfNotExist = async (
   user: User,
