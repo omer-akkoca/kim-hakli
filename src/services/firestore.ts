@@ -64,3 +64,13 @@ export const getStories = async (): Promise<IStory[] | null> => {
     return null;
   }
 };
+
+export const getStoryById = async (id: string): Promise<IStory | null> => {
+  const storyRef = doc(db, 'stories', id);
+  const storySnap = await getDoc(storyRef);
+  if (storySnap.exists()) {
+    return storySnap.data() as IStory;
+  }
+
+  return null;
+};
