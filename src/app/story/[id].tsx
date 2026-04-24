@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getStoryById } from '@/src/services/firestore';
 import { IStory } from '@/src/types';
 import { Box, Text, Pressable } from '@/components/ui/';
+import { unlockStoryFunction } from '@/src/services';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -36,12 +37,17 @@ export default function StoryDetailPage() {
 
   const totalVotes = Object.values(story.votes).reduce((sum, v) => sum + v, 0);
 
-  const handleReadStory = () => {
+  const handleReadStory = async () => {
     if (!isAuthenticated) {
       router.push(`/auth/login?redirect=/story/read/${id}` as any);
       return;
     }
-    router.push(`/story/read/${id}` as any);
+
+    const result = await unlockStoryFunction({ storyId: id });
+    if (result.data.success) {
+      router.push(`/story/read/${id}` as any);
+    }
+
   };
 
   return (
