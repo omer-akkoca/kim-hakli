@@ -15,7 +15,6 @@ export const useGetStoryById = (id: string) => {
     queryKey: storyKeys.detail(id),
     queryFn: () => getStoryById(id),
     enabled: !!id,
-    staleTime: 1000 * 60 * 5,
   });
 };
 
