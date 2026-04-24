@@ -1,32 +1,21 @@
 import { Box, Button, ButtonText, Pressable, Text } from '@/components/ui';
-import { getStoryById, submitVoteFunction } from '@/src/services';
-import { IStory } from '@/src/types';
+import { useGetStoryById } from '@/src/actions';
+import { submitVoteFunction } from '@/src/services';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Image } from 'react-native';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const [story, setStory] = useState<IStory>();
-
   const [selectedSide, setSelectedSide] = useState<string>('');
 
-  useEffect(() => {
-    const boot = async () => {
-      const data = await getStoryById(id);
-      if (data) {
-        setStory(data);
-      }
-    };
-    boot();
-  }, [id]);
+  const { data: story } = useGetStoryById(id);
 
   const handleVote = async () => {
-    const { data }  = await submitVoteFunction({ storyId: id, side: selectedSide });
+    const { data } = await submitVoteFunction({ storyId: id, side: selectedSide });
     if (data.success) {
-    router.replace(`/story/voteResult/${id}`);
-
+      router.replace(`/story/voteResult/${id}`);
     }
   };
 

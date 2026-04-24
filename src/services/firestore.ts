@@ -71,6 +71,18 @@ export const getStoryById = async (id: string): Promise<IStory | null> => {
   if (storySnap.exists()) {
     return storySnap.data() as IStory;
   }
-
   return null;
+};
+
+export const isStoryUnlocked = async (userId: string, storyId: string): Promise<boolean> => {
+  const unlockedRef = doc(db, 'users', userId, 'unlockedStories', storyId);
+  const unlockedSnap = await getDoc(unlockedRef);
+  return unlockedSnap.exists();
+};
+
+export const hasVoted = async (userId: string, storyId: string): Promise<boolean> => {
+  const unlockedRef = doc(db, 'users', userId, 'unlockedStories', storyId);
+  const unlockedSnap = await getDoc(unlockedRef);
+  if (!unlockedSnap.exists()) return false;
+  return !!unlockedSnap.data()?.votedSide;
 };
