@@ -1,12 +1,13 @@
 import { View, FlatList, Image, Dimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { IStory } from '@/src/types';
-import { getStoryById } from '@/src/services';
+import { useMemo, useRef, useState } from 'react';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Box, Pressable, Text } from '@/components/ui';
 import { AntDesign } from '@expo/vector-icons';
+import { useGetStoryById, useHasVoted } from '@/src/actions';
+import { useAppSelector } from '@/src/store';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,27 +16,20 @@ export default function StoryReadPage() {
   const { bottom, top } = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 });
+  const { user } = useAppSelector((state) => state.auth);
 
+  const { data: story } = useGetStoryById(id);
+  const { data: voted } = useHasVoted(user?.id ?? '', id);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const flatListRef = useRef<FlatList>(null);
+  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 });
   const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
     if (viewableItems.length > 0) {
       setCurrentIndex(viewableItems[0].index);
     }
   });
-
-  const [story, setStory] = useState<IStory>();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
-
-  useEffect(() => {
-    const boot = async () => {
-      const data = await getStoryById(id);
-      if (data) {
-        setStory(data);
-      }
-    };
-    boot();
-  }, [id]);
 
   const getSceneImageUrl = (slug: string, order: string, lang: string) => {
     return `${process.env.EXPO_PUBLIC_STORAGE_BASE_URL}stories%2F${slug}%2F${order}-${lang}.png?alt=media`;
@@ -64,7 +58,11 @@ export default function StoryReadPage() {
   };
 
   const handleVote = () => {
-    router.push(`/story/vote/${id}`);
+    if (voted) {
+      router.push(`/story/voteResult/${id}`);
+    } else {
+      router.push(`/story/vote/${id}`);
+    }
   };
 
   const renderItem = ({ item }: { item: string }) => {
@@ -86,6 +84,7 @@ export default function StoryReadPage() {
         </Box>
         <Text className="text-white">{story.title}</Text>
       </Pressable>
+
       <FlatList
         ref={flatListRef}
         data={sceneImages}
@@ -109,7 +108,7 @@ export default function StoryReadPage() {
 
         {isLast ? (
           <Button onPress={handleVote} className="flex-1">
-            <ButtonText>Oyla</ButtonText>
+            <ButtonText>{voted ? 'Oylamayı Gör' : 'Oyla'}</ButtonText>
           </Button>
         ) : (
           <Button onPress={goNext} className="flex-1">
