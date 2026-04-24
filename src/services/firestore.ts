@@ -30,6 +30,7 @@ export const createUser = async (
   const provider: providerType =
     user.providerData[0]?.providerId === 'google.com' ? 'google' : 'apple';
   const createdUser: IUser = {
+    id: user.uid,
     displayName: user.displayName ?? '',
     email: user.email ?? '',
     photoURL: user.photoURL,
