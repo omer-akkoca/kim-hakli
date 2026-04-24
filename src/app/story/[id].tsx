@@ -1,33 +1,48 @@
-import { useState, useEffect } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ImageBackground, ActivityIndicator } from 'react-native';
 import { useAppSelector } from '@/src/store';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getStoryById } from '@/src/services/firestore';
-import { IStory } from '@/src/types';
 import { Box, Text, Pressable } from '@/components/ui/';
-import { unlockStoryFunction } from '@/src/services';
+import { useGetStoryById, useHasVoted, useIsStoryUnlocked, useUnlockStory } from '@/src/actions';
+import { useMemo } from 'react';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const [story, setStory] = useState<IStory>();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
-  useEffect(() => {
-    const bootGetStoryById = async () => {
-      const data = await getStoryById(id);
-      if (data) {
-        setStory(data);
-      }
-    };
-    bootGetStoryById();
-  }, [id]);
+  const { data: story, isLoading } = useGetStoryById(id);
+  const { data: unlocked } = useIsStoryUnlocked(user?.id ?? '', id);
+  const { data: voted } = useHasVoted(user?.id ?? '', id);
 
-  if (!story) {
+  const totalVotes = useMemo(
+    () => (story ? Object.values(story.votes).reduce((sum, v) => sum + v, 0) : 0),
+    [story],
+  );
+
+  const { mutate, status } = useUnlockStory();
+
+  const handleUnlockStory = async () => {
+    if (!isAuthenticated) {
+      router.push(`/auth/login?redirect=/story/read/${id}` as any);
+      return;
+    }
+    mutate(
+      { storyId: id },
+      {
+        onSuccess: ({ data }) => {
+          if (data.success) {
+            router.push(`/story/read/${id}`);
+          }
+        },
+      },
+    );
+  };
+
+  if (isLoading) {
     return (
       <Box className="flex-1 items-center justify-center bg-black">
         <ActivityIndicator color="white" />
@@ -35,20 +50,7 @@ export default function StoryDetailPage() {
     );
   }
 
-  const totalVotes = Object.values(story.votes).reduce((sum, v) => sum + v, 0);
-
-  const handleReadStory = async () => {
-    if (!isAuthenticated) {
-      router.push(`/auth/login?redirect=/story/read/${id}` as any);
-      return;
-    }
-
-    const result = await unlockStoryFunction({ storyId: id });
-    if (result.data.success) {
-      router.push(`/story/read/${id}` as any);
-    }
-
-  };
+  if (!story) return <></>;
 
   return (
     <Box className="flex-1">
@@ -72,7 +74,9 @@ export default function StoryDetailPage() {
             style={{ paddingBottom: insets.bottom + 24 }}
           >
             <Box className="mb-3 self-start rounded-full bg-orange-500 px-3 py-1">
-              <Text className="text-xs font-semibold text-white">{story.creditCost} kredi</Text>
+              <Text className="text-xs font-semibold text-white">
+                {story.creditCost === 0 ? 'Ücretsiz' : `${story.creditCost} kredi`}{' '}
+              </Text>
             </Box>
 
             <Text className="mb-2 text-2xl font-bold text-white" style={{ letterSpacing: -0.3 }}>
@@ -105,18 +109,44 @@ export default function StoryDetailPage() {
               </Text>
             </Box>
 
-            <Pressable
-              onPress={handleReadStory}
-              className="flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
-            >
-              <Text className="text-base font-bold text-black">Hikayeyi oku</Text>
-              <Box
-                className="items-center justify-center rounded-full bg-black"
-                style={{ width: 18, height: 18 }}
-              >
-                <AntDesign name="arrow-right" size={10} color="white" />
-              </Box>
-            </Pressable>
+            <Box className="flex-row gap-4">
+              {unlocked ? (
+                <>
+                  <Pressable
+                    onPress={() => router.push(`/story/read/${id}`)}
+                    className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
+                  >
+                    <Text className="text-base font-bold text-black">Hikayeyi Oku</Text>
+                    <AntDesign name="read" size={16} color="black" />
+                  </Pressable>
+                  {voted ? (
+                    <Pressable
+                      onPress={() => router.push(`/story/voteResult/${id}`)}
+                      className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
+                    >
+                      <Text className="text-base font-bold text-black">Oylamayı Gör</Text>
+                      <MaterialCommunityIcons name="vote" size={24} color="black" />
+                    </Pressable>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <Pressable
+                  onPress={handleUnlockStory}
+                  className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
+                >
+                  {status === 'pending' ? (
+                    <ActivityIndicator color={'black'} size={'small'} />
+                  ) : (
+                    <>
+                      <Text className="text-base font-bold text-black">Hikaye Kilidini Aç</Text>
+                      <AntDesign name="lock" size={16} color="black" />
+                    </>
+                  )}
+                </Pressable>
+              )}
+            </Box>
           </Box>
         </Box>
       </ImageBackground>
