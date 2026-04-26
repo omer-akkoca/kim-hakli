@@ -12,7 +12,7 @@ export interface IStory {
   slug: string;
   description: string;
   sceneLength: number;
-  category: StoryCategory;
+  category: string;
 }
 
 export interface IUnlockedStory {
@@ -23,16 +23,3 @@ export interface IUnlockedStory {
 
 export type StorySide = { name: string; photo: string };
 export type StoryStatus = 'published' | 'draft' | 'deleted';
-
-export type StoryCategory =
-  | 'iliski'
-  | 'aile'
-  | 'is'
-  | 'arkadaslik'
-  | 'para'
-  | 'komsuluk'
-  | 'okul'
-  | 'sosyal-medya'
-  | 'evlilik'
-  | 'boss-calisma'
-  | 'diger';

@@ -10,3 +10,4 @@ export * from './toast';
 export * from './actionsheet';
 export * from './image';
 export * from './avatar';
+export * from './badge';

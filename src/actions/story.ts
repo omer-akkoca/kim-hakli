@@ -1,13 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getStoryById, hasVoted, isStoryUnlocked, unlockStoryFunction } from '@/src/services';
+import {
+  getStories,
+  getStoryById,
+  hasVoted,
+  isStoryUnlocked,
+  unlockStoryFunction,
+} from '@/src/services';
 
 export const storyKeys = {
   all: ['stories'] as const,
+  list: (categoryIds?: string[]) => ['stories', 'list', categoryIds ?? 'all'] as const,
   detail: (id: string) => ['stories', id] as const,
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   unlocked: (userId: string, storyId: string) => ['stories', storyId, 'unlocked', userId] as const,
   hasVoted: (userId: string, storyId: string) => ['stories', storyId, 'hasVoted', userId] as const,
   unlockStory: (storyId: string) => ['stories', storyId, 'unlockStory'] as const,
+};
+
+export const useStories = (categoryIds?: string[]) => {
+  return useQuery({
+    queryKey: storyKeys.list(categoryIds),
+    queryFn: () => getStories(categoryIds),
+    staleTime: 1000 * 60 * 5,
+  });
 };
 
 export const useGetStoryById = (id: string) => {

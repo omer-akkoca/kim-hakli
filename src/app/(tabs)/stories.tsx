@@ -1,70 +1,117 @@
-import { useEffect, useState } from 'react';
-import { View, Pressable, FlatList, Image } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box, Text } from '@/components/ui';
-import { HStack } from '@gluestack-ui/nativewind';
-import { getStories } from '@/src/services';
-import { IStory } from '@/src/types';
+import {
+  Badge,
+  BadgeText,
+  Box,
+  Center,
+  Image,
+  Pressable,
+  Text,
+  HStack,
+  VStack,
+} from '@/components/ui';
+import { ICategory, IStory } from '@/src/types';
+import { useCategories, useStories } from '@/src/actions';
+import { useState } from 'react';
 
 export default function StoriesPage() {
-  const router = useRouter();
   const { top } = useSafeAreaInsets();
 
-  const [data, setData] = useState<IStory[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  useEffect(() => {
-    const bootGetStories = async () => {
-      const stories = await getStories();
-      if (stories) {
-        setData(stories);
-      }
-    };
+  const { data: stories, isLoading } = useStories(selectedCategories);
+  const { data: categories } = useCategories();
 
-    bootGetStories();
-  }, []);
-
-  const renderItem = ({ item }: { item: IStory }) => {
-    return (
-      <Pressable
-        onPress={() => router.push(`/story/${item.id}`)}
-        className="mb-4 overflow-hidden rounded-2xl bg-white"
-        style={{
-          shadowColor: '#000',
-          shadowOpacity: 0.08,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: 4 },
-          elevation: 3,
-        }}
-      >
-        <Image source={{ uri: item.coverImageUrl }} className="h-52 w-full" resizeMode="cover" />
-        <Box className="p-4">
-          <HStack className="flex-row mb-2 items-center justify-between">
-            <Text className="flex-1 pr-3 text-xl font-bold text-black">{item.title}</Text>
-          </HStack>
-          <Text className="mb-3 text-sm leading-5 text-gray-600">{item.description}</Text>
-        </Box>
-      </Pressable>
-    );
+  const handleOnClickCategory = (category: ICategory) => {
+    if (selectedCategories.includes(category.key)) {
+      setSelectedCategories((last) => last.filter((key) => key !== category.key));
+    } else {
+      setSelectedCategories((last) => [...last, category.key]);
+    }
   };
 
   return (
-    <Box className="flex-1 bg-[#F8F8F8] px-5" style={{ paddingTop: top }}>
-      <Text className="mb-5 text-3xl font-bold text-black">Hikayeler</Text>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.slug}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 24,
-        }}
-        ListEmptyComponent={
-          <View className="mt-10 items-center">
-            <Text className="text-base text-gray-500">Henüz hikaye bulunmuyor.</Text>
-          </View>
-        }
-      />
-    </Box>
+    <View className="flex-1">
+      {/* App Bar */}
+      <Box style={{ height: top }} />
+      <View className="">
+        <FlatList
+          data={categories}
+          keyExtractor={(item) => item.id}
+          horizontal
+          bounces={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="px-6 gap-6"
+          renderItem={({ item }) => {
+            const selected = selectedCategories.includes(item.key);
+            return (
+              <Pressable onPress={() => handleOnClickCategory(item)}>
+                <Badge
+                  size="lg"
+                  variant={'outline'}
+                  action="muted"
+                  className={
+                    'rounded-md' + ` ${selected ? 'bg-primary-500 border-primary-700' : 'bg-white'}`
+                  }
+                >
+                  <BadgeText className={`${selected ? 'text-white' : 'text-black'}`}>
+                    {item.name}
+                  </BadgeText>
+                </Badge>
+              </Pressable>
+            );
+          }}
+        />
+      </View>
+      <View className="flex-1">
+        {isLoading ? (
+          <Center className="flex-1">
+            <ActivityIndicator size={'large'} />
+          </Center>
+        ) : (
+          <FlatList
+            data={stories}
+            keyExtractor={(item) => item.id}
+            renderItem={RenderItem}
+            showsVerticalScrollIndicator={false}
+            contentContainerClassName="py-6 gap-6 mx-6"
+            ListEmptyComponent={
+              <View className="mt-10 items-center">
+                <Text className="text-base text-gray-500">Henüz hikaye bulunmuyor.</Text>
+              </View>
+            }
+          />
+        )}
+      </View>
+    </View>
   );
 }
+
+const RenderItem = ({ item }: { item: IStory }) => {
+  const router = useRouter();
+
+  return (
+    <Pressable
+      onPress={() => router.push(`/story/${item.id}`)}
+      className="overflow-hidden rounded-xl p-4 shadow-md bg-white"
+    >
+      <HStack className="gap-4">
+        <Image
+          source={{ uri: item.coverImageUrl }}
+          className="w-36 h-24 rounded-xl"
+          alt={item.title}
+        />
+        <VStack className="flex-1 h-24">
+          <Text bold numberOfLines={1}>
+            {item.title}
+          </Text>
+          <Text numberOfLines={3} ellipsizeMode="tail">
+            {item.description}
+          </Text>
+        </VStack>
+      </HStack>
+    </Pressable>
+  );
+};
