@@ -5,6 +5,7 @@ import { AuthProvider } from '@/src/providers';
 import { AppNavigation } from '@/src/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@/global.css';
+import '@/src/locales/i18n';
 
 const queryClient = new QueryClient();
 

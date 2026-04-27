@@ -1,0 +1,39 @@
+{
+  "common": {
+    "appName": "Kim Haklı?",
+    "back": "Geri",
+    "next": "İleri",
+    "skip": "Geç",
+    "start": "Başla",
+    "vote": "Oyla",
+    "loading": "Yükleniyor...",
+    "continue": "Devam Et"
+  },
+  "onboarding": {
+    "slide1": {
+      "title": "Her hikayenin iki tarafı vardır",
+      "description": "Gerçek hayattan tartışmaları kısa hikayeler olarak izle. Olaylara sen karar ver."
+    },
+    "slide2": {
+      "title": "Hikayeyi sahne sahne keşfet",
+      "description": "Tartışmalar, yapay zeka ile sahnelere ayrılır. Her detayı gör, durumu tam anlamıyla anla."
+    },
+    "slide3": {
+      "title": "Sence Kim Haklı?",
+      "description": "Hikayenin sonunda kararını ver. Kendi fikrini ortaya koy."
+    },
+    "slide4": {
+      "title": "Yalnız değilsin",
+      "description": "Diğer kullanıcıların ne düşündüğünü gör. Çoğunluk seninle mi, yoksa karşı mı?"
+    },
+    "slide5": {
+      "title": "Hazırsan başlayalım",
+      "description": "İlk hikayeni keşfet ve kararını ver."
+    }
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "google": "Google ile Devam Et",
+    "apple": "Apple ile Devam Et"
+  }
+}

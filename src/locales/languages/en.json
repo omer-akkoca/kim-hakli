@@ -1,0 +1,35 @@
+{
+  "common": {
+    "appName": "Kim Haklı?",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "start": "Start",
+    "vote": "Vote",
+    "loading": "Loading...",
+    "continue": "Continue"
+  },
+  "onboarding": {
+    "slide1": {
+      "title": "Discover Stories",
+      "description": "Read trending events in story format."
+    },
+    "slide2": {
+      "title": "Learn the Sides",
+      "description": "See both perspectives in every story."
+    },
+    "slide3": {
+      "title": "Cast Your Vote",
+      "description": "Decide who is right after reading the story."
+    },
+    "slide4": {
+      "title": "See the Results",
+      "description": "Compare your vote with other users."
+    }
+  },
+  "auth": {
+    "login": "Sign In",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple"
+  }
+}
