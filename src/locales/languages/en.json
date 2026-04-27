@@ -25,10 +25,15 @@
     "slide4": {
       "title": "See the Results",
       "description": "Compare your vote with other users."
+    },
+    "slide5": {
+      "title": "Ready to begin?",
+      "description": "Discover your first story and make your decision."
     }
   },
   "auth": {
     "login": "Sign In",
+    "loginDesc": "By registering for 'Kim Haklı?' you gain access to hundreds of stories and decide who is right.",
     "google": "Continue with Google",
     "apple": "Continue with Apple"
   }

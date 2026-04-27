@@ -11,7 +11,7 @@
   },
   "onboarding": {
     "slide1": {
-      "title": "Her hikayenin iki tarafı vardır",
+      "title": "Her Hikayenin İki Tarafı Vardır",
       "description": "Gerçek hayattan tartışmaları kısa hikayeler olarak izle. Olaylara sen karar ver."
     },
     "slide2": {
@@ -33,6 +33,7 @@
   },
   "auth": {
     "login": "Giriş Yap",
+    "loginDesc": "Kim Haklı'ya kayıt olarak yüzlerce hikayeye erişim sağla ve kimin haklı olduğuna karar ver.",
     "google": "Google ile Devam Et",
     "apple": "Apple ile Devam Et"
   }
