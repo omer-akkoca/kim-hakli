@@ -7,6 +7,7 @@ const AppNavigation = () => {
       <Stack.Screen name="story/[id]" />
       <Stack.Screen name="story/read/[id]" />
       <Stack.Screen name="auth/login" />
+      <Stack.Screen name="onboarding" />
     </Stack>
   );
 };
