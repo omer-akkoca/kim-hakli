@@ -39,6 +39,7 @@
   },
   "tabs": {
     "home": "Home",
-    "profile": "Profile"
+    "profile": "Profile",
+    "stories": "Stories"
   }
 }

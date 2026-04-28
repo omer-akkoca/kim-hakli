@@ -1,10 +1,9 @@
 export const colors = {
+  tranparent: '#ffffff00',
   black: '#000000',
   white: '#ffffff',
-  primary: 'rgb(241 118 42)',
-  secondary: 'rgb(124 144 164)',
-  background: {
-    light: '#F5F5F5',
-    dark: '#1C1F30',
-  },
+  primary: '#F46906',
+  headline: '#0D0D0D',
+  text: '#444D4F',
+  backgroud: '#F0EEE9',
 };

@@ -16,54 +16,13 @@ module.exports = {
         /(bg|border|text|stroke|fill)-(primary|secondary|tertiary|error|success|warning|info|typography|outline|background|indicator)-(0|50|100|200|300|400|500|600|700|800|900|950|white|gray|black|error|warning|muted|success|info|light|dark|primary)/,
     },
   ],
-  /**
-    #F5F5F5 light mod
-    #1C1F30 dark   
-   */
   theme: {
     extend: {
       colors: {
-        'bg-dark': '#1C1F30',
-        'bg-light': '#F5F5F5',
-        primary: {
-          50: 'rgb(255 244 236 / <alpha-value>)',
-          100: 'rgb(255 225 204 / <alpha-value>)',
-          200: 'rgb(255 194 153 / <alpha-value>)',
-          300: 'rgb(255 163 102 / <alpha-value>)',
-          400: 'rgb(250 130 60 / <alpha-value>)',
-          500: 'rgb(241 118 42 / <alpha-value>)',
-          600: 'rgb(217 100 30 / <alpha-value>)',
-          700: 'rgb(180 80 20 / <alpha-value>)',
-          800: 'rgb(140 60 15 / <alpha-value>)',
-          900: 'rgb(100 40 10 / <alpha-value>)',
-          950: 'rgb(60 20 5 / <alpha-value>)',
-        },
-        secondary: {
-          50: 'rgb(245 248 251 / <alpha-value>)',
-          100: 'rgb(225 232 240 / <alpha-value>)',
-          200: 'rgb(190 205 220 / <alpha-value>)',
-          300: 'rgb(155 178 200 / <alpha-value>)',
-          400: 'rgb(120 150 180 / <alpha-value>)',
-          500: 'rgb(124 144 164 / <alpha-value>)',
-          600: 'rgb(100 120 140 / <alpha-value>)',
-          700: 'rgb(80 95 110 / <alpha-value>)',
-          800: 'rgb(60 70 85 / <alpha-value>)',
-          900: 'rgb(40 45 60 / <alpha-value>)',
-          950: 'rgb(20 25 35 / <alpha-value>)',
-        },
-        tertiary: {
-          50: 'rgb(var(--color-tertiary-50)/<alpha-value>)',
-          100: 'rgb(var(--color-tertiary-100)/<alpha-value>)',
-          200: 'rgb(var(--color-tertiary-200)/<alpha-value>)',
-          300: 'rgb(var(--color-tertiary-300)/<alpha-value>)',
-          400: 'rgb(var(--color-tertiary-400)/<alpha-value>)',
-          500: 'rgb(var(--color-tertiary-500)/<alpha-value>)',
-          600: 'rgb(var(--color-tertiary-600)/<alpha-value>)',
-          700: 'rgb(var(--color-tertiary-700)/<alpha-value>)',
-          800: 'rgb(var(--color-tertiary-800)/<alpha-value>)',
-          900: 'rgb(var(--color-tertiary-900)/<alpha-value>)',
-          950: 'rgb(var(--color-tertiary-950)/<alpha-value>)',
-        },
+        backgroud: '#F0EEE9',
+        primary: '#F46906',
+        headline: '#0D0D0D',
+        text: '#444D4F',
         error: {
           0: 'rgb(var(--color-error-0)/<alpha-value>)',
           50: 'rgb(var(--color-error-50)/<alpha-value>)',
