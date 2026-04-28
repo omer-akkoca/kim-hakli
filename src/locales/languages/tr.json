@@ -36,5 +36,9 @@
     "loginDesc": "Kim Haklı'ya kayıt olarak yüzlerce hikayeye erişim sağla ve kimin haklı olduğuna karar ver.",
     "google": "Google ile Devam Et",
     "apple": "Apple ile Devam Et"
+  },
+  "tabs": {
+    "home": "Anasayfa",
+    "profile": "Profil"
   }
 }
