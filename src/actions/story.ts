@@ -6,10 +6,11 @@ import {
   isStoryUnlocked,
   unlockStoryFunction,
 } from '@/src/services';
+import { GetStoriesParams } from '../types';
 
 export const storyKeys = {
   all: ['stories'] as const,
-  list: (categoryIds?: string[]) => ['stories', 'list', categoryIds ?? 'all'] as const,
+  list: (params?: GetStoriesParams) => ['stories', 'list', params] as const,
   detail: (id: string) => ['stories', id] as const,
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   unlocked: (userId: string, storyId: string) => ['stories', storyId, 'unlocked', userId] as const,
@@ -17,10 +18,10 @@ export const storyKeys = {
   unlockStory: (storyId: string) => ['stories', storyId, 'unlockStory'] as const,
 };
 
-export const useStories = (categoryIds?: string[]) => {
+export const useStories = (params?: GetStoriesParams) => {
   return useQuery({
-    queryKey: storyKeys.list(categoryIds),
-    queryFn: () => getStories(categoryIds),
+    queryKey: storyKeys.list(params),
+    queryFn: () => getStories(params),
     staleTime: 1000 * 60 * 5,
   });
 };

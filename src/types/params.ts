@@ -1,3 +1,5 @@
+import { StoryArtStyle } from './story';
+
 export interface UnlockStoryParams {
   storyId: string;
 }
@@ -5,4 +7,9 @@ export interface UnlockStoryParams {
 export interface SubmitVoteParams {
   storyId: string;
   side: string;
+}
+
+export interface GetStoriesParams {
+  categoryIds: string[];
+  artStyle: StoryArtStyle | '';
 }

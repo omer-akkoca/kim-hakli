@@ -13,6 +13,7 @@ export interface IStory {
   description: string;
   sceneLength: number;
   category: string;
+  artStyle: StoryArtStyle;
 }
 
 export interface IUnlockedStory {
@@ -23,3 +24,15 @@ export interface IUnlockedStory {
 
 export type StorySide = { name: string; photo: string };
 export type StoryStatus = 'published' | 'draft' | 'deleted';
+
+export const storyArtStyles = [
+  'realistic',
+  'anime',
+  'sketch',
+  'pixel-art',
+  '3d-render',
+  'minimalist',
+  'comic',
+] as const;
+
+export type StoryArtStyle = (typeof storyArtStyles)[number];

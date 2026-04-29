@@ -41,5 +41,14 @@
     "home": "Home",
     "profile": "Profile",
     "stories": "Stories"
+  },
+  "artStyles": {
+    "realistic": "Realistic",
+    "anime": "Anime",
+    "sketch": "Sketch",
+    "pixel-art": "Pixel Art",
+    "3d-render": "3D Render",
+    "minimalist": "Minimalist",
+    "comic": "Comic"
   }
 }

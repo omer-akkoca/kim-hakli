@@ -12,7 +12,7 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore';
-import { IUser, providerType, IStory, ICategory } from '../types';
+import { IUser, providerType, IStory, ICategory, GetStoriesParams } from '../types';
 
 export const getUserRefIfNotExist = async (
   user: User,
@@ -58,17 +58,24 @@ export const getCategories = async (): Promise<ICategory[]> => {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as ICategory);
 };
 
-export const getStories = async (categoryIds?: string[]): Promise<IStory[]> => {
+export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
+  const { categoryIds, artStyle } = params ?? {};
+
   const storiesRef = collection(db, 'stories');
-  const q =
-    categoryIds && categoryIds.length > 0
-      ? query(
-          storiesRef,
-          where('status', '==', 'published'),
-          where('category', 'array-contains-any', categoryIds),
-        )
-      : query(storiesRef, where('status', '==', 'published'));
+
+  const conditions = [where('status', '==', 'published')];
+
+  if (categoryIds && categoryIds.length > 0) {
+    conditions.push(where('category', 'array-contains-any', categoryIds));
+  }
+
+  if (artStyle) {
+    conditions.push(where('artStyle', '==', artStyle));
+  }
+
+  const q = query(storiesRef, ...conditions);
   const snapshot = await getDocs(q);
+
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as IStory);
 };
 

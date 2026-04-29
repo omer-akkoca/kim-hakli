@@ -41,5 +41,14 @@
     "home": "Anasayfa",
     "profile": "Profil",
     "stories": "Hikayeler"
+  },
+  "artStyles": {
+    "realistic": "Gerçekçi",
+    "anime": "Anime",
+    "sketch": "Eskiz",
+    "pixel-art": "Piksel Sanatı",
+    "3d-render": "3D Render",
+    "minimalist": "Minimalist",
+    "comic": "Çizgi Roman"
   }
 }
