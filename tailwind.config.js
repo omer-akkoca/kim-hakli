@@ -23,6 +23,7 @@ module.exports = {
         primary: '#F46906',
         headline: '#0D0D0D',
         text: '#444D4F',
+        lightGray: '#CCCCC8',
         error: {
           0: 'rgb(var(--color-error-0)/<alpha-value>)',
           50: 'rgb(var(--color-error-50)/<alpha-value>)',

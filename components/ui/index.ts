@@ -11,3 +11,5 @@ export * from './actionsheet';
 export * from './image';
 export * from './avatar';
 export * from './badge';
+export * from './drawer';
+export * from './divider';

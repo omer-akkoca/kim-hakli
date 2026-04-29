@@ -6,4 +6,5 @@ export const colors = {
   headline: '#0D0D0D',
   text: '#444D4F',
   backgroud: '#F0EEE9',
+  lightGray: '#CCCCC8',
 };
