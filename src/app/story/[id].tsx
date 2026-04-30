@@ -1,29 +1,49 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ImageBackground, ActivityIndicator } from 'react-native';
-import { useAppSelector } from '@/src/store';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box, Text, Pressable } from '@/components/ui/';
-import { useGetStoryById, useHasVoted, useIsStoryUnlocked, useUnlockStory } from '@/src/actions';
 import { useMemo } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ImageBackground, ActivityIndicator, View } from 'react-native';
+import { useAppSelector } from '@/src/store';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  Box,
+  Text,
+  Pressable,
+  HStack,
+  Spinner,
+  Divider,
+  VStack,
+  Avatar,
+  AvatarImage,
+  Button,
+} from '@/components/ui/';
+import {
+  useCategories,
+  useGetStoryById,
+  useHasVoted,
+  useIsStoryUnlocked,
+  useUnlockStory,
+} from '@/src/actions';
+import { LinearGradient } from 'expo-linear-gradient';
+import { colors } from '@/src/constants';
+import { Book6Vector, LeftChevronVector, LockCircleVector, VoteVector } from '@/assets';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
 
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
+  const { data: categories } = useCategories();
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: unlocked } = useIsStoryUnlocked(user?.id ?? '', id);
   const { data: voted } = useHasVoted(user?.id ?? '', id);
+
+  const { mutate, status } = useUnlockStory();
 
   const totalVotes = useMemo(
     () => (story ? Object.values(story.votes).reduce((sum, v) => sum + v, 0) : 0),
     [story],
   );
-
-  const { mutate, status } = useUnlockStory();
 
   const handleUnlockStory = async () => {
     if (!isAuthenticated) {
@@ -42,6 +62,11 @@ export default function StoryDetailPage() {
     );
   };
 
+  const getCategoryName = (key: string) => {
+    const category = categories?.find((e) => e.key === key);
+    return category?.name ?? '';
+  };
+
   if (isLoading) {
     return (
       <Box className="flex-1 items-center justify-center bg-black">
@@ -53,103 +78,95 @@ export default function StoryDetailPage() {
   if (!story) return <></>;
 
   return (
-    <Box className="flex-1">
+    <View className="flex-1">
       <ImageBackground source={{ uri: story.coverImageUrl }} className="flex-1" resizeMode="cover">
-        <Box className="flex-1" style={{ backgroundColor: 'rgba(0,0,0,0.45)' }}>
-          <Pressable
-            onPress={() => router.back()}
-            className="absolute left-5 z-10"
-            style={{ top: insets.top + 12 }}
+        <View className="flex-1 bg-black/50 justify-end">
+          <HStack
+            className="w-full h-16 px-6 absolute items-center justify-between"
+            style={{ left: 0, top: top }}
           >
-            <Box
-              className="items-center justify-center rounded-full"
-              style={{ width: 36, height: 36, backgroundColor: 'rgba(255,255,255,0.15)' }}
-            >
-              <AntDesign name="arrow-left" size={18} color="white" />
-            </Box>
-          </Pressable>
-
-          <Box
-            className="absolute bottom-0 left-0 right-0 p-5"
-            style={{ paddingBottom: insets.bottom + 24 }}
-          >
-            <Box className="mb-3 self-start rounded-full bg-orange-500 px-3 py-1">
-              <Text className="text-xs font-semibold text-white">
-                {story.creditCost === 0 ? 'Ücretsiz' : `${story.creditCost} kredi`}{' '}
+            <Pressable className="w-12 h-12 justify-center items-center" onPress={router.back}>
+              <LeftChevronVector width={36} height={36} color={colors.white} />
+            </Pressable>
+            <Box className="px-3 py-2 bg-primary rounded-full shadow-md">
+              <Text className="text-white font-semibold tracking-wider">
+                {story.creditCost === 0 ? 'Ücretsiz' : `${story.creditCost} Kredi`}
               </Text>
             </Box>
-
-            <Text className="mb-2 text-2xl font-bold text-white" style={{ letterSpacing: -0.3 }}>
-              {story.title}
-            </Text>
-
-            <Text className="mb-4 text-sm leading-5" style={{ color: 'rgba(255,255,255,0.65)' }}>
-              {story.description}
-            </Text>
-
-            <Box className="mb-3 flex-row flex-wrap gap-2">
-              {story.sides.map((side, index) => (
-                <Box
-                  key={index}
-                  className="rounded-full px-3 py-1"
-                  style={{
-                    borderWidth: 1.5,
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    backgroundColor: 'rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <Text className="text-xs font-medium text-white">{side.name}</Text>
-                </Box>
-              ))}
-            </Box>
-
-            <Box className="mb-5 flex-row items-center gap-4">
-              <Text className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                {totalVotes} oy
+          </HStack>
+          <LinearGradient colors={[colors.tranparent, colors.black]}>
+            <VStack style={{ paddingBottom: bottom + 24 }} className="px-6">
+              {/* Title */}
+              <Text className="text-left text-3xl font-bold text-white mb-4">{story.title}</Text>
+              {/* Category */}
+              <Text className="uppercase text-white font-medium text-sm mb-2">
+                {story.category.map((e) => getCategoryName(e)).join('  -  ')}
               </Text>
-            </Box>
-
-            <Box className="flex-row gap-4">
-              {unlocked ? (
-                <>
-                  <Pressable
-                    onPress={() => router.push(`/story/read/${id}`)}
-                    className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
-                  >
-                    <Text className="text-base font-bold text-black">Hikayeyi Oku</Text>
-                    <AntDesign name="read" size={16} color="black" />
-                  </Pressable>
-                  {voted ? (
-                    <Pressable
-                      onPress={() => router.push(`/story/voteResult/${id}`)}
-                      className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
-                    >
-                      <Text className="text-base font-bold text-black">Oylamayı Gör</Text>
-                      <MaterialCommunityIcons name="vote" size={24} color="black" />
+              {/* Description */}
+              <Text className="text-white/75 pb-2 mb-2">{story.description}</Text>
+              {/* Characters */}
+              <HStack space="lg" className="mb-6">
+                {story.sides.map((e, i) => (
+                  <HStack key={i.toString()} space="sm" className="items-center">
+                    <Avatar size="sm" className="border border-white">
+                      <AvatarImage source={{ uri: e.photo }} />
+                    </Avatar>
+                    <Text className="text-white">{e.name}</Text>
+                  </HStack>
+                ))}
+              </HStack>
+              <Divider />
+              {/* Action Buttons */}
+              <View className="mt-6">
+                {unlocked ? (
+                  <HStack space="2xl">
+                    <Pressable onPress={() => router.push(`/story/read/${id}`)} className="flex-1">
+                      <Box className="h-14 bg-white justify-center rounded-lg">
+                        <HStack space="sm" className="items-center justify-center">
+                          <Book6Vector width={20} height={20} color={colors.headline} />
+                          <Text className="text-headline text-lg font-semibold">Hikayeyi Oku</Text>
+                        </HStack>
+                      </Box>
                     </Pressable>
-                  ) : (
-                    <></>
-                  )}
-                </>
-              ) : (
-                <Pressable
-                  onPress={handleUnlockStory}
-                  className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-4"
-                >
-                  {status === 'pending' ? (
-                    <ActivityIndicator color={'black'} size={'small'} />
-                  ) : (
-                    <>
-                      <Text className="text-base font-bold text-black">Hikaye Kilidini Aç</Text>
-                      <AntDesign name="lock" size={16} color="black" />
-                    </>
-                  )}
-                </Pressable>
-              )}
-            </Box>
-          </Box>
-        </Box>
+                    {voted ? (
+                      <Pressable
+                        onPress={() => router.push(`/story/voteResult/${id}`)}
+                        className="flex-1"
+                      >
+                        <Box className="h-14 bg-white justify-center rounded-lg">
+                          <HStack space="sm" className="items-center justify-center">
+                            <Text className="text-headline text-lg font-semibold">
+                              Oylamayı Gör
+                            </Text>
+                            <VoteVector width={20} height={20} color={colors.headline} />
+                          </HStack>
+                        </Box>
+                      </Pressable>
+                    ) : (
+                      <></>
+                    )}
+                  </HStack>
+                ) : (
+                  <Pressable onPress={handleUnlockStory}>
+                    <Box className="h-14 bg-white justify-center rounded-lg">
+                      {status === 'pending' ? (
+                        <Spinner size="small" color={colors.primary} />
+                      ) : (
+                        <HStack space="sm" className="items-center justify-center">
+                          <LockCircleVector width={24} height={24} color={colors.headline} />
+                          <Text className="text-headline text-lg font-semibold">
+                            Hikaye Kilidini Aç
+                          </Text>
+                        </HStack>
+                      )}
+                    </Box>
+                  </Pressable>
+                )}
+              </View>
+            </VStack>
+          </LinearGradient>
+        </View>
       </ImageBackground>
-    </Box>
+    </View>
   );
 }

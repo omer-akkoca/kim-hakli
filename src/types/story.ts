@@ -12,7 +12,7 @@ export interface IStory {
   slug: string;
   description: string;
   sceneLength: number;
-  category: string;
+  category: string[];
   artStyle: StoryArtStyle;
 }
 
