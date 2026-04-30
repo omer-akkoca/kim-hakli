@@ -13,3 +13,5 @@ export * from './avatar';
 export * from './badge';
 export * from './drawer';
 export * from './divider';
+export * from './linear-gradient';
+export * from './spinner';
