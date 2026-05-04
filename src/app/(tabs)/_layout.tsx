@@ -67,11 +67,11 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                     icon={HomeVector}
                     width={24}
                     height={24}
-                    color={isFocused('home') ? colors.primary : colors.black}
+                    color={isFocused('home') ? colors.primary : colors.white}
                     darkColor={isFocused('home') ? colors.primary : colors.white}
                   />
                   <Text
-                    className={`font-semibold ${isFocused('home') ? 'text-primary' : 'text-black'}`}
+                    className={`font-semibold ${isFocused('home') ? 'text-primary' : 'text-white'}`}
                   >
                     {t('tabs.home')}
                   </Text>
@@ -88,11 +88,11 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                     icon={ProfileVetor}
                     width={24}
                     height={24}
-                    color={isFocused('profile') ? colors.primary : colors.black}
+                    color={isFocused('profile') ? colors.primary : colors.white}
                     darkColor={isFocused('profile') ? colors.primary : colors.white}
                   />
                   <Text
-                    className={`font-semibold ${isFocused('profile') ? 'text-primary' : 'text-black'}`}
+                    className={`font-semibold ${isFocused('profile') ? 'text-primary' : 'text-white'}`}
                   >
                     {t('tabs.profile')}
                   </Text>
