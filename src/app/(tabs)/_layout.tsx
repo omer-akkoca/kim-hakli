@@ -2,12 +2,11 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet, View } from 'react-native';
-import { HStack, VStack, Center, Pressable, Text, Box, Image } from '@/components/ui';
-import { APP_LOGO, HomeVector, ProfileVetor } from '@/assets';
-import { bottomBarHeight, colors, width } from '@/src/constants';
+import { HStack, VStack, Center, Pressable, Text, Box } from '@/components/ui';
+import { BookVector, HomeVector, ProfileVetor } from '@/assets';
+import { bottomBarHeight, colors } from '@/src/constants';
 import { useTranslation } from 'react-i18next';
-import { AppIcon } from '@/src/components';
+import { SvgProps } from 'react-native-svg';
 
 export default function TabsLayout() {
   return (
@@ -23,8 +22,11 @@ export default function TabsLayout() {
   );
 }
 
-const LOGO_SIZE = bottomBarHeight + 25;
-const LOGO_BOX_SIZE = LOGO_SIZE;
+const icons: Record<string, React.FC<SvgProps>> = {
+  home: HomeVector,
+  stories: BookVector,
+  profile: ProfileVetor,
+};
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { bottom } = useSafeAreaInsets();
@@ -39,88 +41,39 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   };
 
   return (
-    <View
-      className="relative bg-backgroud shadow-md shadow-black/50"
+    <Box
+      className="relative bg-backgroud-700 shadow-md shadow-white/10"
       style={{ paddingBottom: bottom }}
     >
-      <Box className="relative" style={{ height: 56, zIndex: 9 }}>
-        <Box
-          className="bg-backgroud rounded-full shadow-md shadow-black/50"
-          style={styles.centerButtonCircle}
-        />
-        <HStack
-          className="bg-backgroud absolute left-0 top-0 w-full"
-          style={{ height: bottomBarHeight + bottom, paddingBottom: bottom }}
-        >
-          <Pressable style={styles.centerButton} onPress={() => navigate('stories')}>
-            <Image
-              source={APP_LOGO}
-              style={{ width: LOGO_SIZE, height: LOGO_SIZE, backgroundColor: 'red' }}
-              alt="logo"
-            />
-          </Pressable>
-          <Center className="flex-1">
-            <Pressable onPress={() => navigate('home')}>
-              <VStack>
-                <Center>
-                  <AppIcon
-                    icon={HomeVector}
-                    width={24}
-                    height={24}
-                    color={isFocused('home') ? colors.primary : colors.white}
-                    darkColor={isFocused('home') ? colors.primary : colors.white}
+      <HStack className="bg-backgroud-700" style={{ height: bottomBarHeight }}>
+        {state.routes.map((e, i) => {
+          const active = isFocused(e.name);
+          const Icon = icons[e.name];
+          return (
+            <Center
+              key={i.toString()}
+              className={`flex-1 border-t ${active ? 'border-primary-500' : 'border-transparent'}`}
+            >
+              <Pressable onPress={() => navigate(e.name)}>
+                <VStack className="items-center">
+                  <Icon
+                    width={20}
+                    height={20}
+                    color={active ? colors.primary : colors.headline}
+                    strokeWidth={1}
                   />
                   <Text
-                    className={`font-semibold ${isFocused('home') ? 'text-primary' : 'text-white'}`}
+                    style={{ color: active ? colors.primary : colors.headline }}
+                    className="text-sm tracking-wide"
                   >
-                    {t('tabs.home')}
+                    {t(`tabs.${e.name}`)}
                   </Text>
-                </Center>
-              </VStack>
-            </Pressable>
-          </Center>
-          <Box className="flex-1" />
-          <Center className="flex-1">
-            <Pressable onPress={() => navigate('profile')}>
-              <VStack>
-                <Center>
-                  <AppIcon
-                    icon={ProfileVetor}
-                    width={24}
-                    height={24}
-                    color={isFocused('profile') ? colors.primary : colors.white}
-                    darkColor={isFocused('profile') ? colors.primary : colors.white}
-                  />
-                  <Text
-                    className={`font-semibold ${isFocused('profile') ? 'text-primary' : 'text-white'}`}
-                  >
-                    {t('tabs.profile')}
-                  </Text>
-                </Center>
-              </VStack>
-            </Pressable>
-          </Center>
-        </HStack>
-      </Box>
-    </View>
+                </VStack>
+              </Pressable>
+            </Center>
+          );
+        })}
+      </HStack>
+    </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  centerButtonCircle: {
-    position: 'absolute',
-    bottom: 0,
-    left: width / 2 - LOGO_BOX_SIZE / 2,
-    width: LOGO_BOX_SIZE,
-    height: LOGO_BOX_SIZE,
-  },
-  centerButton: {
-    position: 'absolute',
-    left: width / 2 - LOGO_BOX_SIZE / 2,
-    top: -(LOGO_BOX_SIZE - bottomBarHeight),
-    width: LOGO_SIZE,
-    height: LOGO_SIZE,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
