@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   const { mutate } = useGoogleSingIn();
 
-  const onSuccess = () => router.push('/(tabs)/home');
+  const onSuccess = () => router.replace('/(tabs)/home');
 
   const handleGoogle = async () => {
     mutate(undefined, { onSuccess: onSuccess });
