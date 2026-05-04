@@ -32,7 +32,7 @@ export default function StoryReadPage() {
   });
 
   const getSceneImageUrl = (slug: string, order: string, lang: string) => {
-    return `${process.env.EXPO_PUBLIC_STORAGE_BASE_URL}stories%2F${slug}%2F${order}-${lang}.png?alt=media`;
+    return `${process.env.EXPO_PUBLIC_STORAGE_BASE_URL}stories%2F${slug}%2F${order}.webp?alt=media`;
   };
 
   const sceneImages = useMemo(() => {

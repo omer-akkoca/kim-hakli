@@ -19,21 +19,22 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ item }) => {
   return (
     <Pressable
       onPress={() => router.push(`/story/${item.id}`)}
-      className="bg-white rounded-lg overflow-hidden shadow-md"
+      className="bg-backgroud rounded-lg shadow-sm shadow-black/25"
       style={{ width: itemSize }}
     >
       <VStack>
         <RnImage
           source={{ uri: item.coverImageUrl }}
           style={{ width: itemSize, height: itemSize }}
+          className="rounded-tl-lg rounded-tr-lg"
           alt={item.title}
         />
         <VStack className="px-4 pb-4 pt-2">
-          <Text className="text-lg text-headline font-bold mb-1" numberOfLines={1}>
+          <Text className="text-lg text-white font-bold mb-1" numberOfLines={1}>
             {item.title}
           </Text>
           <Text
-            className="text-text text-sm font-semibold mb-2"
+            className="text-lightGray text-sm font-semibold mb-2"
             numberOfLines={2}
             ellipsizeMode="tail"
           >

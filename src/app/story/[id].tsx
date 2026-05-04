@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ImageBackground, ActivityIndicator, View } from 'react-native';
 import { useAppSelector } from '@/src/store';
@@ -13,7 +12,6 @@ import {
   VStack,
   Avatar,
   AvatarImage,
-  Button,
 } from '@/components/ui/';
 import {
   useCategories,
@@ -39,11 +37,6 @@ export default function StoryDetailPage() {
   const { data: voted } = useHasVoted(user?.id ?? '', id);
 
   const { mutate, status } = useUnlockStory();
-
-  const totalVotes = useMemo(
-    () => (story ? Object.values(story.votes).reduce((sum, v) => sum + v, 0) : 0),
-    [story],
-  );
 
   const handleUnlockStory = async () => {
     if (!isAuthenticated) {
