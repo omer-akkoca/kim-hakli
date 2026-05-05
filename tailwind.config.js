@@ -92,6 +92,20 @@ module.exports = {
           900: 'rgb(6 6 6 / <alpha-value>)',
           950: 'rgb(3 3 3 / <alpha-value>)',
         },
+        quickSilver: {
+          0: 'rgb(0 0 0 / <alpha-value>)',
+          50: 'rgb(245 245 245 / <alpha-value>)',
+          100: 'rgb(235 235 235 / <alpha-value>)',
+          200: 'rgb(210 210 210 / <alpha-value>)',
+          300: 'rgb(180 180 180 / <alpha-value>)',
+          400: 'rgb(150 150 150 / <alpha-value>)',
+          500: 'rgb(162 162 162 / <alpha-value>)', // #A2A2A2
+          600: 'rgb(135 135 135 / <alpha-value>)',
+          700: 'rgb(110 110 110 / <alpha-value>)',
+          800: 'rgb(85 85 85 / <alpha-value>)',
+          900: 'rgb(60 60 60 / <alpha-value>)',
+          950: 'rgb(35 35 35 / <alpha-value>)',
+        },
         error: {
           0: 'rgb(var(--color-error-0)/<alpha-value>)',
           50: 'rgb(var(--color-error-50)/<alpha-value>)',

@@ -3,7 +3,14 @@ import { Tabs } from 'expo-router';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, VStack, Center, Pressable, Text, Box } from '@/components/ui';
-import { BookVector, HomeVector, ProfileVetor } from '@/assets';
+import {
+  BookFillVector,
+  BookOutlineVector,
+  HomeFillVector,
+  HomeOutlineVector,
+  ProfileFillVector,
+  ProfileOutlineVector,
+} from '@/assets';
 import { bottomBarHeight, colors } from '@/src/constants';
 import { useTranslation } from 'react-i18next';
 import { SvgProps } from 'react-native-svg';
@@ -22,10 +29,10 @@ export default function TabsLayout() {
   );
 }
 
-const icons: Record<string, React.FC<SvgProps>> = {
-  home: HomeVector,
-  stories: BookVector,
-  profile: ProfileVetor,
+const icons: Record<string, React.FC<SvgProps>[]> = {
+  home: [HomeFillVector, HomeOutlineVector],
+  stories: [BookFillVector, BookOutlineVector],
+  profile: [ProfileFillVector, ProfileOutlineVector],
 };
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
@@ -48,23 +55,26 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
       <HStack className="bg-backgroud-700" style={{ height: bottomBarHeight }}>
         {state.routes.map((e, i) => {
           const active = isFocused(e.name);
-          const Icon = icons[e.name];
+          const Icon = active ? icons[e.name][0] : icons[e.name][1];
           return (
             <Center
               key={i.toString()}
-              className={`flex-1 border-t ${active ? 'border-primary-500' : 'border-transparent'}`}
+              className={`flex-1 border-t ${active ? 'border-headline-500' : 'border-transparent'}`}
             >
               <Pressable onPress={() => navigate(e.name)}>
                 <VStack className="items-center">
                   <Icon
                     width={20}
                     height={20}
-                    color={active ? colors.primary : colors.headline}
+                    color={active ? colors.headline : colors.quickSilver}
                     strokeWidth={1}
                   />
                   <Text
-                    style={{ color: active ? colors.primary : colors.headline }}
-                    className="text-sm tracking-wide"
+                    style={{
+                      color: active ? colors.headline : colors.quickSilver,
+                      fontWeight: active ? '600' : '500',
+                    }}
+                    className="text-sm tracking-wide leading-6"
                   >
                     {t(`tabs.${e.name}`)}
                   </Text>
