@@ -69,11 +69,11 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
       }}
     >
       <DrawerBackdrop />
-      <DrawerContent className="bg-backgroud">
+      <DrawerContent className="bg-backgroud-500">
         <DrawerBody className="flex-1">
           <ScrollView contentContainerClassName="gap-6 mt-6">
             <View>
-              <Text className="text-headline text-lg font-bold mb-4">Kategori</Text>
+              <Text className="text-headline-500 text-lg font-bold mb-4">Kategori</Text>
               <HStack className="flex-wrap" space="md">
                 {categories?.map((item, i) => {
                   const selected = selectedCategories.includes(item.key);
@@ -90,7 +90,7 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
             </View>
             <Divider className="bg-lightGray" />
             <View>
-              <Text className="text-headline text-lg font-bold mb-4">Çizim Türü</Text>
+              <Text className="text-headline-500 text-lg font-bold mb-4">Çizim Türü</Text>
               <HStack className="flex-wrap" space="md">
                 {storyArtStyles.map((item, i) => {
                   const selected = item === artStyle;
@@ -109,12 +109,16 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
         </DrawerBody>
         <DrawerFooter className="py-4">
           <HStack space="lg">
-            <Button onPress={applyFilters} className="flex-1 bg-primary">
-              <ButtonText className="text-white font-semibold text-xl">Filtrele</ButtonText>
+            <Button onPress={applyFilters} className="flex-1 bg-primary-500">
+              <ButtonText className="text-white font-semibold">Filtrele</ButtonText>
             </Button>
             {hasActiveFilter ? (
-              <Button variant="outline" onPress={clearFilter} className="flex-1 border-headline">
-                <ButtonText className="text-headline font-semibold">Temizle</ButtonText>
+              <Button
+                variant="outline"
+                onPress={clearFilter}
+                className="flex-1 border border-text-500"
+              >
+                <ButtonText className="text-text-500 font-semibold">Temizle</ButtonText>
               </Button>
             ) : null}
           </HStack>

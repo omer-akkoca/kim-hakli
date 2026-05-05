@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image as RnImage } from 'react-native';
+import { ImageBackground, Image as RnImage } from 'react-native';
 import { Box, Pressable, Text, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { IStory } from '@/src/types';
@@ -9,42 +9,29 @@ interface IStoryRenderItem {
   item: IStory;
 }
 
-const itemSize = (width - 48 - 16) / 2;
+const itemWidth = (width - 48 - 16) / 2;
+const itemHeight = (itemWidth / 9) * 16;
 
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ item }) => {
   const router = useRouter();
 
-  const price = item.creditCost === 0 ? 'Ücretsiz' : `${item.creditCost} kredi`;
+  const price = item.creditCost === 0 ? 'Ücretsiz' : `${item.creditCost} Kredi`;
 
   return (
     <Pressable
       onPress={() => router.push(`/story/${item.id}`)}
-      className="bg-backgroud rounded-lg shadow-sm shadow-black/25"
-      style={{ width: itemSize }}
+      className="bg-backgroud-700 rounded-xl overflow-hidden"
+      style={{ width: itemWidth, height: itemHeight }}
     >
-      <VStack>
-        <RnImage
-          source={{ uri: item.coverImageUrl }}
-          style={{ width: itemSize, height: itemSize }}
-          className="rounded-tl-lg rounded-tr-lg"
-          alt={item.title}
-        />
-        <VStack className="px-4 pb-4 pt-2">
-          <Text className="text-lg text-white font-bold mb-1" numberOfLines={1}>
-            {item.title}
-          </Text>
-          <Text
-            className="text-lightGray text-sm font-semibold mb-2"
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {item.description}
-          </Text>
-          <Box className="self-start rounded-full bg-primary px-3 py-1">
-            <Text className="text-xs font-semibold text-white">{price}</Text>
-          </Box>
-        </VStack>
-      </VStack>
+      <ImageBackground
+        source={{ uri: item.coverImageUrl }}
+        className="flex-1 relative justify-end rounded-xl overflow-hidden"
+        resizeMode="contain"
+      >
+        <Box className="absolute right-2 top-2 rounded-full px-3 py-1 bg-primary-500">
+          <Text className="text-xs text-headline-500 font-semibold">{price}</Text>
+        </Box>
+      </ImageBackground>
     </Pressable>
   );
 };

@@ -10,9 +10,11 @@ const StoryFilterBadge: React.FC<IStoryFilterBadge> = ({ label, onPress, selecte
   return (
     <Pressable onPress={onPress}>
       <Box
-        className={`border p-3 px-4 ${selected ? 'bg-white rounded-3xl border-lightGray' : 'bg-transparent border-transparent'}`}
+        className={`border p-3 px-4 bg-transparent ${selected ? 'rounded-3xl border-border-500' : 'bg-transparent border-transparent'}`}
       >
-        <Text className={`${selected ? 'text-headline' : 'text-text'} font-medium`}>{label}</Text>
+        <Text className={`${selected ? 'text-text-500' : 'text-quickSilver-500'} font-medium`}>
+          {label}
+        </Text>
       </Box>
     </Pressable>
   );
