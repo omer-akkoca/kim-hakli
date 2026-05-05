@@ -2,6 +2,7 @@ import {
   onAuthStateChanged as firebaseOnAuthStateChanged,
   GoogleAuthProvider,
   signInWithCredential,
+  signOut,
 } from 'firebase/auth';
 import { auth } from '@/src/configs';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -29,4 +30,8 @@ export const signInWithGoogle = async () => {
   } catch (error) {
     throw error;
   }
+};
+
+export const logout = async () => {
+  await signOut(auth);
 };
