@@ -9,7 +9,7 @@ const AppBar: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Box
       style={{ height: appBarHeight + top, paddingTop: top }}
-      className="bg-backgroud shadow-md shadow-black/50"
+      className="bg-backgroud-700 shadow-md shadow-white/10"
     >
       <Box className="px-6 justify-center" style={{ height: appBarHeight }}>
         {children}
