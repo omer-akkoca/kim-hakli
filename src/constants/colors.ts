@@ -2,7 +2,11 @@ export const colors = {
   tranparent: '#ffffff00',
   black: '#000000',
   white: '#ffffff',
-  primary: '#fd3800',
+  primary: '#F1762A',
+  loginText: 'rgba(245,245,245,0.78)',
+  apple: '#000000',
+
+  //old colors
   text: '#eaeaea',
   border: '#383838',
   headline: '#fefefe',

@@ -19,23 +19,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        loginText: 'rgba(245,245,245,0.78)',
+        primary: {
+          0: 'rgb(255 255 255 / <alpha-value>)',
+          50: 'rgb(255 244 236 / <alpha-value>)',
+          100: 'rgb(255 225 205 / <alpha-value>)',
+          200: 'rgb(255 195 155 / <alpha-value>)',
+          300: 'rgb(255 160 105 / <alpha-value>)',
+          400: 'rgb(248 130 60 / <alpha-value>)',
+          500: 'rgb(241 118 42 / <alpha-value>)', // #F1762A
+          600: 'rgb(210 95 30 / <alpha-value>)',
+          700: 'rgb(170 72 20 / <alpha-value>)',
+          800: 'rgb(125 50 12 / <alpha-value>)',
+          900: 'rgb(80 30 6 / <alpha-value>)',
+          950: 'rgb(45 15 3 / <alpha-value>)',
+        },
+        apple: '#000000',
+        // old colors
         'light-backgroud': '#F5F5F5',
         lightGray: '#CCCCC8',
         facebook: '#1877F2',
-        primary: {
-          0: 'rgb(255 255 255 / <alpha-value>)',
-          50: 'rgb(255 235 230 / <alpha-value>)',
-          100: 'rgb(255 210 200 / <alpha-value>)',
-          200: 'rgb(255 160 135 / <alpha-value>)',
-          300: 'rgb(255 110 70 / <alpha-value>)',
-          400: 'rgb(255 70 25 / <alpha-value>)',
-          500: 'rgb(253 56 0 / <alpha-value>)', // #fd3800
-          600: 'rgb(220 48 0 / <alpha-value>)',
-          700: 'rgb(180 38 0 / <alpha-value>)',
-          800: 'rgb(130 28 0 / <alpha-value>)',
-          900: 'rgb(80 18 0 / <alpha-value>)',
-          950: 'rgb(45 10 0 / <alpha-value>)',
-        },
         text: {
           0: 'rgb(0 0 0 / <alpha-value>)',
           50: 'rgb(252 252 252 / <alpha-value>)',
@@ -246,6 +249,19 @@ module.exports = {
         'soft-2': '0px 0px 20px rgba(38, 38, 38, 0.2)',
         'soft-3': '0px 0px 30px rgba(38, 38, 38, 0.1)',
         'soft-4': '0px 0px 40px rgba(38, 38, 38, 0.1)',
+      },
+      width: {
+        '062': '62%',
+      },
+      letterSpacing: {
+        'x-tighter': '-1px',
+        2: '0.02em',
+      },
+      height: {
+        button: '56px',
+      },
+      borderRadius: {
+        button: '12px',
       },
     },
   },

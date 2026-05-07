@@ -19,14 +19,26 @@ const fontMap: Record<FontWeight, string> = {
 interface AppTextProps extends TextProps {
   children: React.ReactNode;
   weight?: FontWeight;
+  size?: number;
+  lineHeight?: number;
 }
 
-export const AppText = ({ weight = 400, style, className, children, ...props }: AppTextProps) => {
+export const AppText: React.FC<AppTextProps> = ({
+  weight = 400,
+  size = 14,
+  lineHeight = 20,
+  style,
+  className,
+  children,
+  ...props
+}: AppTextProps) => {
   return (
     <Text
       style={[
         {
           fontFamily: fontMap[weight],
+          fontSize: size,
+          lineHeight: lineHeight,
         },
         style,
       ]}
