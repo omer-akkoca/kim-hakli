@@ -43,6 +43,7 @@
     "stories": "Stories"
   },
   "artStyles": {
+    "all": "All",
     "realistic": "Realistic",
     "anime": "Anime",
     "sketch": "Sketch",

@@ -26,6 +26,7 @@ export type StorySide = { name: string; photo: string };
 export type StoryStatus = 'published' | 'draft' | 'deleted';
 
 export const storyArtStyles = [
+  'all',
   'realistic',
   'anime',
   'sketch',

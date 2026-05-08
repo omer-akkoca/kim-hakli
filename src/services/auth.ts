@@ -5,7 +5,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import { auth } from '@/src/configs';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+//import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { createUser, getUserRefIfNotExist } from './firestore';
 
 export const onAuthStateChanged = (callback: (user: any) => void) => {
@@ -13,7 +13,7 @@ export const onAuthStateChanged = (callback: (user: any) => void) => {
 };
 
 export const signInWithGoogle = async () => {
-  try {
+  /*try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
     const idToken = userInfo.data?.idToken;
@@ -29,7 +29,7 @@ export const signInWithGoogle = async () => {
     }
   } catch (error) {
     throw error;
-  }
+  }*/
 };
 
 export const logout = async () => {

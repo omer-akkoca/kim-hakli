@@ -43,6 +43,7 @@
     "stories": "Hikayeler"
   },
   "artStyles": {
+    "all": "Tümü",
     "realistic": "Gerçekçi",
     "anime": "Anime",
     "sketch": "Eskiz",
