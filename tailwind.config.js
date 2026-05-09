@@ -23,6 +23,10 @@ module.exports = {
         apple: '#000000',
         like: '#FF3040',
         'bottom-nav-bar': 'rgba(16,18,28,0.92)',
+        'dreamless-sleep': 'rgb(17 17 17 / <alpha-value>)',
+        'modal-title': '#f5f5f5',
+        'modal-desc': 'rgba(245,245,245,0.78)',
+        'modal-backdrop': 'rgba(0,0,0,0.58)',
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(255 244 236 / <alpha-value>)',
@@ -254,10 +258,12 @@ module.exports = {
       },
       height: {
         button: '56px',
+        'modal-button': '52px',
       },
       borderRadius: {
         button: '12px',
         'bottom-nav-bar': '32px',
+        '4xl': '28px',
       },
       padding: {
         0.5: '2px',

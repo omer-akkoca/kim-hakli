@@ -15,3 +15,4 @@ export * from './drawer';
 export * from './divider';
 export * from './linear-gradient';
 export * from './spinner';
+export * from './modal';
