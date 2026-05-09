@@ -7,7 +7,7 @@ const i18n = createInstance();
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v4',
-  lng: Localization.getLocales()[0]?.languageCode ?? 'tr',
+  lng: 'tr', // Localization.getLocales()[0]?.languageCode ?? 'tr',
   fallbackLng: 'tr',
   resources: {
     tr: { translation: tr },
