@@ -1,39 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs } from 'expo-router';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { HStack, VStack, Center, Pressable, Text, Box } from '@/components/ui';
+import { HStack, Pressable, Box } from '@/components/ui';
 import {
-  BookFillVector,
-  BookOutlineVector,
+  DiscoverVector,
+  GlowEffect,
   HomeFillVector,
   HomeOutlineVector,
   ProfileFillVector,
   ProfileOutlineVector,
 } from '@/assets';
-import { bottomBarHeight, colors } from '@/src/constants';
+import { bottomBarHeight, colors, width } from '@/src/constants';
 import { useTranslation } from 'react-i18next';
 import { SvgProps } from 'react-native-svg';
+import { BlurView } from 'expo-blur';
+import { AppText } from '@/src/components';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 export default function TabsLayout() {
   return (
     <Tabs
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false, tabBarStyle: { position: 'absolute' } }}
       safeAreaInsets={{ bottom: 0 }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
       <Tabs.Screen name="home" />
-      <Tabs.Screen name="stories" />
+      <Tabs.Screen name="discover" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
 }
 
-const icons: Record<string, React.FC<SvgProps>[]> = {
+const tabIcons: Record<string, React.FC<SvgProps>[]> = {
   home: [HomeFillVector, HomeOutlineVector],
-  stories: [BookFillVector, BookOutlineVector],
+  discover: [DiscoverVector, DiscoverVector],
   profile: [ProfileFillVector, ProfileOutlineVector],
 };
+
+const tabWidth = width / 3;
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { bottom } = useSafeAreaInsets();
@@ -47,43 +52,63 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
     navigation.navigate(routeName);
   };
 
+  const activeIndex = state.routes.findIndex((e) => isFocused(e.name));
+
+  const translateX = useSharedValue(activeIndex * tabWidth + tabWidth / 2 - 2);
+
+  useEffect(() => {
+    translateX.value = withSpring(activeIndex * tabWidth + tabWidth / 2 - 2, {
+      stiffness: 500,
+    });
+  }, [activeIndex]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
   return (
     <Box
-      className="relative bg-backgroud-700 shadow-md shadow-white/10"
-      style={{ paddingBottom: bottom }}
+      className="absolute -left-[1px] bottom-0 w-full bg-bottom-nav-bar border-t border-r border-l border-white/10 rounded-tr-bottom-nav-bar rounded-tl-bottom-nav-bar overflow-hidden"
+      style={{
+        width: width + 2,
+        height: bottomBarHeight + bottom,
+        boxShadow: '0 14px 36px rgba(0,0,0,0.32)',
+      }}
     >
-      <HStack className="bg-backgroud-700" style={{ height: bottomBarHeight }}>
-        {state.routes.map((e, i) => {
-          const active = isFocused(e.name);
-          const Icon = active ? icons[e.name][0] : icons[e.name][1];
-          return (
-            <Center
-              key={i.toString()}
-              className={`flex-1 border-t ${active ? 'border-headline-500' : 'border-transparent'}`}
-            >
-              <Pressable onPress={() => navigate(e.name)}>
-                <VStack className="items-center">
-                  <Icon
-                    width={20}
-                    height={20}
-                    color={active ? colors.headline : colors.quickSilver}
-                    strokeWidth={1}
-                  />
-                  <Text
-                    style={{
-                      color: active ? colors.headline : colors.quickSilver,
-                      fontWeight: active ? '600' : '500',
-                    }}
-                    className="text-sm tracking-wide leading-6"
+      <BlurView intensity={18} tint="dark" className="flex-1">
+        <HStack className="flex-1" style={{ marginBottom: bottom }}>
+          {state.routes.map((e, i) => {
+            const active = isFocused(e.name);
+            const Icon = active ? tabIcons[e.name][0] : tabIcons[e.name][1];
+            return (
+              <Box key={e.name} className="relative flex-1 items-center justify-center">
+                <Pressable
+                  className="items-center justify-center"
+                  onPress={() => navigate(e as any)}
+                >
+                  <Icon width={24} height={24} color={active ? colors.primary : colors.secondary} />
+                  <AppText
+                    size={13}
+                    lineHeight={18}
+                    weight={500}
+                    className={`mt-1 ${active ? 'text-primary-500' : 'text-secondary-500'}`}
                   >
                     {t(`tabs.${e.name}`)}
-                  </Text>
-                </VStack>
-              </Pressable>
-            </Center>
-          );
-        })}
-      </HStack>
+                  </AppText>
+                  <Box className="h-1" />
+                </Pressable>
+                {active ? (
+                  <GlowEffect style={{ position: 'absolute', top: 0, left: width / 3 / 2 - 60 }} />
+                ) : null}
+              </Box>
+            );
+          })}
+        </HStack>
+        <Animated.View
+          className="absolute left-0 w-1.5 h-1.5 rounded-full bg-primary-500"
+          style={[{ bottom: bottom, backgroundColor: colors.primary }, animatedStyle]}
+        />
+      </BlurView>
     </Box>
   );
 };

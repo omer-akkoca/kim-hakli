@@ -22,6 +22,7 @@ module.exports = {
         loginText: 'rgba(245,245,245,0.78)',
         apple: '#000000',
         like: '#FF3040',
+        'bottom-nav-bar': 'rgba(16,18,28,0.92)',
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(255 244 236 / <alpha-value>)',
@@ -256,9 +257,13 @@ module.exports = {
       },
       borderRadius: {
         button: '12px',
+        'bottom-nav-bar': '32px',
       },
       padding: {
         0.5: '2px',
+      },
+      gap: {
+        1.5: '6px',
       },
     },
   },

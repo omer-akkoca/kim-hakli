@@ -1,4 +1,18 @@
-import Svg, { G, Path, SvgProps } from 'react-native-svg';
+import Svg, { Defs, Ellipse, G, Path, RadialGradient, Stop, SvgProps } from 'react-native-svg';
+
+export const GlowEffect = (props: SvgProps) => {
+  return (
+    <Svg width={120} height={60} pointerEvents="none" {...props}>
+      <Defs>
+        <RadialGradient id="glow" cx="50%" cy="0%" rx="50%" ry="100%">
+          <Stop offset="0%" stopColor="#FF6B2C" stopOpacity={0.4} />
+          <Stop offset="100%" stopColor="#FF6B2C" stopOpacity={0} />
+        </RadialGradient>
+      </Defs>
+      <Ellipse cx="60" cy="0" rx="60" ry="60" fill="url(#glow)" />
+    </Svg>
+  );
+};
 
 export const PersonVector = (props: SvgProps) => (
   <Svg fill={props.color ?? '#000'} width="800px" height="800px" viewBox="0 0 24 24" {...props}>
