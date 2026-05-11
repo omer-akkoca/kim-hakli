@@ -1,10 +1,13 @@
 import { Stack } from 'expo-router';
+import { useAppSelector } from '../store';
 
 const AppNavigation = () => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack initialRouteName="onboarding" screenOptions={{ headerShown: false }}>
+      {!isAuthenticated ? <Stack.Screen name="auth/login" /> : null}
       <Stack.Screen name="onboarding" />
-      <Stack.Screen name="auth/login" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="story/[id]" />
       <Stack.Screen name="story/read/[id]" />
