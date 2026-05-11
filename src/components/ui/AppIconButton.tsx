@@ -1,5 +1,6 @@
 import { Pressable } from '@/components/ui';
 import React from 'react';
+import { ViewStyle } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 interface IAppIconButton {
@@ -9,6 +10,7 @@ interface IAppIconButton {
   width?: number;
   height?: number;
   className?: string;
+  style?: ViewStyle;
 }
 
 const AppIconButton: React.FC<IAppIconButton> = ({
@@ -18,11 +20,13 @@ const AppIconButton: React.FC<IAppIconButton> = ({
   height = 24,
   width = 24,
   className,
+  style,
 }) => {
   return (
     <Pressable
-      className={className}
       onPress={onPress}
+      className={className}
+      style={style}
       hitSlop={{ bottom: 4, left: 4, right: 4, top: 4 }}
     >
       <Icon width={width} height={height} color={color} />
