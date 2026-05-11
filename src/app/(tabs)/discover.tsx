@@ -4,14 +4,16 @@ import { Box, Pressable, HStack, Spinner } from '@/components/ui';
 import { GetStoriesParams, StoryArtStyle, storyArtStyles } from '@/src/types';
 import { useStories } from '@/src/actions';
 
-import { FilterVector } from '@/assets';
+import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppBar, AppText, StoryRenderItem } from '@/src/components';
+import { AppBar, AppIconButton, AppText, StoryRenderItem } from '@/src/components';
 import { useTranslation } from 'react-i18next';
 import { bottomBarHeight, colors } from '@/src/constants';
+import { useRouter } from 'expo-router';
 
-const StoriesPage = () => {
+const DiscoverPage = () => {
   const { t } = useTranslation();
+  const { push } = useRouter();
   const { bottom } = useSafeAreaInsets();
 
   const [artStyle, setArtStyle] = useState<StoryArtStyle>('all');
@@ -25,7 +27,20 @@ const StoriesPage = () => {
 
   return (
     <Box className="flex-1 bg-background-500">
-      <AppBar creditLabel title="Keşfet">
+      <AppBar
+        creditLabel
+        title="Keşfet"
+        actions={[
+          <AppIconButton
+            key="search"
+            icon={SearchMagnifyingVector}
+            onPress={() => push('/search')}
+            width={20}
+            height={20}
+            color={colors.headline}
+          />,
+        ]}
+      >
         <HStack className="h-12 w-full items-center ">
           <HStack className="flex-1 h-full">
             <ScrollView
@@ -95,4 +110,4 @@ const StoriesPage = () => {
   );
 };
 
-export default StoriesPage;
+export default DiscoverPage;

@@ -13,6 +13,7 @@ const AppNavigation = () => {
       <Stack.Screen name="story/read/[id]" />
       <Stack.Screen name="story/vote/[id]" />
       <Stack.Screen name="story/voteResult/[id]" />
+      <Stack.Screen name="search" />
     </Stack>
   );
 };
