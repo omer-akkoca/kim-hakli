@@ -8,3 +8,4 @@ export { CreditBadge } from './ui/CreditBadge';
 export * from './stories';
 export * from './profile';
 export * from './search';
+export * from './story';

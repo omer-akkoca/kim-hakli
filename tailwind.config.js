@@ -20,6 +20,8 @@ module.exports = {
     extend: {
       colors: {
         loginText: 'rgba(245,245,245,0.78)',
+        text: 'rgba(245,245,245,0.82)',
+        subText: 'rgba(245,245,245,0.42)',
         apple: '#000000',
         like: '#FF3040',
         'bottom-nav-bar': 'rgba(16,18,28,0.92)',
@@ -31,6 +33,7 @@ module.exports = {
         'credit-label': 'rgba(16,18,28,0.82)',
         'credit-bg': 'rgba(16, 18, 28, 0.78)',
         'credit-border': 'rgba(241, 118, 42, 0.32)',
+        'detail-secondary-button': 'rgba(10,12,20,0.42)',
         headline: '#f5f5f5',
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
@@ -59,20 +62,6 @@ module.exports = {
           800: 'rgb(15 17 28 / <alpha-value>)',
           900: 'rgb(10 12 20 / <alpha-value>)',
           950: 'rgb(5 6 12 / <alpha-value>)',
-        },
-        text: {
-          0: 'rgb(0 0 0 / <alpha-value>)',
-          50: 'rgb(253 253 253 / <alpha-value>)',
-          100: 'rgb(250 250 250 / <alpha-value>)',
-          200: 'rgb(245 245 245 / <alpha-value>)',
-          300: 'rgb(235 235 235 / <alpha-value>)',
-          400: 'rgb(225 225 225 / <alpha-value>)',
-          500: 'rgb(245 245 245 / <alpha-value>)', // #F5F5F5
-          600: 'rgb(210 210 210 / <alpha-value>)',
-          700: 'rgb(175 175 175 / <alpha-value>)',
-          800: 'rgb(135 135 135 / <alpha-value>)',
-          900: 'rgb(90 90 90 / <alpha-value>)',
-          950: 'rgb(45 45 45 / <alpha-value>)',
         },
         secondary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
@@ -242,15 +231,19 @@ module.exports = {
       },
       width: {
         '062': '62%',
+        13: '52px',
       },
       letterSpacing: {
         'x-tighter': '-1px',
         2: '0.02em',
+        4: '0.04em',
+        8: '0.08em',
       },
       height: {
         button: '56px',
         'modal-button': '52px',
         'credit-label': '36px',
+        13: '52px',
       },
       borderRadius: {
         button: '12px',
