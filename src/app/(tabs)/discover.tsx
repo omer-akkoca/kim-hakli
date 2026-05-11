@@ -56,9 +56,15 @@ const StoriesPage = () => {
               })}
             </ScrollView>
           </HStack>
-          <Pressable onPress={() => null} className="pl-4" style={{ marginRight: 24 }}>
-            <FilterVector width={20} height={20} color={colors.headline} />
-          </Pressable>
+          <AppIconButton
+            icon={FilterVector}
+            onPress={() => null}
+            width={20}
+            height={20}
+            color={colors.headline}
+            className="ml-4"
+            style={{ marginRight: 24 }}
+          />
         </HStack>
       </AppBar>
       <Box className="w-full flex-1">
