@@ -1,21 +1,30 @@
+import React, { PropsWithChildren } from 'react';
 import { Box, HStack, LinearGradient, Pressable } from '@/components/ui';
 import { appBarHeight, colors } from '@/src/constants';
 import { BlurView } from 'expo-blur';
-import React, { PropsWithChildren } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CreditLabel } from './CreditLabel';
 import { LeftChevronVector } from '@/assets';
 import { useRouter } from 'expo-router';
 import { AppText } from './AppText';
+import { AppIconButton } from './AppIconButton';
 
 interface IAppBar extends PropsWithChildren {
   backIcon?: boolean;
   creditLabel?: boolean;
   title?: string;
   leading?: React.ReactNode;
+  actions?: React.ReactNode[];
 }
 
-const AppBar: React.FC<IAppBar> = ({ backIcon, creditLabel, leading, title, children }) => {
+const AppBar: React.FC<IAppBar> = ({
+  backIcon,
+  creditLabel,
+  leading,
+  title,
+  actions = [],
+  children,
+}) => {
   const { top } = useSafeAreaInsets();
   const { back } = useRouter();
 
@@ -42,7 +51,18 @@ const AppBar: React.FC<IAppBar> = ({ backIcon, creditLabel, leading, title, chil
                   style={{ paddingHorizontal: 24 }}
                 >
                   {leading ? (
-                    leading
+                    <HStack space="lg" className="items-center">
+                      {backIcon ? (
+                        <AppIconButton
+                          icon={LeftChevronVector}
+                          onPress={back}
+                          width={24}
+                          height={24}
+                          color={colors.headline}
+                        />
+                      ) : null}
+                      {leading}
+                    </HStack>
                   ) : (
                     <HStack space="lg" className="items-center">
                       {backIcon ? (
@@ -57,9 +77,13 @@ const AppBar: React.FC<IAppBar> = ({ backIcon, creditLabel, leading, title, chil
                       ) : null}
                     </HStack>
                   )}
-                  {creditLabel ? <CreditLabel /> : <Box />}
+                  <HStack space="lg" className="items-center">
+                    {creditLabel ? <CreditLabel /> : <Box />}
+                    {actions.map((e) => e)}
+                  </HStack>
                 </HStack>
               </Box>
+
               <Box className="w-full">{children}</Box>
             </LinearGradient>
           </LinearGradient>
