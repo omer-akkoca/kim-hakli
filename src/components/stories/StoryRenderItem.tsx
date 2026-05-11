@@ -5,7 +5,9 @@ import { colors, width } from '@/src/constants';
 import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/src/components/ui/AppText';
-import { BookmarkFillVector, BookmarkOutlineVector, CreditVector } from '@/assets';
+import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
+import { CreditBadge } from '../ui/CreditBadge';
+import { AppIconButton } from '../ui/AppIconButton';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -50,21 +52,15 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
           >
             <VStack className="flex-1 p-4 justify-between">
               <HStack className="items-center justify-between">
-                <HStack
-                  space="sm"
-                  className="h-9 bg-credit-bg border border-credit-border items-center px-3 rounded-full"
-                >
-                  <CreditVector width={14} height={14} />
-                  <AppText size={12} lineHeight={14} weight={600} className="text-headline">
-                    {story.creditCost}
-                  </AppText>
-                </HStack>
-                <Pressable
+                <CreditBadge credit={story.creditCost} withBg />
+                <AppIconButton
+                  icon={BookmarkIcon}
                   onPress={() => setIsBookmarked((prev) => !prev)}
                   className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
-                >
-                  <BookmarkIcon width={22} height={22} color={colors.headline} />
-                </Pressable>
+                  color={colors.headline}
+                  width={22}
+                  height={22}
+                />
               </HStack>
               <AppText
                 size={18}
