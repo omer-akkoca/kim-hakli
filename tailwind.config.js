@@ -27,6 +27,11 @@ module.exports = {
         'modal-title': '#f5f5f5',
         'modal-desc': 'rgba(245,245,245,0.78)',
         'modal-backdrop': 'rgba(0,0,0,0.58)',
+        'app-bar': 'rgba(28, 31, 48, 0.78)',
+        'credit-label': 'rgba(16,18,28,0.82)',
+        'credit-bg': 'rgba(16, 18, 28, 0.78)',
+        'credit-border': 'rgba(241, 118, 42, 0.32)',
+        headline: '#f5f5f5',
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(255 244 236 / <alpha-value>)',
@@ -87,20 +92,6 @@ module.exports = {
         'light-backgroud': '#F5F5F5',
         lightGray: '#CCCCC8',
         facebook: '#1877F2',
-        headline: {
-          0: 'rgb(0 0 0 / <alpha-value>)',
-          50: 'rgb(250 250 250 / <alpha-value>)',
-          100: 'rgb(248 248 248 / <alpha-value>)',
-          200: 'rgb(244 244 244 / <alpha-value>)',
-          300: 'rgb(238 238 238 / <alpha-value>)',
-          400: 'rgb(230 230 230 / <alpha-value>)',
-          500: 'rgb(254 254 254 / <alpha-value>)', // #fefefe
-          600: 'rgb(210 210 210 / <alpha-value>)',
-          700: 'rgb(180 180 180 / <alpha-value>)',
-          800: 'rgb(140 140 140 / <alpha-value>)',
-          900: 'rgb(90 90 90 / <alpha-value>)',
-          950: 'rgb(40 40 40 / <alpha-value>)',
-        },
         backgroud: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(245 245 245 / <alpha-value>)',
@@ -259,6 +250,7 @@ module.exports = {
       height: {
         button: '56px',
         'modal-button': '52px',
+        'credit-label': '36px',
       },
       borderRadius: {
         button: '12px',

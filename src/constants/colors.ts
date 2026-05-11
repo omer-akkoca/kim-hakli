@@ -9,10 +9,10 @@ export const colors = {
   backgroud: '#1C1F30',
   text: '#F5F5F5',
   like: '#FF3040',
+  headline: '#f5f5f5',
 
   //old colors
   border: '#383838',
-  headline: '#fefefe',
   facebook: '#1877F2',
   error: 'rgb(230,53,53)',
   quickSilver: '#A2A2A2',
