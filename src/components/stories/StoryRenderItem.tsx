@@ -1,109 +1,83 @@
 import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
-import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/src/components/ui/AppText';
-import { formatStoryLikeCount, formatStoryVoteCount } from '@/src/utils';
-import {
-  BookmarkFillVector,
-  BookmarkOutlineVector,
-  HeartFillVector,
-  HeartOutlineVector,
-} from '@/assets';
-import { AppIconButton } from '../ui/AppIconButton';
+import { BookmarkFillVector, BookmarkOutlineVector, CreditVector } from '@/assets';
 
 interface IStoryRenderItem {
   story: IStory;
   order: number;
 }
 
-const itemWidth = (width - 32 - 8) / 2;
-const itemHeight = (itemWidth / 9) * 16;
+const itemWidth = (width - 48) / 2;
+const itemHeight = (itemWidth / 9) * 14;
 
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
 
-  const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const price = story.creditCost === 0 ? 'Ücretsiz' : `${story.creditCost} Kredi`;
-  const totalVotes = Object.values(story.votes).reduce((sum, vote) => sum + vote, 0);
-  const likeCount = 0;
-
   const BookmarkIcon = isBookmarked ? BookmarkFillVector : BookmarkOutlineVector;
-  const LikedIcon = isLiked ? HeartFillVector : HeartOutlineVector;
 
   return (
     <Pressable
       onPress={() => router.push(`/story/${story.id}`)}
-      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden shadow-story-card"
+      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
       style={{
         width: itemWidth,
         height: itemHeight,
         marginRight: order % 2 === 0 ? 8 : 0,
-        boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
       }}
     >
-      <ImageBackground source={{ uri: story.coverImageUrl }} className="flex-1" resizeMode="cover">
-        <Box className="flex-1 bg-background-500/10">
+      <ImageBackground source={{ uri: story.coverImageUrl }} className="flex-1">
+        <LinearGradient
+          colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
+          locations={[0, 0.5, 1]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          className="flex-1"
+        >
           <LinearGradient
-            colors={['rgba(0,0,0,0.08)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.78)']}
-            locations={[0, 0.57, 1]}
+            colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
+            locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
-            className="flex-1 justify-end"
+            className="flex-1"
           >
-            <VStack className="flex-1 p-3 justify-between">
-              {/* Price and Bookmark */}
+            <VStack className="flex-1 p-4 justify-between">
               <HStack className="items-center justify-between">
-                <Box className="bg-black/75 rounded-lg px-2 py-0.5">
-                  <AppText
-                    size={10}
-                    weight={700}
-                    className={`${story.creditCost === 0 ? 'text-secondary-500' : 'text-primary-400'}`}
-                  >
-                    {price}
-                  </AppText>
-                </Box>
-                <AppIconButton
-                  icon={BookmarkIcon}
-                  onPress={() => setIsBookmarked((prev) => !prev)}
-                  width={20}
-                  height={20}
-                  color={colors.white}
-                />
-              </HStack>
-              <VStack space="sm">
-                {/* Title */}
-                <AppText
-                  size={20}
-                  weight={700}
-                  lineHeight={24}
-                  className="text-text-500/95 -tracking-2"
-                  numberOfLines={2}
+                <HStack
+                  space="sm"
+                  className="h-9 bg-credit-bg border border-credit-border items-center px-3 rounded-full"
                 >
-                  {story.title}
-                </AppText>
-                {/* Vote and Like Count */}
-                <HStack className="items-center justify-between">
-                  <AppText size={10} weight={500} className="text-text-500/75">
-                    {formatStoryVoteCount(totalVotes)} Oy
+                  <CreditVector width={14} height={14} />
+                  <AppText size={12} lineHeight={14} weight={600} className="text-headline">
+                    {story.creditCost}
                   </AppText>
-                  <Pressable onPress={() => setIsLiked((prev) => !prev)}>
-                    <HStack space="sm" className="items-center">
-                      <LikedIcon width={14} height={14} color={colors.primary} />
-                      <AppText size={10} weight={500} className="text-primary-400">
-                        {formatStoryLikeCount(likeCount)}
-                      </AppText>
-                    </HStack>
-                  </Pressable>
                 </HStack>
-              </VStack>
+                <Pressable
+                  onPress={() => setIsBookmarked((prev) => !prev)}
+                  className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
+                >
+                  <BookmarkIcon width={22} height={22} color={colors.headline} />
+                </Pressable>
+              </HStack>
+              <AppText
+                size={18}
+                lineHeight={24}
+                weight={600}
+                className="text-headline -tracking-2"
+                numberOfLines={3}
+              >
+                {story.title}
+              </AppText>
             </VStack>
           </LinearGradient>
-        </Box>
+        </LinearGradient>
       </ImageBackground>
     </Pressable>
   );
