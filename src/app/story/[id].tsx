@@ -35,8 +35,8 @@ export default function StoryDetailPage() {
 
   const { data: categories } = useCategories();
   const { data: story, isLoading } = useGetStoryById(id);
-  const { data: unlocked } = useIsStoryUnlocked(user?.id ?? 'UsoP0Sa8lfgR3EDvLG25tj6z6kl1', id);
-  const { data: voted } = useHasVoted(user?.id ?? 'UsoP0Sa8lfgR3EDvLG25tj6z6kl1', id);
+  const { data: unlocked } = useIsStoryUnlocked(user?.id ?? '', id);
+  const { data: voted } = useHasVoted(user?.id ?? '', id);
 
   const { mutate, status } = useUnlockStory();
 
