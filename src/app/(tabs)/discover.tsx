@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { Box, Pressable, HStack, Spinner } from '@/components/ui';
 import { GetStoriesParams, StoryArtStyle, storyArtStyles } from '@/src/types';
@@ -24,6 +24,14 @@ const DiscoverPage = () => {
   });
 
   const { data: stories, isLoading } = useStories(appliedFilters);
+
+  useEffect(() => {
+    if (artStyle === 'all') {
+      setAppliedFilters((prev) => ({ ...prev, artStyle: '' }));
+    } else {
+      setAppliedFilters((prev) => ({ ...prev, artStyle }));
+    }
+  }, [artStyle]);
 
   return (
     <Box className="flex-1 bg-background-500">
@@ -101,7 +109,9 @@ const DiscoverPage = () => {
             isLoading ? (
               <Spinner size={'large'} color={colors.primary} />
             ) : (
-              <AppText>Hikayeler yüklenirken bir hata meydana geldi.</AppText>
+              <AppText size={12} weight={600} className="text-loginText text-center">
+                Uygun kriterlere göre hikaye bulunamadı.
+              </AppText>
             )
           }
         />
