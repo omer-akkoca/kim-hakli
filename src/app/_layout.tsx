@@ -1,3 +1,4 @@
+import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '@/src/store';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
@@ -11,16 +12,19 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <GluestackUIProvider>
-          <ModalProvider>
-            <AuthProvider>
-              <AppNavigation />
-            </AuthProvider>
-          </ModalProvider>
-        </GluestackUIProvider>
-      </QueryClientProvider>
-    </Provider>
+    <>
+      <StatusBar translucent backgroundColor="transparent" animated barStyle={'light-content'} />
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <GluestackUIProvider>
+            <ModalProvider>
+              <AuthProvider>
+                <AppNavigation />
+              </AuthProvider>
+            </ModalProvider>
+          </GluestackUIProvider>
+        </QueryClientProvider>
+      </Provider>
+    </>
   );
 }
