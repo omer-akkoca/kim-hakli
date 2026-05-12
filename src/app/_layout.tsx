@@ -7,12 +7,13 @@ import { AppNavigation } from '@/src/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@/global.css';
 import '@/src/locales/i18n';
+import { Box } from '@/components/ui';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <>
+    <Box className="flex-1 bg-background-500">
       <StatusBar translucent backgroundColor="transparent" animated barStyle={'light-content'} />
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
@@ -25,6 +26,6 @@ export default function RootLayout() {
           </GluestackUIProvider>
         </QueryClientProvider>
       </Provider>
-    </>
+    </Box>
   );
 }
