@@ -8,14 +8,16 @@ import { AppText } from '../ui/AppText';
 interface DetailIconButtonProps {
   icon: React.FC<SvgProps>;
   onPress: () => void;
+  disabled?: boolean;
 }
 
-const DetailIconButton: React.FC<DetailIconButtonProps> = ({ icon: Icon, onPress }) => {
+const DetailIconButton: React.FC<DetailIconButtonProps> = ({ icon: Icon, onPress, disabled }) => {
   return (
     <Pressable
       onPress={onPress}
-      className="w-13 h-13 bg-background-500/75 rounded-full border border-white/10 overflow-hidden"
-      style={{ boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      className="bg-background-500/75 rounded-full border border-white/10 overflow-hidden disabled:opacity-50"
+      style={{ height: 52, width: 52, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      disabled={disabled}
     >
       <BlurView intensity={18} tint="dark" className="flex-1">
         <LinearGradient

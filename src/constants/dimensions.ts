@@ -7,5 +7,6 @@ export const H = (size: number) => (height * size) / 852;
 
 export const appBarHeight = 56;
 export const bottomBarHeight = 72;
+export const readActionBarHeight = 60;
 
 export { width, height };

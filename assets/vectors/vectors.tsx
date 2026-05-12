@@ -50,12 +50,29 @@ export const BookmarkOutlineVector = (props: SvgProps) => (
 // OLDS
 
 export const RightChevronVector = (props: SvgProps) => (
-  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+  <Svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" {...props}>
     <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"
-      fill={props.color ?? '#000'}
+      d="M8 21L17 12L8 3"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      fill="none"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const LeftChevronVector = (props: SvgProps) => (
+  <Svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" {...props}>
+    <Path
+      d="M16 21L7 12L16 3"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      fill="none"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -130,18 +147,6 @@ export const Book6Vector = (props: SvgProps) => (
   </Svg>
 );
 
-export const LeftChevronVector = (props: SvgProps) => (
-  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
-    <Path
-      d="M15 6L9 12L15 18"
-      stroke={props.color ?? '#000'}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
-
 export const CreditVector = (props: SvgProps) => (
   <Svg width={22} height={22} viewBox="0 0 22 22" fill="none" {...props}>
     <Circle cx={11} cy={11} r={11} fill="#F1762A" />
@@ -164,5 +169,17 @@ export const ChartVector = (props: SvgProps) => (
       d="M20 13.75C20 13.3358 19.6642 13 19.25 13H16.25C15.8358 13 15.5 13.3358 15.5 13.75V20.5H14V4.25C14 3.52169 13.9984 3.05091 13.9518 2.70403C13.908 2.37872 13.8374 2.27676 13.7803 2.21967C13.7232 2.16258 13.6213 2.09197 13.296 2.04823C12.9491 2.00159 12.4783 2 11.75 2C11.0217 2 10.5509 2.00159 10.204 2.04823C9.87872 2.09197 9.77676 2.16258 9.71967 2.21967C9.66258 2.27676 9.59196 2.37872 9.54823 2.70403C9.50159 3.05091 9.5 3.52169 9.5 4.25V20.5H8V8.75C8 8.33579 7.66421 8 7.25 8H4.25C3.83579 8 3.5 8.33579 3.5 8.75V20.5H2H1.75C1.33579 20.5 1 20.8358 1 21.25C1 21.6642 1.33579 22 1.75 22H21.75C22.1642 22 22.5 21.6642 22.5 21.25C22.5 20.8358 22.1642 20.5 21.75 20.5H21.5H20V13.75Z"
       fill={props.color ?? '#000'}
     />
+  </Svg>
+);
+
+export const CrossVector = (props: SvgProps) => (
+  <Svg fill={props.color ?? '#000'} width="800px" height="800px" viewBox="-28 0 512 512" {...props}>
+    <Path d="M64 388L196 256 64 124 96 92 228 224 360 92 392 124 260 256 392 388 360 420 228 288 96 420 64 388Z" />
+  </Svg>
+);
+
+export const VoteVector = (props: SvgProps) => (
+  <Svg fill={props.color ?? '#000'} width="800px" height="800px" viewBox="0 -64 640 640" {...props}>
+    <Path d="M608 320h-64v64h22.4c5.3 0 9.6 3.6 9.6 8v16c0 4.4-4.3 8-9.6 8H73.6c-5.3 0-9.6-3.6-9.6-8v-16c0-4.4 4.3-8 9.6-8H96v-64H32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h576c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32zm-96 64V64.3c0-17.9-14.5-32.3-32.3-32.3H160.4C142.5 32 128 46.5 128 64.3V384h384zM211.2 202l25.5-25.3c4.2-4.2 11-4.2 15.2.1l41.3 41.6 95.2-94.4c4.2-4.2 11-4.2 15.2.1l25.3 25.5c4.2 4.2 4.2 11-.1 15.2L300.5 292c-4.2 4.2-11 4.2-15.2-.1l-74.1-74.7c-4.3-4.2-4.2-11 0-15.2z" />
   </Svg>
 );
