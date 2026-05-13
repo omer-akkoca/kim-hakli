@@ -4,7 +4,7 @@ export interface IUser {
   id: string;
   displayName: string;
   email: string;
-  photoURL: string | null;
+  photoURL: string;
   credits: number;
   provider: providerType;
   createdAt: Timestamp;

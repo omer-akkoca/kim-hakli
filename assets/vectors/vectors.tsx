@@ -183,3 +183,188 @@ export const VoteVector = (props: SvgProps) => (
     <Path d="M608 320h-64v64h22.4c5.3 0 9.6 3.6 9.6 8v16c0 4.4-4.3 8-9.6 8H73.6c-5.3 0-9.6-3.6-9.6-8v-16c0-4.4 4.3-8 9.6-8H96v-64H32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h576c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32zm-96 64V64.3c0-17.9-14.5-32.3-32.3-32.3H160.4C142.5 32 128 46.5 128 64.3V384h384zM211.2 202l25.5-25.3c4.2-4.2 11-4.2 15.2.1l41.3 41.6 95.2-94.4c4.2-4.2 11-4.2 15.2.1l25.3 25.5c4.2 4.2 4.2 11-.1 15.2L300.5 292c-4.2 4.2-11 4.2-15.2-.1l-74.1-74.7c-4.3-4.2-4.2-11 0-15.2z" />
   </Svg>
 );
+
+export const LogoutVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      d="M21 12L13 12"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const LockOutlineVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const BookOutlineVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path d="M12 6V19" stroke={props.color ?? '#000'} strokeWidth={2} strokeLinecap="round" />
+    <Path d="M21 6L21 19" stroke={props.color ?? '#000'} strokeWidth={2} strokeLinecap="round" />
+    <Path d="M3 6L3 19" stroke={props.color ?? '#000'} strokeWidth={2} strokeLinecap="round" />
+    <Path
+      d="M21 19C21 19 20 17 16.5 17C13 17 12 19 12 19"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M12 19C12 19 11 17 7.5 17C4 17 3 19 3 19"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M21 6C21 6 20 4 16.5 4C13 4 12 6 12 6"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M12 6C12 6 11 4 7.5 4C4 4 3 6 3 6"
+      stroke={props.color ?? '#000'}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+  </Svg>
+);
+
+export const ScalesVector = (props: SvgProps) => (
+  <Svg
+    fill={props.color ?? '#000'}
+    id="Capa_1"
+    width="800px"
+    height="800px"
+    viewBox="0 0 494.285 494.286"
+    {...props}
+  >
+    <G>
+      <Path d="M477.469,175.201l0.149-0.088L408.312,54.311l1.496-0.32c6.263-1.353,10.73-6.895,10.73-13.301v-6.174 c0-8.663-7.997-15.123-16.47-13.294L84.47,90.154c-6.263,1.353-10.73,6.895-10.73,13.301v6.174c0,8.412,7.541,14.674,15.729,13.369 L16.66,249.913l0.149,0.089H0c0,43.159,45.451,78.146,101.517,78.146s101.518-34.986,101.518-78.146h-14.416l0.149-0.089 l-75.684-131.926l117.055-25.249v350.887c-56.841,4.393-70.604,29.75-70.604,29.75h175.563c0,0-13.818-25.466-70.958-29.784V85.407 l105.95-22.854l-64.565,112.56l0.149,0.088h-14.423c0,43.16,45.451,78.146,101.518,78.146c56.065,0,101.517-34.986,101.517-78.146 H477.469z M40.127,250.001l62.58-109.092l62.581,109.092H40.127z M328.984,175.201l62.58-109.099l62.587,109.099H328.984z" />
+    </G>
+  </Svg>
+);
+
+export const HistoryVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      opacity={0.5}
+      d="M12 8V12L14.5 14.5"
+      stroke={props.color ?? '#000'}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M5.60414 5.60414L5.07381 5.07381V5.07381L5.60414 5.60414ZM4.33776 6.87052L3.58777 6.87429C3.58984 7.28556 3.92272 7.61844 4.33399 7.62051L4.33776 6.87052ZM6.87954 7.6333C7.29375 7.63539 7.63122 7.30129 7.6333 6.88708C7.63538 6.47287 7.30129 6.1354 6.88708 6.13332L6.87954 7.6333ZM5.07496 4.3212C5.07288 3.90699 4.73541 3.5729 4.3212 3.57498C3.90699 3.57706 3.5729 3.91453 3.57498 4.32874L5.07496 4.3212ZM3.82661 10.7849C3.88286 10.3745 3.59578 9.99627 3.1854 9.94002C2.77503 9.88377 2.39675 10.1708 2.3405 10.5812L3.82661 10.7849ZM18.8622 5.13777C15.042 1.31758 8.86873 1.27889 5.07381 5.07381L6.13447 6.13447C9.33358 2.93536 14.5571 2.95395 17.8016 6.19843L18.8622 5.13777ZM5.13777 18.8622C8.95796 22.6824 15.1313 22.7211 18.9262 18.9262L17.8655 17.8655C14.6664 21.0646 9.44291 21.0461 6.19843 17.8016L5.13777 18.8622ZM18.9262 18.9262C22.7211 15.1313 22.6824 8.95796 18.8622 5.13777L17.8016 6.19843C21.0461 9.44291 21.0646 14.6664 17.8655 17.8655L18.9262 18.9262ZM5.07381 5.07381L3.80743 6.34019L4.86809 7.40085L6.13447 6.13447L5.07381 5.07381ZM4.33399 7.62051L6.87954 7.6333L6.88708 6.13332L4.34153 6.12053L4.33399 7.62051ZM5.08775 6.86675L5.07496 4.3212L3.57498 4.32874L3.58777 6.87429L5.08775 6.86675ZM2.3405 10.5812C1.93907 13.5099 2.87392 16.5984 5.13777 18.8622L6.19843 17.8016C4.27785 15.881 3.48663 13.2652 3.82661 10.7849L2.3405 10.5812Z"
+      fill={props.color ?? '#000'}
+    />
+  </Svg>
+);
+
+export const SettingsVector = (props: SvgProps) => (
+  <Svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" {...props}>
+    <Circle
+      cx={16}
+      cy={16}
+      r={5}
+      fill="none"
+      stroke={props.color ?? '#000'}
+      strokeLinecap="round"
+      strokeMiterlimit={10}
+      strokeWidth={2}
+      data-color="color-2"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="m30,17.5v-3l-3.388-1.355c-.25-.933-.617-1.815-1.089-2.633l1.436-3.351-2.121-2.121-3.351,1.436c-.817-.472-1.7-.838-2.633-1.089l-1.355-3.388h-3l-1.355,3.388c-.933.25-1.815.617-2.633,1.089l-3.351-1.436-2.121,2.121,1.436,3.351c-.472.817-.838,1.7-1.089,2.633l-3.388,1.355v3l3.388,1.355c.25.933.617,1.815,1.089,2.633l-1.436,3.351,2.121,2.121,3.351-1.436c.817.472,1.7.838,2.633,1.089l1.355,3.388h3l1.355-3.388c.933-.25,1.815-.617,2.633-1.089l3.351,1.436,2.121-2.121-1.436-3.351c.472-.817.838-1.7,1.089-2.633l3.388-1.355Z"
+      fill="none"
+      stroke={props.color ?? '#000'}
+      strokeLinecap="round"
+      strokeMiterlimit={10}
+      strokeWidth={2}
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const SupportVector = (props: SvgProps) => (
+  <Svg
+    width="800px"
+    height="800px"
+    viewBox="0 0 24 24"
+    role="img"
+    aria-labelledby="supportIconTitle"
+    stroke={props.color ?? '#000'}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    fill="none"
+    color={props.color ?? '#000'}
+    {...props}
+  >
+    <Path
+      d="M18,9 L16,9 C14.8954305,9 14,9.8954305 14,11 L14,13 C14,14.1045695 14.8954305,15 16,15 L16,15 C17.1045695,15 18,14.1045695 18,13 L18,9 C18,4.02943725 13.9705627,0 9,0 C4.02943725,0 0,4.02943725 0,9 L0,13 C1.3527075e-16,14.1045695 0.8954305,15 2,15 L2,15 C3.1045695,15 4,14.1045695 4,13 L4,11 C4,9.8954305 3.1045695,9 2,9 L0,9"
+      transform="translate(3 3)"
+    />
+    <Path d="M21,14 L21,18 C21,20 20.3333333,21 19,21 C17.6666667,21 16,21 14,21" />
+  </Svg>
+);
+
+export const AboutVector = (props: SvgProps) => (
+  <Svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" {...props}>
+    <Circle
+      cx={12}
+      cy={12}
+      r={10}
+      fill="none"
+      stroke={props.color ?? '#000'}
+      strokeLinecap="round"
+      strokeMiterlimit={10}
+      strokeWidth={2}
+      strokeLinejoin="round"
+    />
+    <Path
+      d="m12,17v-5.5c0-.276-.224-.5-.5-.5h-1.5"
+      fill="none"
+      stroke={props.color ?? '#000'}
+      strokeLinecap="round"
+      strokeMiterlimit={10}
+      strokeWidth={2}
+      data-color="color-2"
+      strokeLinejoin="round"
+    />
+    <Circle
+      cx={12}
+      cy={7.25}
+      r={1.25}
+      fill={props.color ?? '#000'}
+      strokeWidth={0}
+      data-color="color-2"
+    />
+  </Svg>
+);

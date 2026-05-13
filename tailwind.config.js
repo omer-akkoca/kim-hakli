@@ -77,6 +77,20 @@ module.exports = {
           900: 'rgb(36 42 50 / <alpha-value>)',
           950: 'rgb(18 21 26 / <alpha-value>)',
         },
+        whiteSmoke: {
+          0: 'rgb(0 0 0 / <alpha-value>)',
+          50: 'rgb(255 255 255 / <alpha-value>)',
+          100: 'rgb(252 252 252 / <alpha-value>)',
+          200: 'rgb(248 248 248 / <alpha-value>)',
+          300: 'rgb(242 242 242 / <alpha-value>)',
+          400: 'rgb(235 235 235 / <alpha-value>)',
+          500: 'rgb(245 245 245 / <alpha-value>)', // #f5f5f5
+          600: 'rgb(210 210 210 / <alpha-value>)',
+          700: 'rgb(175 175 175 / <alpha-value>)',
+          800: 'rgb(130 130 130 / <alpha-value>)',
+          900: 'rgb(85 85 85 / <alpha-value>)',
+          950: 'rgb(40 40 40 / <alpha-value>)',
+        },
         // old colors
         'light-backgroud': '#F5F5F5',
         lightGray: '#CCCCC8',

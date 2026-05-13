@@ -1,1 +1,2 @@
-export { ProfileTabItem } from './ProfileTabItem';
+export { ProfileCard } from './ProfileBackground';
+export { ProfileTab } from './ProfileTab';
