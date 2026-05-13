@@ -15,7 +15,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.oakkoca.kimhakli"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,7 +34,12 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.945226356568-armhhtcjn5abjs3kna2bg4285ohva0jc"
+        }
+      ],
       "expo-localization",
       [
         "expo-font",
@@ -43,15 +49,42 @@
               {
                 "fontFamily": "Inter",
                 "fontDefinitions": [
-                  { "path": "./assets/fonts/Inter-Thin.ttf", "weight": 100 },
-                  { "path": "./assets/fonts/Inter-ExtraLight.ttf", "weight": 200 },
-                  { "path": "./assets/fonts/Inter-Light.ttf", "weight": 300 },
-                  { "path": "./assets/fonts/Inter-Regular.ttf", "weight": 400 },
-                  { "path": "./assets/fonts/Inter-Medium.ttf", "weight": 500 },
-                  { "path": "./assets/fonts/Inter-SemiBold.ttf", "weight": 600 },
-                  { "path": "./assets/fonts/Inter-Bold.ttf", "weight": 700 },
-                  { "path": "./assets/fonts/Inter-ExtraBold.ttf", "weight": 800 },
-                  { "path": "./assets/fonts/Inter-Black.ttf", "weight": 900 }
+                  {
+                    "path": "./assets/fonts/Inter-Thin.ttf",
+                    "weight": 100
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-ExtraLight.ttf",
+                    "weight": 200
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-Light.ttf",
+                    "weight": 300
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-Medium.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-SemiBold.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-Bold.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-ExtraBold.ttf",
+                    "weight": 800
+                  },
+                  {
+                    "path": "./assets/fonts/Inter-Black.ttf",
+                    "weight": 900
+                  }
                 ]
               }
             ]
