@@ -6,7 +6,7 @@ import { useStories } from '@/src/actions';
 
 import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppBar, AppIconButton, AppText, StoryRenderItem } from '@/src/components';
+import { AppBackground, AppBar, AppIconButton, AppText, StoryRenderItem } from '@/src/components';
 import { useTranslation } from 'react-i18next';
 import { bottomBarHeight, colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
@@ -34,7 +34,7 @@ const DiscoverPage = () => {
   }, [artStyle]);
 
   return (
-    <Box className="flex-1 bg-background-500">
+    <AppBackground>
       <AppBar
         creditLabel
         title="Keşfet"
@@ -116,7 +116,7 @@ const DiscoverPage = () => {
           }
         />
       </Box>
-    </Box>
+    </AppBackground>
   );
 };
 
