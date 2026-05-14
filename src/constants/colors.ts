@@ -14,6 +14,7 @@ export const colors = {
   headline: '#f5f5f5',
   whiteSmoke: '#f5f5f5',
   whiteSmoke_32: 'rgba(245,245,245,0.32)',
+  whiteSmoke_50: 'rgba(245,245,245,0.5)',
 
   //old colors
   border: '#383838',

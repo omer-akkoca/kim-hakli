@@ -250,6 +250,7 @@ module.exports = {
       letterSpacing: {
         'x-tighter': '-1px',
         2: '0.02em',
+        3: '0.03em',
         4: '0.04em',
         8: '0.08em',
       },
