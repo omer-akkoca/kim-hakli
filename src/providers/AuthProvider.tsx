@@ -1,26 +1,48 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { getUser, onAuthStateChanged } from '@/src/services';
-import { setAuthLoading, setUser, useAppDispatch } from '@/src/store';
+import { resetAuth, setAuthLoading, setSession, setUser, useAppDispatch } from '@/src/store';
+import { useGetProfile } from '@/src/actions';
+import { Session } from '@supabase/supabase-js';
+import { useRouter } from 'expo-router';
+import { getSession, onAuthStateChanged } from '@/src/services';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const { replace } = useRouter();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(async (user) => {
-      dispatch(setAuthLoading(true));
+  const { mutateAsync } = useGetProfile();
+
+  const syncAuth = async (session: Session | null) => {
+    dispatch(setSession(session));
+
+    if (session?.user) {
+      const user = await mutateAsync({ userId: session.user.id });
       if (user) {
-        const userId = user.uid;
-        const userInfo = await getUser(userId);
-        if (userInfo) {
-          dispatch(setUser(userInfo));
-        }
-      } else {
-        // user yokken yapılacaklar
+        dispatch(setUser(user));
       }
-      dispatch(setAuthLoading(false));
+    } else {
+      dispatch(resetAuth());
+      replace('/(tabs)/home');
+    }
+
+    dispatch(setAuthLoading(false));
+  };
+
+  const loadInitialSession = async () => {
+    dispatch(setAuthLoading(true));
+    const { data } = await getSession();
+    await syncAuth(data.session);
+  };
+
+  useEffect(() => {
+    loadInitialSession();
+
+    const subscription = onAuthStateChanged(async (session) => {
+      await syncAuth(session);
     });
 
-    return unsubscribe;
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return children;

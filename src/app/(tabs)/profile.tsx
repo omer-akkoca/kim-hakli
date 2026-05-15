@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { useAppSelector } from '@/src/store';
 import { Avatar, AvatarImage, Box, Divider, HStack, Pressable, VStack } from '@/components/ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useLogOut } from '@/src/actions';
+import { useSignOut } from '@/src/actions';
 import { AppText, AppBackground, ProfileCard, ProfileTab } from '@/src/components';
 import { Redirect } from 'expo-router';
 import { CreditLabel } from '@/src/components/ui/CreditLabel';
@@ -25,7 +25,7 @@ export default function ProfilePage() {
 
   const { user } = useAppSelector((state) => state.auth);
 
-  const { mutate } = useLogOut();
+  const { mutate } = useSignOut();
 
   if (!user) return <Redirect href="/auth/login" />;
 
@@ -40,10 +40,10 @@ export default function ProfilePage() {
             className="w-32 h-32 border-2 border-primary-500"
             style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)' }}
           >
-            <AvatarImage source={{ uri: user.photoURL }} />
+            <AvatarImage source={{ uri: user.avatar_url }} />
           </Avatar>
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">
-            {user.displayName}
+            {user.full_name}
           </AppText>
           <CreditLabel />
         </Box>

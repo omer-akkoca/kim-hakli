@@ -29,7 +29,7 @@ const AppBar: React.FC<IAppBar> = ({
   const { top } = useSafeAreaInsets();
   const { back } = useRouter();
 
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
     <Box
@@ -81,7 +81,7 @@ const AppBar: React.FC<IAppBar> = ({
                     </HStack>
                   )}
                   <HStack space="lg" className="items-center">
-                    {creditLabel && isAuthenticated ? <CreditLabel /> : <Box />}
+                    {creditLabel && user ? <CreditLabel /> : <Box />}
                     {actions.map((e) => e)}
                   </HStack>
                 </HStack>

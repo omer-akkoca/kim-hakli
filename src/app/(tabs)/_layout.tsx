@@ -47,14 +47,14 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { t } = useTranslation();
   const { show } = useModal();
 
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   const isFocused = (routeName: string) => {
     return state.routes[state.index].name === routeName;
   };
 
   const navigate = (routeName: string) => {
-    if (routeName === 'profile' && !isAuthenticated) {
+    if (routeName === 'profile' && !user) {
       show({
         title: 'Devam etmek için giriş yap',
         subtitle:

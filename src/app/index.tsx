@@ -4,12 +4,7 @@ import { View, ActivityIndicator } from 'react-native';
 import { storage } from '@/src/utils';
 import { STORAGE_KEYS } from '@/src/constants';
 import { useFonts } from 'expo-font';
-
-/*import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
-});*/
+import '@/src/configs/google';
 
 export default function IndexPage() {
   useFonts({

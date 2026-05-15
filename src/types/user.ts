@@ -1,14 +1,11 @@
-import { Timestamp } from 'firebase/firestore';
-
 export interface IUser {
   id: string;
-  displayName: string;
   email: string;
-  photoURL: string;
-  credits: number;
-  provider: providerType;
-  createdAt: Timestamp;
-  subscription: any;
+  full_name: string;
+  avatar_url: string;
+  provider: string;
+  role: string;
+  credit_count: number;
+  created_at: string;
+  updated_at: string;
 }
-
-export type providerType = 'google' | 'apple';

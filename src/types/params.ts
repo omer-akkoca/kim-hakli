@@ -1,5 +1,10 @@
 import { StoryArtStyle } from './story';
 
+// profile actions
+export interface GetProfileParams {
+  userId: string;
+}
+
 export interface UnlockStoryParams {
   storyId: string;
 }

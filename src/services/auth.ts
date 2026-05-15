@@ -1,37 +1,84 @@
-import {
-  onAuthStateChanged as firebaseOnAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithCredential,
-  signOut,
-} from 'firebase/auth';
-import { auth } from '@/src/configs';
-//import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { createUser, getUserRefIfNotExist } from './firestore';
+import { supabase } from '@/src/configs';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { Session, User } from '@supabase/supabase-js';
 
-export const onAuthStateChanged = (callback: (user: any) => void) => {
-  return firebaseOnAuthStateChanged(auth, callback);
+export const getSession = async () => await supabase.auth.getSession();
+
+export const onAuthStateChanged = (callback: (session: Session | null) => void | Promise<void>) => {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    await callback(session);
+  });
+
+  return subscription;
 };
 
-export const signInWithGoogle = async () => {
-  /*try {
-    await GoogleSignin.hasPlayServices();
+export async function signInWithGoogle() {
+  try {
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+
     const userInfo = await GoogleSignin.signIn();
     const idToken = userInfo.data?.idToken;
-    if (!idToken) throw new Error('Google Sign-In failed: No ID token');
 
-    const googleCredential = GoogleAuthProvider.credential(idToken);
-    const result = await signInWithCredential(auth, googleCredential);
-    const user = result.user;
-
-    const userRef = await getUserRefIfNotExist(user);
-    if (userRef) {
-      createUser(userRef, user);
+    if (!idToken) {
+      throw new Error('Google idToken not found. Check your webClientId.');
     }
+
+    const { data, error } = await supabase.auth.signInWithIdToken({
+      provider: 'google',
+      token: idToken,
+    });
+
+    if (error) throw error;
+
+    const user = data.user;
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    await createUser(user);
+
+    return data;
+  } catch (error: any) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+export async function signOut() {
+  try {
+    await supabase.auth.signOut();
+    await GoogleSignin.signOut();
+    return true;
   } catch (error) {
     throw error;
-  }*/
-};
+  }
+}
 
-export const logout = async () => {
-  await signOut(auth);
+const createUser = async (user: User) => {
+  const { error } = await supabase
+    .from('users')
+    .upsert(
+      {
+        id: user.id,
+        email: user.email,
+        full_name: user.user_metadata?.full_name || user.user_metadata?.name || null,
+        avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
+        provider: 'google',
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: 'id',
+      },
+    )
+    .select()
+    .single();
+
+  if (error) throw error;
 };
