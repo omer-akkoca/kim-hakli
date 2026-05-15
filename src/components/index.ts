@@ -11,3 +11,4 @@ export * from './profile';
 export * from './search';
 export * from './story';
 export * from './vote';
+export * from './voteResult';

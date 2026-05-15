@@ -249,10 +249,12 @@ module.exports = {
       },
       letterSpacing: {
         'x-tighter': '-1px',
+        1: '0.01em',
         2: '0.02em',
         3: '0.03em',
         4: '0.04em',
         8: '0.08em',
+        10: '0.1em',
       },
       height: {
         button: '56px',
@@ -271,6 +273,10 @@ module.exports = {
       gap: {
         0.5: '2px',
         1.5: '6px',
+        2.5: '10px',
+      },
+      borderWidth: {
+        1.5: '1.5px',
       },
     },
   },
