@@ -100,7 +100,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
       <Box className="flex-1 bg-bottom-nav-bar rounded-tr-bottom-nav-bar rounded-tl-bottom-nav-bar">
         <BlurView intensity={18} tint="dark" className="flex-1">
           <HStack className="flex-1" style={{ marginBottom: bottom }}>
-            {state.routes.map((e, i) => {
+            {state.routes.map((e) => {
               const active = isFocused(e.name);
               const Icon = active ? tabIcons[e.name][0] : tabIcons[e.name][1];
               return (
@@ -118,7 +118,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                       size={13}
                       lineHeight={18}
                       weight={500}
-                      className={`mt-1 ${active ? 'text-primary-500' : 'text-secondary-500'}`}
+                      className={`w-full mt-1 ${active ? 'text-primary-500' : 'text-secondary-500'}`}
                     >
                       {t(`tabs.${e.name}`)}
                     </AppText>
