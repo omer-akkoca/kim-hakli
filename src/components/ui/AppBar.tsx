@@ -8,6 +8,7 @@ import { LeftChevronVector } from '@/assets';
 import { useRouter } from 'expo-router';
 import { AppText } from './AppText';
 import { AppIconButton } from './AppIconButton';
+import { useAppSelector } from '@/src/store';
 
 interface IAppBar extends PropsWithChildren {
   backIcon?: boolean;
@@ -27,6 +28,8 @@ const AppBar: React.FC<IAppBar> = ({
 }) => {
   const { top } = useSafeAreaInsets();
   const { back } = useRouter();
+
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   return (
     <Box
@@ -78,7 +81,7 @@ const AppBar: React.FC<IAppBar> = ({
                     </HStack>
                   )}
                   <HStack space="lg" className="items-center">
-                    {creditLabel ? <CreditLabel /> : <Box />}
+                    {creditLabel && isAuthenticated ? <CreditLabel /> : <Box />}
                     {actions.map((e) => e)}
                   </HStack>
                 </HStack>
