@@ -13,15 +13,18 @@ GoogleSignin.configure({
 
 export default function IndexPage() {
   useFonts({
-    'Inter-Thin': require('../../assets/fonts/Inter-Thin.ttf'),
-    'Inter-ExtraLight': require('../../assets/fonts/Inter-ExtraLight.ttf'),
-    'Inter-Light': require('../../assets/fonts/Inter-Light.ttf'),
-    'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf'),
-    'Inter-Medium': require('../../assets/fonts/Inter-Medium.ttf'),
-    'Inter-SemiBold': require('../../assets/fonts/Inter-SemiBold.ttf'),
-    'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
-    'Inter-ExtraBold': require('../../assets/fonts/Inter-ExtraBold.ttf'),
-    'Inter-Black': require('../../assets/fonts/Inter-Black.ttf'),
+    'Inter-Regular': require('../../assets/fonts/inter/Inter-Regular.ttf'),
+    'Inter-Medium': require('../../assets/fonts/inter/Inter-Medium.ttf'),
+    'Inter-SemiBold': require('../../assets/fonts/inter/Inter-SemiBold.ttf'),
+    'Inter-Bold': require('../../assets/fonts/inter/Inter-Bold.ttf'),
+    'Inter-ExtraBold': require('../../assets/fonts/inter/Inter-ExtraBold.ttf'),
+    'Inter-Black': require('../../assets/fonts/inter/Inter-Black.ttf'),
+    'PlayfairDisplay-Regular': require('../../assets/fonts/playfair-display/PlayfairDisplay-Regular.ttf'),
+    'PlayfairDisplay-Medium': require('../../assets/fonts/playfair-display/PlayfairDisplay-Medium.ttf'),
+    'PlayfairDisplay-SemiBold': require('../../assets/fonts/playfair-display/PlayfairDisplay-SemiBold.ttf'),
+    'PlayfairDisplay-Bold': require('../../assets/fonts/playfair-display/PlayfairDisplay-Bold.ttf'),
+    'PlayfairDisplay-ExtraBold': require('../../assets/fonts/playfair-display/PlayfairDisplay-ExtraBold.ttf'),
+    'PlayfairDisplay-Black': require('../../assets/fonts/playfair-display/PlayfairDisplay-Black.ttf'),
   });
 
   const [loading, setLoading] = useState(true);

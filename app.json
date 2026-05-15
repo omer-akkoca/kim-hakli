@@ -49,40 +49,39 @@
               {
                 "fontFamily": "Inter",
                 "fontDefinitions": [
+                  { "path": "./assets/fonts/inter/Inter-Regular.ttf", "weight": 400 },
+                  { "path": "./assets/fonts/inter/Inter-Medium.ttf", "weight": 500 },
+                  { "path": "./assets/fonts/inter/Inter-SemiBold.ttf", "weight": 600 },
+                  { "path": "./assets/fonts/inter/Inter-Bold.ttf", "weight": 700 },
+                  { "path": "./assets/fonts/inter/Inter-ExtraBold.ttf", "weight": 800 },
+                  { "path": "./assets/fonts/inter/Inter-Black.ttf", "weight": 900 }
+                ]
+              },
+              {
+                "fontFamily": "PlayfairDisplay",
+                "fontDefinitions": [
                   {
-                    "path": "./assets/fonts/Inter-Thin.ttf",
-                    "weight": 100
-                  },
-                  {
-                    "path": "./assets/fonts/Inter-ExtraLight.ttf",
-                    "weight": 200
-                  },
-                  {
-                    "path": "./assets/fonts/Inter-Light.ttf",
-                    "weight": 300
-                  },
-                  {
-                    "path": "./assets/fonts/Inter-Regular.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-Regular.ttf",
                     "weight": 400
                   },
                   {
-                    "path": "./assets/fonts/Inter-Medium.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-Medium.ttf",
                     "weight": 500
                   },
                   {
-                    "path": "./assets/fonts/Inter-SemiBold.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-SemiBold.ttf",
                     "weight": 600
                   },
                   {
-                    "path": "./assets/fonts/Inter-Bold.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-Bold.ttf",
                     "weight": 700
                   },
                   {
-                    "path": "./assets/fonts/Inter-ExtraBold.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-ExtraBold.ttf",
                     "weight": 800
                   },
                   {
-                    "path": "./assets/fonts/Inter-Black.ttf",
+                    "path": "./assets/fonts/playfair-display/PlayfairDisplay-Black.ttf",
                     "weight": 900
                   }
                 ]
@@ -91,15 +90,18 @@
           },
           "ios": {
             "fonts": [
-              "./assets/fonts/Inter-Thin.ttf",
-              "./assets/fonts/Inter-ExtraLight.ttf",
-              "./assets/fonts/Inter-Light.ttf",
-              "./assets/fonts/Inter-Regular.ttf",
-              "./assets/fonts/Inter-Medium.ttf",
-              "./assets/fonts/Inter-SemiBold.ttf",
-              "./assets/fonts/Inter-Bold.ttf",
-              "./assets/fonts/Inter-ExtraBold.ttf",
-              "./assets/fonts/Inter-Black.ttf"
+              "./assets/fonts/inter/Inter-Regular.ttf",
+              "./assets/fonts/inter/Inter-Medium.ttf",
+              "./assets/fonts/inter/Inter-SemiBold.ttf",
+              "./assets/fonts/inter/Inter-Bold.ttf",
+              "./assets/fonts/inter/Inter-ExtraBold.ttf",
+              "./assets/fonts/inter/Inter-Black.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-Regular.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-Medium.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-SemiBold.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-Bold.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-ExtraBold.ttf",
+              "./assets/fonts/playfair-display/PlayfairDisplay-Black.ttf"
             ]
           }
         }
