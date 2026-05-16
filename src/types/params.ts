@@ -14,6 +14,11 @@ export interface UnlockStoryParams {
   storyId: string;
 }
 
+export interface HasUnlockedStoryParams {
+  userId?: string;
+  storyId?: string;
+}
+
 export interface SubmitVoteParams {
   storyId: string;
   side: string;

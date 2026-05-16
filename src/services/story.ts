@@ -1,5 +1,6 @@
 import { supabase } from '@/src/configs';
-import { ICategory, IStory } from '@/src/types';
+import { HasUnlockedStoryParams, ICategory, IStory, UnlockStoryResponse } from '@/src/types';
+import { UNLOCK_STORY } from '@/src/constants';
 
 export const getStories = async (): Promise<IStory[]> => {
   const { data, error } = await supabase
@@ -62,4 +63,28 @@ export const getStoryCategories = async (storyId: string): Promise<ICategory[]> 
       .flat()
       .filter(Boolean) ?? []
   );
+};
+
+export const unlockStory = async (storyId: string): Promise<UnlockStoryResponse> => {
+  const { data, error } = await supabase.rpc(UNLOCK_STORY, { p_story_id: storyId });
+  if (error) throw error;
+  return data;
+};
+
+export const hasUnlockedStory = async ({
+  userId,
+  storyId,
+}: HasUnlockedStoryParams): Promise<boolean> => {
+  const { data, error } = await supabase
+    .from('user_unlocked_stories')
+    .select('story_id')
+    .eq('user_id', userId)
+    .eq('story_id', storyId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message || 'Hikaye kilit kontrolü yapılırken hata oluştu.');
+  }
+
+  return !!data;
 };

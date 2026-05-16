@@ -15,6 +15,7 @@ import {
   useGetStoryById,
   useGetStoryCategories,
   useGetStoryCoverImageUrl,
+  useHasUnlockedStory,
   useUnlockStory,
 } from '@/src/actions';
 import {
@@ -25,11 +26,14 @@ import {
   LockCircleVector,
   LoopVector,
 } from '@/assets';
+import { useModal } from '@/src/hooks';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const router = useRouter();
+
+  const { push, back } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
+  const { show } = useModal();
 
   const { user } = useAppSelector((state) => state.auth);
   const { categories } = useAppSelector((state) => state.category);
@@ -38,22 +42,35 @@ export default function StoryDetailPage() {
   const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const unlocked = false;
+  const { data: unlocked } = useHasUnlockedStory({ storyId: id, userId: user?.id });
   const voted = false;
 
   const { mutate } = useUnlockStory();
 
   const handleUnlockStory = async () => {
     if (!user) {
-      router.push(`/auth/login?redirect=/story/read/${id}` as any);
+      show({
+        title: 'Bu hikayenin devamı seni bekliyor',
+        subtitle:
+          'Hikayeyi okumaya devam etmek ve kimin tarafında olduğunu seçmek için giriş yapman gerekiyor.',
+        buttons: [
+          {
+            label: 'Giriş Yap',
+            onPress: () => push('/auth/login'),
+          },
+          {
+            label: 'Daha Sonra',
+          },
+        ],
+      });
       return;
     }
     mutate(
       { storyId: id },
       {
-        onSuccess: ({ data }) => {
-          if (data.success) {
-            router.push(`/story/read/${id}`);
+        onSuccess: ({ success }) => {
+          if (success) {
+            push(`/story/read/${id}`);
           }
         },
       },
@@ -82,7 +99,7 @@ export default function StoryDetailPage() {
           className="w-full items-center justify-between"
           style={{ marginTop: top, paddingHorizontal: 24 }}
         >
-          <DetailIconButton icon={LeftChevronVector} onPress={router.back} />
+          <DetailIconButton icon={LeftChevronVector} onPress={back} />
           <DetailIconButton icon={BookmarkOutlineVector} onPress={() => null} />
         </HStack>
         <Box
@@ -148,13 +165,13 @@ export default function StoryDetailPage() {
                 <DetailPrimaryButton
                   icon={voted ? LoopVector : Book6Vector}
                   label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
-                  onPress={() => router.push(`/story/read/${id}`)}
+                  onPress={() => push(`/story/read/${id}`)}
                 />
                 {voted ? (
                   <DetailSecondaryButton
                     icon={ChartVector}
                     label={'Sonuçları Gör'}
-                    onPress={() => router.push(`/story/voteResult/${id}`)}
+                    onPress={() => push(`/story/voteResult/${id}`)}
                   />
                 ) : null}
               </>

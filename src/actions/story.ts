@@ -1,13 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { GetStoriesParams, GetStoryImageUrlParams } from '@/src/types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  GetStoriesParams,
+  GetStoryImageUrlParams,
+  HasUnlockedStoryParams,
+  UnlockStoryParams,
+} from '@/src/types';
 import {
   hasVoted,
-  isStoryUnlocked,
-  unlockStoryFunction,
   getStories,
   getStoryById,
   getStoryCategories,
   getStoryImageUrl,
+  unlockStory,
+  hasUnlockedStory,
 } from '@/src/services';
 
 export const storyKeys = {
@@ -19,7 +24,7 @@ export const storyKeys = {
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   unlocked: (userId: string, storyId: string) => ['stories', storyId, 'unlocked', userId] as const,
   hasVoted: (userId: string, storyId: string) => ['stories', storyId, 'hasVoted', userId] as const,
-  unlockStory: (storyId: string) => ['stories', storyId, 'unlockStory'] as const,
+  unlockStory: () => ['stories', 'unlockStory'] as const,
 };
 
 export const useGetStories = () => {
@@ -56,10 +61,17 @@ export const useGetStoryCategories = (storyId?: string) => {
   });
 };
 
-export const useIsStoryUnlocked = (userId: string, storyId: string) => {
+export const useUnlockStory = () => {
+  return useMutation({
+    mutationKey: storyKeys.unlockStory(),
+    mutationFn: ({ storyId }: UnlockStoryParams) => unlockStory(storyId),
+  });
+};
+
+export const useHasUnlockedStory = ({ userId, storyId }: HasUnlockedStoryParams) => {
   return useQuery({
-    queryKey: storyKeys.unlocked(userId, storyId),
-    queryFn: () => isStoryUnlocked(userId, storyId),
+    queryKey: storyKeys.unlocked(userId ?? '', storyId ?? ''),
+    queryFn: () => hasUnlockedStory({ userId: userId!, storyId: storyId! }),
     enabled: !!userId && !!storyId,
   });
 };
@@ -69,18 +81,5 @@ export const useHasVoted = (userId: string, storyId: string) => {
     queryKey: storyKeys.hasVoted(userId, storyId),
     queryFn: () => hasVoted(userId, storyId),
     enabled: !!userId && !!storyId,
-  });
-};
-
-export const useUnlockStory = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ storyId }: { storyId: string }) => unlockStoryFunction({ storyId }),
-    onSuccess: async (_, { storyId }) => {
-      const keysToInvalidate = [storyKeys.detail(storyId), storyKeys.unlockStory(storyId)];
-      await Promise.all(
-        keysToInvalidate.map((queryKey) => queryClient.invalidateQueries({ queryKey })),
-      );
-    },
   });
 };
