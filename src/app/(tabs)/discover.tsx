@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { Box, Pressable, HStack, Spinner } from '@/components/ui';
-import { GetStoriesParams, StoryArtStyle, storyArtStyles } from '@/src/types';
-import { useStories } from '@/src/actions';
-
+import { StoryArtStyle, storyArtStyles } from '@/src/types';
 import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppBackground, AppBar, AppIconButton, AppText, StoryRenderItem } from '@/src/components';
 import { useTranslation } from 'react-i18next';
 import { bottomBarHeight, colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
+import { useGetStories } from '@/src/actions';
 
 const DiscoverPage = () => {
   const { t } = useTranslation();
@@ -18,20 +17,7 @@ const DiscoverPage = () => {
 
   const [artStyle, setArtStyle] = useState<StoryArtStyle>('all');
 
-  const [appliedFilters, setAppliedFilters] = useState<GetStoriesParams>({
-    artStyle: '',
-    categoryIds: [],
-  });
-
-  const { data: stories, isLoading } = useStories(appliedFilters);
-
-  useEffect(() => {
-    if (artStyle === 'all') {
-      setAppliedFilters((prev) => ({ ...prev, artStyle: '' }));
-    } else {
-      setAppliedFilters((prev) => ({ ...prev, artStyle }));
-    }
-  }, [artStyle]);
+  const { data: stories, isLoading } = useGetStories();
 
   return (
     <AppBackground>

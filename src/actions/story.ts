@@ -1,16 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { GetStoriesParams, GetStoryImageUrlParams } from '@/src/types';
 import {
-  getStories,
-  getStoryById,
   hasVoted,
   isStoryUnlocked,
   unlockStoryFunction,
+  getStories,
+  getStoryById,
+  getStoryCategories,
+  getStoryImageUrl,
 } from '@/src/services';
-import { GetStoriesParams } from '../types';
 
 export const storyKeys = {
   all: ['stories'] as const,
   list: (params?: GetStoriesParams) => ['stories', 'list', params] as const,
+  storyCoverImage: (path: string) => ['storage', 'story-image', path] as const,
+  categories: (id: string) => ['stories', id, 'categories'] as const,
   detail: (id: string) => ['stories', id] as const,
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   unlocked: (userId: string, storyId: string) => ['stories', storyId, 'unlocked', userId] as const,
@@ -18,10 +22,19 @@ export const storyKeys = {
   unlockStory: (storyId: string) => ['stories', storyId, 'unlockStory'] as const,
 };
 
-export const useStories = (params?: GetStoriesParams) => {
+export const useGetStories = () => {
   return useQuery({
-    queryKey: storyKeys.list(params),
-    queryFn: () => getStories(params),
+    queryKey: ['stories'],
+    queryFn: () => getStories(),
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useGetStoryCoverImageUrl = ({ path }: GetStoryImageUrlParams) => {
+  return useQuery({
+    queryKey: storyKeys.storyCoverImage(path),
+    queryFn: () => getStoryImageUrl(path),
+    enabled: !!path,
     staleTime: 1000 * 60 * 5,
   });
 };
@@ -31,6 +44,15 @@ export const useGetStoryById = (id: string) => {
     queryKey: storyKeys.detail(id),
     queryFn: () => getStoryById(id),
     enabled: !!id,
+  });
+};
+
+export const useGetStoryCategories = (storyId?: string) => {
+  return useQuery({
+    queryKey: storyKeys.categories(storyId ?? ''),
+    queryFn: () => getStoryCategories(storyId!),
+    enabled: !!storyId,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

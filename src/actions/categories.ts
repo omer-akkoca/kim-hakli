@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '../services';
+import { getCategories } from '@/src/services';
 
 export const categoryKeys = {
   all: ['categories'] as const,
 };
 
-export const useCategories = () => {
+export const useGetCategories = () => {
   return useQuery({
-    queryKey: categoryKeys.all,
-    queryFn: () => getCategories(),
-    staleTime: 1000 * 60 * 60,
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    staleTime: 1000 * 60 * 15,
   });
 };

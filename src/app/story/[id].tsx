@@ -1,12 +1,20 @@
+import React from 'react';
+import { Box, HStack, Spinner, VStack } from '@/components/ui/';
+import {
+  AppText,
+  CreditBadge,
+  DetailIconButton,
+  DetailPrimaryButton,
+  DetailSecondaryButton,
+  StoryDetailBg,
+} from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box, HStack, Spinner, VStack } from '@/components/ui/';
 import {
-  useCategories,
   useGetStoryById,
-  useHasVoted,
-  useIsStoryUnlocked,
+  useGetStoryCategories,
+  useGetStoryCoverImageUrl,
   useUnlockStory,
 } from '@/src/actions';
 import {
@@ -17,31 +25,26 @@ import {
   LockCircleVector,
   LoopVector,
 } from '@/assets';
-import {
-  AppText,
-  CreditBadge,
-  DetailIconButton,
-  DetailPrimaryButton,
-  DetailSecondaryButton,
-  StoryDetailBg,
-} from '@/src/components';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { bottom, top } = useSafeAreaInsets();
 
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
+  const { categories } = useAppSelector((state) => state.category);
 
-  const { data: categories } = useCategories();
   const { data: story, isLoading } = useGetStoryById(id);
-  const { data: unlocked } = useIsStoryUnlocked(user?.id ?? '', id);
-  const { data: voted } = useHasVoted(user?.id ?? '', id);
+  const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
+  const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { mutate, status } = useUnlockStory();
+  const unlocked = false;
+  const voted = false;
+
+  const { mutate } = useUnlockStory();
 
   const handleUnlockStory = async () => {
-    if (!isAuthenticated) {
+    if (!user) {
       router.push(`/auth/login?redirect=/story/read/${id}` as any);
       return;
     }
@@ -58,7 +61,7 @@ export default function StoryDetailPage() {
   };
 
   const getCategoryName = (key: string) => {
-    const category = categories?.find((e) => e.key === key);
+    const category = categories?.find((e) => e.code === key);
     return category?.name ?? '';
   };
 
@@ -73,7 +76,7 @@ export default function StoryDetailPage() {
   if (!story) return <></>;
 
   return (
-    <StoryDetailBg coverImage={story.coverImageUrl}>
+    <StoryDetailBg coverImage={coverImage ?? ''}>
       <Box className="flex-1">
         <HStack
           className="w-full items-center justify-between"
@@ -102,7 +105,7 @@ export default function StoryDetailPage() {
               {story.title}
             </AppText>
             <Box className="absolute right-0 bottom-0 h-14 justify-center">
-              <CreditBadge credit={story.creditCost} withBg />
+              <CreditBadge credit={story.credit_cost} withBg />
             </Box>
           </Box>
           {/* Description */}
@@ -120,21 +123,23 @@ export default function StoryDetailPage() {
               Kategoriler
             </AppText>
             <HStack space="md" className="flex-wrap">
-              {story.category.map((e, i) => (
-                <Box
-                  key={i.toString()}
-                  className="bg-background-500/50 border border-primary-500/90 px-4 py-2 rounded-full"
-                >
-                  <AppText
-                    size={12}
-                    lineHeight={16}
-                    weight={500}
-                    className="text-loginText capitalize"
-                  >
-                    {getCategoryName(e)}
-                  </AppText>
-                </Box>
-              ))}
+              {storyCategories
+                ? storyCategories.map((e, i) => (
+                    <Box
+                      key={i.toString()}
+                      className="bg-background-500/50 border border-primary-500/90 px-4 py-2 rounded-full"
+                    >
+                      <AppText
+                        size={12}
+                        lineHeight={16}
+                        weight={500}
+                        className="text-loginText capitalize"
+                      >
+                        {getCategoryName(e.code)}
+                      </AppText>
+                    </Box>
+                  ))
+                : null}
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">

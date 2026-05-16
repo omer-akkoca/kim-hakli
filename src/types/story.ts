@@ -3,17 +3,14 @@ import { Timestamp } from 'firebase/firestore';
 export interface IStory {
   id: string;
   title: string;
-  sides: StorySide[];
-  createdAt: Timestamp;
-  coverImageUrl: string;
-  votes: Record<string, number>;
-  status: StoryStatus;
-  creditCost: number;
-  slug: string;
   description: string;
-  sceneLength: number;
-  category: string[];
-  artStyle: StoryArtStyle;
+  art_style: StoryArtStyle;
+  credit_cost: number;
+  status: StoryStatus;
+  is_featured: boolean;
+  cover_image_path: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IUnlockedStory {

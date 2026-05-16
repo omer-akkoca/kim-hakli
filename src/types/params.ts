@@ -5,6 +5,11 @@ export interface GetProfileParams {
   userId: string;
 }
 
+// story
+export interface GetStoryImageUrlParams {
+  path: string;
+}
+
 export interface UnlockStoryParams {
   storyId: string;
 }

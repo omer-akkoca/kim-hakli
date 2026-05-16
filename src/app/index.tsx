@@ -1,8 +1,9 @@
-import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { Box, Spinner } from '@/components/ui';
+import { AppBackground } from '@/src/components';
+import { Redirect } from 'expo-router';
 import { storage } from '@/src/utils';
-import { STORAGE_KEYS } from '@/src/constants';
+import { colors, STORAGE_KEYS } from '@/src/constants';
 import { useFonts } from 'expo-font';
 import '@/src/configs/google';
 
@@ -39,9 +40,11 @@ export default function IndexPage() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator />
-      </View>
+      <AppBackground>
+        <Box className="flex-1 items-center justify-center">
+          <Spinner color={colors.primary} size="large" />
+        </Box>
+      </AppBackground>
     );
   }
 

@@ -1,18 +1,7 @@
 import { User } from 'firebase/auth';
-import { db } from '../configs';
-import {
-  collection,
-  doc,
-  DocumentData,
-  DocumentReference,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  Timestamp,
-  where,
-} from 'firebase/firestore';
-import { IUser, providerType, IStory, ICategory, GetStoriesParams } from '../types';
+import { db } from '@/src/configs';
+import { doc, DocumentData, DocumentReference, getDoc } from 'firebase/firestore';
+import { IUser } from '@/src/types';
 
 export const getUserRefIfNotExist = async (
   user: User,
@@ -23,25 +12,6 @@ export const getUserRefIfNotExist = async (
   return null;
 };
 
-export const createUser = async (
-  userRef: DocumentReference<DocumentData, DocumentData>,
-  user: User,
-) => {
-  const provider: providerType =
-    user.providerData[0]?.providerId === 'google.com' ? 'google' : 'apple';
-  const createdUser: IUser = {
-    id: user.uid,
-    displayName: user.displayName ?? '',
-    email: user.email ?? '',
-    photoURL: user.photoURL,
-    createdAt: Timestamp.now(),
-    credits: 0,
-    provider: provider,
-    subscription: null,
-  };
-  await setDoc(userRef, createdUser);
-};
-
 export const getUser = async (userId: string): Promise<IUser | null> => {
   const userRef = doc(db, 'users', userId);
   const userSnap = await getDoc(userRef);
@@ -50,41 +20,6 @@ export const getUser = async (userId: string): Promise<IUser | null> => {
     return userSnap.data() as IUser;
   }
 
-  return null;
-};
-
-export const getCategories = async (): Promise<ICategory[]> => {
-  const snapshot = await getDocs(collection(db, 'categories'));
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as ICategory);
-};
-
-export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
-  const { categoryIds, artStyle } = params ?? {};
-
-  const storiesRef = collection(db, 'stories');
-
-  const conditions = [where('status', '==', 'published')];
-
-  if (categoryIds && categoryIds.length > 0) {
-    conditions.push(where('category', 'array-contains-any', categoryIds));
-  }
-
-  if (artStyle) {
-    conditions.push(where('artStyle', '==', artStyle));
-  }
-
-  const q = query(storiesRef, ...conditions);
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as IStory);
-};
-
-export const getStoryById = async (id: string): Promise<IStory | null> => {
-  const storyRef = doc(db, 'stories', id);
-  const storySnap = await getDoc(storyRef);
-  if (storySnap.exists()) {
-    return storySnap.data() as IStory;
-  }
   return null;
 };
 

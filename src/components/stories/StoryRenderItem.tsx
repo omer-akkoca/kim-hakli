@@ -8,6 +8,7 @@ import { AppText } from '@/src/components/ui/AppText';
 import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
+import { useGetStoryCoverImageUrl } from '@/src/actions';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -19,6 +20,8 @@ const itemHeight = (itemWidth / 9) * 14;
 
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
+
+  const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
 
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -35,7 +38,7 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
         boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
       }}
     >
-      <ImageBackground source={{ uri: story.coverImageUrl }} className="flex-1">
+      <ImageBackground source={{ uri: data }} className="flex-1">
         <LinearGradient
           colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
           locations={[0, 0.5, 1]}
@@ -52,7 +55,7 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
           >
             <VStack className="flex-1 p-4 justify-between">
               <HStack className="items-center justify-between">
-                <CreditBadge credit={story.creditCost} withBg />
+                <CreditBadge credit={story.credit_cost} withBg />
                 <AppIconButton
                   icon={BookmarkIcon}
                   onPress={() => setIsBookmarked((prev) => !prev)}
