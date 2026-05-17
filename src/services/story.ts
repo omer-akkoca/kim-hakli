@@ -5,9 +5,11 @@ import {
   ICategory,
   IStory,
   IStoryScene,
+  IStorySide,
   UnlockStoryResponse,
+  VoteStoryResponse,
 } from '@/src/types';
-import { UNLOCK_STORY } from '@/src/constants';
+import { UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
 
 export const getStories = async (): Promise<IStory[]> => {
   const { data, error } = await supabase
@@ -133,4 +135,35 @@ export const getStoryImageUrls = async (paths: string[]) => {
   if (error) throw error;
 
   return data.map((e) => e.signedUrl ?? '');
+};
+
+export const getStorySides = async (storyId: string): Promise<IStorySide[]> => {
+  const { data, error } = await supabase
+    .from('story_sides')
+    .select('*')
+    .eq('story_id', storyId)
+    .order('side_order', { ascending: true });
+
+  if (error) {
+    throw new Error(error.message || 'Hikaye tarafları çekilirken hata oluştu.');
+  }
+
+  return data ?? [];
+};
+
+export const voteStory = async ({
+  storyId,
+  sideId,
+}: {
+  storyId: string;
+  sideId: string;
+}): Promise<VoteStoryResponse> => {
+  const { data, error } = await supabase.rpc(VOTE_STORY, {
+    p_story_id: storyId,
+    p_side_id: sideId,
+  });
+
+  if (error) throw error;
+
+  return data as VoteStoryResponse;
 };

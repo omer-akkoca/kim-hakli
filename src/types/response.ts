@@ -1,8 +1,3 @@
-interface IResponse {
-  success: boolean;
-  message: string;
-}
-
 export interface UnlockStoryResponse {
   success: boolean;
   already_unlocked: boolean;
@@ -10,4 +5,8 @@ export interface UnlockStoryResponse {
   remaining_credit?: number;
 }
 
-export type SubmitVoteResponse = IResponse;
+export interface VoteStoryResponse {
+  success: boolean;
+  story_id: string;
+  side_id: string;
+}

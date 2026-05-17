@@ -16,6 +16,8 @@ import {
   hasVotedStory,
   getStoryScenes,
   getStoryImageUrls,
+  getStorySides,
+  voteStory,
 } from '@/src/services';
 
 export const storyKeys = {
@@ -29,6 +31,7 @@ export const storyKeys = {
   unlockStory: () => ['stories', 'unlockStory'] as const,
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   storyImages: (paths: string[]) => ['storage', 'story-images', ...paths] as const,
+  sides: (id: string) => ['stories', id, 'sides'] as const,
 };
 
 export const useGetStories = () => {
@@ -102,4 +105,16 @@ export const useGetStoryImageUrls = ({ paths }: { paths: string[] }) => {
     queryFn: () => getStoryImageUrls(paths),
     enabled: paths.length > 0,
   });
+};
+
+export const useGetStorySides = (storyId: string) => {
+  return useQuery({
+    queryKey: storyKeys.sides(storyId),
+    queryFn: () => getStorySides(storyId),
+    enabled: !!storyId,
+  });
+};
+
+export const useVoteStory = () => {
+  return useMutation({ mutationFn: voteStory });
 };

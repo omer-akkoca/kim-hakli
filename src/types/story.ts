@@ -33,4 +33,23 @@ export interface IStoryScene {
   created_at: string;
 }
 
-export type StorySide = { name: string; photo: string };
+export interface IStorySide {
+  id: string;
+  story_id: string;
+  side_order: number;
+  title: string;
+  description: string;
+  avatar_path: string;
+  created_at: string;
+}
+
+export interface IStorySideWithImage {
+  id: string;
+  story_id: string;
+  side_order: number;
+  title: string;
+  description: string;
+  avatar_path: string;
+  created_at: string;
+  avatar_url: string;
+}

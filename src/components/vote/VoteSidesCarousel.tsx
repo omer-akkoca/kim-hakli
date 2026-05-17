@@ -8,21 +8,21 @@ import Animated, {
   Extrapolation,
   SharedValue,
 } from 'react-native-reanimated';
-import { Box, LinearGradient, Pressable } from '@/components/ui';
+import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
-import { StorySide } from '@/src/types';
+import { IStorySideWithImage } from '@/src/types';
 import { BlurView } from 'expo-blur';
 import { AppText } from '../ui/AppText';
 import { TickVector } from '@/assets';
 
 interface VoteSidesCarouselProps {
-  sides: StorySide[];
+  sides: IStorySideWithImage[];
   selectedSide: string;
   setSelectedSide: (side: string) => void;
 }
 
 const ITEM_WIDTH = width * 0.7;
-const ITEM_HEIGHT = ITEM_WIDTH * 1.4;
+const ITEM_HEIGHT = ITEM_WIDTH * 1.5;
 const SPACING = 16;
 
 const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
@@ -40,7 +40,7 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
     <Box style={{ height: ITEM_HEIGHT + 32 }}>
       <Animated.FlatList
         data={sides}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item.avatar_path}
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={ITEM_WIDTH}
@@ -53,7 +53,7 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
             item={item}
             index={index}
             scrollX={scrollX}
-            active={item.name === selectedSide}
+            active={item.id === selectedSide}
             setSelectedSide={setSelectedSide}
           />
         )}
@@ -63,11 +63,11 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
 };
 
 interface SegmentProps {
-  item: StorySide;
+  item: IStorySideWithImage;
   index: number;
   scrollX: SharedValue<number>;
   active: boolean;
-  setSelectedSide: (side: string) => void;
+  setSelectedSide: (sideId: string) => void;
 }
 
 const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, setSelectedSide }) => {
@@ -96,7 +96,7 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
       ]}
     >
       <Pressable
-        onPress={() => setSelectedSide(item.name)}
+        onPress={() => setSelectedSide(item.id)}
         style={[
           {
             width: ITEM_WIDTH,
@@ -117,16 +117,21 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
             <Box className="flex-1 relative">
               <Box className="w-full" style={{ height: ITEM_WIDTH }}>
                 <RnImage
-                  source={{ uri: item.photo }}
+                  source={{ uri: item.avatar_url ?? '' }}
                   className="flex-1 rounded-tr-xl rounded-tl-xl"
                   resizeMode="cover"
                 />
               </Box>
-              <Box className="flex-1 items-center justify-center">
+              <VStack space="md" className="flex-1 px-4 items-center justify-center">
                 <AppText size={20} weight={600} className="text-headline">
-                  {item.name}
+                  {item.title}
                 </AppText>
-              </Box>
+                {item.description ? (
+                  <AppText size={14} weight={500} className="text-whiteSmoke-500/50 text-center">
+                    {item.description}
+                  </AppText>
+                ) : null}
+              </VStack>
               {active ? (
                 <Box
                   className="absolute top-4 right-4 h-11 w-11 bg-primary-500 rounded-full border border-primary-300 items-center justify-center"

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { CrossVector, VerifyVector } from '@/assets';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { useGetStoryById } from '@/src/actions';
 import { AppBackground, AppText, DetailIconButton, VoteSidesCarousel } from '@/src/components';
-import { submitVoteFunction } from '@/src/services';
+import { CrossVector, VerifyVector } from '@/assets';
+import {
+  useGetStoryById,
+  useGetStoryImageUrls,
+  useGetStorySides,
+  useVoteStory,
+} from '@/src/actions';
 import { router, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants';
@@ -17,17 +21,33 @@ export default function StoryVotePage() {
   const [selectedSide, setSelectedSide] = useState<string>('');
 
   const { data: story } = useGetStoryById(id);
+  const { data: sides = [] } = useGetStorySides(id);
+
+  const avatarPaths = sides?.map((scene) => scene.avatar_path) ?? [];
+
+  const { data: signedAvatars = [] } = useGetStoryImageUrls({ paths: avatarPaths });
+
+  const sidesWithAvatar = sides.map((side) => ({
+    ...side,
+    avatar_url: signedAvatars.find((img) => img.includes(side.avatar_path))!,
+  }));
+
+  const { mutate } = useVoteStory();
 
   const handleVote = async () => {
-    const { data } = await submitVoteFunction({ storyId: id, side: selectedSide });
-    if (data.success) {
-      router.replace(`/story/voteResult/${id}`);
-    }
+    mutate(
+      { sideId: selectedSide, storyId: id },
+      {
+        onSuccess: (data) => {
+          if (data.success) {
+            router.replace(`/story/voteResult/${id}`);
+          }
+        },
+      },
+    );
   };
 
   if (!story) return <></>;
-
-  const sides = story.sides.filter((e) => Object.keys(story.votes).includes(e.name));
 
   return (
     <AppBackground>
@@ -40,10 +60,11 @@ export default function StoryVotePage() {
           <Box />
           <DetailIconButton icon={CrossVector} onPress={back} />
         </HStack>
-        <Box className="flex-1 justify-center items-center gap-8">
+        <Box className="flex-1 justify-center items-center gap-10">
           <VStack className="w-full px-6">
             <AppText
-              size={36}
+              family="PlayfairDisplay"
+              size={40}
               lineHeight={75}
               weight={700}
               className="w-full text-headline -tracking-1 text-center"
@@ -61,7 +82,7 @@ export default function StoryVotePage() {
           </VStack>
 
           <VoteSidesCarousel
-            sides={sides}
+            sides={sidesWithAvatar}
             selectedSide={selectedSide}
             setSelectedSide={setSelectedSide}
           />
