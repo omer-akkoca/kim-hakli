@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, HStack, Spinner, VStack } from '@/components/ui/';
 import {
+  AppBackground,
   AppText,
   CreditBadge,
   DetailIconButton,
@@ -16,6 +17,7 @@ import {
   useGetStoryCategories,
   useGetStoryCoverImageUrl,
   useHasUnlockedStory,
+  useHasVoted,
   useUnlockStory,
 } from '@/src/actions';
 import {
@@ -27,6 +29,7 @@ import {
   LoopVector,
 } from '@/assets';
 import { useModal } from '@/src/hooks';
+import { colors } from '@/src/constants';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -43,7 +46,7 @@ export default function StoryDetailPage() {
   const { data: storyCategories } = useGetStoryCategories(id);
 
   const { data: unlocked } = useHasUnlockedStory({ storyId: id, userId: user?.id });
-  const voted = false;
+  const { data: voted } = useHasVoted({ userId: user?.id ?? '', storyId: id });
 
   const { mutate } = useUnlockStory();
 
@@ -84,9 +87,11 @@ export default function StoryDetailPage() {
 
   if (isLoading) {
     return (
-      <Box className="flex-1 items-center justify-center bg-black">
-        <Spinner color="white" />
-      </Box>
+      <AppBackground>
+        <Box className="flex-1 justify-center items-center">
+          <Spinner color={colors.primary} size="large" />
+        </Box>
+      </AppBackground>
     );
   }
 
@@ -109,6 +114,7 @@ export default function StoryDetailPage() {
           <Box className="relative">
             {/* Title */}
             <AppText
+              family="PlayfairDisplay"
               size={46}
               lineHeight={56}
               weight={700}

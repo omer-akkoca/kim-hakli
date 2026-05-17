@@ -1,5 +1,11 @@
 import { supabase } from '@/src/configs';
-import { HasUnlockedStoryParams, ICategory, IStory, UnlockStoryResponse } from '@/src/types';
+import {
+  HasUnlockedStoryParams,
+  HasVotedStoryParams,
+  ICategory,
+  IStory,
+  UnlockStoryResponse,
+} from '@/src/types';
 import { UNLOCK_STORY } from '@/src/constants';
 
 export const getStories = async (): Promise<IStory[]> => {
@@ -84,6 +90,21 @@ export const hasUnlockedStory = async ({
 
   if (error) {
     throw new Error(error.message || 'Hikaye kilit kontrolü yapılırken hata oluştu.');
+  }
+
+  return !!data;
+};
+
+export const hasVotedStory = async ({ userId, storyId }: HasVotedStoryParams): Promise<boolean> => {
+  const { data, error } = await supabase
+    .from('story_votes')
+    .select('story_id')
+    .eq('user_id', userId)
+    .eq('story_id', storyId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message || 'Oy kontrolü yapılırken hata oluştu.');
   }
 
   return !!data;

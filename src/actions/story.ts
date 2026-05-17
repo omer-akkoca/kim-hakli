@@ -3,16 +3,17 @@ import {
   GetStoriesParams,
   GetStoryImageUrlParams,
   HasUnlockedStoryParams,
+  HasVotedStoryParams,
   UnlockStoryParams,
 } from '@/src/types';
 import {
-  hasVoted,
   getStories,
   getStoryById,
   getStoryCategories,
   getStoryImageUrl,
   unlockStory,
   hasUnlockedStory,
+  hasVotedStory,
 } from '@/src/services';
 
 export const storyKeys = {
@@ -76,10 +77,10 @@ export const useHasUnlockedStory = ({ userId, storyId }: HasUnlockedStoryParams)
   });
 };
 
-export const useHasVoted = (userId: string, storyId: string) => {
+export const useHasVoted = ({ userId, storyId }: HasVotedStoryParams) => {
   return useQuery({
     queryKey: storyKeys.hasVoted(userId, storyId),
-    queryFn: () => hasVoted(userId, storyId),
+    queryFn: () => hasVotedStory({ userId, storyId }),
     enabled: !!userId && !!storyId,
   });
 };
