@@ -1,19 +1,27 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { FlatList, Image as RnImage } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
-import { useGetStoryById } from '@/src/actions';
-import { StoryReadActionButtons, StoryReadBg, StoryReadProgressBar } from '@/src/components';
-import { height, readActionBarHeight, width } from '@/src/constants';
-import { getSceneImageUrl } from '@/src/utils';
+import { useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
+import {
+  StoryReadActionButtons,
+  StoryReadBg,
+  StoryReadProgressBar,
+  StoryReadRenderItem,
+} from '@/src/components';
+import { width } from '@/src/constants';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function StoryReadPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { top, bottom } = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
 
-  const { data: story } = useGetStoryById(id);
+  const { data: scenes } = useGetStoryScenes(id);
+
+  const imagePaths = scenes?.map((scene) => scene.image_path) ?? [];
+
+  const { data: signedImages = [] } = useGetStoryImageUrls({ paths: imagePaths });
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -25,33 +33,18 @@ export default function StoryReadPage() {
     }
   });
 
-  const images: string[] = useMemo(() => {
-    if (!story) return [];
-    const scenes = Array.from({ length: story.sceneLength }, (_, i) =>
-      String(i + 1).padStart(2, '0'),
-    );
-    const photos = scenes.map((e) => getSceneImageUrl(story.slug, e, 'tr'));
-    return [story.coverImageUrl, ...photos];
-  }, [story]);
-
-  const renderItem = ({ item }: { item: string }) => {
-    return (
-      <Box style={{ width: width, height: height - readActionBarHeight - bottom - top - 2 }}>
-        <RnImage source={{ uri: item }} className="flex-1" resizeMode="contain" alt={item} />
-      </Box>
-    );
-  };
+  if (!scenes) return null;
 
   return (
     <StoryReadBg>
       <Box className="flex-1" style={{ gap: 10 }}>
         <Box style={{ marginTop: top }}>
-          <StoryReadProgressBar current={activeIndex + 1} total={images.length} />
+          <StoryReadProgressBar current={activeIndex + 1} total={scenes.length} />
         </Box>
         <Box className="flex-1">
-          <FlatList
+          <FlatList<string>
             ref={flatListRef}
-            data={images}
+            data={signedImages}
             keyExtractor={(e) => e}
             snapToInterval={width}
             pagingEnabled
@@ -61,14 +54,14 @@ export default function StoryReadPage() {
             decelerationRate="fast"
             onViewableItemsChanged={onViewableItemsChanged.current}
             viewabilityConfig={viewabilityConfig.current}
-            renderItem={renderItem}
+            renderItem={({ item }) => <StoryReadRenderItem item={item} />}
             className="z-10"
           />
         </Box>
         <StoryReadActionButtons
           storyId={id}
           activeIndex={activeIndex}
-          images={images}
+          length={scenes.length}
           setActiveIndex={setActiveIndex}
         />
       </Box>

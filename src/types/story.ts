@@ -1,5 +1,3 @@
-import { Timestamp } from 'firebase/firestore';
-
 export interface IStory {
   id: string;
   title: string;
@@ -13,15 +11,6 @@ export interface IStory {
   updated_at: string;
 }
 
-export interface IUnlockedStory {
-  unlockedAt: Timestamp;
-  creditsSpent: number;
-  votedSide: string | null;
-}
-
-export type StorySide = { name: string; photo: string };
-export type StoryStatus = 'published' | 'draft' | 'deleted';
-
 export const storyArtStyles = [
   'all',
   'realistic',
@@ -34,3 +23,14 @@ export const storyArtStyles = [
 ] as const;
 
 export type StoryArtStyle = (typeof storyArtStyles)[number];
+export type StoryStatus = 'published' | 'draft' | 'deleted';
+
+export interface IStoryScene {
+  id: string;
+  story_id: string;
+  scene_order: number;
+  image_path: string;
+  created_at: string;
+}
+
+export type StorySide = { name: string; photo: string };

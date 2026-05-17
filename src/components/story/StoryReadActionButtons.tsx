@@ -14,20 +14,20 @@ interface StoryReadActionButtonsProps {
   storyId: string;
   activeIndex: number;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-  images: string[];
+  length: number;
 }
 
 const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
   storyId,
   activeIndex,
-  images,
+  length,
 }) => {
   const { push, back } = useRouter();
   const { bottom } = useSafeAreaInsets();
 
   const { user } = useAppSelector((state) => state.auth);
 
-  const { data: voted } = useHasVoted(user?.id ?? '', storyId);
+  const { data: voted } = useHasVoted({ storyId, userId: user?.id ?? '' });
 
   const handleNavigate = () => {
     if (voted) {
@@ -59,7 +59,7 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
             />
             <Box className="items-center justify-center" style={{ width: 52 }}>
               <AppText size={14} weight={600} className="text-headline">
-                {activeIndex + 1}/{images.length}
+                {activeIndex + 1}/{length}
               </AppText>
             </Box>
           </HStack>

@@ -4,6 +4,7 @@ import {
   HasVotedStoryParams,
   ICategory,
   IStory,
+  IStoryScene,
   UnlockStoryResponse,
 } from '@/src/types';
 import { UNLOCK_STORY } from '@/src/constants';
@@ -108,4 +109,28 @@ export const hasVotedStory = async ({ userId, storyId }: HasVotedStoryParams): P
   }
 
   return !!data;
+};
+
+export const getStoryScenes = async (storyId: string): Promise<IStoryScene[]> => {
+  const { data, error } = await supabase
+    .from('story_scenes')
+    .select('*')
+    .eq('story_id', storyId)
+    .order('scene_order', { ascending: true });
+
+  if (error) {
+    throw new Error(error.message || 'Hikaye sahneleri çekilirken hata oluştu.');
+  }
+
+  return data ?? [];
+};
+
+export const getStoryImageUrls = async (paths: string[]) => {
+  const { data, error } = await supabase.storage
+    .from('story-assets')
+    .createSignedUrls(paths, 60 * 60);
+
+  if (error) throw error;
+
+  return data.map((e) => e.signedUrl ?? '');
 };
