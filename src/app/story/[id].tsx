@@ -47,8 +47,14 @@ export default function StoryDetailPage() {
   const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { data: unlocked } = useHasUnlockedStory({ storyId: id, userId: user?.id });
-  const { data: voted } = useHasVoted({ userId: user?.id ?? '', storyId: id });
+  const { data: unlocked, isLoading: unclockedLoading } = useHasUnlockedStory({
+    storyId: id,
+    userId: user?.id,
+  });
+  const { data: voted, isLoading: votedLoading } = useHasVoted({
+    userId: user?.id ?? '',
+    storyId: id,
+  });
 
   const { mutate } = useUnlockStory();
 
@@ -169,27 +175,31 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {unlocked ? (
-              <>
-                <DetailPrimaryButton
-                  icon={voted ? LoopVector : Book6Vector}
-                  label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
-                  onPress={() => push(`/story/read/${id}`)}
-                />
-                {voted ? (
-                  <DetailSecondaryButton
-                    icon={ChartVector}
-                    label={'Sonuçları Gör'}
-                    onPress={() => push(`/story/voteResult/${id}`)}
+            {!unclockedLoading && !votedLoading ? (
+              unlocked ? (
+                <>
+                  <DetailPrimaryButton
+                    icon={voted ? LoopVector : Book6Vector}
+                    label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
+                    onPress={() => push(`/story/read/${id}`)}
                   />
-                ) : null}
-              </>
+                  {voted ? (
+                    <DetailSecondaryButton
+                      icon={ChartVector}
+                      label={'Sonuçları Gör'}
+                      onPress={() => push(`/story/voteResult/${id}`)}
+                    />
+                  ) : null}
+                </>
+              ) : (
+                <DetailPrimaryButton
+                  icon={LockCircleVector}
+                  label="Hikaye Kilidini Aç"
+                  onPress={handleUnlockStory}
+                />
+              )
             ) : (
-              <DetailPrimaryButton
-                icon={LockCircleVector}
-                label="Hikaye Kilidini Aç"
-                onPress={handleUnlockStory}
-              />
+              <Box className="h-button" />
             )}
           </HStack>
         </Box>

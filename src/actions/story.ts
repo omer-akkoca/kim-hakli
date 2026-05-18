@@ -49,7 +49,10 @@ export const useGetStoryCoverImageUrl = ({ path }: GetStoryImageUrlParams) => {
     queryKey: storyKeys.storyCoverImage(path),
     queryFn: () => getStoryImageUrl(path),
     enabled: !!path,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };
 
