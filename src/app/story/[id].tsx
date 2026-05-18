@@ -10,7 +10,7 @@ import {
   StoryDetailBg,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useAppSelector } from '@/src/store';
+import { decreaseCredit, useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useGetStoryById,
@@ -30,6 +30,7 @@ import {
 } from '@/assets';
 import { useModal } from '@/src/hooks';
 import { colors } from '@/src/constants';
+import { useDispatch } from 'react-redux';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -37,6 +38,7 @@ export default function StoryDetailPage() {
   const { push, back } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
   const { show } = useModal();
+  const dispatch = useDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
   const { categories } = useAppSelector((state) => state.category);
@@ -73,6 +75,7 @@ export default function StoryDetailPage() {
       {
         onSuccess: ({ success }) => {
           if (success) {
+            dispatch(decreaseCredit(story!.credit_cost));
             push(`/story/read/${id}`);
           }
         },
