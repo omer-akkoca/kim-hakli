@@ -8,14 +8,14 @@ import {
   useGetStorySides,
   useVoteStory,
 } from '@/src/actions';
-import { router, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { back } = useRouter();
+  const { back, replace } = useRouter();
   const { top } = useSafeAreaInsets();
 
   const [selectedSide, setSelectedSide] = useState<string>('');
@@ -40,7 +40,7 @@ export default function StoryVotePage() {
       {
         onSuccess: (data) => {
           if (data.success) {
-            router.replace(`/story/voteResult/${id}`);
+            replace(`/story/voteResult/${id}`);
           }
         },
       },

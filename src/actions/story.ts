@@ -82,6 +82,11 @@ export const useHasUnlockedStory = ({ userId, storyId }: HasUnlockedStoryParams)
     queryKey: storyKeys.unlocked(userId ?? '', storyId ?? ''),
     queryFn: () => hasUnlockedStory({ userId: userId!, storyId: storyId! }),
     enabled: !!userId && !!storyId,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
   });
 };
 
@@ -90,6 +95,11 @@ export const useHasVoted = ({ userId, storyId }: HasVotedStoryParams) => {
     queryKey: storyKeys.hasVoted(userId, storyId),
     queryFn: () => hasVotedStory({ userId, storyId }),
     enabled: !!userId && !!storyId,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
   });
 };
 
@@ -106,6 +116,10 @@ export const useGetStoryImageUrls = ({ paths }: { paths: string[] }) => {
     queryKey: storyKeys.storyImages(paths),
     queryFn: () => getStoryImageUrls(paths),
     enabled: paths.length > 0,
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };
 

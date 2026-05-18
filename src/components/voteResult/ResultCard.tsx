@@ -104,16 +104,16 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
             <Box className="flex-1 items-center justify-center">
               <AppText
                 family="PlayfairDisplay"
-                size={30}
-                lineHeight={36}
+                size={25}
+                lineHeight={35}
                 weight={700}
-                className="text-headline"
+                className="text-headline text-center"
               >
                 {side.title}
               </AppText>
               <AppText
-                size={30}
-                lineHeight={40}
+                size={25}
+                lineHeight={35}
                 weight={800}
                 className="text-primary-500 "
                 style={{

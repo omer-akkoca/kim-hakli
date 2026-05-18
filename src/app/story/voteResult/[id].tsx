@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
@@ -25,7 +25,10 @@ const StoryVoteResultPage = () => {
   const { data: story } = useGetStoryById(id);
   const { data: stats } = useGetStoryVoteResults(id);
 
-  const avatarPaths = stats?.map((item) => item.avatar_path) ?? [];
+  const avatarPaths = useMemo(
+    () => stats?.map((item) => item.avatar_path).filter(Boolean) ?? [],
+    [stats],
+  );
 
   const { data: avatars = [] } = useGetStoryImageUrls({
     paths: avatarPaths,
