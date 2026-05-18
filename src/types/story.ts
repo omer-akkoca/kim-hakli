@@ -1,3 +1,5 @@
+import { StoryVoteResult } from './response';
+
 export interface IStory {
   id: string;
   title: string;
@@ -51,5 +53,9 @@ export interface IStorySideWithImage {
   description: string;
   avatar_path: string;
   created_at: string;
+  avatar_url: string;
+}
+
+export interface StoryVoteCard extends StoryVoteResult {
   avatar_url: string;
 }

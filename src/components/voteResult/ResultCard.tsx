@@ -1,21 +1,17 @@
 import React, { PropsWithChildren } from 'react';
 import { Image as RnImage } from 'react-native';
 import { Box, HStack, LinearGradient } from '@/components/ui';
-import { StorySide } from '@/src/types';
+import { StoryVoteCard } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { W } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
 import { WinnerBadge } from './WinnerBadge';
 
 interface WinnerResultCardProps {
-  winner: StorySide;
-  winnerVote: number;
-  totalVote: number;
+  winner: StoryVoteCard;
 }
 
-const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, winnerVote, totalVote }) => {
-  const winnerPercent = Math.round((winnerVote / totalVote) * 1000) / 10;
-
+const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
   return (
     <Box
       className="w-full rounded-2xl bg-background-500/70 border-1.5 border-primary-500/60 overflow-hidden"
@@ -31,7 +27,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, winnerVote,
         <Box className="flex-1">
           <HStack className="flex-1">
             <RnImage
-              source={{ uri: winner.photo }}
+              source={{ uri: winner.avatar_url }}
               className="h-full"
               style={{ width: W(175) }}
               resizeMode="cover"
@@ -45,7 +41,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, winnerVote,
                 weight={700}
                 className="text-headline mt-2"
               >
-                {winner.name}
+                {winner.title}
               </AppText>
               <AppText
                 size={30}
@@ -58,10 +54,10 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, winnerVote,
                   textShadowRadius: 24,
                 }}
               >
-                {winnerPercent}%
+                {winner.percentage}%
               </AppText>
               <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40">
-                {formatStoryVoteCount(winnerVote)} Oy
+                {formatStoryVoteCount(winner.vote_count)} Oy
               </AppText>
             </Box>
           </HStack>
@@ -81,14 +77,10 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, winnerVote,
 };
 
 interface ResultCardProps {
-  totalVote: number;
-  vote: number;
-  side: StorySide;
+  side: StoryVoteCard;
 }
 
-const ResultCard: React.FC<ResultCardProps> = ({ side, totalVote, vote }) => {
-  const sidePercent = Math.round((vote / totalVote) * 1000) / 10;
-
+const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
   return (
     <Box
       className="w-full rounded-2xl border border-white/5 overflow-hidden"
@@ -104,7 +96,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side, totalVote, vote }) => {
         <Box className="flex-1 p-4">
           <HStack className="flex-1">
             <RnImage
-              source={{ uri: side.photo }}
+              source={{ uri: side.avatar_url }}
               style={{ width: W(125), height: W(125) }}
               resizeMode="cover"
               className="rounded-2xl"
@@ -117,7 +109,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side, totalVote, vote }) => {
                 weight={700}
                 className="text-headline"
               >
-                {side.name}
+                {side.title}
               </AppText>
               <AppText
                 size={30}
@@ -130,10 +122,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ side, totalVote, vote }) => {
                   textShadowRadius: 24,
                 }}
               >
-                {sidePercent}%
+                {side.percentage}%
               </AppText>
               <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40">
-                {formatStoryVoteCount(vote)} Oy
+                {formatStoryVoteCount(side.vote_count)} Oy
               </AppText>
             </Box>
           </HStack>

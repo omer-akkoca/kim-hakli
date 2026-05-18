@@ -15,3 +15,12 @@ export interface UserStoryStats {
   unlocked_count: number;
   voted_count: number;
 }
+
+export interface StoryVoteResult {
+  side_id: string;
+  title: string;
+  description: string;
+  avatar_path: string;
+  vote_count: number;
+  percentage: number;
+}

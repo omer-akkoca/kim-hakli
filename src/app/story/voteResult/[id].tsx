@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
-import { useGetStoryById } from '@/src/actions';
+import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
   AppBackground,
   AppText,
@@ -23,19 +23,24 @@ const StoryVoteResultPage = () => {
   const { top, bottom } = useSafeAreaInsets();
 
   const { data: story } = useGetStoryById(id);
+  const { data: stats } = useGetStoryVoteResults(id);
 
-  if (!story) return <></>;
+  const avatarPaths = stats?.map((item) => item.avatar_path) ?? [];
 
-  const totalVote = Object.values(story.votes).reduce((sum, oy) => sum + oy, 0);
+  const { data: avatars = [] } = useGetStoryImageUrls({
+    paths: avatarPaths,
+  });
 
-  const winner = (() => {
-    const entries = Object.entries(story.votes);
-    const maxVote = Math.max(...entries.map(([, vote]) => vote));
-    const topSides = entries.filter(([, vote]) => vote === maxVote);
-    return topSides.length > 1 ? null : topSides[0][0];
-  })();
+  if (!story || !stats) return <></>;
 
-  const winnerSide = story.sides.find((side) => side.name === winner)!;
+  const resultsWithAvatar = stats.map((item) => ({
+    ...item,
+    avatar_url: avatars.find((img) => img.includes(item.avatar_path))!,
+  }));
+
+  const totalVote = Object.values(stats).reduce((sum, stat) => sum + stat.vote_count, 0);
+
+  const winner = resultsWithAvatar[0];
 
   return (
     <AppBackground>
@@ -101,23 +106,11 @@ const StoryVoteResultPage = () => {
             />
           </Box>
           <VStack space="md">
-            {winner ? (
-              <WinnerResultCard
-                winner={winnerSide}
-                winnerVote={story.votes[winner]}
-                totalVote={totalVote}
-              />
-            ) : null}
-            {story.sides
-              .filter((e) => Object.keys(story.votes).includes(e.name))
-              .filter((e) => e.name !== winner)
+            {winner ? <WinnerResultCard winner={winner} /> : null}
+            {resultsWithAvatar
+              .filter((e) => e.side_id !== winner.side_id)
               .map((e, i) => (
-                <ResultCard
-                  key={i.toString()}
-                  side={e}
-                  totalVote={totalVote}
-                  vote={story.votes[e.name]}
-                />
+                <ResultCard key={i.toString()} side={e} />
               ))}
             <TotalVoteCard>
               <HStack className="items-center justify-between px-4 py-2">

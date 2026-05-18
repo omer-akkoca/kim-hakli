@@ -6,10 +6,11 @@ import {
   IStory,
   IStoryScene,
   IStorySide,
+  StoryVoteResult,
   UnlockStoryResponse,
   VoteStoryResponse,
 } from '@/src/types';
-import { UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
+import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
 
 export const getStories = async (): Promise<IStory[]> => {
   const { data, error } = await supabase
@@ -166,4 +167,14 @@ export const voteStory = async ({
   if (error) throw error;
 
   return data as VoteStoryResponse;
+};
+
+export const getStoryVoteResults = async (storyId: string): Promise<StoryVoteResult[]> => {
+  const { data, error } = await supabase.rpc(GET_STORY_VOTE_RESULTS, {
+    p_story_id: storyId,
+  });
+
+  if (error) throw error;
+
+  return data as StoryVoteResult[];
 };
