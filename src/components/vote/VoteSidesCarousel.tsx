@@ -117,7 +117,7 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
             <Box className="flex-1 relative">
               <Box className="w-full" style={{ height: ITEM_WIDTH }}>
                 <RnImage
-                  source={{ uri: item.avatar_url ?? '' }}
+                  source={{ uri: item.avatar_url }}
                   className="flex-1 rounded-tr-xl rounded-tl-xl"
                   resizeMode="cover"
                 />
