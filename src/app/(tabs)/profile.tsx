@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
   const { mutate } = useSignOut();
 
-  const { data: stats } = useGetUserStoryStats(user!.id);
+  const { data: stats } = useGetUserStoryStats(user?.id ?? '');
 
   if (!user) return <Redirect href="/auth/login" />;
 

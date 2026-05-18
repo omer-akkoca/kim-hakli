@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Center } from '@/components/ui';
-import { AppBar, AppText, SearchInput, SearchRenderItem } from '../components';
-import { useStories } from '../actions';
 import { FlatList } from 'react-native';
+import { Box, Center } from '@/components/ui';
+import { AppBar, AppText, SearchInput, SearchRenderItem } from '@/src/components';
+import { useGetStories } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SearchScreen = () => {
@@ -10,7 +10,7 @@ const SearchScreen = () => {
 
   const [query, setQuery] = useState('');
 
-  const { data: stories } = useStories();
+  const { data: stories } = useGetStories();
 
   return (
     <Box className="flex-1 bg-background-500">

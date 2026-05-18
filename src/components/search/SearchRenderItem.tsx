@@ -7,6 +7,7 @@ import { useRouter } from 'expo-router';
 import { AppIconButton } from '../ui/AppIconButton';
 import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { colors } from '@/src/constants';
+import { useGetStoryCoverImageUrl } from '@/src/actions';
 
 interface SearchRenderItemProps {
   story: IStory;
@@ -16,6 +17,8 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
   const router = useRouter();
 
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
 
   const BookmarkIcon = isBookmarked ? BookmarkFillVector : BookmarkOutlineVector;
 
@@ -33,7 +36,7 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
         className="flex-1"
       >
         <HStack space="md" className="flex-1">
-          <Image source={{ uri: story.coverImageUrl }} className="w-32 h-32" alt={story.title} />
+          <Image source={{ uri: data }} className="w-32 h-32" alt={story.title} />
           <VStack className="flex-1 p-3 pl-0 justify-between">
             <AppText
               size={16}
@@ -48,7 +51,7 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
               {story.description}
             </AppText>
             <HStack className="items-center justify-between">
-              <CreditBadge credit={story.creditCost} />
+              <CreditBadge credit={story.credit_cost} />
               <AppIconButton
                 icon={BookmarkIcon}
                 onPress={() => setIsBookmarked((prev) => !prev)}

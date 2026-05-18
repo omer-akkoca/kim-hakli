@@ -15,7 +15,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ query, setQuery }) => {
   return (
     <Box
       className="flex-1 bg-background-500 border border-white/10 rounded-full overflow-hidden"
-      style={{ height: 46, boxShadow: '0 10px 30px rgba(0,0,0,0.18)' }}
+      style={{ height: 40, boxShadow: '0 10px 30px rgba(0,0,0,0.18)' }}
     >
       <LinearGradient
         colors={['rgba(124,144,164,0.06)', 'rgba(124,144,164,0)']}
@@ -36,8 +36,8 @@ const SearchInput: React.FC<SearchInputProps> = ({ query, setQuery }) => {
                 margin: 0,
                 fontFamily: 'Inter-Medium',
                 fontSize: 14,
-                lineHeight: 16,
               }}
+              textAlignVertical="center"
               placeholder="Hikaye ara..."
               placeholderTextColor={colors.loginText}
               autoFocus
