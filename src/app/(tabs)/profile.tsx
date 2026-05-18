@@ -1,12 +1,9 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { useAppSelector } from '@/src/store';
+import { AppText, AppBackground, ProfileCard, ProfileTab, CreditLabel } from '@/src/components';
 import { Avatar, AvatarImage, Box, Divider, HStack, Pressable, VStack } from '@/components/ui';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useSignOut } from '@/src/actions';
-import { AppText, AppBackground, ProfileCard, ProfileTab } from '@/src/components';
-import { Redirect } from 'expo-router';
-import { CreditLabel } from '@/src/components/ui/CreditLabel';
+import { useAppSelector } from '@/src/store';
+import { useGetUserStoryStats, useSignOut } from '@/src/actions';
 import { bottomBarHeight, colors } from '@/src/constants';
 import {
   AboutVector,
@@ -19,6 +16,8 @@ import {
   SettingsVector,
   SupportVector,
 } from '@/assets';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Redirect } from 'expo-router';
 
 export default function ProfilePage() {
   const { top, bottom } = useSafeAreaInsets();
@@ -26,6 +25,8 @@ export default function ProfilePage() {
   const { user } = useAppSelector((state) => state.auth);
 
   const { mutate } = useSignOut();
+
+  const { data: stats } = useGetUserStoryStats(user!.id);
 
   if (!user) return <Redirect href="/auth/login" />;
 
@@ -54,7 +55,7 @@ export default function ProfilePage() {
               <Box className="items-center justify-center p-4">
                 <LockOutlineVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
-                  28
+                  {stats?.unlocked_count ?? 0}
                 </AppText>
                 <AppText size={14} weight={500} className="text-loginText/50">
                   Açılan Hikayeler
@@ -65,7 +66,7 @@ export default function ProfilePage() {
               <Box className="items-center justify-center p-4">
                 <ScalesVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
-                  14
+                  {stats?.voted_count ?? 0}
                 </AppText>
                 <AppText size={14} weight={500} className="text-loginText/50">
                   Verilen Oylar

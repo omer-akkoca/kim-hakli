@@ -10,3 +10,8 @@ export interface VoteStoryResponse {
   story_id: string;
   side_id: string;
 }
+
+export interface UserStoryStats {
+  unlocked_count: number;
+  voted_count: number;
+}

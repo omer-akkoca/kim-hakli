@@ -5,6 +5,7 @@ export { AppPage } from './ui/AppPage';
 export { AppIconButton } from './ui/AppIconButton';
 export { CreditBadge } from './ui/CreditBadge';
 export { AppBackground } from './ui/AppBackground';
+export { CreditLabel } from './ui/CreditLabel';
 
 export * from './stories';
 export * from './profile';
