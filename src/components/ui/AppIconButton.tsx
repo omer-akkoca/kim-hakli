@@ -11,6 +11,7 @@ interface IAppIconButton {
   height?: number;
   className?: string;
   style?: ViewStyle;
+  disabled?: boolean;
 }
 
 const AppIconButton: React.FC<IAppIconButton> = ({
@@ -19,6 +20,7 @@ const AppIconButton: React.FC<IAppIconButton> = ({
   color = '#000',
   height = 24,
   width = 24,
+  disabled = false,
   className,
   style,
 }) => {
@@ -28,6 +30,7 @@ const AppIconButton: React.FC<IAppIconButton> = ({
       className={className}
       style={style}
       hitSlop={{ bottom: 4, left: 4, right: 4, top: 4 }}
+      disabled={disabled}
     >
       <Icon width={width} height={height} color={color} />
     </Pressable>

@@ -17,10 +17,11 @@ import {
   SupportVector,
 } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Redirect } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 
 export default function ProfilePage() {
   const { top, bottom } = useSafeAreaInsets();
+  const { push } = useRouter();
 
   const { user } = useAppSelector((state) => state.auth);
 
@@ -81,7 +82,7 @@ export default function ProfilePage() {
               <ProfileTab
                 icon={BookmarkOutlineVector}
                 label="Kaydedilen Hikayeler"
-                onPress={() => null}
+                onPress={() => push('/bookmarks')}
               />
               <Divider className="bg-white/20" />
               <ProfileTab icon={HistoryVector} label="Oy Geçmişim" onPress={() => null} />

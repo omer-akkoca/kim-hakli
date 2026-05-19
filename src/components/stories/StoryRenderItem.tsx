@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ImageBackground } from 'react-native';
 import { HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
-import { IStory } from '@/src/types';
+import { BookmarkParams, IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/src/components/ui/AppText';
 import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
-import { useGetStoryCoverImageUrl } from '@/src/actions';
+import { useAddBookmarkStory, useGetStoryCoverImageUrl, useRemoveBookmark } from '@/src/actions';
+import { getIsBookmarked, useAppSelector } from '@/src/store';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -21,11 +22,30 @@ const itemHeight = (itemWidth / 9) * 14;
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
 
+  const user = useAppSelector((state) => state.auth.user);
+  const isBookmarked = useAppSelector((state) => getIsBookmarked(state, story.id));
+
+  const BookmarkIcon = useMemo(
+    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
+    [isBookmarked],
+  );
+
   const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { mutate: add, isPending: addPending } = useAddBookmarkStory();
+  const { mutate: remove, isPending: removePending } = useRemoveBookmark();
 
-  const BookmarkIcon = isBookmarked ? BookmarkFillVector : BookmarkOutlineVector;
+  const toggleBookmark = useCallback(() => {
+    const params: BookmarkParams = {
+      storyId: story.id,
+      userId: user?.id ?? '',
+    };
+    if (isBookmarked) {
+      remove(params);
+    } else {
+      add(params);
+    }
+  }, [isBookmarked]);
 
   return (
     <Pressable
@@ -58,11 +78,12 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
                 <CreditBadge credit={story.credit_cost} withBg />
                 <AppIconButton
                   icon={BookmarkIcon}
-                  onPress={() => setIsBookmarked((prev) => !prev)}
+                  onPress={toggleBookmark}
                   className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
                   color={colors.headline}
                   width={22}
                   height={22}
+                  disabled={addPending || removePending}
                 />
               </HStack>
               <AppText

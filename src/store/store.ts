@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authReducer } from './slices';
-import { categoryReducer } from './slices/categorySlice';
+import { authReducer, categoryReducer, bookmarkReducer } from './slices';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     category: categoryReducer,
+    bookmark: bookmarkReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { IStory } from '@/src/types';
+import { BookmarkParams, IStory } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { useRouter } from 'expo-router';
 import { AppIconButton } from '../ui/AppIconButton';
 import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { colors } from '@/src/constants';
-import { useGetStoryCoverImageUrl } from '@/src/actions';
+import { useAddBookmarkStory, useGetStoryCoverImageUrl, useRemoveBookmark } from '@/src/actions';
+import { getIsBookmarked, useAppSelector } from '@/src/store';
 
 interface SearchRenderItemProps {
   story: IStory;
@@ -16,11 +17,30 @@ interface SearchRenderItemProps {
 const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
   const router = useRouter();
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const user = useAppSelector((state) => state.auth.user);
+  const isBookmarked = useAppSelector((state) => getIsBookmarked(state, story.id));
+
+  const BookmarkIcon = useMemo(
+    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
+    [isBookmarked],
+  );
 
   const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
 
-  const BookmarkIcon = isBookmarked ? BookmarkFillVector : BookmarkOutlineVector;
+  const { mutate: add, isPending: addPending } = useAddBookmarkStory();
+  const { mutate: remove, isPending: removePending } = useRemoveBookmark();
+
+  const toggleBookmark = useCallback(() => {
+    const params: BookmarkParams = {
+      storyId: story.id,
+      userId: user?.id ?? '',
+    };
+    if (isBookmarked) {
+      remove(params);
+    } else {
+      add(params);
+    }
+  }, [isBookmarked]);
 
   return (
     <Pressable
@@ -54,10 +74,11 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
               <CreditBadge credit={story.credit_cost} />
               <AppIconButton
                 icon={BookmarkIcon}
-                onPress={() => setIsBookmarked((prev) => !prev)}
+                onPress={toggleBookmark}
                 color={colors.headline}
                 width={22}
                 height={22}
+                disabled={addPending || removePending}
               />
             </HStack>
           </VStack>

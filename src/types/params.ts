@@ -33,3 +33,8 @@ export interface GetStoriesParams {
   categoryIds: string[];
   artStyle: StoryArtStyle | '';
 }
+
+export interface BookmarkParams {
+  userId: string;
+  storyId: string;
+}
