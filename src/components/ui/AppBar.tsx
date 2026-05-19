@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Box, HStack, LinearGradient, Pressable } from '@/components/ui';
+import { Box, HStack, LinearGradient } from '@/components/ui';
 import { appBarHeight, colors } from '@/src/constants';
 import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -59,8 +59,8 @@ const AppBar: React.FC<IAppBar> = ({
                         <AppIconButton
                           icon={LeftChevronVector}
                           onPress={back}
-                          width={24}
-                          height={24}
+                          width={20}
+                          height={20}
                           color={colors.headline}
                         />
                       ) : null}
@@ -69,9 +69,13 @@ const AppBar: React.FC<IAppBar> = ({
                   ) : (
                     <HStack space="lg" className="items-center">
                       {backIcon ? (
-                        <Pressable onPress={back}>
-                          <LeftChevronVector width={24} height={24} color={colors.headline} />
-                        </Pressable>
+                        <AppIconButton
+                          icon={LeftChevronVector}
+                          onPress={back}
+                          width={20}
+                          height={20}
+                          color={colors.headline}
+                        />
                       ) : null}
                       {title ? (
                         <AppText size={18} weight={700} className="text-headline">
