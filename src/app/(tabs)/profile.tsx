@@ -85,7 +85,11 @@ export default function ProfilePage() {
                 onPress={() => push('/bookmarks')}
               />
               <Divider className="bg-white/20" />
-              <ProfileTab icon={HistoryVector} label="Oy Geçmişim" onPress={() => null} />
+              <ProfileTab
+                icon={HistoryVector}
+                label="Oy Geçmişim"
+                onPress={() => push('/vote_history')}
+              />
               <Divider className="bg-white/20" />
               <ProfileTab
                 icon={LockOutlineVector}
