@@ -4,3 +4,4 @@ export * from './story';
 export * from './categories';
 export * from './bookmark';
 export * from './vote';
+export * from './faq';
