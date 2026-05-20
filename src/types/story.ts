@@ -59,3 +59,18 @@ export interface IStorySideWithImage {
 export interface StoryVoteCard extends StoryVoteResult {
   avatar_url: string;
 }
+
+export interface UnlockedStory {
+  story_id: string;
+  title: string;
+  description: string;
+  art_style: string;
+  credit_cost: number;
+  status: string;
+  is_featured: boolean;
+  cover_image_path: string;
+  story_created_at: string;
+  story_updated_at: string;
+  credits_spent: number;
+  unlocked_at: string;
+}

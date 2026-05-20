@@ -13,7 +13,6 @@ import {
   LogoutVector,
   RightChevronVector,
   ScalesVector,
-  SettingsVector,
   SupportVector,
 } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -94,10 +93,12 @@ export default function ProfilePage() {
               <ProfileTab
                 icon={LockOutlineVector}
                 label="Kilidi Açılan Hikayeler"
-                onPress={() => null}
+                onPress={() => push('/unlocked_stories')}
               />
-              <Divider className="bg-white/20" />
-              <ProfileTab icon={SettingsVector} label="Ayarlar" onPress={() => null} />
+              {/*
+                <Divider className="bg-white/20" />
+                <ProfileTab icon={SettingsVector} label="Ayarlar" onPress={() => null} />
+              */}
               <Divider className="bg-white/20" />
               <ProfileTab icon={SupportVector} label="Destek" onPress={() => null} />
               <Divider className="bg-white/20" />

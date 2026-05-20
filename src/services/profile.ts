@@ -1,5 +1,6 @@
-import { IUser, UserStoryStats } from '@/src/types';
+import { IUser, UnlockedStory, UserStoryStats } from '@/src/types';
 import { supabase } from '@/src/configs';
+import { GET_USER_UNLOCKED_STORIES } from '../constants';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
   try {
@@ -16,4 +17,12 @@ export const getUserStoryStats = async (): Promise<UserStoryStats> => {
   if (error) throw error;
 
   return data as UserStoryStats;
+};
+
+export const getUserUnlockedStories = async (userId: string): Promise<UnlockedStory[]> => {
+  const { data, error } = await supabase.rpc(GET_USER_UNLOCKED_STORIES, { p_user_id: userId });
+
+  if (error) throw error;
+
+  return data ?? [];
 };
