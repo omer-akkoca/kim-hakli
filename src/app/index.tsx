@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Box, Spinner } from '@/components/ui';
-import { AppBackground } from '@/src/components';
+import { AppBackground, AppLoading } from '@/src/components';
 import { Redirect } from 'expo-router';
 import { storage } from '@/src/utils';
-import { colors, STORAGE_KEYS } from '@/src/constants';
+import { STORAGE_KEYS } from '@/src/constants';
 import { useFonts } from 'expo-font';
 import '@/src/configs/google';
 
@@ -41,9 +40,7 @@ export default function IndexPage() {
   if (loading) {
     return (
       <AppBackground>
-        <Box className="flex-1 items-center justify-center">
-          <Spinner color={colors.primary} size="large" />
-        </Box>
+        <AppLoading fullScreen />
       </AppBackground>
     );
   }

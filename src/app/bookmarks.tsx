@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import { FlatList } from 'react-native';
-import { AppBackground, AppBar, AppText, StoryRenderItem } from '@/src/components';
-import { Box, Spinner } from '@/components/ui';
+import { Box } from '@/components/ui';
+import { AppBackground, AppBar, AppLoading, AppText, StoryRenderItem } from '@/src/components';
 import { useAppSelector } from '@/src/store';
-import { colors } from '@/src/constants';
 import { useGetStoriesByIds } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -24,9 +23,7 @@ const BookmarksPage = () => {
       <AppBar backIcon title="Kaydedilenler" />
       <Box className="flex-1">
         {isLoading ? (
-          <Box className="flex-1 items-center justify-center">
-            <Spinner color={colors.primary} size="large" />
-          </Box>
+          <AppLoading fullScreen />
         ) : (
           <FlatList
             data={bookmarkData}

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, HStack, Spinner, VStack } from '@/components/ui/';
+import { Box, HStack, VStack } from '@/components/ui/';
 import {
   AppBackground,
+  AppLoading,
   AppText,
   CreditBadge,
   DetailIconButton,
@@ -29,7 +30,6 @@ import {
   LoopVector,
 } from '@/assets';
 import { useModal } from '@/src/hooks';
-import { colors } from '@/src/constants';
 import { useDispatch } from 'react-redux';
 
 export default function StoryDetailPage() {
@@ -97,9 +97,7 @@ export default function StoryDetailPage() {
   if (isLoading) {
     return (
       <AppBackground>
-        <Box className="flex-1 justify-center items-center">
-          <Spinner color={colors.primary} size="large" />
-        </Box>
+        <AppLoading fullScreen />
       </AppBackground>
     );
   }

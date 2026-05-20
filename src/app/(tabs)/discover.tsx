@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { FlatList, ScrollView } from 'react-native';
-import { Box, Pressable, HStack, Spinner } from '@/components/ui';
+import { Box, Pressable, HStack } from '@/components/ui';
 import { StoryArtStyle, storyArtStyles } from '@/src/types';
 import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppBackground, AppBar, AppIconButton, AppText, StoryRenderItem } from '@/src/components';
+import {
+  AppBackground,
+  AppBar,
+  AppIconButton,
+  AppLoading,
+  AppText,
+  StoryRenderItem,
+} from '@/src/components';
 import { useTranslation } from 'react-i18next';
 import { bottomBarHeight, colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
@@ -93,7 +100,7 @@ const DiscoverPage = () => {
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             isLoading ? (
-              <Spinner size={'large'} color={colors.primary} />
+              <AppLoading />
             ) : (
               <AppText size={12} weight={600} className="text-loginText text-center">
                 Uygun kriterlere göre hikaye bulunamadı.
