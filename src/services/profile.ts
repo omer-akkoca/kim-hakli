@@ -1,6 +1,6 @@
-import { IUser, UnlockedStory, UserStoryStats } from '@/src/types';
+import { DeleteAccountResponse, IUser, UnlockedStory, UserStoryStats } from '@/src/types';
 import { supabase } from '@/src/configs';
-import { GET_USER_UNLOCKED_STORIES } from '../constants';
+import { DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '../constants';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
   try {
@@ -25,4 +25,12 @@ export const getUserUnlockedStories = async (userId: string): Promise<UnlockedSt
   if (error) throw error;
 
   return data ?? [];
+};
+
+export const deleteAccount = async (): Promise<DeleteAccountResponse> => {
+  const { data, error } = await supabase.functions.invoke(DELETE_ACCOUNT);
+
+  if (error) throw error;
+
+  return data as DeleteAccountResponse;
 };

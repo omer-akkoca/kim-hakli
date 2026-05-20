@@ -3,30 +3,69 @@ import { ScrollView } from 'react-native';
 import { AppText, AppBackground, ProfileCard, ProfileTab, CreditLabel } from '@/src/components';
 import { Avatar, AvatarImage, Box, Divider, HStack, Pressable, VStack } from '@/components/ui';
 import { useAppSelector } from '@/src/store';
-import { useGetUserStoryStats, useSignOut } from '@/src/actions';
+import { useDeleteAccount, useGetUserStoryStats, useSignOut } from '@/src/actions';
 import { bottomBarHeight, colors } from '@/src/constants';
 import {
   AboutVector,
   BookmarkOutlineVector,
+  DeleteVector,
   HistoryVector,
   LockOutlineVector,
   LogoutVector,
   RightChevronVector,
   ScalesVector,
-  SupportVector,
 } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Redirect, useRouter } from 'expo-router';
+import { useModal } from '@/src/hooks';
+import { version } from '@/package.json';
 
 export default function ProfilePage() {
   const { top, bottom } = useSafeAreaInsets();
   const { push } = useRouter();
+  const { show } = useModal();
 
   const { user } = useAppSelector((state) => state.auth);
 
-  const { mutate } = useSignOut();
+  const { mutate: logout } = useSignOut();
 
   const { data: stats } = useGetUserStoryStats(user?.id ?? '');
+
+  const { mutate: deleteAccount } = useDeleteAccount();
+
+  const handleDeleteAccount = () => {
+    show({
+      title: 'Hesabı Sil',
+      subtitle: 'Bu işlemi geri alamazsınız. Emin misiniz?',
+      buttons: [
+        {
+          label: 'Evet, Sil',
+          onPress: deleteAccount,
+        },
+        {
+          label: 'Vazgeç',
+          variant: 'outline',
+        },
+      ],
+    });
+  };
+
+  const handleLogout = () => {
+    show({
+      title: 'Çıkış Yap',
+      subtitle: 'Çıkış yapmak istediğinize emin misiniz?',
+      buttons: [
+        {
+          label: 'Evet, Çıkış Yap',
+          onPress: logout,
+        },
+        {
+          label: 'Vazgeç',
+          variant: 'outline',
+        },
+      ],
+    });
+  };
 
   if (!user) return <Redirect href="/auth/login" />;
 
@@ -98,16 +137,32 @@ export default function ProfilePage() {
               {/*
                 <Divider className="bg-white/20" />
                 <ProfileTab icon={SettingsVector} label="Ayarlar" onPress={() => null} />
+                <Divider className="bg-white/20" />
+                <ProfileTab icon={SupportVector} label="Destek" onPress={() => null} />
               */}
-              <Divider className="bg-white/20" />
-              <ProfileTab icon={SupportVector} label="Destek" onPress={() => null} />
+
               <Divider className="bg-white/20" />
               <ProfileTab icon={AboutVector} label="Hakkında" onPress={() => push('/about')} />
             </VStack>
           </ProfileCard>
 
+          {/* Delete Account */}
+          <Pressable onPress={handleDeleteAccount}>
+            <ProfileCard>
+              <HStack className="p-4 items-center justify-between">
+                <HStack space="lg" className="items-center">
+                  <DeleteVector width={20} height={20} color={colors.delete} />
+                  <AppText size={14} weight={600} className="text-delete -tracking-2">
+                    Hesabımı Sil
+                  </AppText>
+                </HStack>
+                <RightChevronVector width={16} height={16} color={colors.whiteSmoke_32} />
+              </HStack>
+            </ProfileCard>
+          </Pressable>
+
           {/* Logout */}
-          <Pressable onPress={() => mutate()}>
+          <Pressable onPress={handleLogout}>
             <ProfileCard>
               <HStack className="p-4 items-center justify-between">
                 <HStack space="lg" className="items-center">
@@ -120,6 +175,16 @@ export default function ProfilePage() {
               </HStack>
             </ProfileCard>
           </Pressable>
+
+          {/* Version */}
+          <Box className="py-4">
+            <AppText weight={600} className="text-center text-headline/80">
+              Kim Haklı?
+            </AppText>
+            <AppText size={12} weight={400} className="text-center text-whiteSmoke-500/75">
+              v{version}
+            </AppText>
+          </Box>
         </VStack>
       </ScrollView>
     </AppBackground>

@@ -35,6 +35,7 @@ module.exports = {
         'credit-border': 'rgba(241, 118, 42, 0.32)',
         'detail-secondary-button': 'rgba(10,12,20,0.42)',
         headline: '#f5f5f5',
+        delete: '#FF3040', // #FF0000
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(255 244 236 / <alpha-value>)',

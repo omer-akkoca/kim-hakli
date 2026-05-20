@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getProfile, getUserStoryStats, getUserUnlockedStories } from '@/src/services';
+import { deleteAccount, getProfile, getUserStoryStats, getUserUnlockedStories } from '@/src/services';
 import { GetProfileParams } from '@/src/types';
 import { useAppSelector } from '../store';
 
 export const userKeys = {
   userStoryStats: (userId: string) => ['users', userId, 'story-stats'] as const,
   unlockedStories: (userId: string) => ['users', userId, 'unlocked-stories'] as const,
+  deleteAccount: () => ['users', 'delete-account'] as const,
 };
 
 export const useGetProfile = () => {
@@ -30,5 +31,12 @@ export const useGetUserUnlockedStories = () => {
     queryFn: () => getUserUnlockedStories(userId),
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useDeleteAccount = () => {
+  return useMutation({
+    mutationKey: userKeys.deleteAccount(),
+    mutationFn: deleteAccount,
   });
 };

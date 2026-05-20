@@ -24,3 +24,8 @@ export interface StoryVoteResult {
   vote_count: number;
   percentage: number;
 }
+
+
+export interface DeleteAccountResponse {
+  success: boolean;
+}
