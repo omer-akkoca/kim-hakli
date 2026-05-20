@@ -102,7 +102,7 @@ export default function ProfilePage() {
               <Divider className="bg-white/20" />
               <ProfileTab icon={SupportVector} label="Destek" onPress={() => null} />
               <Divider className="bg-white/20" />
-              <ProfileTab icon={AboutVector} label="Hakkında" onPress={() => null} />
+              <ProfileTab icon={AboutVector} label="Hakkında" onPress={() => push('/about')} />
             </VStack>
           </ProfileCard>
 
