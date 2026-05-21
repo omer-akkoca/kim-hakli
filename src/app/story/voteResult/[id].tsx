@@ -3,6 +3,7 @@ import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
   AppBackground,
+  AppLoading,
   AppText,
   DetailPrimaryButton,
   ResultCard,
@@ -23,7 +24,7 @@ const StoryVoteResultPage = () => {
   const { top, bottom } = useSafeAreaInsets();
 
   const { data: story } = useGetStoryById(id);
-  const { data: stats } = useGetStoryVoteResults(id);
+  const { data: stats, isPending: statsLoading } = useGetStoryVoteResults(id);
 
   const avatarPaths = useMemo(
     () => stats?.map((item) => item.avatar_path).filter(Boolean) ?? [],
@@ -33,6 +34,14 @@ const StoryVoteResultPage = () => {
   const { data: avatars = [] } = useGetStoryImageUrls({
     paths: avatarPaths,
   });
+
+  if (statsLoading) {
+    return (
+      <AppBackground>
+        <AppLoading fullScreen />
+      </AppBackground>
+    );
+  }
 
   if (!story || !stats) return <></>;
 

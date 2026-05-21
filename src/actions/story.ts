@@ -23,7 +23,7 @@ import {
   searchStories,
 } from '@/src/services';
 
-export const storyKeys = {
+const storyKeys = {
   all: ['stories'] as const,
   list: (params?: GetStoriesParams) => ['stories', 'list', params] as const,
   storyCoverImage: (path: string) => ['storage', 'story-image', path] as const,
@@ -83,29 +83,17 @@ export const useUnlockStory = () => {
   });
 };
 
-export const useHasUnlockedStory = ({ userId, storyId }: HasUnlockedStoryParams) => {
-  return useQuery({
-    queryKey: storyKeys.unlocked(userId ?? '', storyId ?? ''),
-    queryFn: () => hasUnlockedStory({ userId: userId!, storyId: storyId! }),
-    enabled: !!userId && !!storyId,
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnMount: 'always',
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true,
+export const useHasUnlocked = () => {
+  return useMutation({
+    mutationFn: ({ userId, storyId }: HasUnlockedStoryParams) =>
+      hasUnlockedStory({ userId, storyId }),
   });
 };
 
-export const useHasVoted = ({ userId, storyId }: HasVotedStoryParams) => {
-  return useQuery({
-    queryKey: storyKeys.hasVoted(userId, storyId),
-    queryFn: () => hasVotedStory({ userId, storyId }),
-    enabled: !!userId && !!storyId,
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnMount: 'always',
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true,
+export const useHasVoted = () => {
+  return useMutation({
+    mutationFn: ({ userId, storyId }: HasVotedStoryParams) =>
+      hasVotedStory({ userId, storyId }),
   });
 };
 

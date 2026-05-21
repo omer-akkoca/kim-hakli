@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box, HStack, VStack } from '@/components/ui/';
 import {
   AppBackground,
@@ -10,14 +10,14 @@ import {
   DetailSecondaryButton,
   StoryDetailBg,
 } from '@/src/components';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { decreaseCredit, useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useGetStoryById,
   useGetStoryCategories,
   useGetStoryCoverImageUrl,
-  useHasUnlockedStory,
+  useHasUnlocked,
   useHasVoted,
   useUnlockStory,
 } from '@/src/actions';
@@ -47,14 +47,22 @@ export default function StoryDetailPage() {
   const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { data: unlocked, isLoading: unclockedLoading } = useHasUnlockedStory({
-    storyId: id,
-    userId: user?.id,
-  });
-  const { data: voted, isLoading: votedLoading } = useHasVoted({
-    userId: user?.id ?? '',
-    storyId: id,
-  });
+  const { mutateAsync: hasUnlocked, data: unlocked, isPending: unlocking } = useHasUnlocked();
+  const { mutateAsync: hasVoted, data: voted, isPending: voting } = useHasVoted();
+
+  useFocusEffect(
+    useCallback(() => {
+      const checkStoryStatus = async () => {
+        if (!user?.id || !id) return;
+        Promise.all([
+          hasUnlocked({ userId: user.id, storyId: id }),
+          hasVoted({ userId: user.id, storyId: id }),
+        ]);
+      };
+
+      checkStoryStatus();
+    }, [user?.id, id]),
+  );
 
   const { mutate, isPending } = useUnlockStory();
 
@@ -175,7 +183,7 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {!unclockedLoading && !votedLoading ? (
+            {!unlocking && !voting ? (
               unlocked ? (
                 <>
                   <DetailPrimaryButton

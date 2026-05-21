@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box, HStack } from '@/components/ui';
 import { readActionBarHeight } from '@/src/constants';
 import { BlurView } from 'expo-blur';
@@ -7,7 +7,7 @@ import { AppText } from '../ui/AppText';
 import { ChartVector, CrossVector, VoteVector } from '@/assets';
 import { useHasVoted } from '@/src/actions';
 import { useAppSelector } from '@/src/store';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
 
 interface StoryReadActionButtonsProps {
@@ -27,7 +27,17 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
 
   const { user } = useAppSelector((state) => state.auth);
 
-  const { data: voted } = useHasVoted({ storyId, userId: user?.id ?? '' });
+  const { mutateAsync: hasVoted, data: voted, isPending: votedLoading = true } = useHasVoted();
+
+  useFocusEffect(
+    useCallback(() => {
+      const checkStoryStatus = async () => {
+        if (!user?.id || !storyId) return;
+        await hasVoted({ userId: user.id, storyId });
+      };
+      checkStoryStatus();
+    }, [user?.id, storyId]),
+  );
 
   const handleNavigate = () => {
     if (voted) {
@@ -56,6 +66,7 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
               icon={voted ? ChartVector : VoteVector}
               label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
               onPress={handleNavigate}
+              loading={votedLoading}
             />
             <Box className="items-center justify-center" style={{ width: 52 }}>
               <AppText size={14} weight={600} className="text-headline">

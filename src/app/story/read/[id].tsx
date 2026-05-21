@@ -3,6 +3,8 @@ import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
 import { useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
 import {
+  AppBackground,
+  AppLoading,
   StoryReadActionButtons,
   StoryReadBg,
   StoryReadProgressBar,
@@ -17,7 +19,7 @@ export default function StoryReadPage() {
 
   const { top } = useSafeAreaInsets();
 
-  const { data: scenes } = useGetStoryScenes(id);
+  const { data: scenes = [], isPending: scenesLoading } = useGetStoryScenes(id);
 
   const imagePaths = scenes?.map((scene) => scene.image_path) ?? [];
 
@@ -33,7 +35,12 @@ export default function StoryReadPage() {
     }
   });
 
-  if (!scenes) return null;
+  if (scenesLoading)
+    return (
+      <AppBackground>
+        <AppLoading fullScreen />
+      </AppBackground>
+    );
 
   return (
     <StoryReadBg>
