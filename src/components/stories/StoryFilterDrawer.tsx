@@ -93,7 +93,7 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
               </VStack>
             </ScrollView>
           </DrawerBody>
-          <DrawerFooter className="bg-yellow-400" style={{ paddingBottom: bottom }}>
+          <DrawerFooter style={{ paddingBottom: bottom }}>
             <VStack space="xl" className="w-full p-4">
               <HStack>
                 <DetailPrimaryButton
