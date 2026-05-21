@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { Box, HStack, VStack } from '@/components/ui/';
 import {
   AppBackground,
@@ -11,30 +11,25 @@ import {
   StoryDetailBg,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { decreaseCredit, getIsBookmarked, useAppSelector } from '@/src/store';
+import { decreaseCredit, useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  useAddBookmarkStory,
   useGetStoryById,
   useGetStoryCategories,
   useGetStoryCoverImageUrl,
   useHasUnlockedStory,
   useHasVoted,
-  useRemoveBookmark,
   useUnlockStory,
 } from '@/src/actions';
 import {
   Book6Vector,
-  BookmarkFillVector,
-  BookmarkOutlineVector,
   ChartVector,
   LeftChevronVector,
   LockCircleVector,
   LoopVector,
 } from '@/assets';
-import { useModal } from '@/src/hooks';
+import { useBookmark, useModal } from '@/src/hooks';
 import { useDispatch } from 'react-redux';
-import { BookmarkParams } from '@/src/types';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -42,6 +37,7 @@ export default function StoryDetailPage() {
   const { push, back } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
   const { show } = useModal();
+  const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const dispatch = useDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
@@ -60,15 +56,6 @@ export default function StoryDetailPage() {
     storyId: id,
   });
 
-  const isBookmarked = useAppSelector((state) => getIsBookmarked(state, story?.id ?? ''));
-
-  const BookmarkIcon = useMemo(
-    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
-    [isBookmarked],
-  );
-
-  const { mutate: add, isPending: addPending } = useAddBookmarkStory();
-  const { mutate: remove, isPending: removePending } = useRemoveBookmark();
   const { mutate } = useUnlockStory();
 
   const handleUnlockStory = async () => {
@@ -107,18 +94,6 @@ export default function StoryDetailPage() {
     return category?.name ?? '';
   };
 
-  const toggleBookmark = useCallback(() => {
-    const params: BookmarkParams = {
-      storyId: story?.id ?? '',
-      userId: user?.id ?? '',
-    };
-    if (isBookmarked) {
-      remove(params);
-    } else {
-      add(params);
-    }
-  }, [isBookmarked]);
-
   if (isLoading) {
     return (
       <AppBackground>
@@ -138,11 +113,7 @@ export default function StoryDetailPage() {
         >
           <DetailIconButton icon={LeftChevronVector} onPress={back} />
           {user ? (
-            <DetailIconButton
-              icon={BookmarkIcon}
-              onPress={toggleBookmark}
-              disabled={addPending || removePending}
-            />
+            <DetailIconButton icon={BookmarkIcon} onPress={toggleBookmark} disabled={loading} />
           ) : null}
         </HStack>
         <Box

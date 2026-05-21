@@ -1,15 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { ImageBackground } from 'react-native';
 import { HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
-import { BookmarkParams, IStory } from '@/src/types';
+import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/src/components/ui/AppText';
-import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
-import { useAddBookmarkStory, useGetStoryCoverImageUrl, useRemoveBookmark } from '@/src/actions';
-import { getIsBookmarked, useAppSelector } from '@/src/store';
+import { useGetStoryCoverImageUrl } from '@/src/actions';
+import { useAppSelector } from '@/src/store';
+import { useBookmark } from '@/src/hooks/useBookmark';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -21,31 +21,11 @@ const itemHeight = (itemWidth / 9) * 14;
 
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
+  const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
   const user = useAppSelector((state) => state.auth.user);
-  const isBookmarked = useAppSelector((state) => getIsBookmarked(state, story.id));
-
-  const BookmarkIcon = useMemo(
-    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
-    [isBookmarked],
-  );
 
   const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
-
-  const { mutate: add, isPending: addPending } = useAddBookmarkStory();
-  const { mutate: remove, isPending: removePending } = useRemoveBookmark();
-
-  const toggleBookmark = useCallback(() => {
-    const params: BookmarkParams = {
-      storyId: story.id,
-      userId: user?.id ?? '',
-    };
-    if (isBookmarked) {
-      remove(params);
-    } else {
-      add(params);
-    }
-  }, [isBookmarked]);
 
   return (
     <Pressable
@@ -84,7 +64,7 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
                     color={colors.headline}
                     width={22}
                     height={22}
-                    disabled={addPending || removePending}
+                    disabled={loading}
                   />
                 ) : null}
               </HStack>

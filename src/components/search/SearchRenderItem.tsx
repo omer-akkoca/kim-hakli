@@ -1,14 +1,14 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { BookmarkParams, IStory } from '@/src/types';
+import { IStory } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { useRouter } from 'expo-router';
 import { AppIconButton } from '../ui/AppIconButton';
-import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
 import { colors } from '@/src/constants';
-import { useAddBookmarkStory, useGetStoryCoverImageUrl, useRemoveBookmark } from '@/src/actions';
-import { getIsBookmarked, useAppSelector } from '@/src/store';
+import { useGetStoryCoverImageUrl } from '@/src/actions';
+import { useAppSelector } from '@/src/store';
+import { useBookmark } from '@/src/hooks/useBookmark';
 
 interface SearchRenderItemProps {
   story: IStory;
@@ -16,31 +16,11 @@ interface SearchRenderItemProps {
 
 const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
   const router = useRouter();
+  const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
   const user = useAppSelector((state) => state.auth.user);
-  const isBookmarked = useAppSelector((state) => getIsBookmarked(state, story.id));
-
-  const BookmarkIcon = useMemo(
-    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
-    [isBookmarked],
-  );
 
   const { data } = useGetStoryCoverImageUrl({ path: story.cover_image_path });
-
-  const { mutate: add, isPending: addPending } = useAddBookmarkStory();
-  const { mutate: remove, isPending: removePending } = useRemoveBookmark();
-
-  const toggleBookmark = useCallback(() => {
-    const params: BookmarkParams = {
-      storyId: story.id,
-      userId: user?.id ?? '',
-    };
-    if (isBookmarked) {
-      remove(params);
-    } else {
-      add(params);
-    }
-  }, [isBookmarked]);
 
   return (
     <Pressable
@@ -79,7 +59,7 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
                   color={colors.headline}
                   width={22}
                   height={22}
-                  disabled={addPending || removePending}
+                  disabled={loading}
                 />
               ) : null}
             </HStack>
