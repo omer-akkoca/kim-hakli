@@ -24,7 +24,7 @@ const DiscoverPage = () => {
 
   const [artStyle, setArtStyle] = useState<StoryArtStyle>('all');
 
-  const { data: stories, isLoading } = useGetStories();
+  const { data: stories, isLoading } = useGetStories({ artStyle });
 
   return (
     <AppBackground>

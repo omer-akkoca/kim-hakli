@@ -36,10 +36,10 @@ export const storyKeys = {
   voteResults: (storyId: string) => ['stories', storyId, 'vote-results'] as const,
 };
 
-export const useGetStories = () => {
+export const useGetStories = (params?: GetStoriesParams) => {
   return useQuery({
-    queryKey: ['stories'],
-    queryFn: () => getStories(),
+    queryKey: storyKeys.list(params),
+    queryFn: () => getStories(params),
     staleTime: 1000 * 60 * 5,
   });
 };

@@ -1,5 +1,6 @@
 import { supabase } from '@/src/configs';
 import {
+  GetStoriesParams,
   HasUnlockedStoryParams,
   HasVotedStoryParams,
   ICategory,
@@ -12,12 +13,18 @@ import {
 } from '@/src/types';
 import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
 
-export const getStories = async (): Promise<IStory[]> => {
-  const { data, error } = await supabase
+export const getStories = async (params?: GetStoriesParams ): Promise<IStory[]> => {
+  let query = supabase
     .from('stories')
     .select('*')
     .eq('status', 'published')
     .order('created_at', { ascending: false });
+
+  if (params?.artStyle && params.artStyle !== 'all') {
+    query = query.eq('art_style', params.artStyle);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     throw new Error(error.message || 'Hikayeler çekilirken hata oluştu.');

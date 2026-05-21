@@ -29,12 +29,11 @@ export interface SubmitVoteParams {
   side: string;
 }
 
-export interface GetStoriesParams {
-  categoryIds: string[];
-  artStyle: StoryArtStyle | '';
-}
-
 export interface BookmarkParams {
   userId: string;
   storyId: string;
+}
+
+export interface GetStoriesParams {
+  artStyle?: StoryArtStyle | null;
 }
