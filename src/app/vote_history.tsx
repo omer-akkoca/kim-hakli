@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBackground, AppBar, AppLoading, VoteHistoryCard } from '@/src/components';
+import { AppBackground, AppBar, AppLoading, AppText, VoteHistoryCard } from '@/src/components';
 import { useGeVoteHistory } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -25,6 +25,11 @@ const VoteHistoryPage = () => {
             renderItem={({ item }) => <VoteHistoryCard voteHistory={item} />}
             contentContainerStyle={{ padding: 24, paddingBottom: bottom }}
             ItemSeparatorComponent={ItemSeparatorComponent}
+            ListEmptyComponent={
+              <AppText size={12} weight={600} className="text-loginText text-center">
+                Henüz herhangi bir hikayeye oy vermediniz.
+              </AppText>
+            }
           />
         )}
       </Box>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { AppBackground, AppBar, AppLoading, UnlockedStoryItem } from '@/src/components';
+import { AppBackground, AppBar, AppLoading, AppText, UnlockedStoryItem } from '@/src/components';
 import { Box } from '@/components/ui';
 import { useGetUserUnlockedStories } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,6 +25,11 @@ const UnlockedStories: React.FC = () => {
             renderItem={({ item }) => <UnlockedStoryItem item={item} />}
             contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24 }}
             ItemSeparatorComponent={ItemSeparatorComponent}
+            ListEmptyComponent={
+              <AppText size={12} weight={600} className="text-loginText text-center">
+                Henüz kilidi açılan bir hikayeniz bulunmamaktadır.
+              </AppText>
+            }
           />
         )}
       </Box>
