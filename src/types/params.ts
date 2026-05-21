@@ -1,3 +1,4 @@
+import { CreditFilter } from './common';
 import { StoryArtStyle } from './story';
 
 // profile actions
@@ -36,6 +37,8 @@ export interface BookmarkParams {
 
 export interface GetStoriesParams {
   artStyle?: StoryArtStyle | null;
+  categoryCode?: string | null;
+  creditFilter?: CreditFilter;
 }
 
 export interface SearchStoriesParams {

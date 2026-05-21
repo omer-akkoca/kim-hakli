@@ -1,3 +1,5 @@
+import { CREDIT_FILTERS } from "../constants/values";
+
 export interface ICategory {
   id: string;
   code: string;
@@ -11,3 +13,5 @@ export interface IFaq {
   answer: string;
   display_order: number;
 }
+
+export type CreditFilter =  (typeof CREDIT_FILTERS)[number]['value'];

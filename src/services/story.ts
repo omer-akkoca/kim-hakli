@@ -14,15 +14,37 @@ import {
 } from '@/src/types';
 import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
 
-export const getStories = async (params?: GetStoriesParams ): Promise<IStory[]> => {
+export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
   let query = supabase
     .from('stories')
-    .select('*')
+    .select(`
+      *,
+      story_categories!inner (
+        categories!inner (
+          code
+        )
+      )
+    `)
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 
   if (params?.artStyle && params.artStyle !== 'all') {
     query = query.eq('art_style', params.artStyle);
+  }
+
+  if (params?.categoryCode) {
+    query = query.eq(
+      'story_categories.categories.code',
+      params.categoryCode,
+    );
+  }
+
+  if (params?.creditFilter === 'free') {
+    query = query.eq('credit_cost', 0);
+  }
+
+  if (params?.creditFilter === 'paid') {
+    query = query.gt('credit_cost', 0);
   }
 
   const { data, error } = await query;
@@ -31,7 +53,7 @@ export const getStories = async (params?: GetStoriesParams ): Promise<IStory[]> 
     throw new Error(error.message || 'Hikayeler çekilirken hata oluştu.');
   }
 
-  return data ?? [];
+  return (data ?? []) as IStory[];
 };
 
 export const getStoryImageUrl = async (path: string) => {

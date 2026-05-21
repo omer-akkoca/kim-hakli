@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { Box, Pressable, HStack } from '@/components/ui';
-import { StoryArtStyle, storyArtStyles } from '@/src/types';
+import { GetStoriesParams, storyArtStyles } from '@/src/types';
 import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -10,6 +10,7 @@ import {
   AppIconButton,
   AppLoading,
   AppText,
+  StoryFilterDrawer,
   StoryRenderItem,
 } from '@/src/components';
 import { useTranslation } from 'react-i18next';
@@ -22,9 +23,19 @@ const DiscoverPage = () => {
   const { push } = useRouter();
   const { bottom } = useSafeAreaInsets();
 
-  const [artStyle, setArtStyle] = useState<StoryArtStyle>('all');
+  const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
-  const { data: stories, isLoading } = useGetStories({ artStyle });
+  const [filters, setFilters] = useState<GetStoriesParams>({
+    artStyle: 'all',
+    categoryCode: undefined,
+    creditFilter: 'all',
+  });
+
+  const { data: stories, isLoading } = useGetStories({
+    artStyle: filters.artStyle,
+    categoryCode: filters.categoryCode,
+    creditFilter: filters.creditFilter,
+  });
 
   return (
     <AppBackground>
@@ -52,11 +63,11 @@ const DiscoverPage = () => {
               showsHorizontalScrollIndicator={false}
             >
               {storyArtStyles.map((e, i) => {
-                const active = e === artStyle;
+                const active = e === filters.artStyle;
                 return (
                   <Pressable
                     key={e}
-                    onPress={() => setArtStyle(e)}
+                    onPress={() => setFilters({ ...filters, artStyle: e })}
                     className={`h-full items-center justify-center border-b px-3 ${active ? 'border-primary-500' : 'border-transparent'}`}
                   >
                     <AppText
@@ -74,7 +85,7 @@ const DiscoverPage = () => {
           </HStack>
           <AppIconButton
             icon={FilterVector}
-            onPress={() => null}
+            onPress={() => setShowDrawer(true)}
             width={20}
             height={20}
             color={colors.headline}
@@ -109,6 +120,12 @@ const DiscoverPage = () => {
           }
         />
       </Box>
+      <StoryFilterDrawer
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+        filters={filters}
+        setFilters={setFilters}
+      />
     </AppBackground>
   );
 };
