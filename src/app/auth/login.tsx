@@ -1,23 +1,17 @@
-import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { useGoogleSingIn } from '@/src/actions';
-import { useRouter } from 'expo-router';
+import React from 'react';
 import { ImageBackground, Platform } from 'react-native';
-import { AppleVector, GoogleVector, LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { AppText, GoogleLoginButton } from '@/src/components';
+import { AppleVector, LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
 import { colors } from '@/src/constants';
-import { AppText } from '@/src/components';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function LoginPage() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
 
-  const { mutate } = useGoogleSingIn();
-
   const onSuccess = () => router.replace('/(tabs)/home');
-
-  const handleGoogle = async () => {
-    mutate(undefined, { onSuccess: onSuccess });
-  };
 
   const handleApple = async () => {
     // apple login
@@ -61,17 +55,7 @@ export default function LoginPage() {
               </VStack>
               {/* Button Section  */}
               <VStack space="lg" className="w-full px-1 my-8">
-                <Pressable
-                  onPress={handleGoogle}
-                  className="w-full h-button rounded-button bg-white px-6"
-                >
-                  <HStack space="lg" className="flex-1 items-center">
-                    <GoogleVector width={24} height={24} />
-                    <AppText className="flex-1 text-center text-black" size={14} weight={600}>
-                      Google ile Devam Et
-                    </AppText>
-                  </HStack>
-                </Pressable>
+                <GoogleLoginButton />
                 {Platform.OS === 'ios' ? (
                   <Pressable
                     onPress={handleApple}

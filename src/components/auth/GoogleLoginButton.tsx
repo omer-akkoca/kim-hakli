@@ -1,0 +1,36 @@
+import React from 'react';
+import { HStack, Pressable } from '@/components/ui';
+import { GoogleVector } from '@/assets';
+import { useGoogleSingIn } from '@/src/actions';
+import { useRouter } from 'expo-router';
+import { AppText } from '../ui/AppText';
+import { AppLoading } from '../ui/AppLoading';
+
+const GoogleLoginButton = () => {
+  const router = useRouter();
+
+  const { mutate, isPending } = useGoogleSingIn();
+
+  const onSuccess = () => router.replace('/(tabs)/home');
+
+  const handleGoogle = async () => {
+    mutate(undefined, { onSuccess: onSuccess });
+  };
+
+  return (
+    <Pressable onPress={handleGoogle} className="w-full h-button rounded-button bg-white px-6">
+      {isPending ? (
+        <AppLoading fullScreen size={'small'} />
+      ) : (
+        <HStack space="lg" className="flex-1 items-center">
+          <GoogleVector width={24} height={24} />
+          <AppText className="flex-1 text-center text-black" size={14} weight={600}>
+            Google ile Devam Et
+          </AppText>
+        </HStack>
+      )}
+    </Pressable>
+  );
+};
+
+export { GoogleLoginButton };
