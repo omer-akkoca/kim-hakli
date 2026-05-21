@@ -130,7 +130,7 @@ export default function StoryDetailPage() {
   if (!story) return <></>;
 
   return (
-    <StoryDetailBg coverImage={coverImage ?? ''}>
+    <StoryDetailBg coverImage={coverImage}>
       <Box className="flex-1">
         <HStack
           className="w-full items-center justify-between"

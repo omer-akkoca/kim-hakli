@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react';
 import { ImageBackground } from 'react-native';
 
 interface StoryDetailBgProps extends PropsWithChildren {
-  coverImage: string;
+  coverImage: string | undefined;
 }
 
 const StoryDetailBg: React.FC<StoryDetailBgProps> = ({ coverImage, children }) => {
