@@ -76,15 +76,17 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
             <VStack className="flex-1 p-4 justify-between">
               <HStack className="items-center justify-between">
                 <CreditBadge credit={story.credit_cost} withBg />
-                <AppIconButton
-                  icon={BookmarkIcon}
-                  onPress={toggleBookmark}
-                  className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
-                  color={colors.headline}
-                  width={22}
-                  height={22}
-                  disabled={addPending || removePending}
-                />
+                {user ? (
+                  <AppIconButton
+                    icon={BookmarkIcon}
+                    onPress={toggleBookmark}
+                    className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
+                    color={colors.headline}
+                    width={22}
+                    height={22}
+                    disabled={addPending || removePending}
+                  />
+                ) : null}
               </HStack>
               <AppText
                 size={18}

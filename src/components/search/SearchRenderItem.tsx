@@ -72,14 +72,16 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
             </AppText>
             <HStack className="items-center justify-between">
               <CreditBadge credit={story.credit_cost} />
-              <AppIconButton
-                icon={BookmarkIcon}
-                onPress={toggleBookmark}
-                color={colors.headline}
-                width={22}
-                height={22}
-                disabled={addPending || removePending}
-              />
+              {user ? (
+                <AppIconButton
+                  icon={BookmarkIcon}
+                  onPress={toggleBookmark}
+                  color={colors.headline}
+                  width={22}
+                  height={22}
+                  disabled={addPending || removePending}
+                />
+              ) : null}
             </HStack>
           </VStack>
         </HStack>
