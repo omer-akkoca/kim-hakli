@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { AppBackground, AppText, DetailIconButton, VoteSidesCarousel } from '@/src/components';
-import { CrossVector, VerifyVector } from '@/assets';
+import { Box, HStack, VStack } from '@/components/ui';
+import {
+  AppBackground,
+  AppText,
+  DetailIconButton,
+  DetailPrimaryButton,
+  VoteSidesCarousel,
+} from '@/src/components';
+import { CrossVector, VerifyVector, VoteVector } from '@/assets';
 import {
   useGetStoryById,
   useGetStoryImageUrls,
@@ -32,7 +38,7 @@ export default function StoryVotePage() {
     avatar_url: signedAvatars.find((img) => img.includes(side.avatar_path))!,
   }));
 
-  const { mutate } = useVoteStory();
+  const { mutate, isPending } = useVoteStory();
 
   const handleVote = async () => {
     mutate(
@@ -88,34 +94,15 @@ export default function StoryVotePage() {
           />
 
           <VStack space="md" className="w-full px-6">
-            <Pressable
-              className="h-button rounded-button overflow-hidden border border-white/10 disabled:opacity-50"
-              style={{ boxShadow: '0 14px 34px rgba(241,118,42,0.26)' }}
-              disabled={!!!selectedSide}
-              onPress={handleVote}
-            >
-              <LinearGradient
-                colors={['#FF8A2B', '#F1762A', '#D85E18']}
-                locations={[0, 0.5, 1]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                className="flex-1 items-center justify-center"
-              >
-                <AppText
-                  size={16}
-                  lineHeight={30}
-                  weight={700}
-                  className="text-headline text-center"
-                  style={{
-                    textShadowColor: 'rgba(0,0,0,0.22)',
-                    textShadowOffset: { width: 0, height: 2 },
-                    textShadowRadius: 8,
-                  }}
-                >
-                  Oy Ver
-                </AppText>
-              </LinearGradient>
-            </Pressable>
+            <HStack>
+              <DetailPrimaryButton
+                label="Oy Ver"
+                disabled={!!!selectedSide}
+                loading={isPending}
+                onPress={handleVote}
+                icon={VoteVector}
+              />
+            </HStack>
             <HStack space="sm" className="items-center justify-center">
               <VerifyVector width={16} height={16} color={colors.whiteSmoke_50} />
               <AppText size={10} weight={600} className="text-whiteSmoke-500/50 text-center">

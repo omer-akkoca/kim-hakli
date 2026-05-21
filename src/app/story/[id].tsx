@@ -56,7 +56,7 @@ export default function StoryDetailPage() {
     storyId: id,
   });
 
-  const { mutate } = useUnlockStory();
+  const { mutate, isPending } = useUnlockStory();
 
   const handleUnlockStory = async () => {
     if (!user) {
@@ -196,6 +196,7 @@ export default function StoryDetailPage() {
                   icon={LockCircleVector}
                   label="Hikaye Kilidini Aç"
                   onPress={handleUnlockStory}
+                  loading={isPending}
                 />
               )
             ) : (
