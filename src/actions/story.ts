@@ -4,6 +4,7 @@ import {
   GetStoryImageUrlParams,
   HasUnlockedStoryParams,
   HasVotedStoryParams,
+  SearchStoriesParams,
   UnlockStoryParams,
 } from '@/src/types';
 import {
@@ -19,6 +20,7 @@ import {
   getStorySides,
   voteStory,
   getStoryVoteResults,
+  searchStories,
 } from '@/src/services';
 
 export const storyKeys = {
@@ -34,6 +36,7 @@ export const storyKeys = {
   storyImages: (paths: string[]) => ['storage', 'story-images', ...paths] as const,
   sides: (id: string) => ['stories', id, 'sides'] as const,
   voteResults: (storyId: string) => ['stories', storyId, 'vote-results'] as const,
+  search: (query: string) => ['stories', 'search', query] as const,
 };
 
 export const useGetStories = (params?: GetStoriesParams) => {
@@ -143,5 +146,14 @@ export const useGetStoryVoteResults = (storyId: string) => {
     queryKey: storyKeys.voteResults(storyId),
     queryFn: () => getStoryVoteResults(storyId!),
     enabled: !!storyId,
+  });
+};
+
+export const useSearchStories = (params: SearchStoriesParams) => {
+  return useQuery({
+    queryKey: storyKeys.search(params.query),
+    queryFn: () => searchStories(params),
+    enabled: !!params.query.trim(),
+    staleTime: 1000 * 60 * 2,
   });
 };

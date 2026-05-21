@@ -1,9 +1,9 @@
 import React from 'react';
-import { CancelVector, SearchMagnifyingVector } from '@/assets';
+import { TextInput } from 'react-native';
 import { Box, HStack, LinearGradient } from '@/components/ui';
+import { CancelVector, SearchMagnifyingVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { BlurView } from 'expo-blur';
-import { TextInput } from 'react-native';
 import { AppIconButton } from '../ui/AppIconButton';
 
 interface SearchInputProps {
@@ -44,13 +44,15 @@ const SearchInput: React.FC<SearchInputProps> = ({ query, setQuery }) => {
               cursorColor={colors.primary}
               selectionColor={colors.primary}
             />
-            <AppIconButton
-              icon={CancelVector}
-              onPress={() => setQuery('')}
-              color={colors.headline}
-              width={16}
-              height={16}
-            />
+            {query ? (
+              <AppIconButton
+                icon={CancelVector}
+                onPress={() => setQuery('')}
+                color={colors.headline}
+                width={16}
+                height={16}
+              />
+            ) : null}
           </HStack>
         </BlurView>
       </LinearGradient>

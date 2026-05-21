@@ -7,6 +7,7 @@ import {
   IStory,
   IStoryScene,
   IStorySide,
+  SearchStoriesParams,
   StoryVoteResult,
   UnlockStoryResponse,
   VoteStoryResponse,
@@ -184,4 +185,31 @@ export const getStoryVoteResults = async (storyId: string): Promise<StoryVoteRes
   if (error) throw error;
 
   return data as StoryVoteResult[];
+};
+
+export const searchStories = async (params: SearchStoriesParams): Promise<IStory[]> => {
+  const { query } = params;
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('stories')
+    .select('*')
+    .eq('status', 'published')
+    .ilike('title', `%${trimmedQuery}%`)
+    .order('created_at', {
+      ascending: false,
+    });
+
+  if (error) {
+    throw new Error(
+      error.message ||
+        'Hikaye arama sırasında hata oluştu.',
+    );
+  }
+
+  return data ?? [];
 };

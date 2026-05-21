@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, Center } from '@/components/ui';
-import { AppBar, AppText, SearchInput, SearchRenderItem } from '@/src/components';
-import { useGetStories } from '@/src/actions';
+import { Box } from '@/components/ui';
+import { AppBar, AppLoading, AppText, SearchInput, SearchRenderItem } from '@/src/components';
+import { useSearchStories } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SearchScreen = () => {
   const { bottom } = useSafeAreaInsets();
 
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const { data: stories } = useGetStories();
+  const { data: stories = [], isFetching } = useSearchStories({ query: debouncedQuery });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(query.trim());
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   return (
     <Box className="flex-1 bg-background-500">
@@ -23,9 +32,9 @@ const SearchScreen = () => {
           contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24, gap: 16 }}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
-            query ? (
+            debouncedQuery && stories.length !== 0 ? (
               <AppText size={12} lineHeight={16} weight={500} className="text-loginText">
-                {`"${query}"`} için{' '}
+                {`"${debouncedQuery}"`} için{' '}
                 <AppText size={12} lineHeight={16} weight={500} className="text-primary-500">
                   {stories?.length}
                 </AppText>{' '}
@@ -34,11 +43,15 @@ const SearchScreen = () => {
             ) : null
           }
           ListEmptyComponent={
-            <Center>
-              <AppText size={12} lineHeight={16} className="text-loginText">
-                Hikaye bulunamadı
+            isFetching ? (
+              <AppLoading />
+            ) : (
+              <AppText size={12} lineHeight={16} className="text-loginText text-center">
+                {query
+                  ? `"${query}" için sonuç bulunamadı.`
+                  : 'Hikaye aramak için arama çubuğunu kullanabilirsiniz.'}
               </AppText>
-            </Center>
+            )
           }
         />
       </Box>

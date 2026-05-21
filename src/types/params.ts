@@ -37,3 +37,7 @@ export interface BookmarkParams {
 export interface GetStoriesParams {
   artStyle?: StoryArtStyle | null;
 }
+
+export interface SearchStoriesParams {
+  query: string;
+}
