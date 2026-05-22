@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 10.0.0"
+    "version": ">= 10.0.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -17,13 +18,5 @@
         "buildType": "app-bundle"
       }
     }
-  },
-  "expo": {
-    "android": {
-      "googleServicesFile": "./android/app/google-services.json"
-    }
-  },
-  "android": {
-    "googleServicesFile": "./google-services.json"
   }
 }
