@@ -41,6 +41,8 @@ interface DetailButtonProps {
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
+  flex?: boolean;
+  reverse?: boolean;
 }
 
 const DetailPrimaryButton: React.FC<DetailButtonProps> = ({
@@ -49,12 +51,14 @@ const DetailPrimaryButton: React.FC<DetailButtonProps> = ({
   onPress,
   loading,
   disabled,
+  flex = false,
+  reverse = false,
 }) => {
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="flex-1 h-button rounded-button overflow-hidden disabled:opacity-50"
-      style={{ boxShadow: '0 14px 40px rgba(241,118,42,0.22)' }}
+      className="h-button rounded-button overflow-hidden disabled:opacity-50"
+      style={{ flex: flex ? 1 : undefined, boxShadow: '0 14px 40px rgba(241,118,42,0.22)' }}
       disabled={disabled}
     >
       <LinearGradient
@@ -67,7 +71,11 @@ const DetailPrimaryButton: React.FC<DetailButtonProps> = ({
         {loading ? (
           <AppLoading fullScreen color={colors.headline} size={'small'} />
         ) : (
-          <HStack space="md" className="flex-1 items-center z-20">
+          <HStack
+            space="md"
+            className="flex-1 items-center z-20 justify-center"
+            style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
+          >
             <Center className="w-9 h-9 bg-white/20 rounded-full">
               <Icon width={18} height={18} color={colors.headline} />
             </Center>
@@ -94,19 +102,25 @@ const DetailSecondaryButton: React.FC<DetailButtonProps> = ({
   onPress,
   loading,
   disabled,
+  flex = false,
+  reverse = false,
 }) => {
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="flex-1 h-button bg-detail-secondary-button rounded-button border border-white/10 overflow-hidden disabled:opacity-50"
-      style={{ boxShadow: '0 10px 24px rgba(0,0,0,0.18)' }}
+      className="h-button bg-detail-secondary-button rounded-button border border-white/10 overflow-hidden disabled:opacity-50"
+      style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 24px rgba(0,0,0,0.18)' }}
       disabled={disabled}
     >
       <BlurView intensity={18} tint="dark" className="flex-1 relative">
         {loading ? (
           <AppLoading fullScreen color={colors.headline} size={'small'} />
         ) : (
-          <HStack space="md" className="flex-1 items-center justify-center z-20">
+          <HStack
+            space="md"
+            className="flex-1 items-center justify-center z-20"
+            style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
+          >
             <Center className="w-9 h-9 bg-white/5 rounded-full border border-white/15">
               <Icon width={18} height={18} color={colors.headline} />
             </Center>
