@@ -17,7 +17,7 @@ export default function IndexPage() {
     );
   }
 
-  if (hasSeen) return <Redirect href="/onboarding" />;
+  if (!hasSeen) return <Redirect href="/onboarding" />;
 
   return <Redirect href="/home" />;
 }
