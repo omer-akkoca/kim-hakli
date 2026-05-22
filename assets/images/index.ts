@@ -1,8 +1,8 @@
-import ONBOARDING_ONE from './onboardingOne.jpeg';
-import ONBOARDING_TWO from './onboardingTwo.jpeg';
-import ONBOARDING_THREE from './onboardingThree.jpeg';
-import ONBOARDING_FOUR from './onboardingFour.jpeg';
-import ONBOARDING_FIVE from './onboardingFive.jpeg';
+import ONBOARDING_ONE from './onboardingOne.webp';
+import ONBOARDING_TWO from './onboardingTwo.webp';
+import ONBOARDING_THREE from './onboardingThree.webp';
+import ONBOARDING_FOUR from './onboardingFour.webp';
+import ONBOARDING_FIVE from './onboardingFive.webp';
 
 import LOGIN_BG from './loginBg.webp';
 import LOGIN_TEXT from './kimHakliText.png';
