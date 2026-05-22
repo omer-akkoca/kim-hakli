@@ -17,16 +17,16 @@ import { AppText } from '../ui/AppText';
 import { DetailPrimaryButton, DetailSecondaryButton } from '../story';
 import { DeleteVector, FilterVector } from '@/assets';
 import { CREDIT_FILTERS } from '@/src/constants/values';
-import { StoryFilterBadge } from './StoryFilterBadge';
+import { DiscoverFilterBadge } from './DiscoverFilterBadge';
 
-interface IStoryFilterDrawer {
+interface DiscoverFilterDrawerProps {
   showDrawer: boolean;
   setShowDrawer: (show: boolean) => void;
   filters: GetStoriesParams;
   setFilters: (filters: GetStoriesParams) => void;
 }
 
-const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
+const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
   showDrawer,
   setShowDrawer,
   filters,
@@ -62,7 +62,7 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
                   {categories.map((e) => {
                     const active = categortyCode === e.code;
                     return (
-                      <StoryFilterBadge
+                      <DiscoverFilterBadge
                         key={e.id}
                         label={e.name}
                         active={active}
@@ -81,7 +81,7 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
                   {CREDIT_FILTERS.map((e) => {
                     const active = credit === e.value;
                     return (
-                      <StoryFilterBadge
+                      <DiscoverFilterBadge
                         key={e.value}
                         label={e.label}
                         active={active}
@@ -120,4 +120,4 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
   );
 };
 
-export { StoryFilterDrawer };
+export { DiscoverFilterDrawer };

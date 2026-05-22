@@ -9,7 +9,7 @@ export { AppCard } from './ui/AppCard';
 export { AppLoading } from './ui/AppLoading';
 
 export * from './auth';
-export * from './stories';
+export * from './discover';
 export * from './profile';
 export * from './search';
 export * from './story';

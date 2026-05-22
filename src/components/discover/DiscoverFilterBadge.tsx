@@ -2,13 +2,13 @@ import React from 'react';
 import { Pressable } from '@/components/ui';
 import { AppText } from '../ui/AppText';
 
-interface IStoryFilterBadge {
+interface DiscoverFilterBadgeProps {
   active: boolean;
   label: string;
   onPress: () => void;
 }
 
-const StoryFilterBadge: React.FC<IStoryFilterBadge> = ({ label, onPress, active }) => {
+const DiscoverFilterBadge: React.FC<DiscoverFilterBadgeProps> = ({ label, onPress, active }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -21,4 +21,4 @@ const StoryFilterBadge: React.FC<IStoryFilterBadge> = ({ label, onPress, active 
   );
 };
 
-export { StoryFilterBadge };
+export { DiscoverFilterBadge };
