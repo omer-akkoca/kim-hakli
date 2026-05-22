@@ -94,15 +94,13 @@ export default function StoryVotePage() {
           />
 
           <VStack space="md" className="w-full px-6">
-            <HStack>
-              <DetailPrimaryButton
-                label="Oy Ver"
-                disabled={!!!selectedSide}
-                loading={isPending}
-                onPress={handleVote}
-                icon={VoteVector}
-              />
-            </HStack>
+            <DetailPrimaryButton
+              label="Oy Ver"
+              disabled={!!!selectedSide}
+              loading={isPending}
+              onPress={handleVote}
+              icon={VoteVector}
+            />
             <HStack space="sm" className="items-center justify-center">
               <VerifyVector width={16} height={16} color={colors.whiteSmoke_50} />
               <AppText size={10} weight={600} className="text-whiteSmoke-500/50 text-center">

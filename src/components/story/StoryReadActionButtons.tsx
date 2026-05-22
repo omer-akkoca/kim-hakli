@@ -67,6 +67,7 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
               label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
               onPress={handleNavigate}
               loading={votedLoading}
+              flex
             />
             <Box className="items-center justify-center" style={{ width: 52 }}>
               <AppText size={14} weight={600} className="text-headline">

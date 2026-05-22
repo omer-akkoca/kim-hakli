@@ -95,27 +95,23 @@ const StoryFilterDrawer: React.FC<IStoryFilterDrawer> = ({
           </DrawerBody>
           <DrawerFooter style={{ paddingBottom: bottom }}>
             <VStack space="xl" className="w-full p-4">
-              <HStack>
-                <DetailPrimaryButton
-                  label="Uygula"
-                  onPress={() => {
-                    setFilters({ ...filters, categoryCode: categortyCode, creditFilter: credit });
-                    setShowDrawer(false);
-                  }}
-                  icon={FilterVector}
-                />
-              </HStack>
-              <HStack>
-                <DetailSecondaryButton
-                  label="Temizle"
-                  onPress={() => {
-                    setCategoryCode(undefined);
-                    setFilters({ ...filters, categoryCode: undefined });
-                    setShowDrawer(false);
-                  }}
-                  icon={DeleteVector}
-                />
-              </HStack>
+              <DetailPrimaryButton
+                label="Uygula"
+                onPress={() => {
+                  setFilters({ ...filters, categoryCode: categortyCode, creditFilter: credit });
+                  setShowDrawer(false);
+                }}
+                icon={FilterVector}
+              />
+              <DetailSecondaryButton
+                label="Temizle"
+                onPress={() => {
+                  setCategoryCode(undefined);
+                  setFilters({ ...filters, categoryCode: undefined });
+                  setShowDrawer(false);
+                }}
+                icon={DeleteVector}
+              />
             </VStack>
           </DrawerFooter>
         </AppBackground>

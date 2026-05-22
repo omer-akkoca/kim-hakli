@@ -190,12 +190,14 @@ export default function StoryDetailPage() {
                     icon={voted ? LoopVector : Book6Vector}
                     label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
                     onPress={() => push(`/story/read/${id}`)}
+                    flex
                   />
                   {voted ? (
                     <DetailSecondaryButton
                       icon={ChartVector}
                       label={'Sonuçları Gör'}
                       onPress={() => push(`/story/voteResult/${id}`)}
+                      flex
                     />
                   ) : null}
                 </>
@@ -205,6 +207,7 @@ export default function StoryDetailPage() {
                   label="Hikaye Kilidini Aç"
                   onPress={handleUnlockStory}
                   loading={isPending}
+                  flex
                 />
               )
             ) : (
