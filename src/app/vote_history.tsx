@@ -1,7 +1,6 @@
 import React from 'react';
-import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBackground, AppBar, AppLoading, AppText, VoteHistoryCard } from '@/src/components';
+import { AppBackground, AppBar, AppFlatList, AppLoading, VoteHistoryCard } from '@/src/components';
 import { useGeVoteHistory } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,7 +9,7 @@ const ItemSeparatorComponent = () => <Box className="h-6" />;
 const VoteHistoryPage = () => {
   const { bottom } = useSafeAreaInsets();
 
-  const { data, isLoading } = useGeVoteHistory();
+  const { data, isLoading, refetch } = useGeVoteHistory();
 
   return (
     <AppBackground>
@@ -19,17 +18,15 @@ const VoteHistoryPage = () => {
         {isLoading ? (
           <AppLoading fullScreen />
         ) : (
-          <FlatList
+          <AppFlatList
             data={data}
             keyExtractor={(e) => e.story_id}
             renderItem={({ item }) => <VoteHistoryCard voteHistory={item} />}
             contentContainerStyle={{ padding: 24, paddingBottom: bottom }}
             ItemSeparatorComponent={ItemSeparatorComponent}
-            ListEmptyComponent={
-              <AppText size={12} weight={600} className="text-loginText text-center">
-                Henüz herhangi bir hikayeye oy vermediniz.
-              </AppText>
-            }
+            noContentText="Henüz herhangi bir hikayeye oy vermediniz."
+            refreshing={isLoading}
+            onRefresh={refetch}
           />
         )}
       </Box>

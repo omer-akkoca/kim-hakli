@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
 import { Box } from '@/components/ui';
 import { GetStoriesParams } from '@/src/types';
 import { SearchMagnifyingVector } from '@/assets';
@@ -7,8 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   AppBackground,
   AppBar,
+  AppFlatList,
   AppIconButton,
-  AppText,
   DiscoverFilterDrawer,
   DiscoverFilterTabs,
   StoryRenderItem,
@@ -62,7 +61,7 @@ const DiscoverPage = () => {
         />
       </AppBar>
       <Box className="w-full flex-1">
-        <FlatList
+        <AppFlatList
           data={stories}
           numColumns={2}
           keyExtractor={(item) => item.id}
@@ -73,24 +72,9 @@ const DiscoverPage = () => {
             paddingHorizontal: 24,
             gap: 8,
           }}
-          contentContainerClassName="px-6"
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            isLoading ? undefined : (
-              <AppText size={12} weight={600} className="text-loginText text-center">
-                Uygun kriterlere göre hikaye bulunamadı.
-              </AppText>
-            )
-          }
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading}
-              onRefresh={refetch}
-              tintColor={colors.primary}
-              progressBackgroundColor={colors.backgroud}
-              colors={[colors.primary]}
-            />
-          }
+          loading={isLoading}
+          onRefresh={refetch}
+          noContentText="Uygun kriterlere uygun hikaye bulunamadı."
         />
       </Box>
       <DiscoverFilterDrawer

@@ -16,7 +16,7 @@ interface IStoryRenderItem {
   order: number;
 }
 
-const itemWidth = (width - 48) / 2;
+const itemWidth = (width - 48 - 8) / 2;
 const itemHeight = (itemWidth / 9) * 14;
 
 const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {

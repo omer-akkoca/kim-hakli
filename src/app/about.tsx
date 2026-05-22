@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
-import { AppBackground, AppBar, AppLoading, FaqItem } from '@/src/components';
+import { AppBackground, AppBar, AppFlatList, AppLoading, FaqItem } from '@/src/components';
 import { Box } from '@/components/ui';
 import { useGetFaqs } from '@/src/actions';
 
@@ -14,13 +13,12 @@ const AboutPage = () => {
         {isLoading ? (
           <AppLoading fullScreen />
         ) : (
-          <FlatList
+          <AppFlatList
             data={faqs}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <FaqItem item={item} />}
             ItemSeparatorComponent={ItemSeparatorComponent}
             contentContainerStyle={{ padding: 24 }}
-            showsVerticalScrollIndicator={false}
           />
         )}
       </Box>

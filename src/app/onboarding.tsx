@@ -10,7 +10,7 @@ import {
   ONBOARDING_THREE,
   ONBOARDING_TWO,
 } from '@/assets';
-import { AppBackground, AppText, DetailPrimaryButton } from '@/src/components';
+import { AppBackground, AppFlatList, AppText, DetailPrimaryButton } from '@/src/components';
 import { height, STORAGE_KEYS, width } from '@/src/constants';
 import { storage } from '@/src/utils';
 import { useRouter } from 'expo-router';
@@ -87,14 +87,13 @@ export default function OnboardingPage() {
   );
 
   return (
-    <FlatList
-      ref={flatListRef}
+    <AppFlatList
+      flatListRef={flatListRef}
       data={slides}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
       horizontal
       pagingEnabled
-      showsHorizontalScrollIndicator={false}
       scrollEnabled
       onMomentumScrollEnd={(e) => {
         const index = Math.round(e.nativeEvent.contentOffset.x / width);

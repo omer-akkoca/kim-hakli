@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBar, AppLoading, AppText, SearchInput, SearchRenderItem } from '@/src/components';
+import { AppBar, AppFlatList, AppText, SearchInput, SearchRenderItem } from '@/src/components';
 import { useSearchStories } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -11,7 +10,7 @@ const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const { data: stories = [], isFetching } = useSearchStories({ query: debouncedQuery });
+  const { data: stories = [], isFetching, refetch } = useSearchStories({ query: debouncedQuery });
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -25,12 +24,11 @@ const SearchScreen = () => {
     <Box className="flex-1 bg-background-500">
       <AppBar backIcon leading={<SearchInput query={query} setQuery={setQuery} />} />
       <Box className="flex-1">
-        <FlatList
+        <AppFlatList
           data={stories}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <SearchRenderItem story={item} />}
           contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24, gap: 16 }}
-          showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             debouncedQuery && stories.length !== 0 ? (
               <AppText size={12} lineHeight={16} weight={500} className="text-loginText">
@@ -42,16 +40,12 @@ const SearchScreen = () => {
               </AppText>
             ) : null
           }
-          ListEmptyComponent={
-            isFetching ? (
-              <AppLoading />
-            ) : (
-              <AppText size={12} lineHeight={16} className="text-loginText text-center">
-                {query
-                  ? `"${query}" için sonuç bulunamadı.`
-                  : 'Hikaye aramak için arama çubuğunu kullanabilirsiniz.'}
-              </AppText>
-            )
+          onRefresh={refetch}
+          loading={isFetching}
+          noContentText={
+            query
+              ? `"${query}" için sonuç bulunamadı.`
+              : 'Hikaye aramak için arama çubuğunu kullanabilirsiniz.'
           }
         />
       </Box>

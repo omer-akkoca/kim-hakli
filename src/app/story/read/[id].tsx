@@ -4,6 +4,7 @@ import { Box } from '@/components/ui';
 import { useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
 import {
   AppBackground,
+  AppFlatList,
   AppLoading,
   StoryReadActionButtons,
   StoryReadBg,
@@ -49,15 +50,13 @@ export default function StoryReadPage() {
           <StoryReadProgressBar current={activeIndex + 1} total={scenes.length} />
         </Box>
         <Box className="flex-1">
-          <FlatList<string>
-            ref={flatListRef}
+          <AppFlatList
+            flatListRef={flatListRef}
             data={signedImages}
             keyExtractor={(e) => e}
             snapToInterval={width}
             pagingEnabled
             horizontal
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
             decelerationRate="fast"
             onViewableItemsChanged={onViewableItemsChanged.current}
             viewabilityConfig={viewabilityConfig.current}
