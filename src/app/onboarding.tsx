@@ -1,23 +1,24 @@
-import { useRouter } from 'expo-router';
-import { View, FlatList, Image } from 'react-native';
-import { height, STORAGE_KEYS, width } from '@/src/constants';
-import { storage } from '@/src/utils';
-import { Box, Button, ButtonText, HStack, Text } from '@/components/ui';
 import { useRef, useState } from 'react';
+import { FlatList, Image } from 'react-native';
+import { Box, HStack, VStack } from '@/components/ui';
 import {
+  RightChevronVector,
+  StarVector,
   ONBOARDING_FIVE,
   ONBOARDING_FOUR,
   ONBOARDING_ONE,
   ONBOARDING_THREE,
   ONBOARDING_TWO,
-} from '@/assets/images';
+} from '@/assets';
+import { AppBackground, AppText, DetailPrimaryButton } from '@/src/components';
+import { height, STORAGE_KEYS, width } from '@/src/constants';
+import { storage } from '@/src/utils';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTranslation } from 'react-i18next';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
-  const { t } = useTranslation();
 
   const flatListRef = useRef<FlatList>(null);
 
@@ -37,39 +38,52 @@ export default function OnboardingPage() {
   };
 
   const renderItem = ({ item }: { item: (typeof slides)[0] }) => (
-    <View style={{ width, height }} className="gap-6">
-      <View style={{ flex: 3 }} className="overflow-hidden">
-        <Image source={item.image} resizeMode="cover" style={{ width, height: (height / 3) * 2 }} />
-      </View>
-      <View style={{ flex: 1, paddingBottom: bottom + 24 }} className="px-6 gap-6">
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-center text-3xl font-bold mb-3 capitalize">{t(item.title)}</Text>
-          <Text className="text-center text-base leading-6 mb-6 w-3/4">{t(item.description)}</Text>
-        </View>
-        <View className="relative items-center justify-center">
-          <HStack space="sm">
+    <Box style={{ width, height }}>
+      <AppBackground>
+        <Box style={{ flex: 3 }} className="overflow-hidden">
+          <Image
+            source={item.image}
+            resizeMode="cover"
+            style={{ width, height: (height / 3) * 2 }}
+          />
+        </Box>
+        <Box
+          className="flex-1 px-6 gap-6"
+          style={{ paddingBottom: bottom + 24, paddingHorizontal: 24 }}
+        >
+          <VStack space="lg" className="flex-1 justify-center items-center">
+            <AppText
+              size={24}
+              lineHeight={30}
+              weight={700}
+              className="text-center capitalize text-headline"
+            >
+              {item.title}
+            </AppText>
+            <AppText size={16} lineHeight={22} className="w-3/4 text-center text-whiteSmoke-500/75">
+              {item.description}
+            </AppText>
+          </VStack>
+          <HStack space="sm" className="justify-center items-center">
             {slides.map((_, i) => {
               const active = i === currentIndex;
               return (
                 <Box
                   key={i}
-                  className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-slate-500'}`}
+                  className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
                 />
               );
             })}
           </HStack>
-        </View>
-        <Button
-          onPress={isLast ? handleFinish : goNext}
-          size="xl"
-          className="w-full rounded-none shadow-md"
-        >
-          <ButtonText className="text-lg font-semibold">
-            {isLast ? t('common.start') : t('common.continue')}
-          </ButtonText>
-        </Button>
-      </View>
-    </View>
+          <DetailPrimaryButton
+            onPress={isLast ? handleFinish : goNext}
+            label={isLast ? 'Başla' : 'Devam Et'}
+            icon={isLast ? StarVector : RightChevronVector}
+            reverse
+          />
+        </Box>
+      </AppBackground>
+    </Box>
   );
 
   return (
@@ -94,31 +108,33 @@ const slides = [
   {
     id: '1',
     image: ONBOARDING_ONE,
-    title: 'onboarding.slide1.title',
-    description: 'onboarding.slide1.description',
+    title: 'Her Hikayenin İki Tarafı Vardır',
+    description: 'Gerçek hayattan tartışmaları kısa hikayeler olarak izle. Olaylara sen karar ver.',
   },
   {
     id: '2',
     image: ONBOARDING_TWO,
-    title: 'onboarding.slide2.title',
-    description: 'onboarding.slide2.description',
+    title: 'Hikayeyi sahne sahne keşfet',
+    description:
+      'Tartışmalar, yapay zeka ile sahnelere ayrılır. Her detayı gör, durumu tam anlamıyla anla.',
   },
   {
     id: '3',
     image: ONBOARDING_THREE,
-    title: 'onboarding.slide3.title',
-    description: 'onboarding.slide3.description',
+    title: 'Sence Kim Haklı?',
+    description: 'Hikayenin sonunda kararını ver. Kendi fikrini ortaya koy.',
   },
   {
     id: '4',
     image: ONBOARDING_FOUR,
-    title: 'onboarding.slide4.title',
-    description: 'onboarding.slide4.description',
+    title: 'Yalnız değilsin',
+    description: 'Diğer kullanıcıların ne düşündüğünü gör. Çoğunluk seninle mi, yoksa karşı mı?',
   },
   {
     id: '5',
     image: ONBOARDING_FIVE,
-    title: 'onboarding.slide5.title',
-    description: 'onboarding.slide5.description',
+    title: 'Giriş Yap',
+    description:
+      "Kim Haklı'ya kayıt olarak yüzlerce hikayeye erişim sağla ve kimin haklı olduğuna karar ver.",
   },
 ];

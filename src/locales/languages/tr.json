@@ -11,20 +11,20 @@
   },
   "onboarding": {
     "slide1": {
-      "title": "Her Hikayenin İki Tarafı Vardır",
-      "description": "Gerçek hayattan tartışmaları kısa hikayeler olarak izle. Olaylara sen karar ver."
+      "title": "",
+      "description": ""
     },
     "slide2": {
-      "title": "Hikayeyi sahne sahne keşfet",
-      "description": "Tartışmalar, yapay zeka ile sahnelere ayrılır. Her detayı gör, durumu tam anlamıyla anla."
+      "title": "",
+      "description": ""
     },
     "slide3": {
-      "title": "Sence Kim Haklı?",
-      "description": "Hikayenin sonunda kararını ver. Kendi fikrini ortaya koy."
+      "title": "",
+      "description": ""
     },
     "slide4": {
-      "title": "Yalnız değilsin",
-      "description": "Diğer kullanıcıların ne düşündüğünü gör. Çoğunluk seninle mi, yoksa karşı mı?"
+      "title": "",
+      "description": ""
     },
     "slide5": {
       "title": "Hazırsan başlayalım",
@@ -32,8 +32,8 @@
     }
   },
   "auth": {
-    "login": "Giriş Yap",
-    "loginDesc": "Kim Haklı'ya kayıt olarak yüzlerce hikayeye erişim sağla ve kimin haklı olduğuna karar ver.",
+    "login": "",
+    "loginDesc": "",
     "google": "Google ile Devam Et",
     "apple": "Apple ile Devam Et"
   },
