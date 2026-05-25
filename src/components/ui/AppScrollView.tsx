@@ -1,6 +1,6 @@
-import { bottomBarHeight, colors } from '@/src/constants';
 import React, { useMemo } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
+import { bottomBarHeight, colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
@@ -10,6 +10,7 @@ interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
   safeBottom?: boolean;
   safeBottomNav?: boolean;
   paddingHorizontal?: number;
+  gap?: number;
 }
 
 const AppScrollView: React.FC<AppScrollViewProps> = ({
@@ -19,6 +20,7 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
   safeBottom,
   safeBottomNav,
   paddingHorizontal,
+  gap,
   ...props
 }) => {
   const { top, bottom } = useSafeAreaInsets();
@@ -40,6 +42,7 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
         paddingTop: paddingTop,
         paddingBottom: paddingBottom,
         paddingHorizontal: paddingHorizontal ?? 0,
+        gap: gap,
       }}
       showsVerticalScrollIndicator={false}
       refreshControl={

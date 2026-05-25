@@ -1,10 +1,16 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
-import { AppText, AppBackground, ProfileCard, ProfileTab, CreditLabel } from '@/src/components';
+import {
+  AppText,
+  AppBackground,
+  ProfileCard,
+  ProfileTab,
+  CreditLabel,
+  AppScrollView,
+} from '@/src/components';
 import { Avatar, AvatarImage, Box, Divider, HStack, Pressable, VStack } from '@/components/ui';
 import { useAppSelector } from '@/src/store';
 import { useGetUserStoryStats, useSignOut } from '@/src/actions';
-import { bottomBarHeight, colors } from '@/src/constants';
+import { colors } from '@/src/constants';
 import {
   AboutVector,
   BookmarkOutlineVector,
@@ -15,13 +21,11 @@ import {
   ScalesVector,
   SettingsVector,
 } from '@/assets';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Redirect, useRouter } from 'expo-router';
 import { useModal } from '@/src/hooks';
 import { version } from '@/package.json';
 
 export default function ProfilePage() {
-  const { top, bottom } = useSafeAreaInsets();
   const { push } = useRouter();
   const { show } = useModal();
 
@@ -52,10 +56,7 @@ export default function ProfilePage() {
 
   return (
     <AppBackground>
-      <ScrollView
-        contentContainerStyle={{ paddingTop: top, paddingBottom: bottomBarHeight + bottom + 24 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <AppScrollView safeTop safeBottomNav safeBottom>
         <Box className="items-center justify-center py-8 gap-6">
           <Avatar
             className="w-32 h-32 border-2 border-primary-500"
@@ -152,7 +153,7 @@ export default function ProfilePage() {
             </AppText>
           </Box>
         </VStack>
-      </ScrollView>
+      </AppScrollView>
     </AppBackground>
   );
 }

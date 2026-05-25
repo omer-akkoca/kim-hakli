@@ -1,5 +1,4 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
 import {
   Drawer,
   DrawerBackdrop,
@@ -18,6 +17,7 @@ import { DetailPrimaryButton, DetailSecondaryButton } from '../story';
 import { DeleteVector, FilterVector } from '@/assets';
 import { CREDIT_FILTERS } from '@/src/constants/values';
 import { DiscoverFilterBadge } from './DiscoverFilterBadge';
+import { AppScrollView } from '../ui/AppScrollView';
 
 interface DiscoverFilterDrawerProps {
   showDrawer: boolean;
@@ -32,7 +32,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
   filters,
   setFilters,
 }) => {
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   const categories = useAppSelector((state) => state.category.categories);
 
@@ -58,8 +58,8 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
       <DrawerBackdrop className="bg-modal-backdrop" />
       <DrawerContent className="border-l border-whiteSmoke-500/25 p-0">
         <AppBackground>
-          <DrawerBody className="flex-1" style={{ paddingTop: top }}>
-            <ScrollView contentContainerClassName="p-4 gap-6" showsVerticalScrollIndicator={false}>
+          <DrawerBody className="flex-1">
+            <AppScrollView gap={24} paddingHorizontal={16} safeTop>
               {/* Kategori Filtreleri */}
               <VStack space="lg">
                 <AppText size={18} weight={600} className="text-headline -tracking-2 px-2">
@@ -98,7 +98,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
                   })}
                 </HStack>
               </VStack>
-            </ScrollView>
+            </AppScrollView>
           </DrawerBody>
           <DrawerFooter style={{ paddingBottom: bottom }}>
             <VStack space="xl" className="w-full p-4">
