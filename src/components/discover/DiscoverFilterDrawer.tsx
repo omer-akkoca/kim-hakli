@@ -39,6 +39,13 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
   const [categortyCode, setCategoryCode] = React.useState<string | undefined>(undefined);
   const [credit, setCredit] = React.useState<CreditFilter>('all');
 
+  const handleClearFilter = () => {
+    setCategoryCode(undefined);
+    setCredit('all');
+    setFilters({ ...filters, categoryCode: undefined, creditFilter: undefined });
+    setShowDrawer(false);
+  };
+
   return (
     <Drawer
       isOpen={showDrawer}
@@ -105,11 +112,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
               />
               <DetailSecondaryButton
                 label="Temizle"
-                onPress={() => {
-                  setCategoryCode(undefined);
-                  setFilters({ ...filters, categoryCode: undefined });
-                  setShowDrawer(false);
-                }}
+                onPress={handleClearFilter}
                 icon={DeleteVector}
               />
             </VStack>
