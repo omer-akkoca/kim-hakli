@@ -1,11 +1,24 @@
+import React, { useMemo } from 'react';
 import { CreditVector } from '@/assets';
 import { Box, HStack, LinearGradient } from '@/components/ui';
-import React from 'react';
 import { AppText } from './AppText';
 import { useAppSelector } from '@/src/store';
+import { formatStoryVoteCount } from '@/src/utils';
 
-const CreditLabel = () => {
+interface CreditLabelProps {
+  long?: boolean;
+}
+
+const CreditLabel: React.FC<CreditLabelProps> = ({ long = false }) => {
   const user = useAppSelector((state) => state.auth.user);
+
+  const creditCount = useMemo(() => {
+    if (!user) return 0;
+    return long ? user.credit_count : formatStoryVoteCount(user?.credit_count);
+  }, [user, long]);
+
+  if (!user) return <></>;
+
   return (
     <Box
       className="h-credit-label bg-credit-label border border-primary-500 rounded-full overflow-hidden"
@@ -22,10 +35,7 @@ const CreditLabel = () => {
           <CreditVector width={20} height={20} />
           <HStack space="xs">
             <AppText size={13} weight={700} className="text-headline -tracking-2">
-              {user!.credit_count}
-            </AppText>
-            <AppText size={12} weight={500} className="text-loginText">
-              K
+              {creditCount}
             </AppText>
           </HStack>
         </HStack>

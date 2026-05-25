@@ -66,7 +66,7 @@ export default function ProfilePage() {
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">
             {user.full_name}
           </AppText>
-          <CreditLabel />
+          <CreditLabel long />
         </Box>
         <VStack space="xl" className="px-6">
           {/* Statistics Card */}
