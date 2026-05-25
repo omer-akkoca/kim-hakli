@@ -4,6 +4,7 @@ import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@
 import {
   AppBackground,
   AppLoading,
+  AppScrollView,
   AppText,
   DetailPrimaryButton,
   ResultCard,
@@ -11,9 +12,7 @@ import {
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ScrollView } from 'react-native';
 import { BookOutlineVector, UsersVector } from '@/assets';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
 
@@ -21,10 +20,9 @@ const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { replace } = useRouter();
-  const { top, bottom } = useSafeAreaInsets();
 
   const { data: story } = useGetStoryById(id);
-  const { data: stats, isPending: statsLoading } = useGetStoryVoteResults(id);
+  const { data: stats = [], isPending: statsLoading, refetch } = useGetStoryVoteResults(id);
 
   const avatarPaths = useMemo(
     () => stats?.map((item) => item.avatar_path).filter(Boolean) ?? [],
@@ -34,6 +32,24 @@ const StoryVoteResultPage = () => {
   const { data: avatars = [] } = useGetStoryImageUrls({
     paths: avatarPaths,
   });
+
+  const resultsWithAvatar = stats.map((item) => ({
+    ...item,
+    avatar_url: avatars.find((img) => img.includes(item.avatar_path))!,
+  }));
+
+  const totalVote = Object.values(stats).reduce((sum, stat) => sum + stat.vote_count, 0);
+
+  const winner =
+    resultsWithAvatar.length > 0 &&
+    resultsWithAvatar[0].percentage !== resultsWithAvatar[1]?.percentage
+      ? resultsWithAvatar[0]
+      : null;
+
+  const restSides = useMemo(() => {
+    if (!winner) return resultsWithAvatar;
+    return resultsWithAvatar.filter((e) => e.side_id !== winner.side_id);
+  }, [resultsWithAvatar]);
 
   if (statsLoading) {
     return (
@@ -45,25 +61,15 @@ const StoryVoteResultPage = () => {
 
   if (!story || !stats) return <></>;
 
-  const resultsWithAvatar = stats.map((item) => ({
-    ...item,
-    avatar_url: avatars.find((img) => img.includes(item.avatar_path))!,
-  }));
-
-  const totalVote = Object.values(stats).reduce((sum, stat) => sum + stat.vote_count, 0);
-
-  const winner = resultsWithAvatar[0];
-
   return (
     <AppBackground>
       <Box className="flex-1">
-        <ScrollView
-          contentContainerStyle={{
-            paddingTop: top + 24,
-            paddingBottom: bottom + 24,
-            paddingHorizontal: 24,
-          }}
-          showsVerticalScrollIndicator={false}
+        <AppScrollView
+          safeTop
+          safeBottom
+          paddingHorizontal={24}
+          loading={statsLoading}
+          onRefresh={refetch}
         >
           <Box className="items-center justify-center my-10">
             <AppText
@@ -119,11 +125,9 @@ const StoryVoteResultPage = () => {
           </Box>
           <VStack space="md">
             {winner ? <WinnerResultCard winner={winner} /> : null}
-            {resultsWithAvatar
-              .filter((e) => e.side_id !== winner.side_id)
-              .map((e, i) => (
-                <ResultCard key={i.toString()} side={e} />
-              ))}
+            {restSides.map((e, i) => (
+              <ResultCard key={i.toString()} side={e} />
+            ))}
             <TotalVoteCard>
               <HStack className="items-center justify-between px-4 py-2">
                 <HStack space="md" className="items-center">
@@ -161,7 +165,7 @@ const StoryVoteResultPage = () => {
             label="Başka Hikaye Oku"
             onPress={() => replace('/home')}
           />
-        </ScrollView>
+        </AppScrollView>
       </Box>
     </AppBackground>
   );
