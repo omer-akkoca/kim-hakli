@@ -8,6 +8,7 @@ export { CreditLabel } from './ui/CreditLabel';
 export { AppCard } from './ui/AppCard';
 export { AppLoading } from './ui/AppLoading';
 export { AppFlatList } from './ui/AppFlatList';
+export { AppScrollView } from './ui/AppScrollView';
 
 export * from './auth';
 export * from './discover';
