@@ -1,5 +1,12 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { resetAuth, setAuthLoading, setSession, setUser, useAppDispatch } from '@/src/store';
+import {
+  resetAuth,
+  resetBookmark,
+  setAuthLoading,
+  setSession,
+  setUser,
+  useAppDispatch,
+} from '@/src/store';
 import { useGetProfile } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
 import { useRouter } from 'expo-router';
@@ -21,6 +28,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }
     } else {
       dispatch(resetAuth());
+      dispatch(resetBookmark());
       replace('/(tabs)/home');
     }
 

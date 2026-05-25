@@ -14,15 +14,17 @@ import {
   useAppSelector,
 } from '@/src/store';
 
+const bookmarksKeys = {
+  bookmarkedStoryIds: (userId?: string) => ['stories', 'bookmarked-ids', userId],
+  storiesByIds: ['stories', 'by-ids'],
+};
+
 export const useGetBookmarkedStoryIds = () => {
   const dispatch = useAppDispatch();
-
   const user = useAppSelector((state) => state.auth.user);
-
-  const userId = user ? user.id : '';
-
+  const userId = user ? user.id : undefined;
   const query = useQuery({
-    queryKey: ['stories', 'bookmarked-ids', userId],
+    queryKey: bookmarksKeys.bookmarkedStoryIds(userId),
     queryFn: () => getBookmarkedStoryIds(userId!),
     enabled: !!userId,
     staleTime: Infinity,
@@ -67,7 +69,7 @@ export const useRemoveBookmark = () => {
 
 export const useGetStoriesByIds = (storyIds: string[]) => {
   return useQuery({
-    queryKey: ['stories', 'by-ids'],
+    queryKey: bookmarksKeys.storiesByIds,
     queryFn: () => getStoriesByIds(storyIds),
     enabled: storyIds.length > 0,
   });
