@@ -9,11 +9,9 @@ import {
 } from '@/src/store';
 import { useGetProfile } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
-import { useRouter } from 'expo-router';
 import { getSession, onAuthStateChanged } from '@/src/services';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { replace } = useRouter();
   const dispatch = useAppDispatch();
 
   const { mutateAsync } = useGetProfile();
@@ -29,7 +27,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     } else {
       dispatch(resetAuth());
       dispatch(resetBookmark());
-      replace('/(tabs)/home');
     }
 
     dispatch(setAuthLoading(false));

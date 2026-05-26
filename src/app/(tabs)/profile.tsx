@@ -6,66 +6,40 @@ import {
   ProfileTab,
   CreditLabel,
   AppScrollView,
+  ProfileLogoutButton,
+  ProfileAvatar,
 } from '@/src/components';
-import { Avatar, AvatarImage, Box, Divider, HStack, Pressable, VStack } from '@/components/ui';
-import { useAppSelector } from '@/src/store';
-import { useGetUserStoryStats, useSignOut } from '@/src/actions';
+import { Box, Divider, HStack, VStack } from '@/components/ui';
+import { useGetUserStoryStats } from '@/src/actions';
 import { colors } from '@/src/constants';
 import {
   AboutVector,
   BookmarkOutlineVector,
   HistoryVector,
   LockOutlineVector,
-  LogoutVector,
-  RightChevronVector,
   ScalesVector,
   SettingsVector,
 } from '@/assets';
-import { Redirect, useRouter } from 'expo-router';
-import { useModal } from '@/src/hooks';
+import { useRouter } from 'expo-router';
 import { version } from '@/package.json';
+import { useAuth } from '@/src/hooks';
 
 export default function ProfilePage() {
   const { push } = useRouter();
-  const { show } = useModal();
 
-  const { user } = useAppSelector((state) => state.auth);
-
-  const { mutate: logout } = useSignOut();
+  const { user, isAuthenticated } = useAuth();
 
   const { data: stats } = useGetUserStoryStats(user?.id ?? '');
 
-  const handleLogout = () => {
-    show({
-      title: 'Çıkış Yap',
-      subtitle: 'Çıkış yapmak istediğinize emin misiniz?',
-      buttons: [
-        {
-          label: 'Evet, Çıkış Yap',
-          onPress: logout,
-        },
-        {
-          label: 'Vazgeç',
-          variant: 'outline',
-        },
-      ],
-    });
-  };
-
-  if (!user) return <Redirect href="/auth/login" />;
+  if (!isAuthenticated) return <AppBackground />;
 
   return (
     <AppBackground>
       <AppScrollView safeTop safeBottomNav safeBottom>
         <Box className="items-center justify-center py-8 gap-6">
-          <Avatar
-            className="w-32 h-32 border-2 border-primary-500"
-            style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)' }}
-          >
-            <AvatarImage source={{ uri: user.avatar_url }} />
-          </Avatar>
+          <ProfileAvatar />
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">
-            {user.full_name}
+            {user?.full_name ?? ' '}
           </AppText>
           <CreditLabel long />
         </Box>
@@ -129,19 +103,7 @@ export default function ProfilePage() {
           </ProfileCard>
 
           {/* Logout */}
-          <Pressable onPress={handleLogout}>
-            <ProfileCard>
-              <HStack className="p-4 items-center justify-between">
-                <HStack space="lg" className="items-center">
-                  <LogoutVector width={20} height={20} color={colors.primary} />
-                  <AppText size={14} weight={600} className="text-primary-500 -tracking-2">
-                    Çıkış Yap
-                  </AppText>
-                </HStack>
-                <RightChevronVector width={16} height={16} color={colors.whiteSmoke_32} />
-              </HStack>
-            </ProfileCard>
-          </Pressable>
+          <ProfileLogoutButton />
 
           {/* Version */}
           <Box className="py-4">

@@ -9,8 +9,13 @@ const useOnboarding = () => {
   useEffect(() => {
     const checkOnboarding = async () => {
       try {
+        setLoading(true)
         const value = await storage.get<boolean>(STORAGE_KEYS.HAS_SEEN_ONBOARDING);
-        setHasSeen(value === true);
+        if (value) {
+          setHasSeen(value)
+        } else {
+          setHasSeen(false)
+        }
       } finally {
         setLoading(false);
       }
