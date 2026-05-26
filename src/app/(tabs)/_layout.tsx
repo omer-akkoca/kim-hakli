@@ -106,7 +106,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
               return (
                 <Box key={e.name} className="relative flex-1 items-center justify-center">
                   <Pressable
-                    className="items-center justify-center pb-1"
+                    className="items-center justify-center"
                     onPress={() => navigate(e.name)}
                   >
                     <Icon
@@ -135,7 +135,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
           </HStack>
           <Animated.View
             className="absolute left-0 w-1.5 h-1.5 rounded-full bg-primary-500"
-            style={[{ bottom: bottom + 6, backgroundColor: colors.primary }, animatedStyle]}
+            style={[{ bottom: bottom + 4, backgroundColor: colors.primary }, animatedStyle]}
           />
         </BlurView>
       </Box>
