@@ -40,7 +40,7 @@ export default function OnboardingPage() {
   const renderItem = ({ item }: { item: (typeof slides)[0] }) => (
     <Box style={{ width, height }}>
       <AppBackground>
-        <Box style={{ flex: 3 }} className="overflow-hidden">
+        <Box style={{ flex: 2 }} className="overflow-hidden">
           <Image
             source={item.image}
             resizeMode="cover"
@@ -48,8 +48,8 @@ export default function OnboardingPage() {
           />
         </Box>
         <Box
-          className="flex-1 px-6 gap-6"
-          style={{ paddingBottom: bottom + 24, paddingHorizontal: 24 }}
+          className="px-6 gap-6"
+          style={{ flex: 1, paddingBottom: bottom + 16, paddingHorizontal: 24 }}
         >
           <VStack space="lg" className="flex-1 justify-center items-center">
             <AppText
