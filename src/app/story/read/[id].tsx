@@ -50,7 +50,7 @@ export default function StoryReadPage() {
     <StoryReadBg>
       <Box className="flex-1" style={{ gap: 10 }}>
         <Box style={{ marginTop: top }}>
-          <StoryReadProgressBar current={activeIndex + 1} total={scenes.length} />
+          <StoryReadProgressBar current={activeIndex + 1} total={scenes.length + 1} />
         </Box>
         <Box className="flex-1">
           <AppFlatList
@@ -62,7 +62,8 @@ export default function StoryReadPage() {
             maxToRenderPerBatch={2}
             removeClippedSubviews={false}
             snapToInterval={width}
-            pagingEnabled
+            snapToAlignment="start"
+            disableIntervalMomentum={true}
             horizontal
             decelerationRate="fast"
             onViewableItemsChanged={onViewableItemsChanged.current}
@@ -74,7 +75,7 @@ export default function StoryReadPage() {
         <StoryReadActionButtons
           storyId={id}
           activeIndex={activeIndex}
-          length={scenes.length}
+          length={scenes.length + 1}
           setActiveIndex={setActiveIndex}
         />
       </Box>
