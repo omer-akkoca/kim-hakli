@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Image as RnImage } from 'react-native';
 import { Box } from '@/components/ui';
 import {
@@ -9,8 +9,6 @@ import {
 } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const ref = width > height ? height : width;
-
 interface StoryReadRenderItemProps {
   item: string;
 }
@@ -18,20 +16,21 @@ interface StoryReadRenderItemProps {
 const StoryReadRenderItem: React.FC<StoryReadRenderItemProps> = ({ item }) => {
   const { top, bottom } = useSafeAreaInsets();
 
-  const imageScale = ref / 9;
-  const imageWidth = imageScale * 9;
-  const imageHeight = imageScale * 16;
-  const boxHeight =
-    height - bottom - top - storyReadActionBarHeight - storyReadProgressBarHeight - 16 - 16;
+  const boxHeight = useMemo(
+    () => height - bottom - top - storyReadActionBarHeight - storyReadProgressBarHeight - 64,
+    [bottom, top],
+  );
 
-  const paddingVertical = (boxHeight - imageHeight) / 4;
+  const boxWidth = width;
+
+  const imageWidth = Math.min(boxWidth, boxHeight * (9 / 16));
+  const imageHeight = Math.min(boxHeight, boxWidth * (16 / 9));
 
   return (
-    <Box style={{ width: width, height: boxHeight, paddingVertical }}>
+    <Box className="items-center justify-center" style={{ width: boxWidth, height: boxHeight }}>
       <RnImage
         source={{ uri: item }}
-        height={imageHeight}
-        width={imageWidth}
+        style={{ width: imageWidth, height: imageHeight }}
         resizeMode="contain"
       />
     </Box>
