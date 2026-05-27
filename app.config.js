@@ -1,9 +1,116 @@
-const appJson = require('./app.json');
-
-export default {
-  ...appJson.expo,
-  android: {
-    ...appJson.expo.android,
-    googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+export default ({ config }) => ({
+  ...config,
+  name: 'Kim Haklı?',
+  slug: 'kim-hakli',
+  scheme: 'kim-hakli',
+  version: '1.0.0',
+  orientation: 'portrait',
+  icon: './assets/icon.png',
+  userInterfaceStyle: 'light',
+  newArchEnabled: true,
+  splash: {
+    image: './assets/logo.png',
+    resizeMode: 'contain',
+    backgroundColor: '#ffffff',
   },
-};
+  ios: {
+    supportsTablet: true,
+    googleServicesFile: './GoogleService-Info.plist',
+    bundleIdentifier: 'com.oakkoca.kimhakli',
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: './assets/icon.png',
+      backgroundColor: '#ffffff',
+    },
+    edgeToEdgeEnabled: true,
+    predictiveBackGestureEnabled: false,
+    package: 'com.oakkoca.kimhakli',
+    googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? './google-services.json',
+  },
+  web: {
+    favicon: './assets/favicon.png',
+  },
+  plugins: [
+    'expo-router',
+    [
+      '@react-native-google-signin/google-signin',
+      {
+        iosUrlScheme: 'com.googleusercontent.apps.945226356568-armhhtcjn5abjs3kna2bg4285ohva0jc',
+      },
+    ],
+    'expo-localization',
+    [
+      'expo-font',
+      {
+        android: {
+          fonts: [
+            {
+              fontFamily: 'Inter',
+              fontDefinitions: [
+                { path: './assets/fonts/inter/Inter-Regular.ttf', weight: 400 },
+                { path: './assets/fonts/inter/Inter-Medium.ttf', weight: 500 },
+                { path: './assets/fonts/inter/Inter-SemiBold.ttf', weight: 600 },
+                { path: './assets/fonts/inter/Inter-Bold.ttf', weight: 700 },
+                { path: './assets/fonts/inter/Inter-ExtraBold.ttf', weight: 800 },
+                { path: './assets/fonts/inter/Inter-Black.ttf', weight: 900 },
+              ],
+            },
+            {
+              fontFamily: 'PlayfairDisplay',
+              fontDefinitions: [
+                {
+                  path: './assets/fonts/playfair-display/PlayfairDisplay-Regular.ttf',
+                  weight: 400,
+                },
+                { path: './assets/fonts/playfair-display/PlayfairDisplay-Medium.ttf', weight: 500 },
+                {
+                  path: './assets/fonts/playfair-display/PlayfairDisplay-SemiBold.ttf',
+                  weight: 600,
+                },
+                { path: './assets/fonts/playfair-display/PlayfairDisplay-Bold.ttf', weight: 700 },
+                {
+                  path: './assets/fonts/playfair-display/PlayfairDisplay-ExtraBold.ttf',
+                  weight: 800,
+                },
+                { path: './assets/fonts/playfair-display/PlayfairDisplay-Black.ttf', weight: 900 },
+              ],
+            },
+          ],
+        },
+        ios: {
+          fonts: [
+            './assets/fonts/inter/Inter-Regular.ttf',
+            './assets/fonts/inter/Inter-Medium.ttf',
+            './assets/fonts/inter/Inter-SemiBold.ttf',
+            './assets/fonts/inter/Inter-Bold.ttf',
+            './assets/fonts/inter/Inter-ExtraBold.ttf',
+            './assets/fonts/inter/Inter-Black.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-Regular.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-Medium.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-SemiBold.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-Bold.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-ExtraBold.ttf',
+            './assets/fonts/playfair-display/PlayfairDisplay-Black.ttf',
+          ],
+        },
+      },
+    ],
+    'expo-sqlite',
+    [
+      'expo-navigation-bar',
+      {
+        enforceContrast: false,
+      },
+    ],
+  ],
+  experiments: {
+    typedRoutes: true,
+  },
+  extra: {
+    router: {},
+    eas: {
+      projectId: 'e6c9f5b0-ed68-493f-b7a8-19991091719e',
+    },
+  },
+});
