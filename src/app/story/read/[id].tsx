@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Box } from '@/components/ui';
-import { useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
+import { useGetStoryCoverImageUrl, useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
 import {
   AppBackground,
   AppFlatList,
@@ -21,6 +21,9 @@ export default function StoryReadPage() {
   const { top } = useSafeAreaInsets();
 
   const { data: scenes = [], isPending: scenesLoading } = useGetStoryScenes(id);
+  const { data: coverImage, isLoading: coverLoading } = useGetStoryCoverImageUrl({
+    path: `${id}/cover.webp`,
+  });
 
   const imagePaths = scenes?.map((scene) => scene.image_path) ?? [];
 
@@ -36,7 +39,7 @@ export default function StoryReadPage() {
     }
   });
 
-  if (scenesLoading)
+  if (scenesLoading || coverLoading)
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -52,8 +55,12 @@ export default function StoryReadPage() {
         <Box className="flex-1">
           <AppFlatList
             flatListRef={flatListRef}
-            data={signedImages}
+            data={[coverImage, ...signedImages]}
             keyExtractor={(e) => e}
+            initialNumToRender={3}
+            windowSize={5}
+            maxToRenderPerBatch={2}
+            removeClippedSubviews={false}
             snapToInterval={width}
             pagingEnabled
             horizontal
