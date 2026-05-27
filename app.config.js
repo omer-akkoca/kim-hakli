@@ -100,7 +100,7 @@ export default ({ config }) => ({
     [
       'expo-navigation-bar',
       {
-        enforceContrast: false,
+        enforceContrast: true,
       },
     ],
   ],

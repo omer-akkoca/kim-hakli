@@ -71,7 +71,7 @@ const StoryVoteResultPage = () => {
           loading={statsLoading}
           onRefresh={refetch}
         >
-          <Box className="items-center justify-center my-10">
+          <Box className="items-center justify-center mb-10">
             <AppText
               size={15}
               weight={700}

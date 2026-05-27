@@ -40,17 +40,14 @@ export default function OnboardingPage() {
   const renderItem = ({ item }: { item: (typeof slides)[0] }) => (
     <Box style={{ width, height }}>
       <AppBackground>
-        <Box style={{ flex: 2 }} className="overflow-hidden">
+        <Box style={{ flex: 9 }} className="overflow-hidden">
           <Image
             source={item.image}
             resizeMode="cover"
-            style={{ width, height: (height / 3) * 2 }}
+            style={{ width, height: (height / 13) * 9 }}
           />
         </Box>
-        <Box
-          className="px-6 gap-6"
-          style={{ flex: 1, paddingBottom: bottom + 16, paddingHorizontal: 24 }}
-        >
+        <Box style={{ flex: 4, paddingBottom: bottom + 16 }} className="px-6">
           <VStack space="lg" className="flex-1 justify-center items-center">
             <AppText
               size={24}
@@ -64,23 +61,25 @@ export default function OnboardingPage() {
               {item.description}
             </AppText>
           </VStack>
-          <HStack space="sm" className="justify-center items-center">
-            {slides.map((_, i) => {
-              const active = i === currentIndex;
-              return (
-                <Box
-                  key={i}
-                  className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
-                />
-              );
-            })}
-          </HStack>
-          <DetailPrimaryButton
-            onPress={isLast ? handleFinish : goNext}
-            label={isLast ? 'Başla' : 'Devam Et'}
-            icon={isLast ? StarVector : RightChevronVector}
-            reverse
-          />
+          <VStack space="xl">
+            <HStack space="sm" className="justify-center items-center0">
+              {slides.map((_, i) => {
+                const active = i === currentIndex;
+                return (
+                  <Box
+                    key={i}
+                    className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
+                  />
+                );
+              })}
+            </HStack>
+            <DetailPrimaryButton
+              onPress={isLast ? handleFinish : goNext}
+              label={isLast ? 'Başla' : 'Devam Et'}
+              icon={isLast ? StarVector : RightChevronVector}
+              reverse
+            />
+          </VStack>
         </Box>
       </AppBackground>
     </Box>

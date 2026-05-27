@@ -6,7 +6,8 @@ export const W = (size: number) => (width * size) / 393;
 export const H = (size: number) => (height * size) / 852;
 
 export const appBarHeight = 56;
-export const bottomBarHeight = 72;
-export const readActionBarHeight = 60;
+export const bottomBarHeight = 76;
+export const storyReadActionBarHeight = 56;
+export const storyReadProgressBarHeight = 2;
 
 export { width, height };

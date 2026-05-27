@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Box, HStack } from '@/components/ui';
-import { colors } from '@/src/constants';
+import { colors, storyReadProgressBarHeight } from '@/src/constants';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 interface StoryProgressBarProps {
@@ -28,7 +28,7 @@ const ProgressSegment = ({ filled }: { filled: boolean }) => {
 
 const StoryReadProgressBar: React.FC<StoryProgressBarProps> = ({ total, current }) => {
   return (
-    <HStack space="sm" className="px-4" style={{ height: 2 }}>
+    <HStack space="sm" className="px-4" style={{ height: storyReadProgressBarHeight }}>
       {Array.from({ length: total }, (_, index) => (
         <ProgressSegment key={index} filled={index < current} />
       ))}

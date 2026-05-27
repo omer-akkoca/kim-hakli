@@ -2,8 +2,11 @@ import React from 'react';
 import { AppBackground, AppBar, AppFlatList, AppLoading, FaqItem } from '@/src/components';
 import { Box } from '@/components/ui';
 import { useGetFaqs } from '@/src/actions';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AboutPage = () => {
+  const { bottom } = useSafeAreaInsets();
+
   const { data: faqs, isLoading } = useGetFaqs();
 
   return (
@@ -18,7 +21,7 @@ const AboutPage = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <FaqItem item={item} />}
             ItemSeparatorComponent={ItemSeparatorComponent}
-            contentContainerStyle={{ padding: 24 }}
+            contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24 }}
           />
         )}
       </Box>

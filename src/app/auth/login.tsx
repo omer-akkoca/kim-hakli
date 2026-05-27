@@ -30,7 +30,7 @@ export default function LoginPage() {
           >
             <Box
               className="flex-1 px-7 justify-end items-center"
-              style={{ paddingBottom: bottom + 8 }}
+              style={{ paddingBottom: bottom + 16 }}
             >
               {/* App Name Title */}
               <Image

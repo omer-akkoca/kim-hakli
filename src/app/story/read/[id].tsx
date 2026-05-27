@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, StatusBar } from 'react-native';
 import { Box } from '@/components/ui';
 import { useGetStoryCoverImageUrl, useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
 import {
@@ -14,11 +14,12 @@ import {
 import { width } from '@/src/constants';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function StoryReadPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
 
   const { data: scenes = [], isPending: scenesLoading } = useGetStoryScenes(id);
   const { data: coverImage, isLoading: coverLoading } = useGetStoryCoverImageUrl({
@@ -39,6 +40,13 @@ export default function StoryReadPage() {
     }
   });
 
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync('hidden');
+    return () => {
+      NavigationBar.setVisibilityAsync('visible');
+    };
+  }, []);
+
   if (scenesLoading || coverLoading)
     return (
       <AppBackground>
@@ -48,10 +56,9 @@ export default function StoryReadPage() {
 
   return (
     <StoryReadBg>
-      <Box className="flex-1" style={{ gap: 10 }}>
-        <Box style={{ marginTop: top }}>
-          <StoryReadProgressBar current={activeIndex + 1} total={scenes.length + 1} />
-        </Box>
+      <StatusBar hidden />
+      <Box className="flex-1" style={{ paddingTop: top + 16, paddingBottom: bottom + 16, gap: 16 }}>
+        <StoryReadProgressBar current={activeIndex + 1} total={scenes.length + 1} />
         <Box className="flex-1">
           <AppFlatList
             flatListRef={flatListRef}

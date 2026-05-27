@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react';
 import { Box, HStack } from '@/components/ui';
-import { readActionBarHeight } from '@/src/constants';
-import { BlurView } from 'expo-blur';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText } from '../ui/AppText';
 import { ChartVector, CrossVector, VoteVector } from '@/assets';
 import { useHasVoted } from '@/src/actions';
 import { useAppSelector } from '@/src/store';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
+import { storyReadActionBarHeight } from '@/src/constants';
 
 interface StoryReadActionButtonsProps {
   storyId: string;
@@ -23,7 +21,6 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
   length,
 }) => {
   const { push, back } = useRouter();
-  const { bottom } = useSafeAreaInsets();
 
   const { user } = useAppSelector((state) => state.auth);
 
@@ -48,36 +45,23 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
   };
 
   return (
-    <Box
-      className="w-full bg-dreamless-sleep/75 border-t border-white/10 overflow-hidden"
-      style={{ height: readActionBarHeight + bottom }}
-    >
-      <Box className="flex-1  bg-bottom-nav-bar">
-        <BlurView intensity={18} tint="dark" className="flex-1">
-          <HStack
-            className="flex-1 items-center justify-center px-4"
-            style={{ marginBottom: bottom }}
-            space="lg"
-          >
-            <Box className="items-center justify-center">
-              <DetailIconButton icon={CrossVector} onPress={back} />
-            </Box>
-            <DetailPrimaryButton
-              icon={voted ? ChartVector : VoteVector}
-              label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
-              onPress={handleNavigate}
-              loading={votedLoading}
-              flex
-            />
-            <Box className="items-center justify-center" style={{ width: 52 }}>
-              <AppText size={14} weight={600} className="text-headline">
-                {activeIndex + 1}/{length}
-              </AppText>
-            </Box>
-          </HStack>
-        </BlurView>
+    <HStack space="lg" className="px-4" style={{ height: storyReadActionBarHeight }}>
+      <Box className="items-center justify-center">
+        <DetailIconButton icon={CrossVector} onPress={back} />
       </Box>
-    </Box>
+      <DetailPrimaryButton
+        icon={voted ? ChartVector : VoteVector}
+        label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
+        onPress={handleNavigate}
+        loading={votedLoading}
+        flex
+      />
+      <Box className="items-center justify-center" style={{ width: 52 }}>
+        <AppText size={14} weight={600} className="text-headline">
+          {activeIndex + 1}/{length}
+        </AppText>
+      </Box>
+    </HStack>
   );
 };
 

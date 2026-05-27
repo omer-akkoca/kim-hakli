@@ -22,7 +22,7 @@ const VoteHistoryPage = () => {
             data={data}
             keyExtractor={(e) => e.story_id}
             renderItem={({ item }) => <VoteHistoryCard voteHistory={item} />}
-            contentContainerStyle={{ padding: 24, paddingBottom: bottom }}
+            contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24 }}
             ItemSeparatorComponent={ItemSeparatorComponent}
             noContentText="Henüz herhangi bir hikayeye oy vermediniz."
             refreshing={isLoading}

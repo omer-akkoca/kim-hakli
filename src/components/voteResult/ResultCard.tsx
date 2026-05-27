@@ -83,7 +83,7 @@ interface ResultCardProps {
 const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
   return (
     <Box
-      className="w-full rounded-2xl border border-white/5 overflow-hidden"
+      className="rounded-2xl border border-white/5 overflow-hidden"
       style={{ boxShadow: '0 12px 28px rgba(0,0,0,0.20)' }}
     >
       <LinearGradient
@@ -101,7 +101,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
               resizeMode="cover"
               className="rounded-2xl"
             />
-            <Box className="flex-1 items-center justify-center">
+            <Box className="flex-1 items-center justify-center pl-4">
               <AppText
                 family="PlayfairDisplay"
                 size={25}
@@ -149,7 +149,7 @@ interface TotalVoteCardProps extends PropsWithChildren {
 const TotalVoteCard: React.FC<TotalVoteCardProps> = ({ children }) => {
   return (
     <Box
-      className="w-full rounded-2xl border border-white/5 overflow-hidden"
+      className="rounded-2xl border border-white/5 overflow-hidden"
       style={{ boxShadow: '0 12px 28px rgba(0,0,0,0.20)' }}
     >
       <LinearGradient
