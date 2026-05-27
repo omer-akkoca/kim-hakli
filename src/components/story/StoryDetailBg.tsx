@@ -10,7 +10,7 @@ interface StoryDetailBgProps extends PropsWithChildren {
 const StoryDetailBg: React.FC<StoryDetailBgProps> = ({ coverImage, children }) => {
   return (
     <Box style={{ flex: 1, backgroundColor: '#050816' }}>
-      <ImageBackground source={{ uri: coverImage }} style={{ flex: 1 }}>
+      <ImageBackground source={{ uri: coverImage }} style={{ flex: 1 }} blurRadius={5}>
         <LinearGradient
           colors={[
             'rgba(5,8,22,0.96)',
