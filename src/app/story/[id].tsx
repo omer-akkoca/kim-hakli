@@ -48,11 +48,11 @@ export default function StoryDetailPage() {
   const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { data: unlocked, isPending: unlocking } = useHasUnlocked({
+  const { data: unlocked, isLoading: unlocking } = useHasUnlocked({
     storyId: id,
     userId: user?.id,
   });
-  const { data: voted, isPending: voting } = useHasVoted({ storyId: id, userId: user?.id });
+  const { data: voted, isLoading: voting } = useHasVoted({ storyId: id, userId: user?.id });
 
   const { mutate, isPending } = useUnlockStory(user?.id ?? '');
 
@@ -92,7 +92,7 @@ export default function StoryDetailPage() {
     return category?.name ?? '';
   };
 
-  if (isLoading) {
+  if (isLoading || unlocking || voting) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -173,35 +173,31 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {!unlocking && !voting ? (
-              unlocked ? (
-                <>
-                  <DetailPrimaryButton
-                    icon={voted ? LoopVector : Book6Vector}
-                    label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
-                    onPress={() => push(`/story/read/${id}`)}
-                    flex
-                  />
-                  {voted ? (
-                    <DetailSecondaryButton
-                      icon={ChartVector}
-                      label={'Sonuçları Gör'}
-                      onPress={() => push(`/story/voteResult/${id}`)}
-                      flex
-                    />
-                  ) : null}
-                </>
-              ) : (
+            {unlocked ? (
+              <>
                 <DetailPrimaryButton
-                  icon={LockCircleVector}
-                  label="Hikaye Kilidini Aç"
-                  onPress={handleUnlockStory}
-                  loading={isPending}
+                  icon={voted ? LoopVector : Book6Vector}
+                  label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
+                  onPress={() => push(`/story/read/${id}`)}
                   flex
                 />
-              )
+                {voted ? (
+                  <DetailSecondaryButton
+                    icon={ChartVector}
+                    label={'Sonuçları Gör'}
+                    onPress={() => push(`/story/voteResult/${id}`)}
+                    flex
+                  />
+                ) : null}
+              </>
             ) : (
-              <Box className="h-button" />
+              <DetailPrimaryButton
+                icon={LockCircleVector}
+                label="Hikaye Kilidini Aç"
+                onPress={handleUnlockStory}
+                loading={isPending}
+                flex
+              />
             )}
           </HStack>
         </Box>
