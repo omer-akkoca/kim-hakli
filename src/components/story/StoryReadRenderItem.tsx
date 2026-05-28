@@ -1,30 +1,23 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Image as RnImage } from 'react-native';
 import { Box } from '@/components/ui';
-import {
-  height,
-  storyReadActionBarHeight,
-  storyReadProgressBarHeight,
-  width,
-} from '@/src/constants';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { width } from '@/src/constants';
 
 interface StoryReadRenderItemProps {
   item: string;
+  boxHeight: number;
 }
 
-const StoryReadRenderItem: React.FC<StoryReadRenderItemProps> = ({ item }) => {
-  const { top, bottom } = useSafeAreaInsets();
-
-  const boxHeight = useMemo(
-    () => height - bottom - top - storyReadActionBarHeight - storyReadProgressBarHeight - 64,
-    [bottom, top],
-  );
-
-  const boxWidth = width;
-
-  const imageWidth = Math.min(boxWidth, boxHeight * (9 / 16));
-  const imageHeight = Math.min(boxHeight, boxWidth * (16 / 9));
+const StoryReadRenderItem = memo<StoryReadRenderItemProps>(({ item, boxHeight }) => {
+  const { boxWidth, imageWidth, imageHeight } = useMemo(() => {
+    const bh = boxHeight;
+    const bw = width;
+    return {
+      boxWidth: bw,
+      imageWidth: Math.min(bw, bh * (9 / 16)),
+      imageHeight: Math.min(bh, bw * (16 / 9)),
+    };
+  }, [boxHeight]);
 
   return (
     <Box className="items-center justify-center" style={{ width: boxWidth, height: boxHeight }}>
@@ -35,6 +28,8 @@ const StoryReadRenderItem: React.FC<StoryReadRenderItemProps> = ({ item }) => {
       />
     </Box>
   );
-};
+});
+
+StoryReadRenderItem.displayName = 'StoryReadRenderItem';
 
 export { StoryReadRenderItem };

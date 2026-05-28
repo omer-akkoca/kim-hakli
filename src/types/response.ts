@@ -1,3 +1,5 @@
+import { IStoryScene } from "./story";
+
 export interface UnlockStoryResponse {
   success: boolean;
   already_unlocked: boolean;
@@ -25,7 +27,10 @@ export interface StoryVoteResult {
   percentage: number;
 }
 
-
 export interface DeleteAccountResponse {
   success: boolean;
+}
+
+export interface GetStoryScenesResponse extends IStoryScene {
+  image_url: string;
 }

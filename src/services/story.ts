@@ -1,11 +1,11 @@
 import { supabase } from '@/src/configs';
 import {
   GetStoriesParams,
+  GetStoryScenesResponse,
   HasUnlockedStoryParams,
   HasVotedStoryParams,
   ICategory,
   IStory,
-  IStoryScene,
   IStorySide,
   SearchStoriesParams,
   StoryVoteResult,
@@ -13,6 +13,7 @@ import {
   VoteStoryResponse,
 } from '@/src/types';
 import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
+import { attachSignedImageUrls } from './storage';
 
 export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
   let query = supabase
@@ -144,18 +145,18 @@ export const hasVotedStory = async ({ userId, storyId }: HasVotedStoryParams): P
   return !!data;
 };
 
-export const getStoryScenes = async (storyId: string): Promise<IStoryScene[]> => {
+export const getStoryScenes = async (storyId: string): Promise<GetStoryScenesResponse[]> => {
   const { data, error } = await supabase
     .from('story_scenes')
     .select('*')
     .eq('story_id', storyId)
-    .order('scene_order', { ascending: true });
+    .order('scene_order', {
+      ascending: true,
+    });
 
-  if (error) {
-    throw new Error(error.message || 'Hikaye sahneleri çekilirken hata oluştu.');
-  }
+  if (error) throw new Error(error.message || 'Hikaye sahneleri çekilirken hata oluştu.',);
 
-  return data ?? [];
+  return await attachSignedImageUrls(data ?? []);
 };
 
 export const getStoryImageUrls = async (paths: string[]) => {

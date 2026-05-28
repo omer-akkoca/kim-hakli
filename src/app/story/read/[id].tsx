@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, StatusBar } from 'react-native';
 import { Box } from '@/components/ui';
-import { useGetStoryCoverImageUrl, useGetStoryImageUrls, useGetStoryScenes } from '@/src/actions';
+import { useGetStoryCoverImageUrl, useGetStoryScenes } from '@/src/actions';
 import {
   AppBackground,
   AppFlatList,
@@ -11,7 +11,12 @@ import {
   StoryReadProgressBar,
   StoryReadRenderItem,
 } from '@/src/components';
-import { width } from '@/src/constants';
+import {
+  height,
+  storyReadActionBarHeight as srabh,
+  storyReadProgressBarHeight as srpbh,
+  width,
+} from '@/src/constants';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
@@ -26,10 +31,6 @@ export default function StoryReadPage() {
     path: `${id}/cover.webp`,
   });
 
-  const imagePaths = scenes?.map((scene) => scene.image_path) ?? [];
-
-  const { data: signedImages = [] } = useGetStoryImageUrls({ paths: imagePaths });
-
   const [activeIndex, setActiveIndex] = useState(0);
 
   const flatListRef = useRef<FlatList>(null);
@@ -40,12 +41,26 @@ export default function StoryReadPage() {
     }
   });
 
+  const listData = useMemo(() => {
+    const images = [];
+    if (coverImage) images.push(coverImage);
+    if (scenes.length !== 0) images.push(...scenes.map((e) => e.image_url));
+    return images;
+  }, [coverImage, scenes]);
+
+  const boxHeight = useMemo(() => height - bottom - top - srabh - srpbh - 64, [top, bottom]);
+
   useEffect(() => {
     NavigationBar.setVisibilityAsync('hidden');
     return () => {
       NavigationBar.setVisibilityAsync('visible');
     };
   }, []);
+
+  const renderItem = useCallback(
+    ({ item }: { item: string }) => <StoryReadRenderItem item={item} boxHeight={boxHeight} />,
+    [boxHeight],
+  );
 
   if (scenesLoading || coverLoading)
     return (
@@ -58,11 +73,11 @@ export default function StoryReadPage() {
     <StoryReadBg>
       <StatusBar hidden />
       <Box className="flex-1" style={{ paddingTop: top + 16, paddingBottom: bottom + 16, gap: 16 }}>
-        <StoryReadProgressBar current={activeIndex + 1} total={scenes.length + 1} />
+        <StoryReadProgressBar current={activeIndex + 1} total={listData.length} />
         <Box className="flex-1">
           <AppFlatList
             flatListRef={flatListRef}
-            data={[coverImage, ...signedImages]}
+            data={listData}
             keyExtractor={(e) => e}
             initialNumToRender={3}
             windowSize={5}
@@ -75,14 +90,14 @@ export default function StoryReadPage() {
             decelerationRate="fast"
             onViewableItemsChanged={onViewableItemsChanged.current}
             viewabilityConfig={viewabilityConfig.current}
-            renderItem={({ item }) => <StoryReadRenderItem item={item} />}
+            renderItem={renderItem}
             className="z-10"
           />
         </Box>
         <StoryReadActionButtons
           storyId={id}
           activeIndex={activeIndex}
-          length={scenes.length + 1}
+          length={listData.length}
           setActiveIndex={setActiveIndex}
         />
       </Box>
