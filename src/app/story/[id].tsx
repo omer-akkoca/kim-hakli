@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Box, HStack, VStack } from '@/components/ui/';
 import {
   AppBackground,
@@ -10,7 +10,7 @@ import {
   DetailSecondaryButton,
   StoryDetailBg,
 } from '@/src/components';
-import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { decreaseCredit, useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -28,43 +28,33 @@ import {
   LockCircleVector,
   LoopVector,
 } from '@/assets';
-import { useBookmark, useModal } from '@/src/hooks';
+import { useAuth, useBookmark, useModal } from '@/src/hooks';
 import { useDispatch } from 'react-redux';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
+  const dispatch = useDispatch();
+
   const { push, back } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
   const { show } = useModal();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
-  const dispatch = useDispatch();
+  const { user } = useAuth();
 
-  const { user } = useAppSelector((state) => state.auth);
   const { categories } = useAppSelector((state) => state.category);
 
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { mutateAsync: hasUnlocked, data: unlocked, isPending: unlocking } = useHasUnlocked();
-  const { mutateAsync: hasVoted, data: voted, isPending: voting } = useHasVoted();
+  const { data: unlocked, isPending: unlocking } = useHasUnlocked({
+    storyId: id,
+    userId: user?.id,
+  });
+  const { data: voted, isPending: voting } = useHasVoted({ storyId: id, userId: user?.id });
 
-  useFocusEffect(
-    useCallback(() => {
-      const checkStoryStatus = async () => {
-        if (!user?.id || !id) return;
-        Promise.all([
-          hasUnlocked({ userId: user.id, storyId: id }),
-          hasVoted({ userId: user.id, storyId: id }),
-        ]);
-      };
-
-      checkStoryStatus();
-    }, [user?.id, id]),
-  );
-
-  const { mutate, isPending } = useUnlockStory();
+  const { mutate, isPending } = useUnlockStory(user?.id ?? '');
 
   const handleUnlockStory = async () => {
     if (!user) {

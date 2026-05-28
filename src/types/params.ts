@@ -21,7 +21,7 @@ export interface HasUnlockedStoryParams {
 }
 
 export interface HasVotedStoryParams {
-  userId: string;
+  userId?: string;
   storyId: string;
 }
 

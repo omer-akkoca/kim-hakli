@@ -17,12 +17,14 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants';
+import { useAuth } from '@/src/hooks';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { back, replace } = useRouter();
   const { top } = useSafeAreaInsets();
+  const { user } = useAuth();
 
   const [selectedSide, setSelectedSide] = useState<string>('');
 
@@ -38,7 +40,7 @@ export default function StoryVotePage() {
     avatar_url: signedAvatars.find((img) => img.includes(side.avatar_path))!,
   }));
 
-  const { mutate, isPending } = useVoteStory();
+  const { mutate, isPending } = useVoteStory(user?.id);
 
   const handleVote = async () => {
     mutate(

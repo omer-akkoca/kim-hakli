@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Box, HStack } from '@/components/ui';
 import { AppText } from '../ui/AppText';
 import { ChartVector, CrossVector, VoteVector } from '@/assets';
 import { useHasVoted } from '@/src/actions';
-import { useAppSelector } from '@/src/store';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
 import { storyReadActionBarHeight } from '@/src/constants';
+import { useAuth } from '@/src/hooks';
 
 interface StoryReadActionButtonsProps {
   storyId: string;
@@ -22,19 +22,12 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
 }) => {
   const { push, back } = useRouter();
 
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAuth();
 
-  const { mutateAsync: hasVoted, data: voted, isPending: votedLoading = true } = useHasVoted();
-
-  useFocusEffect(
-    useCallback(() => {
-      const checkStoryStatus = async () => {
-        if (!user?.id || !storyId) return;
-        await hasVoted({ userId: user.id, storyId });
-      };
-      checkStoryStatus();
-    }, [user?.id, storyId]),
-  );
+  const { data: voted, isPending: votedLoading = true } = useHasVoted({
+    storyId,
+    userId: user?.id,
+  });
 
   const handleNavigate = () => {
     if (voted) {

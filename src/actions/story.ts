@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   GetStoriesParams,
   GetStoryImageUrlParams,
@@ -76,24 +76,36 @@ export const useGetStoryCategories = (storyId?: string) => {
   });
 };
 
-export const useUnlockStory = () => {
+export const useUnlockStory = (userId: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: storyKeys.unlockStory(),
     mutationFn: ({ storyId }: UnlockStoryParams) => unlockStory(storyId),
+    onSuccess: (_, variables) => {
+      if (!userId) return;
+      queryClient.setQueryData(storyKeys.unlocked(userId, variables.storyId), true);
+    },
   });
 };
 
-export const useHasUnlocked = () => {
-  return useMutation({
-    mutationFn: ({ userId, storyId }: HasUnlockedStoryParams) =>
-      hasUnlockedStory({ userId, storyId }),
+export const useHasUnlocked = ({ userId, storyId }: HasUnlockedStoryParams) => {
+  return useQuery({
+    queryKey: storyKeys.unlocked(userId ?? '', storyId ?? ''),
+    queryFn: () => hasUnlockedStory({ userId: userId!, storyId: storyId! }),
+    enabled: !!userId && !!storyId,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };
 
-export const useHasVoted = () => {
-  return useMutation({
-    mutationFn: ({ userId, storyId }: HasVotedStoryParams) =>
-      hasVotedStory({ userId, storyId }),
+export const useHasVoted = ({ userId, storyId }: HasVotedStoryParams) => {
+  return useQuery({
+    queryKey: storyKeys.hasVoted(userId ?? '', storyId ?? ''),
+    queryFn: () => hasVotedStory({ userId: userId!, storyId: storyId! }),
+    enabled: !!userId && !!storyId,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };
 
@@ -125,8 +137,15 @@ export const useGetStorySides = (storyId: string) => {
   });
 };
 
-export const useVoteStory = () => {
-  return useMutation({ mutationFn: voteStory });
+export const useVoteStory = (userId?: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: voteStory,
+    onSuccess: (_, variables) => {
+      if (!userId) return;
+      queryClient.setQueryData(storyKeys.hasVoted(userId, variables.storyId), true);
+    },
+  });
 };
 
 export const useGetStoryVoteResults = (storyId: string) => {
