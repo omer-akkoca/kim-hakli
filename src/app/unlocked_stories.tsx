@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { ListRenderItemInfo } from 'react-native';
 import { Box } from '@/components/ui';
 import {
   AppBackground,
@@ -9,6 +10,7 @@ import {
 } from '@/src/components';
 import { useGetUserUnlockedStories } from '@/src/actions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { UnlockedStory } from '../types';
 
 const ItemSeparatorComponent = () => <Box className="h-6" />;
 
@@ -16,6 +18,11 @@ const UnlockedStories: React.FC = () => {
   const { bottom } = useSafeAreaInsets();
 
   const { data: unlockedStories, isLoading, refetch } = useGetUserUnlockedStories();
+
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<UnlockedStory>) => <UnlockedStoryItem item={item} />,
+    [],
+  );
 
   return (
     <AppBackground>
@@ -27,7 +34,7 @@ const UnlockedStories: React.FC = () => {
           <AppFlatList
             data={unlockedStories}
             keyExtractor={(item) => item.story_id}
-            renderItem={({ item }) => <UnlockedStoryItem item={item} />}
+            renderItem={renderItem}
             contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24 }}
             ItemSeparatorComponent={ItemSeparatorComponent}
             noContentText="Henüz kilidi açılan bir hikayeniz bulunmamaktadır."
