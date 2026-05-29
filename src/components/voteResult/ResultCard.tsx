@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { Image as RnImage } from 'react-native';
 import { Box, HStack, LinearGradient } from '@/components/ui';
 import { StoryVoteCard } from '@/src/types';
@@ -142,27 +142,4 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
   );
 };
 
-interface TotalVoteCardProps extends PropsWithChildren {
-  className?: string;
-}
-
-const TotalVoteCard: React.FC<TotalVoteCardProps> = ({ children }) => {
-  return (
-    <Box
-      className="rounded-2xl border border-white/5 overflow-hidden"
-      style={{ boxShadow: '0 12px 28px rgba(0,0,0,0.20)' }}
-    >
-      <LinearGradient
-        colors={['rgba(80,140,255,0.06)', 'rgba(80,140,255,0.03)', 'rgba(0,0,0,0)']}
-        locations={[0, 0.5, 1]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        className="flex-1 relative"
-      >
-        {children}
-      </LinearGradient>
-    </Box>
-  );
-};
-
-export { WinnerResultCard, ResultCard, TotalVoteCard };
+export { WinnerResultCard, ResultCard };

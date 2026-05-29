@@ -3,16 +3,17 @@ import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
   AppBackground,
+  AppCard,
   AppLoading,
   AppScrollView,
   AppText,
   DetailPrimaryButton,
+  DetailSecondaryButton,
   ResultCard,
-  TotalVoteCard,
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BookOutlineVector, UsersVector } from '@/assets';
+import { BookOutlineVector, HomeOutlineVector, UsersVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
 
@@ -128,7 +129,7 @@ const StoryVoteResultPage = () => {
             {restSides.map((e, i) => (
               <ResultCard key={i.toString()} side={e} />
             ))}
-            <TotalVoteCard>
+            <AppCard>
               <HStack className="items-center justify-between px-4 py-2">
                 <HStack space="md" className="items-center">
                   <Box className="w-12 h-12 bg-background-500 rounded-lg items-center justify-center">
@@ -157,14 +158,21 @@ const StoryVoteResultPage = () => {
                   {formatStoryVoteCount(totalVote)}
                 </AppText>
               </HStack>
-            </TotalVoteCard>
+            </AppCard>
           </VStack>
           <Divider className="h-[1px] w-full bg-white/10 my-4" />
-          <DetailPrimaryButton
-            icon={BookOutlineVector}
-            label="Başka Hikaye Oku"
-            onPress={() => replace('/home')}
-          />
+          <VStack space="lg">
+            <DetailPrimaryButton
+              icon={BookOutlineVector}
+              label="Başka Hikaye Oku"
+              onPress={() => replace('/discover')}
+            />
+            <DetailSecondaryButton
+              icon={HomeOutlineVector}
+              label="Anasayfa'ya Dön"
+              onPress={() => replace('/home')}
+            />
+          </VStack>
         </AppScrollView>
       </Box>
     </AppBackground>

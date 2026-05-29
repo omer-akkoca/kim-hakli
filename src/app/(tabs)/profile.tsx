@@ -2,12 +2,12 @@ import React from 'react';
 import {
   AppText,
   AppBackground,
-  ProfileCard,
   ProfileTab,
   CreditLabel,
   AppScrollView,
   ProfileLogoutButton,
   ProfileAvatar,
+  AppCard,
 } from '@/src/components';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetUserStoryStats } from '@/src/actions';
@@ -46,7 +46,7 @@ export default function ProfilePage() {
         <VStack space="xl" className="px-6">
           {/* Statistics Card */}
           <HStack space="xl">
-            <ProfileCard className="flex-1">
+            <AppCard flex>
               <Box className="items-center justify-center p-4">
                 <LockOutlineVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
@@ -56,8 +56,8 @@ export default function ProfilePage() {
                   Açılan Hikayeler
                 </AppText>
               </Box>
-            </ProfileCard>
-            <ProfileCard className="flex-1">
+            </AppCard>
+            <AppCard flex>
               <Box className="items-center justify-center p-4">
                 <ScalesVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
@@ -67,11 +67,11 @@ export default function ProfilePage() {
                   Verilen Oylar
                 </AppText>
               </Box>
-            </ProfileCard>
+            </AppCard>
           </HStack>
 
           {/* Buttons */}
-          <ProfileCard>
+          <AppCard>
             <VStack space="xs" className="px-4 py-1">
               <ProfileTab
                 icon={BookmarkOutlineVector}
@@ -100,7 +100,7 @@ export default function ProfilePage() {
               <Divider className="bg-white/20" />
               <ProfileTab icon={AboutVector} label="Hakkında" onPress={() => push('/about')} />
             </VStack>
-          </ProfileCard>
+          </AppCard>
 
           {/* Logout */}
           <ProfileLogoutButton />

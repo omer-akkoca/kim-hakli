@@ -3,15 +3,16 @@ import { BlurView } from 'expo-blur';
 import React, { PropsWithChildren } from 'react';
 
 interface AppCardProps extends PropsWithChildren {
+  flex?: boolean;
   onPress?: () => void;
 }
 
-const AppCard: React.FC<AppCardProps> = ({ onPress, children }) => {
+const AppCard: React.FC<AppCardProps> = ({ onPress, flex, children }) => {
   return (
     <Pressable
       onPress={onPress}
       className="bg-background-500/75 rounded-xl border border-white/10 overflow-hidden"
-      style={{ boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
       disabled={!onPress}
     >
       <BlurView intensity={18} tint="dark">
