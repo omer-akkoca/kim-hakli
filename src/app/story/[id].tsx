@@ -107,7 +107,7 @@ export default function StoryDetailPage() {
       <Box className="flex-1">
         <HStack
           className="w-full items-center justify-between"
-          style={{ marginTop: top, paddingHorizontal: 24 }}
+          style={{ marginTop: top + 24, paddingHorizontal: 24 }}
         >
           <DetailIconButton icon={LeftChevronVector} onPress={back} />
           {user ? (

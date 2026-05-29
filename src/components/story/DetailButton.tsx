@@ -17,7 +17,7 @@ const DetailIconButton: React.FC<DetailIconButtonProps> = ({ icon: Icon, onPress
     <Pressable
       onPress={onPress}
       className="bg-background-500/75 rounded-full border border-white/10 overflow-hidden disabled:opacity-50"
-      style={{ height: 52, width: 52, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      style={{ height: 48, width: 48, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
       disabled={disabled}
     >
       <BlurView intensity={18} tint="dark" className="flex-1">
@@ -28,7 +28,7 @@ const DetailIconButton: React.FC<DetailIconButtonProps> = ({ icon: Icon, onPress
           end={{ x: 0, y: 1 }}
           className="flex-1 items-center justify-center"
         >
-          <Icon width={28} height={28} color={colors.headline} />
+          <Icon width={26} height={26} color={colors.headline} />
         </LinearGradient>
       </BlurView>
     </Pressable>
