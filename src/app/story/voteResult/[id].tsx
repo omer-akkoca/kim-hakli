@@ -68,6 +68,7 @@ const StoryVoteResultPage = () => {
         <AppScrollView
           safeTop
           safeBottom
+          bottomPadding
           paddingHorizontal={24}
           loading={statsLoading}
           onRefresh={refetch}
