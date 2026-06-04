@@ -1,5 +1,6 @@
 import { supabase } from '@/src/configs';
 import {
+  StoryWithCoverUrl,
   GetStoriesParams,
   GetStoryScenesResponse,
   HasUnlockedStoryParams,
@@ -11,21 +12,24 @@ import {
   StoryVoteResult,
   UnlockStoryResponse,
   VoteStoryResponse,
+  StoryWithVoteCount,
 } from '@/src/types';
 import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
-import { attachSignedImageUrls } from './storage';
+import { attachSignedCoverUrls, attachSignedImageUrls } from './storage';
 
 export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
   let query = supabase
     .from('stories')
-    .select(`
+    .select(
+      `
       *,
       story_categories!inner (
         categories!inner (
           code
         )
       )
-    `)
+    `,
+    )
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 
@@ -34,10 +38,7 @@ export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> =
   }
 
   if (params?.categoryCode) {
-    query = query.eq(
-      'story_categories.categories.code',
-      params.categoryCode,
-    );
+    query = query.eq('story_categories.categories.code', params.categoryCode);
   }
 
   if (params?.creditFilter === 'free') {
@@ -154,7 +155,7 @@ export const getStoryScenes = async (storyId: string): Promise<GetStoryScenesRes
       ascending: true,
     });
 
-  if (error) throw new Error(error.message || 'Hikaye sahneleri çekilirken hata oluştu.',);
+  if (error) throw new Error(error.message || 'Hikaye sahneleri çekilirken hata oluştu.');
 
   return await attachSignedImageUrls(data ?? []);
 };
@@ -228,11 +229,44 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
     });
 
   if (error) {
-    throw new Error(
-      error.message ||
-        'Hikaye arama sırasında hata oluştu.',
-    );
+    throw new Error(error.message || 'Hikaye arama sırasında hata oluştu.');
   }
 
   return data ?? [];
+};
+
+export const getFeaturedStories = async (): Promise<StoryWithCoverUrl[]> => {
+  const { data, error } = await supabase
+    .from('stories')
+    .select('*')
+    .eq('status', 'published')
+    .eq('is_featured', true)
+    .order('created_at', { ascending: false })
+    .limit(8);
+
+  if (error) throw new Error(error.message || 'Öne çıkan hikayeler çekilirken hata oluştu.');
+
+  return await attachSignedCoverUrls(data ?? []);
+};
+
+export const getLatestStories = async (): Promise<StoryWithCoverUrl[]> => {
+  const { data, error } = await supabase
+    .from('stories')
+    .select('*')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  if (error) throw new Error(error.message || 'Son eklenen hikayeler çekilirken hata oluştu.');
+
+  return await attachSignedCoverUrls(data ?? []);
+};
+
+export const getMostVotedStories = async (): Promise<StoryWithVoteCount[]> => {
+  const { data, error } = await supabase.rpc('get_most_voted_stories');
+
+  const defaultMessage = 'En çok oy alan hikayeler çekilirken hata oluştu.';
+  if (error) throw new Error(error.message || defaultMessage,);
+
+  return await attachSignedCoverUrls(data ?? []);
 };

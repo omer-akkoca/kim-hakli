@@ -21,6 +21,9 @@ import {
   voteStory,
   getStoryVoteResults,
   searchStories,
+  getFeaturedStories,
+  getLatestStories,
+  getMostVotedStories,
 } from '@/src/services';
 
 const storyKeys = {
@@ -37,6 +40,9 @@ const storyKeys = {
   sides: (id: string) => ['stories', id, 'sides'] as const,
   voteResults: (storyId: string) => ['stories', storyId, 'vote-results'] as const,
   search: (query: string) => ['stories', 'search', query] as const,
+  featured: () => ['stories', 'featured'] as const,
+  latest: () => ['stories', 'latest'] as const,
+  mostVoted: () => ['stories', 'most-voted'] as const,
 };
 
 export const useGetStories = (params?: GetStoriesParams) => {
@@ -162,5 +168,29 @@ export const useSearchStories = (params: SearchStoriesParams) => {
     queryFn: () => searchStories(params),
     enabled: !!params.query.trim(),
     staleTime: 1000 * 60 * 2,
+  });
+};
+
+export const useGetFeaturedStories = () => {
+  return useQuery({
+    queryKey: storyKeys.featured(),
+    queryFn: getFeaturedStories,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useGetLatestStories = () => {
+  return useQuery({
+    queryKey: storyKeys.latest(),
+    queryFn: getLatestStories,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useGetMostVotedStories = () => {
+  return useQuery({
+    queryKey: storyKeys.mostVoted(),
+    queryFn: getMostVotedStories,
+    staleTime: 1000 * 60 * 5,
   });
 };

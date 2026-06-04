@@ -247,6 +247,7 @@ module.exports = {
       width: {
         '062': '62%',
         13: '52px',
+        'credit-label': '36px',
       },
       letterSpacing: {
         'x-tighter': '-1px',

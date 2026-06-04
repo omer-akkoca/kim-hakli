@@ -6,7 +6,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
   loading?: boolean;
   onRefresh?: () => void;
+  topPadding?: boolean;
   safeTop?: boolean;
+  bottomPadding?: boolean;
   safeBottom?: boolean;
   safeBottomNav?: boolean;
   paddingHorizontal?: number;
@@ -16,7 +18,9 @@ interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
 const AppScrollView: React.FC<AppScrollViewProps> = ({
   loading = false,
   onRefresh,
+  topPadding = false,
   safeTop,
+  bottomPadding = false,
   safeBottom,
   safeBottomNav,
   paddingHorizontal,
@@ -26,15 +30,19 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
   const { top, bottom } = useSafeAreaInsets();
 
   const paddingTop = useMemo(() => {
-    if (safeTop) return top + 24;
-    return 24;
-  }, [safeTop]);
+    let padding = 0;
+    if (topPadding) padding += 24;
+    if (safeTop) padding += top;
+    return padding;
+  }, [topPadding, safeTop, top]);
 
   const paddingBottom = useMemo(() => {
-    if (safeBottom && safeBottomNav) return bottom + bottomBarHeight + 24;
-    if (safeBottom) return bottom + 24;
-    return 24;
-  }, [safeBottom, safeBottomNav]);
+    let padding = 0;
+    if (bottomPadding) padding += 24;
+    if (safeBottom) padding += bottom;
+    if (safeBottomNav) padding += bottomBarHeight;
+    return padding;
+  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
 
   return (
     <ScrollView
@@ -45,6 +53,7 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
         gap: gap,
       }}
       showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
       refreshControl={
         onRefresh ? (
           <RefreshControl

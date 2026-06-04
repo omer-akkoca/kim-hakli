@@ -1,4 +1,4 @@
-import { IStoryScene } from "./story";
+import { IStory, IStoryScene } from "./story";
 
 export interface UnlockStoryResponse {
   success: boolean;
@@ -33,4 +33,13 @@ export interface DeleteAccountResponse {
 
 export interface GetStoryScenesResponse extends IStoryScene {
   image_url: string;
+}
+
+export interface StoryWithCoverUrl extends IStory {
+  cover_image_url?: string;
+}
+
+export interface StoryWithVoteCount extends IStory {
+  cover_image_url?: string;
+  vote_count: number;
 }

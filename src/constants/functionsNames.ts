@@ -4,3 +4,4 @@ export const GET_STORY_VOTE_RESULTS = 'get_story_vote_results';
 export const GET_USER_VOTE_HISTORY = 'get_user_vote_history';
 export const GET_USER_UNLOCKED_STORIES = 'get_user_unlocked_stories';
 export const DELETE_ACCOUNT = 'delete-account';
+export const GET_MOST_VOTED_STORIES = "get_most_voted_stories"

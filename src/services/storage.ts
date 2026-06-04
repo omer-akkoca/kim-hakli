@@ -22,3 +22,16 @@ export const attachSignedImageUrls = async <T extends { image_path: string }>(it
     image_url: signedUrlMap.get(item.image_path) ?? '',
   }));
 };
+
+export const attachSignedCoverUrls = async <T extends { cover_image_path: string | null }>(
+  items: T[],
+) => {
+  const paths = items.map((item) => item.cover_image_path).filter(Boolean) as string[];
+
+  const signedUrlMap = await createSignedUrlMap(paths);
+
+  return items.map((item) => ({
+    ...item,
+    cover_image_url: item.cover_image_path ? (signedUrlMap.get(item.cover_image_path) ?? '') : '',
+  }));
+};
