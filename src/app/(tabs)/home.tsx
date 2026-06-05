@@ -45,6 +45,7 @@ const HomePage = () => {
                         lineHeight={12}
                         weight={600}
                         className="text-headline text-center capitalize"
+                        numberOfLines={1}
                       >
                         {timeAgo(e.created_at)}
                       </AppText>
@@ -65,6 +66,7 @@ const HomePage = () => {
                         lineHeight={12}
                         weight={600}
                         className="text-headline text-center capitalize"
+                        numberOfLines={1}
                       >
                         {e.vote_count} Oy
                       </AppText>

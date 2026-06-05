@@ -1,9 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { Image, ImageBackground, Platform } from 'react-native';
-import { Box, LinearGradient, VStack } from '@/components/ui';
+import { LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { StoryWithCoverUrl } from '@/src/types';
 import { AppText } from '../ui/AppText';
+import { useRouter } from 'expo-router';
 
 interface HomeStoryCardProps extends PropsWithChildren {
   story: StoryWithCoverUrl;
@@ -13,8 +14,11 @@ const cardWidth = width / 3.75;
 const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
+  const { push } = useRouter();
+
   return (
-    <Box
+    <Pressable
+      onPress={() => push(`/story/${story.id}`)}
       className="bg-background-500 border border-white/5 rounded-xl overflow-hidden"
       style={{ boxShadow: '0 5px 15px rgba(0,0,0,0.22)' }}
     >
@@ -45,7 +49,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
         </LinearGradient>
       </ImageBackground>
       <Image />
-    </Box>
+    </Pressable>
   );
 };
 
