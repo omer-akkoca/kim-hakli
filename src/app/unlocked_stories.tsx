@@ -9,20 +9,17 @@ import {
   UnlockedStoryItem,
 } from '@/src/components';
 import { useGetUserUnlockedStories } from '@/src/actions';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { UnlockedStory } from '../types';
-
-const ItemSeparatorComponent = () => <Box className="h-6" />;
+import { UnlockedStory } from '@/src/types';
 
 const UnlockedStories: React.FC = () => {
-  const { bottom } = useSafeAreaInsets();
-
-  const { data: unlockedStories, isLoading, refetch } = useGetUserUnlockedStories();
+  const { data: unlockedStories, isLoading, refetch, isRefetching } = useGetUserUnlockedStories();
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<UnlockedStory>) => <UnlockedStoryItem item={item} />,
     [],
   );
+
+  const ItemSeparatorComponent = useCallback(() => <Box className="h-6" />, []);
 
   return (
     <AppBackground>
@@ -35,11 +32,14 @@ const UnlockedStories: React.FC = () => {
             data={unlockedStories}
             keyExtractor={(item) => item.story_id}
             renderItem={renderItem}
-            contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24 }}
             ItemSeparatorComponent={ItemSeparatorComponent}
             noContentText="Henüz kilidi açılan bir hikayeniz bulunmamaktadır."
-            refreshing={isLoading}
+            refreshing={isRefetching}
             onRefresh={refetch}
+            paddingHorizontal={24}
+            topPadding
+            safeBottom
+            bottomPadding
           />
         )}
       </Box>

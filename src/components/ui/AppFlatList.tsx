@@ -1,13 +1,15 @@
 import React, { useMemo } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { AppText } from './AppText';
-import { colors } from '@/src/constants';
+import { bottomBarHeight, colors } from '@/src/constants';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type AppFlatListOmittedProps =
   | 'refreshControl'
   | 'ListEmptyComponent'
   | 'showsVerticalScrollIndicator'
-  | 'showsHorizontalScrollIndicator';
+  | 'showsHorizontalScrollIndicator'
+  | 'contentContainerStyle';
 
 interface AppFlatListProps<T> extends Omit<
   React.ComponentProps<typeof FlatList<T>>,
@@ -17,6 +19,13 @@ interface AppFlatListProps<T> extends Omit<
   loading?: boolean;
   onRefresh?: () => void;
   flatListRef?: React.Ref<FlatList<T>>;
+  topPadding?: boolean;
+  safeTop?: boolean;
+  bottomPadding?: boolean;
+  safeBottom?: boolean;
+  safeBottomNav?: boolean;
+  paddingHorizontal?: number;
+  gap?: number;
 }
 
 const AppFlatList = <T,>({
@@ -24,8 +33,32 @@ const AppFlatList = <T,>({
   loading = false,
   onRefresh,
   flatListRef,
+  topPadding,
+  safeTop,
+  bottomPadding,
+  safeBottom,
+  safeBottomNav,
+  paddingHorizontal,
+  gap,
   ...props
 }: AppFlatListProps<T>) => {
+  const { top, bottom } = useSafeAreaInsets();
+
+  const paddingTop = useMemo(() => {
+    let padding = 0;
+    if (topPadding) padding += 24;
+    if (safeTop) padding += top;
+    return padding;
+  }, [topPadding, safeTop, top]);
+
+  const paddingBottom = useMemo(() => {
+    let padding = 0;
+    if (bottomPadding) padding += 24;
+    if (safeBottom) padding += bottom;
+    if (safeBottomNav) padding += bottomBarHeight;
+    return padding;
+  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
+
   const ListEmptyComponent = useMemo(() => {
     if (loading || !noContentText) return undefined;
     return (
@@ -38,10 +71,10 @@ const AppFlatList = <T,>({
   return (
     <FlatList<T>
       ref={flatListRef}
-      {...props}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       ListEmptyComponent={ListEmptyComponent}
+      contentContainerStyle={{ paddingTop, paddingBottom, paddingHorizontal, gap }}
       refreshControl={
         onRefresh ? (
           <RefreshControl
@@ -53,6 +86,7 @@ const AppFlatList = <T,>({
           />
         ) : undefined
       }
+      {...props}
     />
   );
 };

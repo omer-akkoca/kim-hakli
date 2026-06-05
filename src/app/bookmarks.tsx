@@ -4,12 +4,9 @@ import { Box } from '@/components/ui';
 import { AppBackground, AppBar, AppFlatList, AppLoading, StoryRenderItem } from '@/src/components';
 import { useAppSelector } from '@/src/store';
 import { useGetStoriesByIds } from '@/src/actions';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { IStory } from '../types';
+import { IStory } from '@/src/types';
 
 const BookmarksPage = () => {
-  const { bottom } = useSafeAreaInsets();
-
   const bookmarks = useAppSelector((state) => state.bookmark.bookmarks);
 
   const { data, isLoading } = useGetStoriesByIds(bookmarks);
@@ -36,8 +33,12 @@ const BookmarksPage = () => {
             numColumns={2}
             keyExtractor={(e) => e.id}
             renderItem={renderItem}
-            contentContainerStyle={{ padding: 24, paddingBottom: bottom + 24, gap: 8 }}
             noContentText="Kaydedilen hikayeniz bulunmamaktadır."
+            topPadding
+            paddingHorizontal={24}
+            safeBottom
+            bottomPadding
+            gap={8}
           />
         )}
       </Box>

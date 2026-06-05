@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box } from '@/components/ui';
 import { GetStoriesParams } from '@/src/types';
 import { SearchMagnifyingVector } from '@/assets';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   AppBackground,
   AppBar,
@@ -12,13 +11,12 @@ import {
   DiscoverFilterTabs,
   StoryRenderItem,
 } from '@/src/components';
-import { bottomBarHeight, colors } from '@/src/constants';
+import { colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
 import { useGetStories } from '@/src/actions';
 
 const DiscoverPage = () => {
   const { push } = useRouter();
-  const { bottom } = useSafeAreaInsets();
 
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
@@ -66,15 +64,15 @@ const DiscoverPage = () => {
           numColumns={2}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => <StoryRenderItem order={index} story={item} />}
-          contentContainerStyle={{
-            paddingTop: 24,
-            paddingBottom: bottom + bottomBarHeight + 24,
-            paddingHorizontal: 24,
-            gap: 8,
-          }}
           loading={isLoading}
           onRefresh={refetch}
           noContentText="Uygun kriterlere uygun hikaye bulunamadı."
+          paddingHorizontal={24}
+          topPadding
+          safeBottom
+          safeBottomNav
+          bottomPadding
+          gap={8}
         />
       </Box>
       <DiscoverFilterDrawer
