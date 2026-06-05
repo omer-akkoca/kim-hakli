@@ -35,7 +35,7 @@ export default function ProfilePage() {
 
   return (
     <AppBackground>
-      <AppScrollView safeTop safeBottomNav safeBottom>
+      <AppScrollView safeTop topPadding bottomPadding safeBottomNav safeBottom>
         <Box className="items-center justify-center py-8 gap-6">
           <ProfileAvatar />
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">

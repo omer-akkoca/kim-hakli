@@ -66,6 +66,7 @@ const StoryVoteResultPage = () => {
     <AppBackground>
       <Box className="flex-1">
         <AppScrollView
+          topPadding
           safeTop
           safeBottom
           bottomPadding

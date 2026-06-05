@@ -32,7 +32,7 @@ const SettingsPage = () => {
     <AppBackground>
       <AppBar backIcon title="Ayarlar" />
       <Box className="flex-1">
-        <AppScrollView safeBottom paddingHorizontal={24}>
+        <AppScrollView topPadding bottomPadding safeBottom paddingHorizontal={24} gap={16}>
           {/* Delete Account */}
           <AppCard onPress={handleDeleteAccount}>
             <HStack className="p-4 items-center justify-between">

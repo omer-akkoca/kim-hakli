@@ -36,10 +36,10 @@ const HomePage = () => {
             <Box className="mb-6">
               {/* En Son Yayınlanan Hikayeler */}
               <HomeSectionTitle title="Son Yayına Alınanlar" />
-              <AppScrollView horizontal contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}>
+              <AppScrollView horizontal paddingHorizontal={24} gap={12}>
                 {latest.map((e) => (
                   <HomeStoryCard key={e.id} story={e}>
-                    <Box className="w-3/4 bg-primary-500/80 py-1 mx-auto rounded-md">
+                    <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
                       <AppText
                         size={10}
                         lineHeight={12}
@@ -56,10 +56,10 @@ const HomePage = () => {
             {/* En Çok Oy Verilen */}
             <Box>
               <HomeSectionTitle title="En Çok Oylanan Hikayeler" />
-              <AppScrollView horizontal contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}>
+              <AppScrollView horizontal paddingHorizontal={24} gap={12}>
                 {mostVoteds.map((e) => (
                   <HomeStoryCard key={e.id} story={e}>
-                    <Box className="w-3/4 bg-primary-500/80 py-1 mx-auto rounded-md">
+                    <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
                       <AppText
                         size={10}
                         lineHeight={12}
