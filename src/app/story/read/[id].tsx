@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, StatusBar } from 'react-native';
 import { Box } from '@/components/ui';
 import { useGetStoryCoverImageUrl, useGetStoryScenes } from '@/src/actions';
@@ -17,7 +17,7 @@ import {
   storyReadProgressBarHeight as srpbh,
   width,
 } from '@/src/constants';
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
 
@@ -50,12 +50,14 @@ export default function StoryReadPage() {
 
   const boxHeight = useMemo(() => height - bottom - top - srabh - srpbh - 64, [top, bottom]);
 
-  useEffect(() => {
-    NavigationBar.setVisibilityAsync('hidden');
-    return () => {
-      NavigationBar.setVisibilityAsync('visible');
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      NavigationBar.setVisibilityAsync('hidden');
+      return () => {
+        NavigationBar.setVisibilityAsync('visible');
+      };
+    }, []),
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: string }) => <StoryReadRenderItem item={item} boxHeight={boxHeight} />,
