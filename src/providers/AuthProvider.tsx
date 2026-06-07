@@ -9,7 +9,7 @@ import {
 } from '@/src/store';
 import { useGetProfile } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
-import { getSession, onAuthStateChanged } from '@/src/services';
+import { createUser, getSession, onAuthStateChanged } from '@/src/services';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -18,6 +18,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const syncAuth = async (session: Session | null) => {
     dispatch(setSession(session));
+
+    if (session) {
+      const sessionUser = session.user;
+      let user = null;
+      user = await mutateAsync({ userId: sessionUser.id });
+
+      if (!user) {
+        user = await createUser(sessionUser);
+      }
+
+      dispatch(setUser(user));
+    } else {
+      dispatch(resetAuth());
+      dispatch(resetBookmark());
+    }
 
     if (session?.user) {
       const user = await mutateAsync({ userId: session.user.id });

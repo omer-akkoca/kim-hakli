@@ -23,26 +23,15 @@ export async function signInWithGoogle() {
     const userInfo = await GoogleSignin.signIn();
     const idToken = userInfo.data?.idToken;
 
-    if (!idToken) {
-      throw new Error('Google idToken not found. Check your webClientId.');
-    }
+    if (!idToken) throw new Error('Google idToken not found. Check your webClientId.');
 
-    const { data, error } = await supabase.auth.signInWithIdToken({
+    const { error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
       token: idToken,
     });
 
     if (error) throw error;
 
-    const user = data.user;
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    await createUser(user);
-
-    return data;
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       return null;
@@ -61,8 +50,8 @@ export async function signOut() {
   }
 }
 
-const createUser = async (user: User) => {
-  const { error } = await supabase
+export const createUser = async (user: User) => {
+  const { error, data } = await supabase
     .from('users')
     .upsert(
       {
@@ -75,10 +64,13 @@ const createUser = async (user: User) => {
       },
       {
         onConflict: 'id',
+        ignoreDuplicates: true,
       },
     )
     .select()
     .single();
 
   if (error) throw error;
+
+  return data;
 };
