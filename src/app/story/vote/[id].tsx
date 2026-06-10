@@ -63,7 +63,7 @@ export default function StoryVotePage() {
         <HStack
           space="lg"
           className="absolute left-0 top-0 right-0 px-6 items-center justify-between"
-          style={{ paddingTop: top }}
+          style={{ paddingTop: top + 24 }}
         >
           <Box />
           <DetailIconButton icon={CrossVector} onPress={back} />
