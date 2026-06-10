@@ -28,7 +28,7 @@ import {
   LockCircleVector,
   LoopVector,
 } from '@/assets';
-import { useAuth, useBookmark, useModal } from '@/src/hooks';
+import { useAuth, useBookmark, useModal, useToast } from '@/src/hooks';
 import { useDispatch } from 'react-redux';
 
 export default function StoryDetailPage() {
@@ -41,6 +41,7 @@ export default function StoryDetailPage() {
   const { show } = useModal();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const { user } = useAuth();
+  const { show: showToast } = useToast();
 
   const { categories } = useAppSelector((state) => state.category);
 
@@ -82,6 +83,13 @@ export default function StoryDetailPage() {
             dispatch(decreaseCredit(story!.credit_cost));
             push(`/story/read/${id}`);
           }
+        },
+        onError: (error) => {
+          showToast({
+            type: 'error',
+            title: 'Hikaye Kilidi Açılamadı',
+            description: error.message,
+          });
         },
       },
     );

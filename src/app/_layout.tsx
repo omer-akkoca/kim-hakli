@@ -2,7 +2,7 @@ import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '@/src/store';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import { AppInitializer, AuthProvider, ModalProvider } from '@/src/providers';
+import { AppInitializer, AuthProvider, ModalProvider, ToastProvider } from '@/src/providers';
 import { AppNavigation } from '@/src/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@/global.css';
@@ -19,11 +19,13 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <GluestackUIProvider>
             <ModalProvider>
-              <AuthProvider>
-                <AppInitializer>
-                  <AppNavigation />
-                </AppInitializer>
-              </AuthProvider>
+              <ToastProvider>
+                <AuthProvider>
+                  <AppInitializer>
+                    <AppNavigation />
+                  </AppInitializer>
+                </AuthProvider>
+              </ToastProvider>
             </ModalProvider>
           </GluestackUIProvider>
         </QueryClientProvider>

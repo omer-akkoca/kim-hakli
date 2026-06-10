@@ -513,3 +513,34 @@ export const StarVector = (props: SvgProps) => (
     />
   </Svg>
 );
+
+export const SuccessCircleVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 1024 1024" {...props}>
+    <Path
+      fill={props.color}
+      d="M512 64a448 448 0 110 896 448 448 0 010-896zm-55.808 536.384l-99.52-99.584a38.4 38.4 0 10-54.336 54.336l126.72 126.72a38.272 38.272 0 0054.336 0l262.4-262.464a38.4 38.4 0 10-54.272-54.336L456.192 600.384z"
+    />
+  </Svg>
+);
+
+export const ErrorCircleVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"
+      fill={props.color}
+    />
+  </Svg>
+);
+
+export const WarningCircleVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-3.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zm1-5.5a1 1 0 1 1-2 0V7a1 1 0 1 1 2 0v6z"
+      fill={props.color}
+    />
+  </Svg>
+);

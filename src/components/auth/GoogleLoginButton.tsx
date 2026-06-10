@@ -5,16 +5,34 @@ import { useGoogleSingIn } from '@/src/actions';
 import { useRouter } from 'expo-router';
 import { AppText } from '../ui/AppText';
 import { AppLoading } from '../ui/AppLoading';
+import { useToast } from '@/src/hooks';
 
 const GoogleLoginButton = () => {
   const router = useRouter();
+  const { show } = useToast();
 
   const { mutate, isPending } = useGoogleSingIn();
 
   const onSuccess = () => router.replace('/(tabs)/home');
 
   const handleGoogle = async () => {
-    mutate(undefined, { onSuccess: onSuccess });
+    mutate(undefined, {
+      onError: (error) => {
+        show({
+          type: 'error',
+          title: 'Giriş yapılamadı',
+          description: error.message,
+        });
+      },
+      onSuccess: () => {
+        onSuccess();
+        show({
+          type: 'success',
+          title: 'Hoş geldin!',
+          description: 'Google hesabınla başarıyla giriş yaptın.',
+        });
+      },
+    });
   };
 
   return (
