@@ -9,7 +9,7 @@ export default ({ config }) => ({
   userInterfaceStyle: 'light',
   newArchEnabled: true,
   splash: {
-    image: './assets/logo.png',
+    image: './assets/icon.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
