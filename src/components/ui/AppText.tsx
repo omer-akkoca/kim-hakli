@@ -36,6 +36,7 @@ interface AppTextProps extends TextProps {
   weight?: FontWeight;
   size?: number;
   lineHeight?: number;
+  onPress?: () => void;
 }
 
 export const AppText: React.FC<AppTextProps> = ({
@@ -46,6 +47,7 @@ export const AppText: React.FC<AppTextProps> = ({
   style,
   className,
   children,
+  onPress,
   ...props
 }: AppTextProps) => {
   return (
@@ -59,6 +61,7 @@ export const AppText: React.FC<AppTextProps> = ({
         style,
       ]}
       className={className}
+      onPress={onPress}
       {...props}
     >
       {children}
