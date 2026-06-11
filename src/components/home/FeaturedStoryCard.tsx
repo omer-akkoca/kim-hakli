@@ -6,7 +6,7 @@ import { StoryWithCoverUrl } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
-import { useBookmark } from '@/src/hooks';
+import { useAuth, useBookmark } from '@/src/hooks';
 import { useRouter } from 'expo-router';
 
 const scale = (width - 64) / 9;
@@ -27,8 +27,8 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   activeIndex,
 }) => {
   const { push } = useRouter();
-
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
+  const { user } = useAuth();
 
   return (
     <Box style={{ width: containerWidth, height: containerHeight }} className="items-center">
@@ -58,15 +58,17 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
             <Box className="w-full flex-1 justify-between" style={{ padding: 20 }}>
               <HStack className="items-center justify-between">
                 <CreditBadge credit={story.credit_cost} withBg />
-                <AppIconButton
-                  icon={BookmarkIcon}
-                  onPress={toggleBookmark}
-                  disabled={loading}
-                  color={colors.headline}
-                  width={22}
-                  height={22}
-                  className="w-credit-label h-credit-label bg-credit-bg items-center justify-center rounded-full border border-white/5"
-                />
+                {user ? (
+                  <AppIconButton
+                    icon={BookmarkIcon}
+                    onPress={toggleBookmark}
+                    disabled={loading}
+                    color={colors.headline}
+                    width={22}
+                    height={22}
+                    className="w-credit-label h-credit-label bg-credit-bg items-center justify-center rounded-full border border-white/5"
+                  />
+                ) : null}
               </HStack>
               <VStack space="md">
                 <VStack space="sm">
