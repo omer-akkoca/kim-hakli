@@ -32,14 +32,17 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
               style={{ width: W(175) }}
               resizeMode="cover"
             />
-            <Box className="flex-1 items-center justify-center">
+            <Box className="flex-1 items-center justify-center px-4">
               <WinnerBadge />
               <AppText
                 family="PlayfairDisplay"
                 size={30}
                 lineHeight={36}
                 weight={700}
-                className="text-headline mt-2"
+                className="text-headline mt-2 text-center"
+                numberOfLines={2}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
               >
                 {winner.title}
               </AppText>
@@ -47,7 +50,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
                 size={30}
                 lineHeight={40}
                 weight={800}
-                className="text-primary-500 "
+                className="text-primary-500 text-center"
                 style={{
                   textShadowColor: 'rgba(241,118,42,0.22)',
                   textShadowOffset: { width: 0, height: 0 },
@@ -56,7 +59,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
               >
                 {winner.percentage}%
               </AppText>
-              <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40">
+              <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40 text-center">
                 {formatStoryVoteCount(winner.vote_count)} Oy
               </AppText>
             </Box>
@@ -108,6 +111,9 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
                 lineHeight={35}
                 weight={700}
                 className="text-headline text-center"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
               >
                 {side.title}
               </AppText>
@@ -115,7 +121,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
                 size={25}
                 lineHeight={35}
                 weight={800}
-                className="text-primary-500 "
+                className="text-primary-500 text-center"
                 style={{
                   textShadowColor: 'rgba(241,118,42,0.22)',
                   textShadowOffset: { width: 0, height: 0 },
@@ -124,7 +130,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
               >
                 {side.percentage}%
               </AppText>
-              <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40">
+              <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40 text-center">
                 {formatStoryVoteCount(side.vote_count)} Oy
               </AppText>
             </Box>
