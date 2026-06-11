@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image as RnImage } from 'react-native';
+import React, { useCallback } from 'react';
+import { ListRenderItemInfo, Image as RnImage } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -36,6 +36,19 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
     scrollX.value = event.contentOffset.x;
   });
 
+  const renderItem = useCallback(
+    ({ index, item }: ListRenderItemInfo<IStorySideWithImage>) => (
+      <VoteSegment
+        item={item}
+        index={index}
+        scrollX={scrollX}
+        active={item.id === selectedSide}
+        setSelectedSide={setSelectedSide}
+      />
+    ),
+    [],
+  );
+
   return (
     <Box style={{ height: ITEM_HEIGHT + 32 }}>
       <Animated.FlatList
@@ -48,15 +61,7 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
         contentContainerStyle={{ paddingHorizontal: (width - ITEM_WIDTH) / 2 }}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        renderItem={({ item, index }) => (
-          <VoteSegment
-            item={item}
-            index={index}
-            scrollX={scrollX}
-            active={item.id === selectedSide}
-            setSelectedSide={setSelectedSide}
-          />
-        )}
+        renderItem={renderItem}
       />
     </Box>
   );
@@ -123,7 +128,7 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
                 />
               </Box>
               <VStack space="md" className="flex-1 px-4 items-center justify-center">
-                <AppText size={20} weight={600} className="text-headline">
+                <AppText size={20} weight={600} className="text-headline text-center">
                   {item.title}
                 </AppText>
                 {item.description ? (
