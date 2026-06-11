@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Platform } from 'react-native';
+import { ImageBackground, Linking, Platform } from 'react-native';
 import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { AppText, GoogleLoginButton } from '@/src/components';
 import { AppleVector, LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
@@ -84,11 +84,19 @@ export default function LoginPage() {
               {/* Terms Text  */}
               <AppText className="w-11/12 text-loginText text-center" size={13} weight={400}>
                 Devam ederek,{' '}
-                <AppText className="text-primary-500" weight={500}>
+                <AppText
+                  className="text-primary-500"
+                  weight={500}
+                  onPress={() => Linking.openURL('https://kimhakli.tr/terms-of-use')}
+                >
                   Kullanım Şartları
                 </AppText>{' '}
                 ve{' '}
-                <AppText className="text-primary-500" weight={500}>
+                <AppText
+                  className="text-primary-500"
+                  weight={500}
+                  onPress={() => Linking.openURL('https://kimhakli.tr/privacy-policy')}
+                >
                   Gizlilk Politikası
                 </AppText>
                 {"'"}nı kabul etmiş olursunuz.
