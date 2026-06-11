@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { FlatList, Image } from 'react-native';
+import { useCallback, useRef, useState } from 'react';
+import { FlatList, Image, ListRenderItemInfo } from 'react-native';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
   RightChevronVector,
@@ -37,9 +37,9 @@ export default function OnboardingPage() {
     }
   };
 
-  const renderItem = ({ item }: { item: (typeof slides)[0] }) => (
-    <Box style={{ width, height }}>
-      <AppBackground>
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<(typeof slides)[0]>) => (
+      <Box style={{ width, height }}>
         <Box style={{ flex: 9 }} className="overflow-hidden">
           <Image
             source={item.image}
@@ -47,58 +47,78 @@ export default function OnboardingPage() {
             style={{ width, height: (height / 13) * 9 }}
           />
         </Box>
-        <Box style={{ flex: 4, paddingBottom: bottom + 16 }} className="px-6">
-          <VStack space="lg" className="flex-1 justify-center items-center">
+        <Box style={{ flex: 4, paddingBottom: 56 + 20 + 8 + bottom + 16 }}>
+          <VStack space="lg" className="flex-1 w-full justify-center items-center px-6">
             <AppText
               size={24}
               lineHeight={30}
               weight={700}
               className="text-center capitalize text-headline"
+              numberOfLines={2}
+              adjustsFontSizeToFit
+              minimumFontScale={0.9}
             >
               {item.title}
             </AppText>
-            <AppText size={16} lineHeight={22} className="w-3/4 text-center text-whiteSmoke-500/75">
+            <AppText
+              size={16}
+              lineHeight={22}
+              className="w-3/4 text-center text-whiteSmoke-500/75"
+              numberOfLines={3}
+              adjustsFontSizeToFit
+              minimumFontScale={0.9}
+            >
               {item.description}
             </AppText>
           </VStack>
-          <VStack space="xl">
-            <HStack space="sm" className="justify-center items-center0">
-              {slides.map((_, i) => {
-                const active = i === currentIndex;
-                return (
-                  <Box
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
-                  />
-                );
-              })}
-            </HStack>
-            <DetailPrimaryButton
-              onPress={isLast ? handleFinish : goNext}
-              label={isLast ? 'Başla' : 'Devam Et'}
-              icon={isLast ? StarVector : RightChevronVector}
-              reverse
-            />
-          </VStack>
         </Box>
-      </AppBackground>
-    </Box>
+      </Box>
+    ),
+    [bottom],
   );
 
   return (
-    <AppFlatList
-      flatListRef={flatListRef}
-      data={slides}
-      keyExtractor={(item) => item.id}
-      renderItem={renderItem}
-      horizontal
-      pagingEnabled
-      scrollEnabled
-      onMomentumScrollEnd={(e) => {
-        const index = Math.round(e.nativeEvent.contentOffset.x / width);
-        setCurrentIndex(index);
-      }}
-    />
+    <AppBackground>
+      <Box className="flex-1 relative">
+        <AppFlatList
+          flatListRef={flatListRef}
+          data={slides}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled
+          scrollEnabled
+          onMomentumScrollEnd={(e) => {
+            const index = Math.round(e.nativeEvent.contentOffset.x / width);
+            setCurrentIndex(index);
+          }}
+          className="z-10"
+        />
+        <VStack
+          space="xl"
+          className="absolute w-full left-0 px-6 z-20"
+          style={{ bottom: bottom + 16 }}
+        >
+          <HStack space="sm" className="justify-center items-center0">
+            {slides.map((_, i) => {
+              const active = i === currentIndex;
+              return (
+                <Box
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
+                />
+              );
+            })}
+          </HStack>
+          <DetailPrimaryButton
+            onPress={isLast ? handleFinish : goNext}
+            label={isLast ? 'Başla' : 'Devam Et'}
+            icon={isLast ? StarVector : RightChevronVector}
+            reverse
+          />
+        </VStack>
+      </Box>
+    </AppBackground>
   );
 }
 
