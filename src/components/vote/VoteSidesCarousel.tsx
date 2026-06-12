@@ -46,7 +46,7 @@ const VoteSidesCarousel: React.FC<VoteSidesCarouselProps> = ({
         setSelectedSide={setSelectedSide}
       />
     ),
-    [],
+    [selectedSide],
   );
 
   return (
