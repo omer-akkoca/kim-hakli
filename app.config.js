@@ -9,9 +9,9 @@ export default ({ config }) => ({
   userInterfaceStyle: 'light',
   newArchEnabled: true,
   splash: {
-    image: './assets/icon.png',
+    image: './assets/splash-icon.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#1C1F30',
   },
   ios: {
     supportsTablet: true,
@@ -21,8 +21,8 @@ export default ({ config }) => ({
   android: {
     versionCode: 3,
     adaptiveIcon: {
-      foregroundImage: './assets/icon.png',
-      backgroundColor: '#ffffff',
+      foregroundImage: './assets/adaptive-icon.png',
+      backgroundColor: '#1C1F30',
     },
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
