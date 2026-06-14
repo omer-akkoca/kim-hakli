@@ -62,13 +62,13 @@ export default function StoryVotePage() {
       <Box className="flex-1 relative">
         <HStack
           space="lg"
-          className="absolute left-0 top-0 right-0 px-6 items-center justify-between"
-          style={{ paddingTop: top + 24 }}
+          className="absoluteleft-0 right-0 px-6 items-center justify-between z-20"
+          style={{ top: top + 8 }}
         >
           <Box />
           <DetailIconButton icon={CrossVector} onPress={back} />
         </HStack>
-        <Box className="flex-1 justify-center items-center gap-10">
+        <Box className="flex-1 justify-center items-center gap-10 z-10">
           <VStack className="w-full px-6">
             <AppText
               family="PlayfairDisplay"
