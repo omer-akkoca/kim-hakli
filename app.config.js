@@ -19,7 +19,7 @@ export default ({ config }) => ({
     bundleIdentifier: 'com.oakkoca.kimhakli',
   },
   android: {
-    versionCode: 4,
+    versionCode: 5,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#1C1F30',
