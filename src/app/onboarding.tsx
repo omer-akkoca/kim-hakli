@@ -127,7 +127,7 @@ const slides = [
     id: '1',
     image: ONBOARDING_ONE,
     title: 'Her Hikayenin İki Tarafı Vardır',
-    description: 'Gerçek hayattan tartışmaları kısa hikayeler olarak izle. Olaylara sen karar ver.',
+    description: 'Gerçek hayattan tartışmaları kısa hikayeler olarak oku. Olaylara sen karar ver.',
   },
   {
     id: '2',
