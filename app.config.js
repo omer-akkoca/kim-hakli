@@ -28,6 +28,20 @@ export default ({ config }) => ({
     predictiveBackGestureEnabled: false,
     package: 'com.oakkoca.kimhakli',
     googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? './google-services.json',
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: 'kimhakli.tr',
+            pathPrefix: '/story',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+    ],
   },
   web: {
     favicon: './assets/favicon.png',

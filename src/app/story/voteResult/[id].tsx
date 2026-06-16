@@ -13,9 +13,10 @@ import {
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BookOutlineVector, HomeOutlineVector, UsersVector } from '@/assets';
+import { HomeOutlineVector, ShareVector, UsersVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
+import { Share } from 'react-native';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -51,6 +52,13 @@ const StoryVoteResultPage = () => {
     if (!winner) return resultsWithAvatar;
     return resultsWithAvatar.filter((e) => e.side_id !== winner.side_id);
   }, [resultsWithAvatar]);
+
+  const handleShareStory = async () => {
+    await Share.share({
+      message: `https://kimhakli.tr/story/${id}`,
+      url: `https://kimhakli.tr/story/${id}`,
+    });
+  };
 
   if (statsLoading) {
     return (
@@ -164,11 +172,7 @@ const StoryVoteResultPage = () => {
           </VStack>
           <Divider className="h-[1px] w-full bg-white/10 my-4" />
           <VStack space="lg">
-            <DetailPrimaryButton
-              icon={BookOutlineVector}
-              label="Başka Hikaye Oku"
-              onPress={() => replace('/discover')}
-            />
+            <DetailPrimaryButton icon={ShareVector} label="Paylaş" onPress={handleShareStory} />
             <DetailSecondaryButton
               icon={HomeOutlineVector}
               label="Anasayfa'ya Dön"
