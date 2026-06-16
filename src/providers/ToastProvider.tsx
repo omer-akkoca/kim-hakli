@@ -101,7 +101,7 @@ const ToastView: React.FC<{
   return (
     <Animated.View
       className="absolute rounded-lg py-2 px-3 z-50"
-      style={[styles.wrapper, { backgroundColor: bgColor, top: top + 24 }, animatedStyle]}
+      style={[styles.wrapper, { backgroundColor: bgColor, top: top }, animatedStyle]}
     >
       <HStack className="items-center" space="md">
         <HStack className="flex-1 items-center" space="md">
