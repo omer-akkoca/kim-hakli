@@ -36,7 +36,7 @@ export default function StoryDetailPage() {
 
   const dispatch = useDispatch();
 
-  const { push, back } = useRouter();
+  const { push, back, canGoBack, replace } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
   const { show } = useModal();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
@@ -100,6 +100,14 @@ export default function StoryDetailPage() {
     return category?.name ?? '';
   };
 
+  const handleBack = () => {
+    if (canGoBack()) {
+      back();
+    } else {
+      replace('/');
+    }
+  };
+
   if (isLoading || unlocking || voting) {
     return (
       <AppBackground>
@@ -117,7 +125,7 @@ export default function StoryDetailPage() {
           className="w-full items-center justify-between"
           style={{ marginTop: top + 24, paddingHorizontal: 24 }}
         >
-          <DetailIconButton icon={LeftChevronVector} onPress={back} />
+          <DetailIconButton icon={LeftChevronVector} onPress={handleBack} />
           {user ? (
             <DetailIconButton icon={BookmarkIcon} onPress={toggleBookmark} disabled={loading} />
           ) : null}
@@ -139,6 +147,9 @@ export default function StoryDetailPage() {
                 textShadowOffset: { width: 0, height: 4 },
                 textShadowRadius: 18,
               }}
+              numberOfLines={3}
+              adjustsFontSizeToFit
+              minimumFontScale={0.9}
             >
               {story.title}
             </AppText>
