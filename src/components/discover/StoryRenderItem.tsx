@@ -74,6 +74,8 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
                 weight={600}
                 className="text-headline -tracking-2"
                 numberOfLines={3}
+                adjustsFontSizeToFit
+                minimumFontScale={0.75}
               >
                 {story.title}
               </AppText>

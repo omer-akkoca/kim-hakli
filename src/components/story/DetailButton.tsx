@@ -77,7 +77,7 @@ const DetailPrimaryButton: React.FC<DetailButtonProps> = ({
             style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
           >
             <Center className="w-9 h-9 bg-white/20 rounded-full">
-              <Icon width={18} height={18} color={colors.headline} />
+              <Icon width={16} height={16} color={colors.headline} />
             </Center>
             <AppText size={16} lineHeight={20} weight={600} className="text-headline -tracking-2">
               {label}
@@ -122,7 +122,7 @@ const DetailSecondaryButton: React.FC<DetailButtonProps> = ({
             style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
           >
             <Center className="w-9 h-9 bg-white/5 rounded-full border border-white/15">
-              <Icon width={18} height={18} color={colors.headline} />
+              <Icon width={16} height={16} color={colors.headline} />
             </Center>
             <AppText size={16} lineHeight={20} weight={600} className="text-headline -tracking-2">
               {label}
