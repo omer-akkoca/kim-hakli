@@ -3,7 +3,7 @@ export default ({ config }) => ({
   name: 'Kim Haklı?',
   slug: 'kim-hakli',
   scheme: 'kim-hakli',
-  version: '1.0.5',
+  version: '1.0.6',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -19,7 +19,7 @@ export default ({ config }) => ({
     bundleIdentifier: 'com.oakkoca.kimhakli',
   },
   android: {
-    versionCode: 5,
+    versionCode: 6,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#1C1F30',
