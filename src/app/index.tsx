@@ -1,12 +1,9 @@
 import { AppBackground, AppLoading } from '@/src/components';
 import { Redirect } from 'expo-router';
-import { FONTS } from '@/src/constants';
-import { useFonts } from 'expo-font';
 import { useAuth, useOnboarding } from '@/src/hooks';
 import '@/src/configs/google';
 
-export default function IndexPage() {
-  useFonts(FONTS);
+const IndexPage = () => {
   const { loading, hasSeen } = useOnboarding();
   const { isAuthenticated } = useAuth();
 
@@ -23,4 +20,6 @@ export default function IndexPage() {
   if (!isAuthenticated) return <Redirect href="/home" />;
 
   return <Redirect href="/home" />;
-}
+};
+
+export default IndexPage;

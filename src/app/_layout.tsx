@@ -11,7 +11,7 @@ import { Box } from '@/components/ui';
 
 const queryClient = new QueryClient();
 
-export default function RootLayout() {
+const RootLayout = () => {
   return (
     <Box className="flex-1 bg-background-500">
       <StatusBar translucent backgroundColor="transparent" animated barStyle={'light-content'} />
@@ -32,4 +32,6 @@ export default function RootLayout() {
       </Provider>
     </Box>
   );
-}
+};
+
+export default RootLayout;
