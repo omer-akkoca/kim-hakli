@@ -128,7 +128,12 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
                 />
               </Box>
               <VStack space="md" className="flex-1 px-4 items-center justify-center">
-                <AppText size={20} weight={600} className="text-headline text-center">
+                <AppText
+                  size={20}
+                  lineHeight={26}
+                  weight={600}
+                  className="text-headline text-center"
+                >
                   {item.title}
                 </AppText>
                 {item.description ? (
