@@ -39,6 +39,8 @@ export interface GetStoriesParams {
   artStyle?: StoryArtStyle | null;
   categoryCode?: string | null;
   creditFilter?: CreditFilter;
+  page?: number;
+  limit?: number;
 }
 
 export interface SearchStoriesParams {

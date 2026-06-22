@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Box } from '@/components/ui';
-import { GetStoriesParams } from '@/src/types';
+import { GetStoriesParams, IStory } from '@/src/types';
 import { SearchMagnifyingVector } from '@/assets';
 import {
   AppBackground,
   AppBar,
   AppFlatList,
   AppIconButton,
+  AppLoading,
   DiscoverFilterDrawer,
   DiscoverFilterTabs,
   StoryRenderItem,
@@ -14,6 +15,7 @@ import {
 import { colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
 import { useGetStories } from '@/src/actions';
+import { ListRenderItemInfo } from 'react-native';
 
 const DiscoverPage = () => {
   const { push } = useRouter();
@@ -26,15 +28,21 @@ const DiscoverPage = () => {
     creditFilter: 'all',
   });
 
-  const {
-    data: stories,
-    isLoading,
-    refetch,
-  } = useGetStories({
-    artStyle: filters.artStyle,
-    categoryCode: filters.categoryCode,
-    creditFilter: filters.creditFilter,
-  });
+  const { data, isLoading, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetStories({
+      artStyle: filters.artStyle,
+      categoryCode: filters.categoryCode,
+      creditFilter: filters.creditFilter,
+    });
+
+  const stories = useMemo(() => {
+    return data?.pages.flat() ?? [];
+  }, [data]);
+
+  const renderItem = useCallback(
+    ({ index, item }: ListRenderItemInfo<IStory>) => <StoryRenderItem order={index} story={item} />,
+    [],
+  );
 
   return (
     <AppBackground>
@@ -63,7 +71,7 @@ const DiscoverPage = () => {
           data={stories}
           numColumns={2}
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => <StoryRenderItem order={index} story={item} />}
+          renderItem={renderItem}
           loading={isLoading}
           onRefresh={refetch}
           noContentText="Uygun kriterlere uygun hikaye bulunamadı."
@@ -73,6 +81,13 @@ const DiscoverPage = () => {
           safeBottomNav
           bottomPadding
           gap={8}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={isFetchingNextPage ? <AppLoading size={'small'} /> : null}
         />
       </Box>
       <DiscoverFilterDrawer

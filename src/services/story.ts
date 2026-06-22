@@ -18,6 +18,12 @@ import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constant
 import { attachSignedCoverUrls, attachSignedImageUrls } from './storage';
 
 export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
+  const page = params?.page ?? 0;
+  const limit = params?.limit ?? 10;
+
+  const from = page * limit;
+  const to = from + limit - 1;
+
   let query = supabase
     .from('stories')
     .select(
@@ -31,7 +37,8 @@ export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> =
     `,
     )
     .eq('status', 'published')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(from, to);
 
   if (params?.artStyle && params.artStyle !== 'all') {
     query = query.eq('art_style', params.artStyle);

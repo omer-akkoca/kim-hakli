@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   GetStoriesParams,
   GetStoryImageUrlParams,
@@ -45,10 +45,29 @@ const storyKeys = {
   mostVoted: () => ['stories', 'most-voted'] as const,
 };
 
+const STORY_LIMIT = 10;
+
 export const useGetStories = (params?: GetStoriesParams) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: storyKeys.list(params),
-    queryFn: () => getStories(params),
+
+    queryFn: ({ pageParam = 0 }) =>
+      getStories({
+        ...params,
+        page: pageParam,
+        limit: STORY_LIMIT,
+      }),
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < STORY_LIMIT) {
+        return undefined;
+      }
+
+      return allPages.length;
+    },
+
     staleTime: 1000 * 60 * 5,
   });
 };
