@@ -44,3 +44,8 @@ export interface GetStoriesParams {
 export interface SearchStoriesParams {
   query: string;
 }
+
+export interface UpdateReferralSourceParams {
+  userId: string;
+  referralSource: string;
+}

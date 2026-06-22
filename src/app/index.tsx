@@ -1,13 +1,13 @@
 import { AppBackground, AppLoading } from '@/src/components';
 import { Redirect } from 'expo-router';
-import { useAuth, useOnboarding } from '@/src/hooks';
+import { useAuth, useAppState } from '@/src/hooks';
 import '@/src/configs/google';
 
 const IndexPage = () => {
-  const { loading, hasSeen } = useOnboarding();
-  const { isAuthenticated } = useAuth();
+  const { loading, hasSeenOnboarding, referralSource } = useAppState();
+  const { isAuthenticated, authLoading } = useAuth();
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -15,9 +15,11 @@ const IndexPage = () => {
     );
   }
 
-  if (!hasSeen) return <Redirect href="/onboarding" />;
+  if (!hasSeenOnboarding) return <Redirect href="/onboarding" />;
 
   if (!isAuthenticated) return <Redirect href="/home" />;
+
+  if (!referralSource) return <Redirect href="/referral_source" />;
 
   return <Redirect href="/home" />;
 };

@@ -3,8 +3,9 @@ import { Stack } from 'expo-router';
 const AppNavigation = () => {
   return (
     <Stack initialRouteName="onboarding" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="auth/login" />
       <Stack.Screen name="onboarding" />
+      <Stack.Screen name="auth/login" />
+      <Stack.Screen name="referral_source" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="story/[id]" />
       <Stack.Screen name="story/read/[id]" />

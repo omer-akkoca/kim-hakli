@@ -1,6 +1,6 @@
-import { DeleteAccountResponse, IUser, UnlockedStory, UserStoryStats } from '@/src/types';
 import { supabase } from '@/src/configs';
-import { DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '../constants';
+import { DeleteAccountResponse, IUser, UnlockedStory, UpdateReferralSourceParams, UserStoryStats } from '@/src/types';
+import { DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '@/src/constants';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
   try {
@@ -33,4 +33,23 @@ export const deleteAccount = async (): Promise<DeleteAccountResponse> => {
   if (error) throw error;
 
   return data as DeleteAccountResponse;
+};
+
+export const updateReferralSource = async ({
+  userId,
+  referralSource,
+}: UpdateReferralSourceParams) => {
+  const { data, error } = await supabase
+    .from('users')
+    .update({
+      referral_source: referralSource,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', userId)
+    .select('*')
+    .single();
+
+  if (error) throw new Error(error.message || 'Bilgi güncellenirken hata oluştu.');
+
+  return data;
 };

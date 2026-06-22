@@ -13,7 +13,7 @@ const GoogleLoginButton = () => {
 
   const { mutate, isPending } = useGoogleSingIn();
 
-  const onSuccess = () => router.replace('/(tabs)/home');
+  const onSuccess = () => router.replace('/');
 
   const handleGoogle = async () => {
     mutate(undefined, {

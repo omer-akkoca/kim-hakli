@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { deleteAccount, getProfile, getUserStoryStats, getUserUnlockedStories } from '@/src/services';
-import { GetProfileParams } from '@/src/types';
+import { deleteAccount, getProfile, getUserStoryStats, getUserUnlockedStories, updateReferralSource } from '@/src/services';
+import { GetProfileParams, UpdateReferralSourceParams } from '@/src/types';
 import { useAppSelector } from '../store';
 
 export const userKeys = {
@@ -38,5 +38,13 @@ export const useDeleteAccount = () => {
   return useMutation({
     mutationKey: userKeys.deleteAccount(),
     mutationFn: deleteAccount,
+  });
+};
+
+
+export const useUpdateReferralSource = () => {
+  return useMutation({
+    mutationFn: (params: UpdateReferralSourceParams) =>
+      updateReferralSource(params),
   });
 };
