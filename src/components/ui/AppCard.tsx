@@ -5,13 +5,14 @@ import React, { PropsWithChildren } from 'react';
 interface AppCardProps extends PropsWithChildren {
   flex?: boolean;
   onPress?: () => void;
+  className?: string;
 }
 
-const AppCard: React.FC<AppCardProps> = ({ onPress, flex, children }) => {
+const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, children }) => {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-background-500/75 rounded-xl border border-white/10 overflow-hidden"
+      className={`bg-background-500/75 rounded-xl border border-white/10 overflow-hidden ${className}`}
       style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
       disabled={!onPress}
     >
