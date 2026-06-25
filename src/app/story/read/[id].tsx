@@ -53,8 +53,10 @@ export default function StoryReadPage() {
   useFocusEffect(
     useCallback(() => {
       NavigationBar.setVisibilityAsync('hidden');
+      StatusBar.setHidden(true, 'fade');
       return () => {
         NavigationBar.setVisibilityAsync('visible');
+        StatusBar.setHidden(false, 'fade');
       };
     }, []),
   );
@@ -73,7 +75,6 @@ export default function StoryReadPage() {
 
   return (
     <StoryReadBg>
-      <StatusBar hidden />
       <Box className="flex-1" style={{ paddingTop: top + 16, paddingBottom: bottom + 16, gap: 16 }}>
         <StoryReadProgressBar current={activeIndex + 1} total={listData.length} />
         <Box className="flex-1">
