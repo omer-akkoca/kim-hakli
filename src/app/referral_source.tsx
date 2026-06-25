@@ -4,12 +4,11 @@ import { Box, HStack, VStack } from '@/components/ui';
 import { AppBackground, AppCard, AppText, DetailPrimaryButton } from '@/src/components';
 import { LOGIN_TEXT, SendVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { H, STORAGE_KEYS, width } from '../constants';
+import { H, width } from '../constants';
 import { referralList } from '../constants/values';
 import { useUpdateReferralSource } from '../actions';
 import { useAuth, useToast } from '../hooks';
 import { useRouter } from 'expo-router';
-import { storage } from '../utils';
 
 const ReferralSource = () => {
   const { top, bottom } = useSafeAreaInsets();
@@ -27,7 +26,6 @@ const ReferralSource = () => {
         { userId: user?.id, referralSource: source },
         {
           onSuccess: async () => {
-            await storage.set(STORAGE_KEYS.REFERRAL_SOURCE, true);
             router.replace('/(tabs)/home');
             show({
               title: 'Teşekkürler 🧡',
@@ -64,7 +62,7 @@ const ReferralSource = () => {
             </AppText>
           </VStack>
 
-          <HStack space="md" className="items-center justify-center flex-wrap">
+          <HStack space="lg" className="items-center justify-center flex-wrap">
             {referralList.map((e) => {
               const active = e.value === source;
               return (

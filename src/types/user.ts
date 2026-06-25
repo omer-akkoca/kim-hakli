@@ -9,4 +9,5 @@ export interface IUser {
   credit_count: number;
   created_at: string;
   updated_at: string;
+  referral_source?: string;
 }

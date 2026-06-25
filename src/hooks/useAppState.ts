@@ -5,13 +5,11 @@ import { STORAGE_KEYS } from '@/src/constants';
 const useAppState = () => {
   const [loading, setLoading] = useState(true);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
-  const [referralSource, setReferralSource] = useState(false);
 
   useEffect(() => {
     const boot = async () => {
       setLoading(true);
       await checkOnboarding();
-      await checkReferralSource();
       setLoading(false);
     };
     boot();
@@ -30,20 +28,8 @@ const useAppState = () => {
     }
   }, []);
 
-  const checkReferralSource = useCallback(async () => {
-    try {
-      const value = await storage.get<boolean>(STORAGE_KEYS.REFERRAL_SOURCE);
-      if (value) {
-        setReferralSource(value);
-      } else {
-        setReferralSource(false);
-      }
-    } catch {
-      setReferralSource(false);
-    }
-  }, []);
 
-  return { loading, hasSeenOnboarding, referralSource };
+  return { loading, hasSeenOnboarding };
 };
 
 export { useAppState };
