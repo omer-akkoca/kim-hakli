@@ -17,6 +17,7 @@ export default ({ config }) => ({
     supportsTablet: true,
     googleServicesFile: './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
+    usesAppleSignIn: true,
   },
   android: {
     versionCode: 7,
@@ -48,6 +49,7 @@ export default ({ config }) => ({
   },
   plugins: [
     'expo-router',
+    'expo-apple-authentication',
     [
       '@react-native-google-signin/google-signin',
       {

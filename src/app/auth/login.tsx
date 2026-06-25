@@ -1,8 +1,8 @@
 import React from 'react';
-import { ImageBackground, Linking, Platform } from 'react-native';
+import { ImageBackground, Linking } from 'react-native';
 import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { AppText, GoogleLoginButton } from '@/src/components';
-import { AppleVector, LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
+import { AppleLoginButton, AppText, GoogleLoginButton } from '@/src/components';
+import { LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,10 +12,6 @@ export default function LoginPage() {
   const { bottom } = useSafeAreaInsets();
 
   const onSuccess = () => router.replace('/(tabs)/home');
-
-  const handleApple = async () => {
-    // apple login
-  };
 
   return (
     <Box className="flex-1">
@@ -56,19 +52,7 @@ export default function LoginPage() {
               {/* Button Section  */}
               <VStack space="lg" className="w-full px-1 my-8">
                 <GoogleLoginButton />
-                {Platform.OS === 'ios' ? (
-                  <Pressable
-                    onPress={handleApple}
-                    className="w-full h-button rounded-button bg-white px-6"
-                  >
-                    <HStack space="lg" className="flex-1 items-center">
-                      <AppleVector width={24} height={24} color={colors.apple} />
-                      <AppText className="flex-1 text-center text-black" size={14} weight={600}>
-                        Apple ile Devam Et
-                      </AppText>
-                    </HStack>
-                  </Pressable>
-                ) : null}
+                <AppleLoginButton />
                 <Pressable
                   onPress={onSuccess}
                   className="w-full h-button rounded-button bg-backgroud-500/25 border border-primary-500 px-6"
