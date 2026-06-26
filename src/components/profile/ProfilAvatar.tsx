@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
-import { PROFILE } from '@/assets';
+import { LOGO } from '@/assets';
 
 const ProfileAvatar = () => {
   const { user } = useAuth();
 
   const source = useMemo(
-    () => (user?.avatar_url ? { uri: user?.avatar_url } : PROFILE),
+    () => (user?.avatar_url ? { uri: user?.avatar_url } : LOGO),
     [user?.avatar_url],
   );
 
