@@ -39,7 +39,7 @@ export default function ProfilePage() {
         <Box className="items-center justify-center py-8 gap-6">
           <ProfileAvatar />
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">
-            {user?.full_name ?? ' '}
+            {user?.full_name ?? 'Kim Haklı? Üyesi'}
           </AppText>
           <CreditLabel long />
         </Box>

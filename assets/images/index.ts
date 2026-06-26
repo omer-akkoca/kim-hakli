@@ -6,6 +6,7 @@ import ONBOARDING_FIVE from './onboardingFive.webp';
 
 import LOGIN_BG from './loginBg.webp';
 import LOGIN_TEXT from './kimHakliText.png';
+import PROFILE from './profile.webp';
 
 export {
   ONBOARDING_ONE,
@@ -15,4 +16,5 @@ export {
   ONBOARDING_FIVE,
   LOGIN_BG,
   LOGIN_TEXT,
+  PROFILE
 };
