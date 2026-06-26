@@ -1,6 +1,7 @@
 import { supabase } from '@/src/configs';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { Session, User } from '@supabase/supabase-js';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 export const getSession = async () => await supabase.auth.getSession();
 
@@ -23,11 +24,14 @@ export async function signInWithGoogle() {
     const userInfo = await GoogleSignin.signIn();
     const idToken = userInfo.data?.idToken;
 
-    if (!idToken) throw new Error('Google idToken not found. Check your webClientId.');
+    if (!idToken) {
+      throw new Error('Google idToken not found. Check your webClientId.');
+    }
 
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
       token: idToken,
+      //nonce: decoded.nonce,
     });
 
     if (error) throw error;
@@ -36,6 +40,35 @@ export async function signInWithGoogle() {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       return null;
     }
+    throw error;
+  }
+}
+
+export async function signInWithApple() {
+  try {
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+
+    if (!credential.identityToken) {
+      throw new Error('Apple identityToken not found.');
+    }
+
+    const { error } = await supabase.auth.signInWithIdToken({
+      provider: 'apple',
+      token: credential.identityToken,
+    });
+
+    if (error) throw error;
+  } catch (error: any) {
+    // Kullanıcı Apple login ekranını kapatırsa
+    if (error.code === 'ERR_REQUEST_CANCELED') {
+      return null;
+    }
+
     throw error;
   }
 }
