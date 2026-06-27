@@ -18,7 +18,7 @@ export default ({ config }) => ({
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
     usesAppleSignIn: true,
-    buildNumber: '7',
+    buildNumber: '8',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
