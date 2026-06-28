@@ -1,16 +1,14 @@
 import { supabase } from '@/src/configs';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { Session, User } from '@supabase/supabase-js';
+import { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
 export const getSession = async () => await supabase.auth.getSession();
 
-export const onAuthStateChanged = (callback: (session: Session | null) => void | Promise<void>) => {
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange(async (_event, session) => {
-    await callback(session);
-  });
+export const onAuthStateChanged = (
+  callback: (event: AuthChangeEvent, session: Session | null) => void | Promise<void>,
+) => {
+  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => callback(event, session));
 
   return subscription;
 };

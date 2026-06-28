@@ -10,7 +10,7 @@ import {
 } from '@/src/store';
 import { useGetProfile, useSignOut } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
-import { createUser, getSession, onAuthStateChanged } from '@/src/services';
+import { createUser, onAuthStateChanged } from '@/src/services';
 import { useModal, useToast } from '@/src/hooks';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -25,11 +25,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     dispatch(resetAuth());
     dispatch(resetBookmark());
 
-    showToast({
-      title,
-      description,
-      type: 'error',
-    });
+    showToast({ title, description, type: 'error' });
   };
 
   const syncAuth = async (session: Session | null) => {
@@ -77,13 +73,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const runWithAuthLoading = async (
     callback: () => Promise<void>,
-    errorMessage: {
-      title: string;
-      description: string;
-    },
+    errorMessage: { title: string; description: string },
   ) => {
     dispatch(setAuthLoading(true));
-
     try {
       await callback();
     } catch {
@@ -93,31 +85,22 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const loadInitialSession = async () => {
-    await runWithAuthLoading(
-      async () => {
-        const { data } = await getSession();
-        await syncAuth(data.session);
-      },
-      {
-        title: 'Oturum Kontrol Edilemedi',
-        description: 'Lütfen internet bağlantınızı kontrol edip tekrar deneyin.',
-      },
-    );
-  };
-
   useEffect(() => {
-    loadInitialSession();
-
-    const subscription = onAuthStateChanged(async (session) => {
+    const subscription = onAuthStateChanged(async (event, session) => {
       await runWithAuthLoading(
         async () => {
           await syncAuth(session);
         },
-        {
-          title: 'Oturumunuz Sonlandırıldı',
-          description: 'Oturumunuz güvenlik nedeniyle sonlandırıldı. Lütfen tekrar giriş yapın.',
-        },
+        event === 'INITIAL_SESSION'
+          ? {
+              title: 'Oturum Kontrol Edilemedi',
+              description: 'Lütfen internet bağlantınızı kontrol edip tekrar deneyin.',
+            }
+          : {
+              title: 'Oturumunuz Sonlandırıldı',
+              description:
+                'Oturumunuz güvenlik nedeniyle sonlandırıldı. Lütfen tekrar giriş yapın.',
+            },
       );
     });
 
