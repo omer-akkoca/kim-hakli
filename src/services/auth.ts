@@ -23,7 +23,7 @@ export async function signInWithGoogle() {
     const idToken = userInfo.data?.idToken;
 
     if (!idToken) {
-      throw new Error('Google idToken not found. Check your webClientId.');
+      throw new Error('Google girişi için hesap seçilmedi, lütfen bir hesap seçiniz.');
     }
 
     const { error } = await supabase.auth.signInWithIdToken({
@@ -52,7 +52,7 @@ export async function signInWithApple() {
     });
 
     if (!credential.identityToken) {
-      throw new Error('Apple identityToken not found.');
+      throw new Error('Apple girişi için hesap seçilmedi, lütfen bir hesap seçiniz.');
     }
 
     const { error } = await supabase.auth.signInWithIdToken({

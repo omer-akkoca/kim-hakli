@@ -7,6 +7,7 @@ import {
   setSession,
   setUser,
   useAppDispatch,
+  useAppSelector,
 } from '@/src/store';
 import { useGetProfile, useSignOut } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
@@ -17,6 +18,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
   const { show } = useModal();
   const { show: showToast } = useToast();
+  const session = useAppSelector((state) => state.auth.session);
 
   const { mutateAsync } = useGetProfile();
   const { mutate: logOut } = useSignOut();
@@ -28,7 +30,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     showToast({ title, description, type: 'error' });
   };
 
-  const syncAuth = async (session: Session | null) => {
+  const syncSession = async (session: Session | null) => {
     dispatch(setSession(session));
 
     if (!session?.user) {
@@ -36,38 +38,42 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       dispatch(resetBookmark());
       return;
     }
+  };
 
-    const sessionUser = session.user;
+  const syncAuth = async () => {
+    if (session) {
+      const sessionUser = session.user;
 
-    let user = await mutateAsync({ userId: sessionUser.id });
+      let user = await mutateAsync({ userId: sessionUser.id });
 
-    if (!user) {
-      user = await createUser(sessionUser);
-    }
+      if (!user) {
+        user = await createUser(sessionUser);
+      }
 
-    if (user?.status === 'deleted') {
-      show({
-        title: 'Hesabınız Silinmiş',
-        subtitle:
-          'Bu hesap daha önce silinmiştir. Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
-        buttons: [
-          {
-            label: 'Çıkış Yap',
-            onPress: logOut,
-          },
-          {
-            label: 'Hesabı Etkinleştir',
-            onPress: () => Linking.openURL('https://kimhakli.tr/support'),
-          },
-        ],
-      });
+      if (user?.status === 'deleted') {
+        show({
+          title: 'Hesabınız Silinmiş',
+          subtitle:
+            'Bu hesap daha önce silinmiştir. Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
+          buttons: [
+            {
+              label: 'Çıkış Yap',
+              onPress: logOut,
+            },
+            {
+              label: 'Hesabı Etkinleştir',
+              onPress: () => Linking.openURL('https://kimhakli.tr/support'),
+            },
+          ],
+        });
 
-      dispatch(setUser(user));
-      return;
-    }
+        dispatch(setUser(user));
+        return;
+      }
 
-    if (user) {
-      dispatch(setUser(user));
+      if (user) {
+        dispatch(setUser(user));
+      }
     }
   };
 
@@ -89,7 +95,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const subscription = onAuthStateChanged(async (event, session) => {
       await runWithAuthLoading(
         async () => {
-          await syncAuth(session);
+          await syncSession(session);
         },
         event === 'INITIAL_SESSION'
           ? {
@@ -108,6 +114,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      syncAuth();
+    }
+  }, [session]);
 
   return children;
 };
