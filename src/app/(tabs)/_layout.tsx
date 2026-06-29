@@ -56,7 +56,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const navigate = (routeName: string) => {
     if (routeName === 'profile' && !user) {
       show({
-        title: 'Devam etmek için giriş yap',
+        title: 'Giriş Yap',
         subtitle:
           'Profiline erişmek ve uygulama deneyimini kişiselleştirmek için giriş yapmalısın.',
         buttons: [
