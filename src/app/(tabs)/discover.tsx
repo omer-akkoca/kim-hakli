@@ -28,7 +28,7 @@ const DiscoverPage = () => {
     creditFilter: 'all',
   });
 
-  const { data, isLoading, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isLoading, refetch, isRefetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetStories({
       artStyle: filters.artStyle,
       categoryCode: filters.categoryCode,
@@ -67,28 +67,32 @@ const DiscoverPage = () => {
         />
       </AppBar>
       <Box className="w-full flex-1">
-        <AppFlatList
-          data={stories}
-          numColumns={2}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          loading={isLoading}
-          onRefresh={refetch}
-          noContentText="Uygun kriterlere uygun hikaye bulunamadı."
-          paddingHorizontal={24}
-          topPadding
-          safeBottom
-          safeBottomNav
-          bottomPadding
-          gap={8}
-          onEndReached={() => {
-            if (hasNextPage && !isFetchingNextPage) {
-              fetchNextPage();
-            }
-          }}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={isFetchingNextPage ? <AppLoading size={'small'} /> : null}
-        />
+        {isLoading ? (
+          <AppLoading fullScreen />
+        ) : (
+          <AppFlatList
+            data={stories}
+            numColumns={2}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            loading={isRefetching}
+            onRefresh={refetch}
+            noContentText="Uygun kriterlere uygun hikaye bulunamadı."
+            paddingHorizontal={24}
+            topPadding
+            safeBottom
+            safeBottomNav
+            bottomPadding
+            gap={8}
+            onEndReached={() => {
+              if (hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+            }}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={isFetchingNextPage ? <AppLoading size={'small'} /> : null}
+          />
+        )}
       </Box>
       <DiscoverFilterDrawer
         showDrawer={showDrawer}
