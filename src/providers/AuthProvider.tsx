@@ -54,7 +54,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         show({
           title: 'Hesabınız Silinmiş',
           subtitle:
-            'Bu hesap daha önce silinmiştir. Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
+            'Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
           buttons: [
             {
               label: 'Çıkış Yap',
@@ -62,12 +62,15 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             },
             {
               label: 'Hesabı Etkinleştir',
-              onPress: () => Linking.openURL('https://kimhakli.tr/support'),
+              onPress() {
+                logOut();
+                Linking.openURL('https://kimhakli.tr/support');
+              },
             },
           ],
+          noClosable: true,
         });
 
-        dispatch(setUser(user));
         return;
       }
 

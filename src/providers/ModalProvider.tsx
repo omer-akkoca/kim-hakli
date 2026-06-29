@@ -28,7 +28,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   return (
     <ModalContext.Provider value={{ show }}>
       {children}
-      <Modal isOpen={visible} onClose={hide}>
+      <Modal isOpen={visible} onClose={options?.noClosable ? null : hide}>
         <ModalBackdrop className="bg-modal-backdrop" />
         <ModalContent
           className="bg-background-500 border border-white/10 rounded-4xl w-5/6"

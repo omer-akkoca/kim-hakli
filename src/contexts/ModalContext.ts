@@ -11,6 +11,7 @@ export type ShowOptions = {
   title: string;
   subtitle?: string;
   buttons?: [ButtonAction] | [ButtonAction, ButtonAction];
+  noClosable?: boolean;
 };
 
 export interface ModalContextValue {
