@@ -18,10 +18,11 @@ export default ({ config }) => ({
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
     usesAppleSignIn: true,
-    buildNumber: '8',
+    buildNumber: '11',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
+    associatedDomains: ['applinks:kimhakli.tr'],
   },
   android: {
     versionCode: 7,
