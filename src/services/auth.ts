@@ -82,6 +82,11 @@ export async function signOut() {
 }
 
 export const createUser = async (user: User) => {
+  const provider =
+    user.app_metadata?.provider ??
+    user.app_metadata?.providers?.[0] ??
+    null;
+
   const { error, data } = await supabase
     .from('users')
     .upsert(
@@ -90,7 +95,7 @@ export const createUser = async (user: User) => {
         email: user.email,
         full_name: user.user_metadata?.full_name || user.user_metadata?.name || null,
         avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
-        provider: 'google',
+        provider,
         updated_at: new Date().toISOString(),
       },
       {
