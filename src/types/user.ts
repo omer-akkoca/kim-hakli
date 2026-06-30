@@ -2,7 +2,8 @@ export interface IUser {
   id: string;
   email: string;
   full_name: string;
-  avatar_url: string;
+  avatar_url?: string;
+  avatar_path?: string;
   provider: string;
   role: string;
   status: 'active' | "deleted";

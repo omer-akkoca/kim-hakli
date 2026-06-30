@@ -5,12 +5,14 @@ import { Session } from '@supabase/supabase-js';
 interface AuthState {
   session: Session | null;
   user: IUser | null;
+  profile_photo: string | null;
   loading: boolean;
 }
 
 const initialState: AuthState = {
   session: null,
   user: null,
+  profile_photo: null,
   loading: false,
 };
 
@@ -27,16 +29,20 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
+    setProfilePhoto: (state, action: PayloadAction<string>) => {
+      state.profile_photo = action.payload;
+    },
     decreaseCredit: (state, action: PayloadAction<number>) => {
       state.user!.credit_count = state.user!.credit_count - action.payload;
     },
     resetAuth: (state) => {
       state.session = null;
       state.user = null;
+      state.profile_photo = null;
       state.loading = false;
     },
   },
 });
 
-export const { setAuthLoading, setSession, setUser, resetAuth, decreaseCredit } = authSlice.actions;
+export const { setAuthLoading, setSession, setUser, resetAuth, decreaseCredit, setProfilePhoto } = authSlice.actions;
 export const authReducer = authSlice.reducer;

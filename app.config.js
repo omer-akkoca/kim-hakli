@@ -142,6 +142,20 @@ export default ({ config }) => ({
         },
       },
     ],
+    [
+      'expo-image-picker',
+      {
+        photosPermission: 'Profil fotoğraf seçimi için izniniz gerekmektedir.',
+        colors: {
+          cropToolbarColor: '#000000',
+        },
+        dark: {
+          colors: {
+            cropToolbarColor: '#000000',
+          },
+        },
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,

@@ -17,6 +17,7 @@ const AppNavigation = () => {
       <Stack.Screen name="unlocked_stories" />
       <Stack.Screen name="about" />
       <Stack.Screen name="settings" />
+      <Stack.Screen name="edit_profile" />
     </Stack>
   );
 };

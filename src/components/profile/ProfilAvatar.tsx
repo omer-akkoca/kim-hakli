@@ -2,21 +2,24 @@ import React, { useMemo } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
 import { LOGO } from '@/assets';
+import { useGetAvatarUrl } from '@/src/actions';
 
 const ProfileAvatar = () => {
-  const { user } = useAuth();
+  const { user, profile_photo } = useAuth();
 
-  const source = useMemo(
-    () => (user?.avatar_url ? { uri: user?.avatar_url } : LOGO),
-    [user?.avatar_url],
-  );
+  useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
+
+  const uri = useMemo(() => {
+    if (profile_photo) return profile_photo;
+    if (user?.avatar_url) return user.avatar_url;
+  }, [user?.avatar_url, profile_photo]);
 
   return (
     <Avatar
-      className="w-32 h-32 border-2 border-primary-500"
+      className="w-32 h-32 border-2 border-primary-500 bg-transparent"
       style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)' }}
     >
-      <AvatarImage source={source} />
+      <AvatarImage source={uri ? { uri } : LOGO} />
     </Avatar>
   );
 };

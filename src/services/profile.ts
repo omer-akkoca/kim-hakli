@@ -1,6 +1,14 @@
 import { supabase } from '@/src/configs';
-import { DeleteAccountResponse, IUser, UnlockedStory, UpdateReferralSourceParams, UserStoryStats } from '@/src/types';
+import {
+  DeleteAccountResponse,
+  IUser,
+  UnlockedStory,
+  UpdateProfileParams,
+  UpdateReferralSourceParams,
+  UserStoryStats,
+} from '@/src/types';
 import { DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '@/src/constants';
+import { uploadAvatar } from './storage';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
   try {
@@ -52,4 +60,49 @@ export const updateReferralSource = async ({
   if (error) throw new Error(error.message || 'Bilgi güncellenirken hata oluştu.');
 
   return data;
+};
+
+export const updateProfile = async ({
+  userId,
+  fullName,
+  photo,
+}: UpdateProfileParams): Promise<IUser> => {
+  const payload: {
+    full_name: string;
+    avatar_path?: string | null;
+    updated_at: string;
+  } = {
+    full_name: fullName,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (photo !== undefined) {
+    const avatarPath = await uploadAvatar(userId, photo);
+    payload.avatar_path = avatarPath;
+  }
+
+  const { data, error } = await supabase
+    .from('users')
+    .update(payload)
+    .eq('id', userId)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message || 'Profil güncellenemedi.');
+  }
+
+  return data;
+};
+
+export const getAvatarUrl = async (avatarPath: string): Promise<string> => {
+  const { data, error } = await supabase.storage
+    .from('avatars')
+    .createSignedUrl(avatarPath, 60 * 60);
+
+  if (error) {
+    throw new Error(error.message || 'Profil fotoğrafı alınamadı.');
+  }
+
+  return data.signedUrl;
 };

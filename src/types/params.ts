@@ -1,3 +1,4 @@
+import { ImagePickerAsset } from 'expo-image-picker';
 import { CreditFilter } from './common';
 import { StoryArtStyle } from './story';
 
@@ -50,4 +51,15 @@ export interface SearchStoriesParams {
 export interface UpdateReferralSourceParams {
   userId: string;
   referralSource: string;
+}
+
+export interface UpdateProfileParams {
+  userId: string;
+  fullName: string;
+  photo?: ImagePickerAsset;
+}
+
+export interface GetAvatarUrlParams {
+  userId?: string;
+  avatarPath?: string | null;
 }

@@ -1,4 +1,7 @@
 import { supabase } from '@/src/configs';
+import { File } from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
+import { decode } from 'base64-arraybuffer';
 
 export const createSignedUrlMap = async (paths: string[]) => {
   if (!paths.length) {
@@ -34,4 +37,33 @@ export const attachSignedCoverUrls = async <T extends { cover_image_path: string
     ...item,
     cover_image_url: item.cover_image_path ? (signedUrlMap.get(item.cover_image_path) ?? '') : '',
   }));
+};
+
+export const uploadAvatar = async (
+  userId: string,
+  asset: ImagePicker.ImagePickerAsset,
+): Promise<string> => {
+  const extension =
+    asset.fileName?.split('.').pop() ||
+    asset.mimeType?.split('/').pop() ||
+    'jpg';
+
+  const path = `${userId}/avatar.${extension}`;
+
+  const file = new File(asset.uri);
+  const base64 = await file.base64();
+
+  const { error, data } = await supabase.storage
+    .from('avatars')
+    .upload(path, decode(base64), {
+      upsert: true,
+      contentType: asset.mimeType ?? 'image/jpeg',
+    });
+
+
+  if (error) {
+    throw new Error(error.message || 'Profil fotoğrafı yüklenemedi.');
+  }
+
+  return path;
 };
