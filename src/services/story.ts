@@ -243,16 +243,13 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
 };
 
 export const getFeaturedStories = async (): Promise<StoryWithCoverUrl[]> => {
-  const { data, error, status } = await supabase
+  const { data, error } = await supabase
     .from('stories')
     .select('*')
     .eq('status', 'published')
     .eq('is_featured', true)
     .order('created_at', { ascending: false })
     .limit(8);
-  console.log("error: ", error)
-  console.log("data: ", data)
-    console.log("status: ", status)
 
   if (error) throw new Error(error.message || 'Öne çıkan hikayeler çekilirken hata oluştu.');
 
