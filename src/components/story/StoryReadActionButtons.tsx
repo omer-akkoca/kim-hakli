@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, HStack } from '@/components/ui';
-import { AppText } from '../ui/AppText';
 import { ChartVector, CrossVector, VoteVector } from '@/assets';
 import { useHasVoted } from '@/src/actions';
 import { useRouter } from 'expo-router';
 import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
 import { storyReadActionBarHeight } from '@/src/constants';
 import { useAuth } from '@/src/hooks';
+import { StoryReadCounter } from './StoryReadCounter';
 
 interface StoryReadActionButtonsProps {
   storyId: string;
@@ -49,10 +49,9 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
         loading={votedLoading}
         flex
       />
-      <Box className="items-center justify-center" style={{ width: 52 }}>
-        <AppText size={14} weight={600} className="text-headline">
-          {activeIndex + 1}/{length}
-        </AppText>
+
+      <Box className="items-center justify-center">
+        <StoryReadCounter activeIndex={activeIndex} length={length} />
       </Box>
     </HStack>
   );
