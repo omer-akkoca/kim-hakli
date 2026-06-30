@@ -45,7 +45,7 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
           source={{ uri: story.cover_image_url }}
           className="flex-1"
           resizeMode="cover"
-          blurRadius={5}
+          blurRadius={3}
           style={{ borderRadius: 24 }}
         >
           <LinearGradient

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Image, ImageBackground, Platform } from 'react-native';
+import { Image, ImageBackground } from 'react-native';
 import { LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { StoryWithCoverUrl } from '@/src/types';
@@ -10,7 +10,7 @@ interface HomeStoryCardProps extends PropsWithChildren {
   story: StoryWithCoverUrl;
 }
 
-const cardWidth = width / 3.75;
+const cardWidth = width / 3.5;
 const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
@@ -26,7 +26,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
         source={{ uri: story.cover_image_url }}
         style={{ width: cardWidth, height: cardHeight }}
         resizeMode="cover"
-        blurRadius={Platform.OS === 'android' ? 3 : 5}
+        blurRadius={2}
       >
         <LinearGradient
           colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.72)', '#000']}
