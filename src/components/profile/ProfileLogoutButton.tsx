@@ -19,7 +19,7 @@ const ProfileLogoutButton = () => {
       subtitle: 'Çıkış yapmak istediğinize emin misiniz?',
       buttons: [
         {
-          label: 'Evet, Çıkış Yap',
+          label: 'Çıkış Yap',
           onPress: logout,
         },
         {

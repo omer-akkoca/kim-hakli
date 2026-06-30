@@ -60,9 +60,8 @@ export default function StoryDetailPage() {
   const handleUnlockStory = async () => {
     if (!user) {
       show({
-        title: 'Bu hikayenin devamı seni bekliyor',
-        subtitle:
-          'Hikayeyi okumaya devam etmek ve kimin tarafında olduğunu seçmek için giriş yapman gerekiyor.',
+        title: 'Devam Et',
+        subtitle: 'Hikayeyi okumaya devam etmek için lütfen giriş yapınız.',
         buttons: [
           {
             label: 'Giriş Yap',
