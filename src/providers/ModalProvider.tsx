@@ -1,11 +1,39 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ButtonAction, ModalContext, ShowOptions } from '@/src/contexts';
-import { Box, Modal, ModalBackdrop, ModalContent, Pressable, VStack } from '@/components/ui';
+import {
+  Modal,
+  ModalBackdrop,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Pressable,
+  VStack,
+} from '@/components/ui';
 import { AppText } from '../components';
+import { Platform } from 'react-native';
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [options, setOptions] = useState<ShowOptions | null>(null);
+
+  const modalShadow = useMemo(
+    () =>
+      Platform.OS === 'ios'
+        ? {
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 24,
+            },
+            shadowOpacity: 0.35,
+            shadowRadius: 35,
+          }
+        : {
+            boxShadow: '0 24px 70px rgba(0,0,0,0.45)',
+          },
+    [],
+  );
 
   const show = useCallback((opts: ShowOptions) => {
     setOptions(opts);
@@ -32,9 +60,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         <ModalBackdrop className="bg-modal-backdrop" />
         <ModalContent
           className="bg-background-500 border border-white/10 rounded-4xl w-5/6"
-          style={{ boxShadow: '0 24px 70px rgba(0,0,0,0.45)' }}
+          style={modalShadow}
         >
-          <Box className="gap-4">
+          <ModalHeader>
             {/* Title */}
             <AppText
               size={22}
@@ -44,7 +72,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
             >
               {options?.title}
             </AppText>
+          </ModalHeader>
 
+          <ModalBody>
             {/* Description */}
             {options?.subtitle ? (
               <AppText
@@ -55,10 +85,12 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                 {options?.subtitle}
               </AppText>
             ) : null}
+          </ModalBody>
 
+          <ModalFooter>
             {/* Buttons */}
             {options?.buttons && options.buttons.length > 0 ? (
-              <VStack space="sm">
+              <VStack space="sm" className="w-full">
                 {options.buttons.map((btn, index) => {
                   const isFirst = index === 0;
                   return (
@@ -78,7 +110,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                 })}
               </VStack>
             ) : null}
-          </Box>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </ModalContext.Provider>
