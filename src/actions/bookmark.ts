@@ -22,19 +22,17 @@ const bookmarksKeys = {
 export const useGetBookmarkedStoryIds = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const userId = user ? user.id : undefined;
+  const userId = user?.id;
+
   const query = useQuery({
     queryKey: bookmarksKeys.bookmarkedStoryIds(userId),
     queryFn: () => getBookmarkedStoryIds(userId!),
     enabled: !!userId,
     staleTime: Infinity,
     gcTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
   });
 
-  useEffect(() => {
+ useEffect(() => {
     if (query.isSuccess && query.data) {
       dispatch(setBookmarks(query.data));
     }
