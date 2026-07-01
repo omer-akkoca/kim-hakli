@@ -11,4 +11,7 @@ export interface IUser {
   created_at: string;
   updated_at: string;
   referral_source?: string;
+  gender: genderType
 }
+
+export type genderType = "male" | "female" | "other" | undefined;

@@ -60,6 +60,7 @@ export const useUpdateReferralSource = () => {
 export const useUpdateProfile = () => {
   return useMutation({ mutationFn: updateProfile });
 };
+
 export const useGetAvatarUrl = ({
   userId,
   avatarPath,

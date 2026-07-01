@@ -1,6 +1,7 @@
 import { ImagePickerAsset } from 'expo-image-picker';
 import { CreditFilter } from './common';
 import { StoryArtStyle } from './story';
+import { genderType } from './user';
 
 // profile actions
 export interface GetProfileParams {
@@ -57,6 +58,7 @@ export interface UpdateProfileParams {
   userId: string;
   fullName: string;
   photo?: ImagePickerAsset;
+    gender: genderType;
 }
 
 export interface GetAvatarUrlParams {

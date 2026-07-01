@@ -1,6 +1,7 @@
 import { supabase } from '@/src/configs';
 import {
   DeleteAccountResponse,
+  genderType,
   IUser,
   UnlockedStory,
   UpdateProfileParams,
@@ -66,13 +67,16 @@ export const updateProfile = async ({
   userId,
   fullName,
   photo,
+  gender,
 }: UpdateProfileParams): Promise<IUser> => {
   const payload: {
     full_name: string;
     avatar_path?: string | null;
     updated_at: string;
+    gender: genderType;
   } = {
     full_name: fullName,
+    gender: gender,
     updated_at: new Date().toISOString(),
   };
 

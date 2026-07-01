@@ -9,7 +9,7 @@ import {
   DetailPrimaryButton,
   DetailSecondaryButton,
 } from '@/src/components';
-import { Avatar, AvatarImage, Box, Divider, VStack } from '@/components/ui';
+import { Avatar, AvatarImage, Box, Divider, HStack, VStack } from '@/components/ui';
 import { TextInput } from 'react-native';
 import { colors } from '../constants';
 import { setUser, useAppDispatch, useAppSelector } from '../store';
@@ -18,6 +18,7 @@ import { pickProfileImage } from '@/src/utils';
 import { ImagePickerAsset } from 'expo-image-picker';
 import { useToast } from '@/src/hooks';
 import { useUpdateProfile } from '../actions';
+import { genderType } from '../types';
 
 const EditProfileScreen = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +26,9 @@ const EditProfileScreen = () => {
 
   const { user, profile_photo } = useAppSelector((state) => state.auth);
 
-  const [fullName, setFullName] = useState(user?.full_name ?? '');
   const [photo, setPhoto] = useState<ImagePickerAsset | undefined>();
+  const [fullName, setFullName] = useState(user?.full_name ?? '');
+  const [gender, setGender] = useState<genderType>(user?.gender);
 
   const uri = useMemo(() => {
     if (photo) return photo.uri;
@@ -51,11 +53,13 @@ const EditProfileScreen = () => {
 
   const handleReset = () => {
     setFullName(user?.full_name ?? '');
+    setPhoto(undefined);
+    setGender(user?.gender);
   };
 
   const handleSave = () => {
     mutate(
-      { fullName, userId: user!.id, photo },
+      { fullName, userId: user!.id, photo, gender },
       {
         onSuccess: (data) => {
           dispatch(setUser(data));
@@ -76,10 +80,10 @@ const EditProfileScreen = () => {
           <VStack space="2xl">
             <Box className="items-center justify-center">
               <Box className="relative">
-                <Avatar className="w-32 h-32 border-2 border-primary-500 bg-transparent">
+                <Avatar className="w-40 h-40 border-2 border-primary-500 bg-transparent">
                   <AvatarImage source={uri ? { uri } : LOGO} />
                 </Avatar>
-                <Box className="absolute -right-3 -bottom-3">
+                <Box className="absolute -right-1 -bottom-1">
                   <DetailIconButton icon={EditVector} onPress={handleSelectPhoto} />
                 </Box>
               </Box>
@@ -101,6 +105,52 @@ const EditProfileScreen = () => {
               <AppText size={12} lineHeight={16} className="text-headline/50 -tracking-2">
                 Ad ve soyad bilgilerinizi güncelleyebilirsiniz.
               </AppText>
+            </VStack>
+            <VStack space="md">
+              <AppText size={16} lineHeight={22} weight={600} className="text-headline -tracking-2">
+                Cinsiyet
+              </AppText>
+              <HStack space="md">
+                <AppCard
+                  flex
+                  onPress={() => setGender('male')}
+                  className={`${gender === 'male' ? 'border-primary-500' : ''}`}
+                >
+                  <Box className="py-3">
+                    <AppText
+                      className={`${gender === 'male' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                    >
+                      Erkek
+                    </AppText>
+                  </Box>
+                </AppCard>
+                <AppCard
+                  flex
+                  onPress={() => setGender('female')}
+                  className={`${gender === 'female' ? 'border-primary-500' : ''}`}
+                >
+                  <Box className="py-3">
+                    <AppText
+                      className={`${gender === 'female' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                    >
+                      Kadın
+                    </AppText>
+                  </Box>
+                </AppCard>
+                <AppCard
+                  flex
+                  onPress={() => setGender('other')}
+                  className={`${gender === 'other' ? 'border-primary-500' : ''}`}
+                >
+                  <Box className="py-3">
+                    <AppText
+                      className={`${gender === 'other' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                    >
+                      Diğer
+                    </AppText>
+                  </Box>
+                </AppCard>
+              </HStack>
             </VStack>
             <Divider className="h-[1px] w-full bg-white/10" />
             <VStack space="lg">
