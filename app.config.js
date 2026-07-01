@@ -14,7 +14,7 @@ export default ({ config }) => ({
     backgroundColor: '#1C1F30',
   },
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
     usesAppleSignIn: true,
