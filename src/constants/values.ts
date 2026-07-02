@@ -4,11 +4,11 @@ export const CREDIT_FILTERS = [
     value: 'all',
   },
   {
-    label: 'Ücretsiz',
+    label: 'Kredisiz',
     value: 'free',
   },
   {
-    label: 'Ücretli',
+    label: 'Kredili',
     value: 'paid',
   },
 ] as const;

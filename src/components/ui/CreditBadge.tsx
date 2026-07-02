@@ -30,7 +30,7 @@ const CreditBadge: React.FC<CreditBadgeProps> = ({ credit, withBg = false }) => 
 };
 
 const CreditText: React.FC<{ credit: number }> = ({ credit }) => {
-  const creditLabel = useMemo(() => (credit !== 0 ? credit : 'Ücretsiz'), [credit]);
+  const creditLabel = useMemo(() => (credit !== 0 ? credit : 'Kredisiz'), [credit]);
   return (
     <AppText size={12} lineHeight={14} weight={600} className="text-headline">
       {creditLabel}
