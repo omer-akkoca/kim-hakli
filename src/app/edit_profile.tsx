@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { TextInput } from 'react-native';
 import {
   AppBackground,
   AppBar,
@@ -10,15 +11,14 @@ import {
   DetailSecondaryButton,
 } from '@/src/components';
 import { Avatar, AvatarImage, Box, Divider, HStack, VStack } from '@/components/ui';
-import { TextInput } from 'react-native';
-import { colors } from '../constants';
-import { setUser, useAppDispatch, useAppSelector } from '../store';
+import { colors } from '@/src/constants';
+import { setUser, useAppDispatch, useAppSelector } from '@/src/store';
 import { DeleteVector, EditVector, LOGO, SaveVector } from '@/assets';
 import { pickProfileImage } from '@/src/utils';
 import { ImagePickerAsset } from 'expo-image-picker';
 import { useToast } from '@/src/hooks';
-import { useUpdateProfile } from '../actions';
-import { genderType } from '../types';
+import { useUpdateProfile } from '@/src/actions';
+import { genderType } from '@/src/types';
 
 const EditProfileScreen = () => {
   const dispatch = useAppDispatch();
@@ -94,8 +94,8 @@ const EditProfileScreen = () => {
               </AppText>
               <AppCard>
                 <TextInput
-                  className="p-0 m-0 text-headline text-base px-4 py-3"
-                  style={{ fontFamily: 'Inter-Medium' }}
+                  className="p-0 m-0 text-headline text-base px-4 py-3 bg-transparent"
+                  style={{ fontFamily: 'Inter-Medium', fontSize: 14, lineHeight: 20 }}
                   placeholderTextColor={colors.whiteSmoke_50}
                   placeholder={'Ad ve Soyadınızı Giriniz...'}
                   value={fullName}
