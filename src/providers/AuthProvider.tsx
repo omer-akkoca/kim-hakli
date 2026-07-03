@@ -41,7 +41,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   };
 
   const syncAuth = async () => {
-    if (session) {
+    if (!session?.user) return;
+
+    dispatch(setAuthLoading(true));
+
+    try {
       const sessionUser = session.user;
 
       let user = await mutateAsync({ userId: sessionUser.id });
@@ -77,6 +81,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (user) {
         dispatch(setUser(user));
       }
+    } catch {
+      handleAuthError(
+        'Profil Bilgileri Alınamadı',
+        'Lütfen internet bağlantınızı kontrol edip tekrar deneyin.',
+      );
+    } finally {
+      dispatch(setAuthLoading(false));
     }
   };
 
@@ -84,13 +95,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     callback: () => Promise<void>,
     errorMessage: { title: string; description: string },
   ) => {
-    dispatch(setAuthLoading(true));
     try {
       await callback();
     } catch {
       handleAuthError(errorMessage.title, errorMessage.description);
     } finally {
-      dispatch(setAuthLoading(false));
     }
   };
 
