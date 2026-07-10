@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground } from 'react-native';
-import { HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
@@ -10,6 +10,7 @@ import { AppIconButton } from '../ui/AppIconButton';
 import { useGetStoryCoverImageUrl } from '@/src/actions';
 import { useAppSelector } from '@/src/store';
 import { useBookmark } from '@/src/hooks/useBookmark';
+import { AppSkeleton } from '../ui/AppSkeleton';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -87,4 +88,20 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
   );
 };
 
-export { StoryRenderItem };
+const StorySkeletonItem: React.FC<{ order: number }> = ({ order }) => {
+  return (
+    <Box
+      style={{
+        width: itemWidth,
+        height: itemHeight,
+        marginRight: order % 2 === 0 ? 8 : 0,
+        boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
+      }}
+      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
+    >
+      <AppSkeleton />
+    </Box>
+  );
+};
+
+export { StoryRenderItem, StorySkeletonItem };

@@ -10,6 +10,7 @@ import {
   AppLoading,
   DiscoverFilterDrawer,
   DiscoverFilterTabs,
+  DiscoverSkeleton,
   StoryRenderItem,
 } from '@/src/components';
 import { colors } from '@/src/constants';
@@ -68,7 +69,7 @@ const DiscoverPage = () => {
       </AppBar>
       <Box className="w-full flex-1">
         {isLoading ? (
-          <AppLoading fullScreen />
+          <DiscoverSkeleton />
         ) : (
           <AppFlatList
             data={stories}
