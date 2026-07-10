@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { StoryWithCoverUrl } from '@/src/types';
@@ -8,6 +8,7 @@ import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
 import { useAuth, useBookmark } from '@/src/hooks';
 import { useRouter } from 'expo-router';
+import { AppSkeleton } from '../ui/AppSkeleton';
 
 const scale = (width - 64) / 9;
 const containerWidth = width;
@@ -34,11 +35,7 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
     <Box style={{ width: containerWidth, height: containerHeight }} className="items-center">
       <Pressable
         onPress={() => push(`/story/${story.id}`)}
-        style={{
-          width: itemWidth,
-          height: itemHeight,
-          boxShadow: '0 5px 15px rgba(0,0,0,0.22)',
-        }}
+        style={styles.insideCard}
         className="overflow-hidden rounded-3xl"
       >
         <ImageBackground
@@ -115,4 +112,22 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   );
 };
 
-export { FeaturedStoryCard };
+const FeaturedSkeleton: React.FC = () => {
+  return (
+    <Box style={{ width: containerWidth, height: containerHeight }} className="items-center">
+      <Box style={styles.insideCard} className="overflow-hidden rounded-3xl">
+        <AppSkeleton />
+      </Box>
+    </Box>
+  );
+};
+
+const styles = StyleSheet.create({
+  insideCard: {
+    width: itemWidth,
+    height: itemHeight,
+    boxShadow: '0 5px 15px rgba(0,0,0,0.22)',
+  },
+});
+
+export { FeaturedStoryCard, FeaturedSkeleton };

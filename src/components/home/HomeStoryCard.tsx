@@ -1,10 +1,11 @@
 import React, { PropsWithChildren } from 'react';
 import { Image, ImageBackground } from 'react-native';
-import { LinearGradient, Pressable, VStack } from '@/components/ui';
+import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { StoryWithCoverUrl } from '@/src/types';
-import { AppText } from '../ui/AppText';
 import { useRouter } from 'expo-router';
+import { AppText } from '../ui/AppText';
+import { AppSkeleton } from '../ui/AppSkeleton';
 
 interface HomeStoryCardProps extends PropsWithChildren {
   story: StoryWithCoverUrl;
@@ -53,4 +54,15 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   );
 };
 
-export { HomeStoryCard };
+const HomeSkeletonCard: React.FC = () => {
+  return (
+    <Box
+      className="bg-background-500 border border-white/5 rounded-xl overflow-hidden"
+      style={{ boxShadow: '0 5px 15px rgba(0,0,0,0.22)', width: cardWidth, height: cardHeight }}
+    >
+      <AppSkeleton />
+    </Box>
+  );
+};
+
+export { HomeStoryCard, HomeSkeletonCard };

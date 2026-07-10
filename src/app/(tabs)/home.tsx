@@ -3,11 +3,11 @@ import { Box } from '@/components/ui';
 import {
   AppBackground,
   AppBar,
-  AppLoading,
   AppScrollView,
   AppText,
   HomeFeaturedSection,
   HomeSectionTitle,
+  HomeSkeleton,
   HomeStoryCard,
 } from '@/src/components';
 import { useGetFeaturedStories, useGetLatestStories, useGetMostVotedStories } from '@/src/actions';
@@ -28,7 +28,7 @@ const HomePage = () => {
       <AppBar creditLabel title="Kim Haklı?" />
       <Box className="flex-1">
         {loading ? (
-          <AppLoading fullScreen />
+          <HomeSkeleton />
         ) : (
           <AppScrollView safeBottom safeBottomNav bottomPadding topPadding>
             {/* Öne Çıkan Hikayeler */}
