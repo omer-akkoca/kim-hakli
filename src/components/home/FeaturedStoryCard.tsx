@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { StoryWithCoverUrl } from '@/src/types';
@@ -9,6 +9,7 @@ import { AppIconButton } from '../ui/AppIconButton';
 import { useAuth, useBookmark } from '@/src/hooks';
 import { useRouter } from 'expo-router';
 import { AppSkeleton } from '../ui/AppSkeleton';
+import { Image } from 'expo-image';
 
 const scale = (width - 64) / 9;
 const containerWidth = width;
@@ -32,81 +33,99 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   const { user } = useAuth();
 
   return (
-    <Box style={{ width: containerWidth, height: containerHeight }} className="items-center">
+    <Box
+      style={{
+        width: containerWidth,
+        height: containerHeight,
+      }}
+      className="items-center"
+    >
       <Pressable
         onPress={() => push(`/story/${story.id}`)}
         style={styles.insideCard}
         className="overflow-hidden rounded-3xl"
       >
-        <ImageBackground
-          source={{ uri: story.cover_image_url }}
+        <Image
+          source={story.cover_image_url ? { uri: story.cover_image_url } : undefined}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+          blurRadius={1}
+          cachePolicy="memory-disk"
+          recyclingKey={`${story.id}-${story.cover_image_url ?? ''}`}
+          transition={200}
+        />
+
+        <LinearGradient
+          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.72)', '#000']}
+          locations={[0, 0.8, 1]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
           className="flex-1"
-          resizeMode="cover"
-          blurRadius={3}
-          style={{ borderRadius: 24 }}
         >
-          <LinearGradient
-            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.72)', '#000']}
-            locations={[0, 0.8, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="flex-1"
-          >
-            <Box className="w-full flex-1 justify-between" style={{ padding: 20 }}>
-              <HStack className="items-center justify-between">
-                <CreditBadge credit={story.credit_cost} withBg />
-                {user ? (
-                  <AppIconButton
-                    icon={BookmarkIcon}
-                    onPress={toggleBookmark}
-                    disabled={loading}
-                    color={colors.headline}
-                    width={22}
-                    height={22}
-                    className="w-credit-label h-credit-label bg-credit-bg items-center justify-center rounded-full border border-white/5"
-                  />
-                ) : null}
-              </HStack>
-              <VStack space="md">
-                <VStack space="sm">
-                  <AppText
-                    size={26}
-                    lineHeight={36}
-                    weight={600}
-                    className="text-center text-headline -tracking-2 mx-auto w-3/4"
-                    numberOfLines={2}
-                    style={{
-                      textShadowColor: 'rgba(0,0,0,0.34)',
-                      textShadowOffset: { width: 0, height: 4 },
-                      textShadowRadius: 18,
-                    }}
-                  >
-                    {story.title}
-                  </AppText>
-                  <AppText
-                    size={12}
-                    weight={500}
-                    numberOfLines={3}
-                    className="text-whiteSmoke-500/75 text-center"
-                  >
-                    {story.description}
-                  </AppText>
-                </VStack>
-                <HStack space="sm" className="w-full items-center justify-center">
-                  {Array.from({ length: featuredLength }).map((_, i) => {
-                    const active = activeIndex === i;
-                    return (
-                      <Box
-                        key={i.toString()}
-                        className={`${active ? 'bg-primary-500' : 'bg-secondary-500'} w-2 h-2 rounded-full`}
-                      />
-                    );
-                  })}
-                </HStack>
+          <Box className="w-full flex-1 justify-between" style={{ padding: 20 }}>
+            <HStack className="items-center justify-between">
+              <CreditBadge credit={story.credit_cost} withBg />
+
+              {user ? (
+                <AppIconButton
+                  icon={BookmarkIcon}
+                  onPress={toggleBookmark}
+                  disabled={loading}
+                  color={colors.headline}
+                  width={22}
+                  height={22}
+                  className="w-credit-label h-credit-label bg-credit-bg items-center justify-center rounded-full border border-white/5"
+                />
+              ) : null}
+            </HStack>
+
+            <VStack space="md">
+              <VStack space="sm">
+                <AppText
+                  size={26}
+                  lineHeight={36}
+                  weight={600}
+                  className="text-center text-headline -tracking-2 mx-auto w-3/4"
+                  numberOfLines={2}
+                  style={{
+                    textShadowColor: 'rgba(0,0,0,0.34)',
+                    textShadowOffset: {
+                      width: 0,
+                      height: 4,
+                    },
+                    textShadowRadius: 18,
+                  }}
+                >
+                  {story.title}
+                </AppText>
+
+                <AppText
+                  size={12}
+                  weight={500}
+                  numberOfLines={3}
+                  className="text-whiteSmoke-500/75 text-center"
+                >
+                  {story.description}
+                </AppText>
               </VStack>
-            </Box>
-          </LinearGradient>
-        </ImageBackground>
+
+              <HStack space="sm" className="w-full items-center justify-center">
+                {Array.from({ length: featuredLength }).map((_, i) => {
+                  const active = activeIndex === i;
+
+                  return (
+                    <Box
+                      key={i.toString()}
+                      className={`${
+                        active ? 'bg-primary-500' : 'bg-secondary-500'
+                      } w-2 h-2 rounded-full`}
+                    />
+                  );
+                })}
+              </HStack>
+            </VStack>
+          </Box>
+        </LinearGradient>
       </Pressable>
     </Box>
   );
