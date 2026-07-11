@@ -46,7 +46,7 @@ export default function ProfilePage() {
         <VStack space="xl" className="px-6">
           {/* Statistics Card */}
           <HStack space="xl">
-            <AppCard flex>
+            <AppCard flex onPress={() => push('/unlocked_stories')}>
               <Box className="items-center justify-center p-4">
                 <LockOutlineVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
@@ -57,7 +57,7 @@ export default function ProfilePage() {
                 </AppText>
               </Box>
             </AppCard>
-            <AppCard flex>
+            <AppCard flex onPress={() => push('/vote_history')}>
               <Box className="items-center justify-center p-4">
                 <ScalesVector width={20} height={20} color={colors.primary} />
                 <AppText size={20} lineHeight={24} weight={600} className="text-headline mt-2 mb-1">
