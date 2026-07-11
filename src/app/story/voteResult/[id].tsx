@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Platform, Share } from 'react-native';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
@@ -16,7 +17,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { HomeOutlineVector, ShareVector, UsersVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
-import { Share } from 'react-native';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -54,10 +54,16 @@ const StoryVoteResultPage = () => {
   }, [resultsWithAvatar]);
 
   const handleShareStory = async () => {
-    await Share.share({
-      message: `https://kimhakli.tr/story/${id}`,
-      url: `https://kimhakli.tr/story/${id}`,
-    });
+    if (story) {
+      const storyUrl = `https://kimhakli.tr/story/${story.id}`;
+      const shareText = `Sence bu hikâyede kim haklı?\n\n${story.title}`;
+
+      await Share.share({
+        title: `${story.title} | Kim Haklı?`,
+        message: Platform.OS === 'android' ? `${shareText}\n${storyUrl}` : shareText,
+        ...(Platform.OS === 'ios' && { url: storyUrl }),
+      });
+    }
   };
 
   if (statsLoading) {
