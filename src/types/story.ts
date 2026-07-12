@@ -22,6 +22,7 @@ export const storyArtStyles = [
   '3d-render',
   'minimalist',
   'comic',
+  'paper-cut-out',
 ] as const;
 
 export type StoryArtStyle = (typeof storyArtStyles)[number];
