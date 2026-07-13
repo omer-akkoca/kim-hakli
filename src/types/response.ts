@@ -40,6 +40,5 @@ export interface StoryWithCoverUrl extends IStory {
 }
 
 export interface StoryWithVoteCount extends IStory {
-  cover_image_url?: string;
   vote_count: number;
 }

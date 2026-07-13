@@ -16,7 +16,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useGetStoryById,
   useGetStoryCategories,
-  useGetStoryCoverImageUrl,
   useHasUnlocked,
   useHasVoted,
   useUnlockStory,
@@ -30,23 +29,20 @@ import {
 } from '@/assets';
 import { useAuth, useBookmark, useModal, useToast } from '@/src/hooks';
 import { useDispatch } from 'react-redux';
+import { getCoverImageUrl } from '@/src/utils';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
-
   const dispatch = useDispatch();
-
   const { push, back, canGoBack, replace } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
   const { show } = useModal();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const { user } = useAuth();
   const { show: showToast } = useToast();
-
   const { categories } = useAppSelector((state) => state.category);
 
   const { data: story, isLoading } = useGetStoryById(id);
-  const { data: coverImage } = useGetStoryCoverImageUrl({ path: story?.cover_image_path ?? '' });
   const { data: storyCategories } = useGetStoryCategories(id);
 
   const { data: unlocked, isLoading: unlocking } = useHasUnlocked({
@@ -116,6 +112,8 @@ export default function StoryDetailPage() {
   }
 
   if (!story) return <></>;
+
+  const coverImage = getCoverImageUrl(story.id);
 
   return (
     <StoryDetailBg coverImage={coverImage}>

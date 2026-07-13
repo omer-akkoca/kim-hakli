@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
-import { StoryWithCoverUrl } from '@/src/types';
+import { IStory } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
@@ -10,6 +10,7 @@ import { useAuth, useBookmark } from '@/src/hooks';
 import { useRouter } from 'expo-router';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { Image } from 'expo-image';
+import { getCoverImageUrl } from '@/src/utils';
 
 const scale = (width - 64) / 9;
 const containerWidth = width;
@@ -18,7 +19,7 @@ const itemWidth = scale * 9;
 const itemHeight = scale * 13;
 
 interface FeaturedStoryCardProps {
-  story: StoryWithCoverUrl;
+  story: IStory;
   featuredLength: number;
   activeIndex: number;
 }
@@ -31,6 +32,8 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   const { push } = useRouter();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
   const { user } = useAuth();
+
+  const coverImage = getCoverImageUrl(story.id);
 
   return (
     <Box
@@ -46,15 +49,14 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
         className="overflow-hidden rounded-3xl"
       >
         <Image
-          source={story.cover_image_url ? { uri: story.cover_image_url } : undefined}
+          source={coverImage}
           style={StyleSheet.absoluteFill}
           contentFit="cover"
           blurRadius={1}
           cachePolicy="memory-disk"
-          recyclingKey={`${story.id}-${story.cover_image_url ?? ''}`}
+          recyclingKey={story.id}
           transition={200}
         />
-
         <LinearGradient
           colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.72)', '#000']}
           locations={[0, 0.8, 1]}

@@ -1,14 +1,15 @@
 import React, { PropsWithChildren } from 'react';
 import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
-import { StoryWithCoverUrl } from '@/src/types';
+import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { AppText } from '../ui/AppText';
 import { AppSkeleton } from '../ui/AppSkeleton';
+import { getCoverImageUrl } from '@/src/utils';
 
 interface HomeStoryCardProps extends PropsWithChildren {
-  story: StoryWithCoverUrl;
+  story: IStory;
 }
 
 const cardWidth = width / 3.5;
@@ -16,6 +17,8 @@ const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   const { push } = useRouter();
+
+  const coverImage = getCoverImageUrl(story.id);
 
   return (
     <Pressable
@@ -28,7 +31,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
       }}
     >
       <Image
-        source={story.cover_image_url}
+        source={coverImage}
         style={{
           position: 'absolute',
           width: '100%',

@@ -7,10 +7,10 @@ import { Image } from 'expo-image';
 import { AppText } from '@/src/components/ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
-import { useGetStoryCoverImageUrl } from '@/src/actions';
 import { useAppSelector } from '@/src/store';
 import { useBookmark } from '@/src/hooks/useBookmark';
 import { AppSkeleton } from '../ui/AppSkeleton';
+import { getCoverImageUrl } from '@/src/utils';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -27,9 +27,7 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
 
   const user = useAppSelector((state) => state.auth.user);
 
-  const { data: coverImageUrl } = useGetStoryCoverImageUrl({
-    path: story.cover_image_path,
-  });
+  const coverImageUrl = getCoverImageUrl(story.id);
 
   return (
     <Pressable
@@ -43,18 +41,17 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
       }}
     >
       <Image
-        source={coverImageUrl ? { uri: coverImageUrl } : undefined}
+        source={coverImageUrl}
         contentFit="cover"
         cachePolicy="memory-disk"
         transition={200}
-        recyclingKey={`${story.id}-${coverImageUrl ?? ''}`}
+        recyclingKey={story.id}
         style={{
           position: 'absolute',
           width: '100%',
           height: '100%',
         }}
       />
-
       <LinearGradient
         colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
         locations={[0, 0.5, 1]}

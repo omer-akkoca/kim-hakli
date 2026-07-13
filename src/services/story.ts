@@ -1,6 +1,5 @@
 import { supabase } from '@/src/configs';
 import {
-  StoryWithCoverUrl,
   GetStoriesParams,
   GetStoryScenesResponse,
   HasUnlockedStoryParams,
@@ -15,7 +14,7 @@ import {
   StoryWithVoteCount,
 } from '@/src/types';
 import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
-import { attachSignedCoverUrls, attachSignedImageUrls } from './storage';
+import { attachSignedImageUrls } from './storage';
 
 export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
   const page = params?.page ?? 0;
@@ -242,7 +241,7 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
   return data ?? [];
 };
 
-export const getFeaturedStories = async (): Promise<StoryWithCoverUrl[]> => {
+export const getFeaturedStories = async (): Promise<IStory[]> => {
   const { data, error } = await supabase
     .from('stories')
     .select('*')
@@ -253,10 +252,10 @@ export const getFeaturedStories = async (): Promise<StoryWithCoverUrl[]> => {
 
   if (error) throw new Error(error.message || 'Öne çıkan hikayeler çekilirken hata oluştu.');
 
-  return await attachSignedCoverUrls(data ?? []);
+  return data;
 };
 
-export const getLatestStories = async (): Promise<StoryWithCoverUrl[]> => {
+export const getLatestStories = async (): Promise<IStory[]> => {
   const { data, error } = await supabase
     .from('stories')
     .select('*')
@@ -266,7 +265,7 @@ export const getLatestStories = async (): Promise<StoryWithCoverUrl[]> => {
 
   if (error) throw new Error(error.message || 'Son eklenen hikayeler çekilirken hata oluştu.');
 
-  return await attachSignedCoverUrls(data ?? []);
+  return data;
 };
 
 export const getMostVotedStories = async (): Promise<StoryWithVoteCount[]> => {
@@ -275,5 +274,5 @@ export const getMostVotedStories = async (): Promise<StoryWithVoteCount[]> => {
   const defaultMessage = 'En çok oy alan hikayeler çekilirken hata oluştu.';
   if (error) throw new Error(error.message || defaultMessage,);
 
-  return await attachSignedCoverUrls(data ?? []);
+  return data;
 };
