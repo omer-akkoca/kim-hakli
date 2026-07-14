@@ -27,7 +27,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
       style={{
         width: cardWidth,
         height: cardHeight,
-        boxShadow: '0 5px 15px rgba(0,0,0,0.22)',
+        //boxShadow: '0 5px 15px rgba(0,0,0,0.22)',
       }}
     >
       <Image

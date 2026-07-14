@@ -3,6 +3,7 @@ import { Box } from '@/components/ui';
 import {
   AppBackground,
   AppBar,
+  AppFlatList,
   AppScrollView,
   AppText,
   HomeFeaturedSection,
@@ -36,9 +37,14 @@ const HomePage = () => {
             <Box className="mb-6">
               {/* En Son Yayınlanan Hikayeler */}
               <HomeSectionTitle title="Son Yayına Alınanlar" />
-              <AppScrollView horizontal paddingHorizontal={24} gap={12}>
-                {latest.map((e) => (
-                  <HomeStoryCard key={e.id} story={e}>
+              <AppFlatList
+                data={latest}
+                keyExtractor={(e) => e.id}
+                horizontal
+                paddingHorizontal={24}
+                gap={12}
+                renderItem={({ item }) => (
+                  <HomeStoryCard story={item}>
                     <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
                       <AppText
                         size={10}
@@ -47,19 +53,24 @@ const HomePage = () => {
                         className="text-headline text-center capitalize"
                         numberOfLines={1}
                       >
-                        {timeAgo(e.created_at)}
+                        {timeAgo(item.created_at)}
                       </AppText>
                     </Box>
                   </HomeStoryCard>
-                ))}
-              </AppScrollView>
+                )}
+              />
             </Box>
             {/* En Çok Oy Verilen */}
             <Box>
               <HomeSectionTitle title="En Çok Oylanan Hikayeler" />
-              <AppScrollView horizontal paddingHorizontal={24} gap={12}>
-                {mostVoteds.map((e) => (
-                  <HomeStoryCard key={e.id} story={e}>
+              <AppFlatList
+                data={mostVoteds}
+                keyExtractor={(e) => e.id}
+                horizontal
+                paddingHorizontal={24}
+                gap={12}
+                renderItem={({ item }) => (
+                  <HomeStoryCard story={item}>
                     <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
                       <AppText
                         size={10}
@@ -68,12 +79,12 @@ const HomePage = () => {
                         className="text-headline text-center capitalize"
                         numberOfLines={1}
                       >
-                        {e.vote_count} Oy
+                        {item.vote_count} Oy
                       </AppText>
                     </Box>
                   </HomeStoryCard>
-                ))}
-              </AppScrollView>
+                )}
+              />
             </Box>
           </AppScrollView>
         )}

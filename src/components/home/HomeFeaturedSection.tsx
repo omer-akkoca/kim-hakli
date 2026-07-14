@@ -45,8 +45,8 @@ const HomeFeaturedSection: React.FC<HomeFeaturedSectionProps> = ({ featured = []
       <AppFlatList
         data={featured}
         keyExtractor={(e) => e.id}
-        initialNumToRender={2}
-        windowSize={3}
+        initialNumToRender={1}
+        windowSize={2}
         maxToRenderPerBatch={1}
         snapToInterval={width}
         snapToAlignment="start"
