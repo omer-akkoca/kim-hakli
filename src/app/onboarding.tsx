@@ -151,8 +151,8 @@ const slides = [
   {
     id: '5',
     image: ONBOARDING_FIVE,
-    title: 'Giriş Yap',
+    title: "Türkiye'nin En Haklısı Sen Ol",
     description:
-      "Kim Haklı'ya kayıt olarak yüzlerce hikayeye erişim sağla ve kimin haklı olduğuna karar ver.",
+      "Ne kadar çok doğru karar verirsen, o kadar çok puan kazanırsın. Türkiye\'nin en haklısı sen misin?",
   },
 ];
