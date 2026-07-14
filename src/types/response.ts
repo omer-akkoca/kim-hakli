@@ -42,3 +42,8 @@ export interface StoryWithCoverUrl extends IStory {
 export interface StoryWithVoteCount extends IStory {
   vote_count: number;
 }
+
+export interface GetStoryAccessResponse {
+  unlocked: boolean;
+  voted: boolean;
+}

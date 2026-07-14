@@ -2,8 +2,6 @@ import { supabase } from '@/src/configs';
 import {
   GetStoriesParams,
   GetStoryScenesResponse,
-  HasUnlockedStoryParams,
-  HasVotedStoryParams,
   ICategory,
   IStory,
   IStorySide,
@@ -12,8 +10,15 @@ import {
   UnlockStoryResponse,
   VoteStoryResponse,
   StoryWithVoteCount,
+  GetStoryAccessParams,
+  GetStoryAccessResponse,
 } from '@/src/types';
-import { GET_STORY_VOTE_RESULTS, UNLOCK_STORY, VOTE_STORY } from '@/src/constants';
+import {
+  GET_STORY_ACCESS,
+  GET_STORY_VOTE_RESULTS,
+  UNLOCK_STORY,
+  VOTE_STORY,
+} from '@/src/constants';
 import { attachSignedImageUrls } from './storage';
 
 export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> => {
@@ -117,39 +122,6 @@ export const unlockStory = async (storyId: string): Promise<UnlockStoryResponse>
   const { data, error } = await supabase.rpc(UNLOCK_STORY, { p_story_id: storyId });
   if (error) throw error;
   return data;
-};
-
-export const hasUnlockedStory = async ({
-  userId,
-  storyId,
-}: HasUnlockedStoryParams): Promise<boolean> => {
-  const { data, error } = await supabase
-    .from('user_unlocked_stories')
-    .select('story_id')
-    .eq('user_id', userId)
-    .eq('story_id', storyId)
-    .maybeSingle();
-
-  if (error) {
-    throw new Error(error.message || 'Hikaye kilit kontrolü yapılırken hata oluştu.');
-  }
-
-  return !!data;
-};
-
-export const hasVotedStory = async ({ userId, storyId }: HasVotedStoryParams): Promise<boolean> => {
-  const { data, error } = await supabase
-    .from('story_votes')
-    .select('story_id')
-    .eq('user_id', userId)
-    .eq('story_id', storyId)
-    .maybeSingle();
-
-  if (error) {
-    throw new Error(error.message || 'Oy kontrolü yapılırken hata oluştu.');
-  }
-
-  return !!data;
 };
 
 export const getStoryScenes = async (storyId: string): Promise<GetStoryScenesResponse[]> => {
@@ -272,7 +244,20 @@ export const getMostVotedStories = async (): Promise<StoryWithVoteCount[]> => {
   const { data, error } = await supabase.rpc('get_most_voted_stories');
 
   const defaultMessage = 'En çok oy alan hikayeler çekilirken hata oluştu.';
-  if (error) throw new Error(error.message || defaultMessage,);
+  if (error) throw new Error(error.message || defaultMessage);
 
   return data;
+};
+
+export const getStoryAccess = async (
+  params: GetStoryAccessParams,
+): Promise<GetStoryAccessResponse> => {
+  const { data, error } = await supabase
+    .rpc(GET_STORY_ACCESS, { p_story_id: params.storyId })
+    .single();
+
+  const defaultMessage = 'Hikaye erişim bilgileriniz çekilirken bir hata meydana geldi';
+  if (error) throw new Error(error.message || defaultMessage);
+
+  return data as GetStoryAccessResponse;
 };

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, StatusBar } from 'react-native';
 import { Box } from '@/components/ui';
-import { useGetStoryCoverImageUrl, useGetStoryScenes } from '@/src/actions';
+import { useGetStoryScenes } from '@/src/actions';
 import {
   AppBackground,
   AppFlatList,
@@ -20,6 +20,7 @@ import {
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
+import { getCoverImageUrl } from '@/src/utils';
 
 export default function StoryReadPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -27,9 +28,8 @@ export default function StoryReadPage() {
   const { top, bottom } = useSafeAreaInsets();
 
   const { data: scenes = [], isPending: scenesLoading } = useGetStoryScenes(id);
-  const { data: coverImage, isLoading: coverLoading } = useGetStoryCoverImageUrl({
-    path: `${id}/cover.webp`,
-  });
+
+  const coverImage = getCoverImageUrl(id);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -66,7 +66,7 @@ export default function StoryReadPage() {
     [boxHeight],
   );
 
-  if (scenesLoading || coverLoading)
+  if (scenesLoading)
     return (
       <AppBackground>
         <AppLoading fullScreen />

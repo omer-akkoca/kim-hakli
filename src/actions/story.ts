@@ -1,9 +1,8 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   GetStoriesParams,
+  GetStoryAccessParams,
   GetStoryImageUrlParams,
-  HasUnlockedStoryParams,
-  HasVotedStoryParams,
   SearchStoriesParams,
   UnlockStoryParams,
 } from '@/src/types';
@@ -13,8 +12,6 @@ import {
   getStoryCategories,
   getStoryImageUrl,
   unlockStory,
-  hasUnlockedStory,
-  hasVotedStory,
   getStoryScenes,
   getStoryImageUrls,
   getStorySides,
@@ -24,6 +21,7 @@ import {
   getFeaturedStories,
   getLatestStories,
   getMostVotedStories,
+  getStoryAccess,
 } from '@/src/services';
 
 const storyKeys = {
@@ -43,6 +41,7 @@ const storyKeys = {
   featured: () => ['stories', 'featured'] as const,
   latest: () => ['stories', 'latest'] as const,
   mostVoted: () => ['stories', 'most-voted'] as const,
+  storyAccess: ({ storyId, userId }: GetStoryAccessParams) => ['story-access', userId ?? '', storyId ?? ''],
 };
 
 const STORY_LIMIT = 10;
@@ -114,20 +113,10 @@ export const useUnlockStory = (userId: string) => {
   });
 };
 
-export const useHasUnlocked = ({ userId, storyId }: HasUnlockedStoryParams) => {
+export const useStoryAccess = ({ storyId, userId }: GetStoryAccessParams) => {
   return useQuery({
-    queryKey: storyKeys.unlocked(userId ?? '', storyId ?? ''),
-    queryFn: () => hasUnlockedStory({ userId: userId!, storyId: storyId! }),
-    enabled: !!userId && !!storyId,
-    staleTime: Infinity,
-    gcTime: Infinity,
-  });
-};
-
-export const useHasVoted = ({ userId, storyId }: HasVotedStoryParams) => {
-  return useQuery({
-    queryKey: storyKeys.hasVoted(userId ?? '', storyId ?? ''),
-    queryFn: () => hasVotedStory({ userId: userId!, storyId: storyId! }),
+    queryKey: storyKeys.storyAccess({ storyId, userId}),
+    queryFn: () => getStoryAccess({ storyId, userId }),
     enabled: !!userId && !!storyId,
     staleTime: Infinity,
     gcTime: Infinity,

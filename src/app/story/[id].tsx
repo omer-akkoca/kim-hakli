@@ -16,8 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useGetStoryById,
   useGetStoryCategories,
-  useHasUnlocked,
-  useHasVoted,
+  useStoryAccess,
   useUnlockStory,
 } from '@/src/actions';
 import {
@@ -45,11 +44,7 @@ export default function StoryDetailPage() {
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: storyCategories } = useGetStoryCategories(id);
 
-  const { data: unlocked, isLoading: unlocking } = useHasUnlocked({
-    storyId: id,
-    userId: user?.id,
-  });
-  const { data: voted, isLoading: voting } = useHasVoted({ storyId: id, userId: user?.id });
+  const { data, isLoading: accessLoading } = useStoryAccess({ storyId: id, userId: user?.id });
 
   const { mutate, isPending } = useUnlockStory(user?.id ?? '');
 
@@ -103,7 +98,7 @@ export default function StoryDetailPage() {
     }
   };
 
-  if (isLoading || unlocking || voting) {
+  if (isLoading || accessLoading) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -189,15 +184,15 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {unlocked ? (
+            {data ? (
               <>
                 <DetailPrimaryButton
-                  icon={voted ? LoopVector : Book6Vector}
-                  label={voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
+                  icon={data.voted ? LoopVector : Book6Vector}
+                  label={data.voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
                   onPress={() => push(`/story/read/${id}`)}
                   flex
                 />
-                {voted ? (
+                {data.voted ? (
                   <DetailSecondaryButton
                     icon={ChartVector}
                     label={'Sonuçları Gör'}

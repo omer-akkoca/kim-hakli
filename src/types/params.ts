@@ -17,16 +17,6 @@ export interface UnlockStoryParams {
   storyId: string;
 }
 
-export interface HasUnlockedStoryParams {
-  userId?: string;
-  storyId?: string;
-}
-
-export interface HasVotedStoryParams {
-  userId?: string;
-  storyId: string;
-}
-
 export interface SubmitVoteParams {
   storyId: string;
   side: string;
@@ -64,4 +54,9 @@ export interface UpdateProfileParams {
 export interface GetAvatarUrlParams {
   userId?: string;
   avatarPath?: string | null;
+}
+
+export interface GetStoryAccessParams {
+  userId?: string;
+  storyId: string;
 }

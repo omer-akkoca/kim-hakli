@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, HStack } from '@/components/ui';
 import { ChartVector, CrossVector, VoteVector } from '@/assets';
-import { useHasVoted } from '@/src/actions';
+import { useStoryAccess } from '@/src/actions';
 import { useRouter } from 'expo-router';
 import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
 import { storyReadActionBarHeight } from '@/src/constants';
@@ -24,16 +24,17 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
 
   const { user } = useAuth();
 
-  const { data: voted, isPending: votedLoading = true } = useHasVoted({
-    storyId,
-    userId: user?.id,
-  });
+  const { data, isLoading } = useStoryAccess({ storyId, userId: user?.id });
+
+  const voted = useMemo(() => (data ? data.voted : false), [data]);
 
   const handleNavigate = () => {
-    if (voted) {
-      push(`/story/voteResult/${storyId}`);
-    } else {
-      push(`/story/vote/${storyId}`);
+    if (data) {
+      if (data.voted) {
+        push(`/story/voteResult/${storyId}`);
+      } else {
+        push(`/story/vote/${storyId}`);
+      }
     }
   };
 
@@ -46,7 +47,7 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
         icon={voted ? ChartVector : VoteVector}
         label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
         onPress={handleNavigate}
-        loading={votedLoading}
+        loading={isLoading}
         flex
       />
 
