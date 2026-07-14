@@ -16,6 +16,7 @@ const StoryDetailBg: React.FC<StoryDetailBgProps> = ({ coverImage, children }) =
           contentFit="cover"
           cachePolicy="memory-disk"
           transition={0}
+          blurRadius={2}
           style={{
             position: 'absolute',
             inset: 0,
