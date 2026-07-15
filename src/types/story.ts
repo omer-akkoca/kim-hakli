@@ -15,14 +15,14 @@ export interface IStory {
 
 export const storyArtStyles = [
   'all',
-  'realistic',
-  'anime',
-  'sketch',
-  'pixel-art',
-  '3d-render',
-  'minimalist',
   'comic',
   'paper-cut-out',
+  'realistic',
+  'pixel-art',
+  'anime',
+  'minimalist',
+  '3d-render',
+  'sketch',
 ] as const;
 
 export type StoryArtStyle = (typeof storyArtStyles)[number];
