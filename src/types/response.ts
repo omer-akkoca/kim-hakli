@@ -35,12 +35,14 @@ export interface GetStoryScenesResponse extends IStoryScene {
   image_url: string;
 }
 
-export interface StoryWithCoverUrl extends IStory {
-  cover_image_url?: string;
-}
-
 export interface StoryWithVoteCount extends IStory {
   vote_count: number;
+}
+
+export interface GetHomeStoriesResponse {
+  featured: IStory[],
+  latest: IStory[],
+  mostVoted: StoryWithVoteCount[],
 }
 
 export interface GetStoryAccessResponse {

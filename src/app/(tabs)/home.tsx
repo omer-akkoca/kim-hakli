@@ -11,24 +11,22 @@ import {
   HomeSkeleton,
   HomeStoryCard,
 } from '@/src/components';
-import { useGetFeaturedStories, useGetLatestStories, useGetMostVotedStories } from '@/src/actions';
+import { useGetHomeStories } from '@/src/actions';
 import { timeAgo } from '@/src/utils';
 
 const HomePage = () => {
-  const { data: latest = [], isLoading: latestLoding } = useGetLatestStories();
-  const { data: mostVoteds = [], isLoading: mostVotedLoading } = useGetMostVotedStories();
-  const { data: featured = [], isLoading: featuredLoading } = useGetFeaturedStories();
+  const { data, isLoading } = useGetHomeStories();
 
-  const loading = useMemo(
-    () => latestLoding || mostVotedLoading || featuredLoading,
-    [latestLoding, mostVotedLoading, featuredLoading],
+  const { featured, latest, mostVoted } = useMemo(
+    () => data ?? { featured: [], latest: [], mostVoted: [] },
+    [data],
   );
 
   return (
     <AppBackground>
       <AppBar creditLabel title="Kim Haklı?" />
       <Box className="flex-1">
-        {loading ? (
+        {isLoading ? (
           <HomeSkeleton />
         ) : (
           <AppScrollView safeBottom safeBottomNav bottomPadding topPadding>
@@ -64,7 +62,7 @@ const HomePage = () => {
             <Box>
               <HomeSectionTitle title="En Çok Oylanan Hikayeler" />
               <AppFlatList
-                data={mostVoteds}
+                data={mostVoted}
                 keyExtractor={(e) => e.id}
                 horizontal
                 paddingHorizontal={24}

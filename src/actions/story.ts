@@ -18,9 +18,7 @@ import {
   voteStory,
   getStoryVoteResults,
   searchStories,
-  getFeaturedStories,
-  getLatestStories,
-  getMostVotedStories,
+  getHomeStories,
   getStoryAccess,
 } from '@/src/services';
 
@@ -40,7 +38,7 @@ const storyKeys = {
   search: (query: string) => ['stories', 'search', query] as const,
   featured: () => ['stories', 'featured'] as const,
   latest: () => ['stories', 'latest'] as const,
-  mostVoted: () => ['stories', 'most-voted'] as const,
+  mostVoted: () => ['stories', 'most-voted', "featured", "latest"] as const,
   storyAccess: ({ storyId, userId }: GetStoryAccessParams) => ['story-access', userId ?? '', storyId ?? ''],
 };
 
@@ -179,26 +177,10 @@ export const useSearchStories = (params: SearchStoriesParams) => {
   });
 };
 
-export const useGetFeaturedStories = () => {
-  return useQuery({
-    queryKey: storyKeys.featured(),
-    queryFn: getFeaturedStories,
-    staleTime: 1000 * 60 * 5,
-  });
-};
-
-export const useGetLatestStories = () => {
-  return useQuery({
-    queryKey: storyKeys.latest(),
-    queryFn: getLatestStories,
-    staleTime: 1000 * 60 * 5,
-  });
-};
-
-export const useGetMostVotedStories = () => {
+export const useGetHomeStories = () => {
   return useQuery({
     queryKey: storyKeys.mostVoted(),
-    queryFn: getMostVotedStories,
+    queryFn: getHomeStories,
     staleTime: 1000 * 60 * 5,
   });
 };

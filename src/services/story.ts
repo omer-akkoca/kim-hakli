@@ -9,11 +9,12 @@ import {
   StoryVoteResult,
   UnlockStoryResponse,
   VoteStoryResponse,
-  StoryWithVoteCount,
   GetStoryAccessParams,
   GetStoryAccessResponse,
+  GetHomeStoriesResponse,
 } from '@/src/types';
 import {
+  GET_HOME_STORIES,
   GET_STORY_ACCESS,
   GET_STORY_VOTE_RESULTS,
   UNLOCK_STORY,
@@ -213,37 +214,11 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
   return data ?? [];
 };
 
-export const getFeaturedStories = async (): Promise<IStory[]> => {
-  const { data, error } = await supabase
-    .from('stories')
-    .select('*')
-    .eq('status', 'published')
-    .eq('is_featured', true)
-    .order('created_at', { ascending: false })
-    .limit(8);
 
-  if (error) throw new Error(error.message || 'Öne çıkan hikayeler çekilirken hata oluştu.');
+export const getHomeStories = async (): Promise<GetHomeStoriesResponse> => {
+  const { data, error } = await supabase.rpc(GET_HOME_STORIES);
 
-  return data;
-};
-
-export const getLatestStories = async (): Promise<IStory[]> => {
-  const { data, error } = await supabase
-    .from('stories')
-    .select('*')
-    .eq('status', 'published')
-    .order('created_at', { ascending: false })
-    .limit(6);
-
-  if (error) throw new Error(error.message || 'Son eklenen hikayeler çekilirken hata oluştu.');
-
-  return data;
-};
-
-export const getMostVotedStories = async (): Promise<StoryWithVoteCount[]> => {
-  const { data, error } = await supabase.rpc('get_most_voted_stories');
-
-  const defaultMessage = 'En çok oy alan hikayeler çekilirken hata oluştu.';
+  const defaultMessage = 'Hikayeler çekilirken hata oluştu.';
   if (error) throw new Error(error.message || defaultMessage);
 
   return data;

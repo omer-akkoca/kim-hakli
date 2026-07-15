@@ -3,7 +3,7 @@ import { ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent } from 'rea
 import { Box } from '@/components/ui';
 import { width } from '@/src/constants';
 import { AppFlatList } from '../ui/AppFlatList';
-import { StoryWithCoverUrl } from '@/src/types';
+import { IStory } from '@/src/types';
 import { FeaturedStoryCard } from './FeaturedStoryCard';
 
 const scale = (width - 64) / 9;
@@ -11,7 +11,7 @@ const containerWidth = width;
 const containerHeight = scale * 13;
 
 interface HomeFeaturedSectionProps {
-  featured: StoryWithCoverUrl[];
+  featured: IStory[];
 }
 
 const HomeFeaturedSection: React.FC<HomeFeaturedSectionProps> = ({ featured = [] }) => {
@@ -20,7 +20,7 @@ const HomeFeaturedSection: React.FC<HomeFeaturedSectionProps> = ({ featured = []
   const featuredLength = useMemo(() => featured.length, [featured]);
 
   const renderItem = useCallback(
-    ({ item: story }: ListRenderItemInfo<StoryWithCoverUrl>) => (
+    ({ item: story }: ListRenderItemInfo<IStory>) => (
       <FeaturedStoryCard story={story} featuredLength={featuredLength} activeIndex={activeIndex} />
     ),
     [featuredLength, activeIndex],
