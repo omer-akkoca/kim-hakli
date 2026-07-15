@@ -13,14 +13,10 @@ import {
   DiscoverSkeleton,
   StoryRenderItem,
 } from '@/src/components';
-import { colors, width } from '@/src/constants';
+import { colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
 import { useGetStories } from '@/src/actions';
 import { ListRenderItemInfo } from 'react-native';
-
-const itemWidth = (width - 48 - 8) / 2;
-const itemHeight = (itemWidth / 9) * 14;
-const rowHeight = itemHeight + 8;
 
 const DiscoverPage = () => {
   const { push } = useRouter();
@@ -46,15 +42,6 @@ const DiscoverPage = () => {
 
   const renderItem = useCallback(
     ({ index, item }: ListRenderItemInfo<IStory>) => <StoryRenderItem order={index} story={item} />,
-    [],
-  );
-
-  const getItemLayout = useCallback(
-    (_: ArrayLike<IStory> | null | undefined, index: number) => ({
-      length: rowHeight,
-      offset: rowHeight * Math.floor(index / 2),
-      index,
-    }),
     [],
   );
 
@@ -89,7 +76,6 @@ const DiscoverPage = () => {
             numColumns={2}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
-            getItemLayout={getItemLayout}
             initialNumToRender={6}
             maxToRenderPerBatch={6}
             updateCellsBatchingPeriod={50}
