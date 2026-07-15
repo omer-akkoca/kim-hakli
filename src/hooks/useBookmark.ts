@@ -1,35 +1,35 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { getIsBookmarked, useAppSelector } from '../store';
 import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets/vectors/vectors';
 import { useAddBookmarkStory, useRemoveBookmark } from '../actions';
 import { BookmarkParams } from '../types';
 
 const useBookmark = (id: string) => {
-  const { user } = useAppSelector((state) => state.auth);
+  const userId = useAppSelector((state) => state.auth.user?.id ?? '');
   const isBookmarked = useAppSelector((state) => getIsBookmarked(state, id));
 
   const { mutate: add, isPending: addPending } = useAddBookmarkStory();
   const { mutate: remove, isPending: removePending } = useRemoveBookmark();
 
-  const BookmarkIcon = useMemo(
-    () => (isBookmarked ? BookmarkFillVector : BookmarkOutlineVector),
-    [isBookmarked],
-  );
+  const BookmarkIcon = isBookmarked ? BookmarkFillVector : BookmarkOutlineVector;
 
-  const userId = useMemo(() => user?.id ?? '', [user]);
-  const loading = useMemo(() => addPending || removePending, [addPending, removePending]);
+  const loading = addPending || removePending;
 
   const toggleBookmark = useCallback(() => {
+    if (!userId) return;
+
     const params: BookmarkParams = {
       storyId: id,
-      userId: userId,
+      userId,
     };
+
     if (isBookmarked) {
       remove(params);
-    } else {
-      add(params);
+      return;
     }
-  }, [isBookmarked, id, userId]);
+
+    add(params);
+  }, [id, userId, isBookmarked, add, remove]);
 
   return { BookmarkIcon, toggleBookmark, loading };
 };

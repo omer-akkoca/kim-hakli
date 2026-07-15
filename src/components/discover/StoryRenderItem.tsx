@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { IStory } from '@/src/types';
@@ -20,7 +20,7 @@ interface IStoryRenderItem {
 const itemWidth = (width - 48 - 8) / 2;
 const itemHeight = (itemWidth / 9) * 14;
 
-const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
+const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
 
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
@@ -100,6 +100,8 @@ const StoryRenderItem: React.FC<IStoryRenderItem> = ({ story, order }) => {
     </Pressable>
   );
 };
+
+const StoryRenderItem = memo(StoryRenderItemComponent);
 
 const StorySkeletonItem: React.FC<{ order: number }> = ({ order }) => {
   return (
