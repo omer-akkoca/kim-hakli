@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { ListRenderItemInfo, Image as RnImage } from 'react-native';
+import { ListRenderItemInfo } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -8,10 +8,11 @@ import Animated, {
   Extrapolation,
   SharedValue,
 } from 'react-native-reanimated';
+import { Image } from 'expo-image';
+import { BlurView } from 'expo-blur';
 import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { IStorySideWithImage } from '@/src/types';
-import { BlurView } from 'expo-blur';
 import { AppText } from '../ui/AppText';
 import { TickVector } from '@/assets';
 
@@ -121,10 +122,13 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
           >
             <Box className="flex-1 relative">
               <Box className="w-full" style={{ height: ITEM_WIDTH }}>
-                <RnImage
-                  source={{ uri: item.avatar_url }}
-                  className="flex-1 rounded-tr-xl rounded-tl-xl"
-                  resizeMode="cover"
+                <Image
+                  source={item.avatar_url}
+                  contentFit="cover"
+                  cachePolicy="memory-disk"
+                  transition={200}
+                  recyclingKey={item.id}
+                  style={{ flex: 1 }}
                 />
               </Box>
               <VStack space="md" className="flex-1 px-4 items-center justify-center">

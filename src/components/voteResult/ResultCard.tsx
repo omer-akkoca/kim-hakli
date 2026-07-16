@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image as RnImage } from 'react-native';
+import { Image } from 'expo-image';
 import { Box, HStack, LinearGradient } from '@/components/ui';
 import { StoryVoteCard } from '@/src/types';
 import { AppText } from '../ui/AppText';
@@ -26,11 +26,15 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
       >
         <Box className="flex-1">
           <HStack className="flex-1">
-            <RnImage
-              source={{ uri: winner.avatar_url }}
-              className="h-full"
-              style={{ width: W(175) }}
-              resizeMode="cover"
+            <Image
+              source={winner.avatar_url}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+              recyclingKey={winner.side_id}
+              style={{ width: W(175), height: '100%' }}
+              contentPosition={'center'}
+              className="rounded-2xl"
             />
             <Box className="flex-1 items-center justify-center px-4">
               <WinnerBadge />
@@ -98,10 +102,13 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
       >
         <Box className="flex-1 p-4">
           <HStack className="flex-1">
-            <RnImage
-              source={{ uri: side.avatar_url }}
-              style={{ width: W(125), height: W(125) }}
-              resizeMode="cover"
+            <Image
+              source={side.avatar_url}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+              recyclingKey={side.side_id}
+              style={{ width: W(125), height: W(125), borderRadius: 16 }}
               className="rounded-2xl"
             />
             <Box className="flex-1 items-center justify-center pl-4">
@@ -110,8 +117,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
                 size={25}
                 lineHeight={35}
                 weight={700}
-                className="text-headline text-center"
-                numberOfLines={1}
+                className="text-headline text-center w-full"
+                numberOfLines={2}
                 adjustsFontSizeToFit
                 minimumFontScale={0.72}
               >
