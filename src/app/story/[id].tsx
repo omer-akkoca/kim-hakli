@@ -184,7 +184,7 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {data ? (
+            {data && data.unlocked ? (
               <>
                 <DetailPrimaryButton
                   icon={data.voted ? LoopVector : Book6Vector}
