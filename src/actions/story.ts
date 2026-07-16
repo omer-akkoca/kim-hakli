@@ -28,8 +28,6 @@ const storyKeys = {
   storyCoverImage: (path: string) => ['storage', 'story-image', path] as const,
   categories: (id: string) => ['stories', id, 'categories'] as const,
   detail: (id: string) => ['stories', id] as const,
-  unlocked: (userId: string, storyId: string) => ['stories', storyId, 'unlocked', userId] as const,
-  hasVoted: (userId: string, storyId: string) => ['stories', storyId, 'hasVoted', userId] as const,
   unlockStory: () => ['stories', 'unlockStory'] as const,
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   storyImages: (paths: string[]) => ['storage', 'story-images', ...paths] as const,
@@ -106,7 +104,7 @@ export const useUnlockStory = (userId: string) => {
     mutationFn: ({ storyId }: UnlockStoryParams) => unlockStory(storyId),
     onSuccess: (_, variables) => {
       if (!userId) return;
-      queryClient.setQueryData(storyKeys.unlocked(userId, variables.storyId), true);
+      queryClient.setQueryData(storyKeys.storyAccess({ storyId: variables.storyId, userId }), { unlocked: true, voted: false });
     },
   });
 };
@@ -155,7 +153,7 @@ export const useVoteStory = (userId?: string) => {
     mutationFn: voteStory,
     onSuccess: (_, variables) => {
       if (!userId) return;
-      queryClient.setQueryData(storyKeys.hasVoted(userId, variables.storyId), true);
+      queryClient.setQueryData(storyKeys.storyAccess({ storyId: variables.storyId, userId }), { unlocked: true, voted: true });
     },
   });
 };
