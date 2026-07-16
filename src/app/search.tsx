@@ -1,13 +1,28 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { ListRenderItemInfo } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBar, AppFlatList, AppText, SearchInput, SearchRenderItem } from '@/src/components';
+import {
+  AppBackground,
+  AppBar,
+  AppFlatList,
+  AppLoading,
+  AppText,
+  SearchInput,
+  SearchRenderItem,
+} from '@/src/components';
 import { useSearchStories } from '@/src/actions';
+import { IStory } from '../types';
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const { data: stories = [], isFetching, refetch } = useSearchStories({ query: debouncedQuery });
+  const {
+    data: stories = [],
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useSearchStories({ query: debouncedQuery });
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -30,30 +45,39 @@ const SearchScreen = () => {
     );
   }, []);
 
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<IStory>) => <SearchRenderItem story={item} />,
+    [],
+  );
+
   return (
-    <Box className="flex-1 bg-background-500">
+    <AppBackground>
       <AppBar backIcon leading={<SearchInput query={query} setQuery={setQuery} />} />
       <Box className="flex-1">
-        <AppFlatList
-          data={stories}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SearchRenderItem story={item} />}
-          ListHeaderComponent={ListHeaderComponent}
-          onRefresh={refetch}
-          loading={isFetching}
-          noContentText={
-            query
-              ? `"${query}" için sonuç bulunamadı.`
-              : 'Hikaye aramak için arama çubuğunu kullanabilirsiniz.'
-          }
-          paddingHorizontal={24}
-          topPadding
-          safeBottom
-          bottomPadding
-          gap={16}
-        />
+        {isLoading ? (
+          <AppLoading fullScreen />
+        ) : (
+          <AppFlatList
+            data={stories}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            ListHeaderComponent={ListHeaderComponent}
+            onRefresh={refetch}
+            refreshing={isRefetching}
+            noContentText={
+              query
+                ? `"${query}" için sonuç bulunamadı.`
+                : 'Hikaye aramak için arama çubuğunu kullanabilirsiniz.'
+            }
+            paddingHorizontal={24}
+            topPadding
+            safeBottom
+            bottomPadding
+            gap={16}
+          />
+        )}
       </Box>
-    </Box>
+    </AppBackground>
   );
 };
 
