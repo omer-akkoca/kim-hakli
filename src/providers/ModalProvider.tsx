@@ -47,14 +47,16 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
 
   const handleButtonPress = useCallback(
     (btn: ButtonAction) => {
-      hide();
+      if (!options?.noClosable) {
+        hide();
+      }
       btn.onPress?.();
     },
-    [hide],
+    [hide, options],
   );
 
   return (
-    <ModalContext.Provider value={{ show }}>
+    <ModalContext.Provider value={{ show, hide }}>
       {children}
       <Modal isOpen={visible} onClose={options?.noClosable ? null : hide}>
         <ModalBackdrop className="bg-modal-backdrop" />

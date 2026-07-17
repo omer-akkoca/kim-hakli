@@ -16,6 +16,7 @@ export type ShowOptions = {
 
 export interface ModalContextValue {
   show: (options: ShowOptions) => void;
+  hide: () => void;
 }
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
