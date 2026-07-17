@@ -11,7 +11,9 @@ export interface IUser {
   created_at: string;
   updated_at: string;
   referral_source?: string;
-  gender: genderType
+  gender: genderType;
+  platform?: PlatformType;
 }
 
 export type genderType = "male" | "female" | "other" | undefined;
+export type PlatformType = 'android' | 'ios';

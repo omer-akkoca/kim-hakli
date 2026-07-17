@@ -2,6 +2,7 @@ import { supabase } from '@/src/configs';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import * as AppleAuthentication from 'expo-apple-authentication';
+import { Platform } from 'react-native';
 
 export const getSession = async () => await supabase.auth.getSession();
 
@@ -97,6 +98,7 @@ export const createUser = async (user: User) => {
         avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
         provider,
         updated_at: new Date().toISOString(),
+        platform: Platform.OS,
       },
       {
         onConflict: 'id',
