@@ -1,12 +1,18 @@
 import React, { PropsWithChildren, useEffect } from 'react';
+import { Linking } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
-import { useGetBookmarkedStoryIds, useGetCategories } from '@/src/actions';
-import { FONTS } from '@/src/constants';
-import { AppLoading } from '../components';
+import { useGetAppConfig, useGetBookmarkedStoryIds, useGetCategories } from '@/src/actions';
+import { FONTS, STORE_URL } from '@/src/constants';
+import { AppLoading } from '@/src/components';
+import { useModal } from '@/src/hooks';
+import { version } from '@/package.json';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
+  const { show } = useModal();
   const [fontsLoaded] = useFonts(FONTS);
+
+  const { data: appConfig, isLoading } = useGetAppConfig();
   useGetCategories();
   useGetBookmarkedStoryIds();
 
@@ -14,7 +20,19 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
     NavigationBar.setButtonStyleAsync('light');
   }, []);
 
-  if (!fontsLoaded) return <AppLoading fullScreen />;
+  useEffect(() => {
+    if (!appConfig) return;
+    if (version !== appConfig.version) {
+      show({
+        noClosable: true,
+        title: 'Güncelleme Gerekli',
+        subtitle: appConfig.update_message,
+        buttons: [{ label: 'Güncelle', onPress: () => Linking.openURL(STORE_URL) }],
+      });
+    }
+  }, [appConfig]);
+
+  if (!fontsLoaded || isLoading) return <AppLoading fullScreen />;
 
   return children;
 };

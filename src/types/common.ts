@@ -18,3 +18,8 @@ export type CreditFilter =  (typeof CREDIT_FILTERS)[number]['value'];
 
 export type ToastType = 'error' | 'success';
 export type ShowToastProps = { type?: ToastType; title: string; description: string; duration?: number };
+
+export interface IAppConfig {
+  version: string;
+  update_message: string;
+}

@@ -16,7 +16,7 @@ import { useModal, useToast } from '@/src/hooks';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { show } = useModal();
+  const { show, hide } = useModal();
   const { show: showToast } = useToast();
   const session = useAppSelector((state) => state.auth.session);
 
@@ -56,23 +56,27 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       if (user?.status === 'deleted') {
         show({
+          noClosable: true,
           title: 'Hesabınız Silinmiş',
           subtitle:
             'Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
           buttons: [
             {
               label: 'Çıkış Yap',
-              onPress: logOut,
+              onPress: () => {
+                logOut();
+                hide();
+              },
             },
             {
               label: 'Hesabı Etkinleştir',
               onPress() {
                 logOut();
+                hide();
                 Linking.openURL('https://kimhakli.tr/support');
               },
             },
           ],
-          noClosable: true,
         });
 
         return;

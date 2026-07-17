@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export const CREDIT_FILTERS = [
   {
     label: 'Tümü',
@@ -51,3 +53,8 @@ export const referralList = [
     value: 'other',
   },
 ];
+
+export const STORE_URL =
+  Platform.OS === 'android'
+    ? 'https://play.google.com/store/apps/details?id=com.oakkoca.kimhakli'
+    : 'https://apps.apple.com/tr/app/kim-haklı/id6784822130';

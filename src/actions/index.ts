@@ -5,3 +5,4 @@ export * from './categories';
 export * from './bookmark';
 export * from './vote';
 export * from './faq';
+export * from './app';
