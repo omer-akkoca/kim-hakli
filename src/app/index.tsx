@@ -20,10 +20,10 @@ const IndexPage = () => {
 
     if (!isAuthenticated) return <Redirect href="/home" />;
 
-    if (!user?.referral_source) return <Redirect href="/referral_source" />;
-
     return <Redirect href="/home" />;
   };
+
+  if (user && !user.referral_source) return <Redirect href="/referral_source" />;
 
   return <AppBackground>{renderScreen()}</AppBackground>;
 };
