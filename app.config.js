@@ -129,6 +129,7 @@ export default ({ config }) => ({
       'expo-build-properties',
       {
         ios: {
+          useFrameworks: 'static',
           extraPods: [
             {
               name: 'GoogleUtilities',
@@ -154,6 +155,13 @@ export default ({ config }) => ({
             cropToolbarColor: '#000000',
           },
         },
+      },
+    ],
+    [
+      'react-native-google-mobile-ads',
+      {
+        androidAppId: 'ca-app-pub-7102780910526722~6398986416',
+        iosAppId: 'ca-app-pub-7102780910526722~9471872311',
       },
     ],
   ],
