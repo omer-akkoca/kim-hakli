@@ -98,10 +98,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
         locations={[0, 0.5, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        className="flex-1 relative"
+        className="relative"
       >
-        <Box className="flex-1 p-4">
-          <HStack className="flex-1">
+        <Box className="p-4">
+          <HStack className="items-center">
             <Image
               source={side.avatar_url}
               contentFit="cover"
