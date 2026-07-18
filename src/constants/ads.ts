@@ -11,4 +11,10 @@ export const ADS = {
         ? 'ca-app-pub-7102780910526722/9897166736'
         : 'ca-app-pub-7102780910526722/1575703445',
   },
+  native: {
+    discover:
+      Platform.OS === 'android'
+        ? 'ca-app-pub-7102780910526722/9972499991'
+        : 'ca-app-pub-7102780910526722/3407091648',
+  },
 };
