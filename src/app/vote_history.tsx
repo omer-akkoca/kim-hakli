@@ -1,9 +1,17 @@
 import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBackground, AppBar, AppFlatList, AppLoading, VoteHistoryCard } from '@/src/components';
+import {
+  AppBackground,
+  AppBannerAd,
+  AppBar,
+  AppFlatList,
+  AppLoading,
+  VoteHistoryCard,
+} from '@/src/components';
 import { useGeVoteHistory } from '@/src/actions';
 import { VoteHistory } from '@/src/types';
+import { ADS } from '../constants';
 
 const VoteHistoryPage = () => {
   const { data, isLoading, refetch, isRefetching } = useGeVoteHistory();
@@ -17,7 +25,9 @@ const VoteHistoryPage = () => {
 
   return (
     <AppBackground>
-      <AppBar backIcon title="Oy Geçmişim" />
+      <AppBar backIcon title="Oy Geçmişim">
+        <AppBannerAd unitId={ADS.banner.vote_history} />
+      </AppBar>
       <Box className="flex-1">
         {isLoading ? (
           <AppLoading fullScreen />

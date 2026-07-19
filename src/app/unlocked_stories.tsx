@@ -3,6 +3,7 @@ import { ListRenderItemInfo } from 'react-native';
 import { Box } from '@/components/ui';
 import {
   AppBackground,
+  AppBannerAd,
   AppBar,
   AppFlatList,
   AppLoading,
@@ -10,6 +11,7 @@ import {
 } from '@/src/components';
 import { useGetUserUnlockedStories } from '@/src/actions';
 import { UnlockedStory } from '@/src/types';
+import { ADS } from '../constants';
 
 const UnlockedStories: React.FC = () => {
   const { data: unlockedStories, isLoading, refetch, isRefetching } = useGetUserUnlockedStories();
@@ -23,7 +25,9 @@ const UnlockedStories: React.FC = () => {
 
   return (
     <AppBackground>
-      <AppBar backIcon title="Kilidi Açılan Hikayeler" />
+      <AppBar backIcon title="Kilidi Açılan Hikayeler">
+        <AppBannerAd unitId={ADS.banner.unlock_stories} />
+      </AppBar>
       <Box className="flex-1">
         {isLoading ? (
           <AppLoading fullScreen />
