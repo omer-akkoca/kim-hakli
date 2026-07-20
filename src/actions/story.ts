@@ -40,7 +40,7 @@ const storyKeys = {
   storyAccess: ({ storyId, userId }: GetStoryAccessParams) => ['story-access', userId ?? '', storyId ?? ''],
 };
 
-const STORY_LIMIT = 10;
+const STORY_LIMIT = 11;
 
 export const useGetStories = (params?: GetStoriesParams) => {
   return useInfiniteQuery({

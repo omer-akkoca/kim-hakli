@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Box } from '@/components/ui';
 import {
   AppBackground,
+  AppBannerAd,
   AppBar,
   AppFlatList,
   AppScrollView,
@@ -13,6 +14,7 @@ import {
 } from '@/src/components';
 import { useGetHomeStories } from '@/src/actions';
 import { timeAgo } from '@/src/utils';
+import { ADS } from '@/src/constants';
 
 const HomePage = () => {
   const { data, isLoading } = useGetHomeStories();
@@ -24,7 +26,7 @@ const HomePage = () => {
 
   return (
     <AppBackground>
-      <AppBar creditLabel title="Kim Haklı?" />
+      <AppBar creditLabel title="Kim Haklı?"></AppBar>
       <Box className="flex-1">
         {isLoading ? (
           <HomeSkeleton />
@@ -59,7 +61,7 @@ const HomePage = () => {
               />
             </Box>
             {/* En Çok Oy Verilen */}
-            <Box>
+            <Box className="mb-6">
               <HomeSectionTitle title="En Çok Oylanan Hikayeler" />
               <AppFlatList
                 data={mostVoted}
@@ -84,6 +86,7 @@ const HomePage = () => {
                 )}
               />
             </Box>
+            <AppBannerAd unitId={ADS.banner.home} />
           </AppScrollView>
         )}
       </Box>

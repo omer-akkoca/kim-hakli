@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Box } from '@/components/ui';
-import { GetStoriesParams, IStory } from '@/src/types';
+import { ListRenderItemInfo } from 'react-native';
+import { useRouter } from 'expo-router';
 import { SearchMagnifyingVector } from '@/assets';
+import { Box } from '@/components/ui';
+import { GetStoriesParams } from '@/src/types';
 import {
   AppBackground,
   AppBar,
@@ -10,13 +12,13 @@ import {
   AppLoading,
   DiscoverFilterDrawer,
   DiscoverFilterTabs,
+  DiscoverListItem,
+  DiscoverNativeAd,
   DiscoverSkeleton,
   StoryRenderItem,
 } from '@/src/components';
 import { colors } from '@/src/constants';
-import { useRouter } from 'expo-router';
 import { useGetStories } from '@/src/actions';
-import { ListRenderItemInfo } from 'react-native';
 
 const DiscoverPage = () => {
   const { push } = useRouter();
@@ -40,10 +42,35 @@ const DiscoverPage = () => {
     return data?.pages.flat() ?? [];
   }, [data]);
 
-  const renderItem = useCallback(
-    ({ index, item }: ListRenderItemInfo<IStory>) => <StoryRenderItem order={index} story={item} />,
-    [],
-  );
+  const discoverItems = useMemo<DiscoverListItem[]>(() => {
+    const items: DiscoverListItem[] = [];
+
+    stories.forEach((story, index) => {
+      items.push({
+        type: 'story',
+        story,
+        order: items.length,
+      });
+
+      if ((index + 1) % 6 === 0) {
+        items.push({
+          type: 'native_ad',
+          id: `discover-native-ad-${index}`,
+          order: items.length,
+        });
+      }
+    });
+
+    return items;
+  }, [stories]);
+
+  const renderItem = useCallback(({ item }: ListRenderItemInfo<DiscoverListItem>) => {
+    if (item.type === 'native_ad') {
+      return <DiscoverNativeAd order={item.order} />;
+    }
+
+    return <StoryRenderItem order={item.order} story={item.story} />;
+  }, []);
 
   return (
     <AppBackground>
@@ -72,9 +99,9 @@ const DiscoverPage = () => {
           <DiscoverSkeleton />
         ) : (
           <AppFlatList
-            data={stories}
+            data={discoverItems}
+            keyExtractor={(item) => (item.type === 'story' ? item.story.id : item.id)}
             numColumns={2}
-            keyExtractor={(item) => item.id}
             renderItem={renderItem}
             initialNumToRender={6}
             maxToRenderPerBatch={6}

@@ -1,3 +1,11 @@
+## Development
+
+### /android dosyasını yeniden oluşturmak için:
+
+```bash
+npx expo prebuild --clean --platform android
+```
+
 ## Build
 
 ### Production Android AAB

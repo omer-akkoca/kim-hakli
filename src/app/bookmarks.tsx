@@ -1,10 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { Box } from '@/components/ui';
-import { AppBackground, AppBar, AppFlatList, AppLoading, StoryRenderItem } from '@/src/components';
+import {
+  AppBackground,
+  AppBannerAd,
+  AppBar,
+  AppFlatList,
+  AppLoading,
+  StoryRenderItem,
+} from '@/src/components';
 import { useAppSelector } from '@/src/store';
 import { useGetStoriesByIds } from '@/src/actions';
 import { IStory } from '@/src/types';
+import { ADS } from '../constants';
 
 const BookmarksPage = () => {
   const bookmarks = useAppSelector((state) => state.bookmark.bookmarks);
@@ -23,7 +31,9 @@ const BookmarksPage = () => {
 
   return (
     <AppBackground>
-      <AppBar backIcon title="Kaydedilenler" />
+      <AppBar backIcon title="Kaydedilenler">
+        <AppBannerAd unitId={ADS.banner.bookmark} />
+      </AppBar>
       <Box className="flex-1">
         {isLoading ? (
           <AppLoading fullScreen />
