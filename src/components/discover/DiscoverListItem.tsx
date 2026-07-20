@@ -52,7 +52,16 @@ const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
     };
   }, []);
 
-  if (!nativeAd) return null;
+  if (!nativeAd)
+    return (
+      <Box
+        style={{
+          width: itemWidth,
+          height: itemHeight,
+          marginRight: order % 2 === 0 ? 8 : 0,
+        }}
+      />
+    );
 
   return (
     <Box
