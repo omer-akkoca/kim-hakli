@@ -2,11 +2,13 @@ import React, { PropsWithChildren } from 'react';
 import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { IStory } from '@/src/types';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { AppText } from '../ui/AppText';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
+import { useDispatch } from 'react-redux';
+import { setToStoryDetail } from '@/src/store';
 
 interface HomeStoryCardProps extends PropsWithChildren {
   story: IStory;
@@ -17,12 +19,19 @@ const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   const { push } = useRouter();
+  const pathName = usePathname();
+  const dispatch = useDispatch();
 
   const coverImage = getCoverImageUrl(story.id);
 
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathName));
+    push(`/story/${story.id}`);
+  };
+
   return (
     <Pressable
-      onPress={() => push(`/story/${story.id}`)}
+      onPress={handleRoute}
       className="bg-background-500 border border-white/5 rounded-xl overflow-hidden"
       style={{
         width: cardWidth,

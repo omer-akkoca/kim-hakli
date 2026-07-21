@@ -15,14 +15,16 @@ import {
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { HomeOutlineVector, ShareVector, UsersVector } from '@/assets';
+import { RightChevronVector, ShareVector, UsersVector } from '@/assets';
 import { ADS, colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
+import { useAppSelector } from '@/src/store';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { dismissTo } = useRouter();
 
-  const { replace } = useRouter();
+  const toStoryDetail = useAppSelector((state) => state.app.toStoryDetail);
 
   const { data: story } = useGetStoryById(id);
   const { data: stats = [], isPending: statsLoading, refetch } = useGetStoryVoteResults(id);
@@ -55,16 +57,19 @@ const StoryVoteResultPage = () => {
   }, [resultsWithAvatar]);
 
   const handleShareStory = async () => {
-    if (story) {
-      const storyUrl = `https://kimhakli.tr/story/${story.id}`;
-      const shareText = `Sence bu hikâyede kim haklı?\n\n${story.title}`;
+    if (!story) return;
 
-      await Share.share({
-        title: `${story.title} | Kim Haklı?`,
-        message: Platform.OS === 'android' ? `${shareText}\n${storyUrl}` : shareText,
-        ...(Platform.OS === 'ios' && { url: storyUrl }),
-      });
-    }
+    const storyUrl = `https://kimhakli.tr/story/${story.id}`;
+
+    await Share.share(
+      Platform.OS === 'ios'
+        ? {
+            url: storyUrl,
+          }
+        : {
+            message: storyUrl,
+          },
+    );
   };
 
   if (statsLoading) {
@@ -179,9 +184,9 @@ const StoryVoteResultPage = () => {
         <VStack space="lg">
           <DetailPrimaryButton icon={ShareVector} label="Paylaş" onPress={handleShareStory} />
           <DetailSecondaryButton
-            icon={HomeOutlineVector}
-            label="Anasayfa'ya Dön"
-            onPress={() => replace('/home')}
+            icon={RightChevronVector}
+            label="Devam Et"
+            onPress={() => dismissTo(toStoryDetail as any)}
           />
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 my-4" />

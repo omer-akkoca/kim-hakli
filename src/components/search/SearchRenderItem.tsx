@@ -3,20 +3,23 @@ import { HStack, VStack } from '@/components/ui';
 import { IStory } from '@/src/types';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { AppIconButton } from '../ui/AppIconButton';
 import { colors } from '@/src/constants';
-import { useAppSelector } from '@/src/store';
+import { setToStoryDetail, useAppSelector } from '@/src/store';
 import { useBookmark } from '@/src/hooks/useBookmark';
 import { getCoverImageUrl } from '@/src/utils';
 import { AppCard } from '../ui/AppCard';
 import { Image } from 'expo-image';
+import { useDispatch } from 'react-redux';
 interface SearchRenderItemProps {
   story: IStory;
 }
 
 const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
-  const { navigate } = useRouter();
+  const { push } = useRouter();
+  const pathName = usePathname();
+  const dispatch = useDispatch();
 
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
@@ -24,9 +27,14 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
 
   const coverImage = getCoverImageUrl(story.id);
 
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathName));
+    push(`/story/${story.id}`);
+  };
+
   return (
-    <AppCard flex onPress={() => navigate(`/story/${story.id}`)}>
-      <HStack space="md" className="flex-1">
+    <AppCard onPress={handleRoute}>
+      <HStack space="md">
         <Image
           source={coverImage}
           contentFit="cover"

@@ -7,10 +7,12 @@ import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
 import { useAuth, useBookmark } from '@/src/hooks';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { Image } from 'expo-image';
 import { getCoverImageUrl } from '@/src/utils';
+import { useDispatch } from 'react-redux';
+import { setToStoryDetail } from '@/src/store';
 
 const scale = (width - 64) / 9;
 const containerWidth = width;
@@ -32,8 +34,15 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   const { push } = useRouter();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
   const { user } = useAuth();
+  const dispatch = useDispatch();
+  const pathName = usePathname();
 
   const coverImage = getCoverImageUrl(story.id);
+
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathName));
+    push(`/story/${story.id}`);
+  };
 
   return (
     <Box
@@ -44,7 +53,7 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
       className="items-center"
     >
       <Pressable
-        onPress={() => push(`/story/${story.id}`)}
+        onPress={handleRoute}
         style={styles.insideCard}
         className="overflow-hidden rounded-3xl"
       >

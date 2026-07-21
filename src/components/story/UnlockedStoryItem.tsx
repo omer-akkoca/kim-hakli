@@ -6,7 +6,9 @@ import { UnlockedStory } from '@/src/types';
 import { CalendarVector, CreditVector, RightChevronVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { timeAgo } from '@/src/utils';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
+import { setToStoryDetail } from '@/src/store';
+import { useDispatch } from 'react-redux';
 
 interface UnlockedStoryItemProps {
   item: UnlockedStory;
@@ -14,8 +16,16 @@ interface UnlockedStoryItemProps {
 
 const UnlockedStoryItem: React.FC<UnlockedStoryItemProps> = ({ item }) => {
   const { push } = useRouter();
+  const pathName = usePathname();
+  const dispatch = useDispatch();
+
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathName));
+    push(`/story/${item.story_id}`);
+  };
+
   return (
-    <AppCard onPress={() => push(`/story/${item.story_id}`)}>
+    <AppCard onPress={handleRoute}>
       <HStack space="sm" className="items-center p-4">
         <VStack space="md" className="flex-1">
           <AppText

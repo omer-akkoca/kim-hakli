@@ -5,9 +5,11 @@ import { AppText } from '../ui/AppText';
 import { CalendarVector, UsersVector } from '@/assets';
 import { colors } from '@/src/constants';
 import { getCoverImageUrl, timeAgo } from '@/src/utils';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { AppCard } from '../ui/AppCard';
 import { Image } from 'expo-image';
+import { useDispatch } from 'react-redux';
+import { setToStoryDetail } from '@/src/store';
 
 interface VoteHistoryCardProps {
   voteHistory: VoteHistory;
@@ -15,11 +17,18 @@ interface VoteHistoryCardProps {
 
 const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
   const { navigate } = useRouter();
+  const pathName = usePathname();
+  const dispatch = useDispatch();
 
   const coverImage = getCoverImageUrl(voteHistory.story_id);
 
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathName));
+    navigate(`/story/voteResult/${voteHistory.story_id}`);
+  };
+
   return (
-    <AppCard onPress={() => navigate(`/story/voteResult/${voteHistory.story_id}`)}>
+    <AppCard onPress={handleRoute}>
       <HStack space="lg" className="p-4">
         <Image
           source={coverImage}

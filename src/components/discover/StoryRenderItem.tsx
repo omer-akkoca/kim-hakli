@@ -2,15 +2,16 @@ import React, { memo } from 'react';
 import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { colors, width } from '@/src/constants';
 import { IStory } from '@/src/types';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { AppText } from '@/src/components/ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { AppIconButton } from '../ui/AppIconButton';
-import { useAppSelector } from '@/src/store';
+import { setToStoryDetail, useAppSelector } from '@/src/store';
 import { useBookmark } from '@/src/hooks/useBookmark';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
+import { useDispatch } from 'react-redux';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -22,6 +23,8 @@ const itemHeight = (itemWidth / 9) * 14;
 
 const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const dispatch = useDispatch();
 
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
@@ -29,9 +32,14 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
 
   const coverImageUrl = getCoverImageUrl(story.id);
 
+  const handleRoute = () => {
+    dispatch(setToStoryDetail(pathname));
+    router.push(`/story/${story.id}`);
+  };
+
   return (
     <Pressable
-      onPress={() => router.push(`/story/${story.id}`)}
+      onPress={handleRoute}
       className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
       style={{
         width: itemWidth,
