@@ -2,19 +2,26 @@ import React, { PropsWithChildren, useEffect } from 'react';
 import { Linking } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
-import { useGetAppConfig, useGetBookmarkedStoryIds, useGetCategories } from '@/src/actions';
+import {
+  useGetAppConfig,
+  useGetAvatarUrl,
+  useGetBookmarkedStoryIds,
+  useGetCategories,
+} from '@/src/actions';
 import { FONTS, STORE_URL } from '@/src/constants';
 import { AppLoading } from '@/src/components';
-import { useModal } from '@/src/hooks';
+import { useAuth, useModal } from '@/src/hooks';
 import { version } from '@/package.json';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { show } = useModal();
   const [fontsLoaded] = useFonts(FONTS);
+  const { user } = useAuth();
 
   const { data: appConfig, isLoading } = useGetAppConfig();
   useGetCategories();
   useGetBookmarkedStoryIds();
+  useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
 
   useEffect(() => {
     NavigationBar.setButtonStyleAsync('light');

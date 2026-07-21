@@ -2,12 +2,9 @@ import React, { useMemo } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
 import { LOGO } from '@/assets';
-import { useGetAvatarUrl } from '@/src/actions';
 
 const ProfileAvatar = () => {
   const { user, profile_photo } = useAuth();
-
-  useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
 
   const uri = useMemo(() => {
     if (profile_photo) return profile_photo;

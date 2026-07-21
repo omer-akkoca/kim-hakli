@@ -9,12 +9,14 @@ import { referralList } from '../constants/values';
 import { useUpdateReferralSource } from '../actions';
 import { useAuth, useToast } from '../hooks';
 import { useRouter } from 'expo-router';
+import { setReferralSource, useAppDispatch } from '../store';
 
 const ReferralSource = () => {
   const { top, bottom } = useSafeAreaInsets();
   const { user } = useAuth();
   const { show } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [source, setSource] = useState('');
 
@@ -26,7 +28,8 @@ const ReferralSource = () => {
         { userId: user?.id, referralSource: source },
         {
           onSuccess: async () => {
-            router.replace('/(tabs)/home');
+            dispatch(setReferralSource(source));
+            router.replace('/');
             show({
               title: 'Teşekkürler 🧡',
               description: 'Cevabın başarıyla kaydedildi.',
