@@ -1,6 +1,6 @@
-import { Box } from '@/components/ui';
 import React from 'react';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { Box } from '@/components/ui';
 
 interface AppBannerAdProps {
   unitId: string;

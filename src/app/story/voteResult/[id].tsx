@@ -19,6 +19,7 @@ import { RightChevronVector, ShareVector, UsersVector } from '@/assets';
 import { ADS, colors } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
 import { useAppSelector } from '@/src/store';
+import { BannerAdSize } from 'react-native-google-mobile-ads';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -87,7 +88,7 @@ const StoryVoteResultPage = () => {
       <AppScrollView
         topPadding
         safeTop
-        safeBottom
+        //safeBottom
         paddingHorizontal={24}
         loading={statsLoading}
         onRefresh={refetch}
@@ -191,7 +192,7 @@ const StoryVoteResultPage = () => {
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 my-4" />
         <Box className="-mx-6">
-          <AppBannerAd unitId={ADS.banner.vote_result} />
+          <AppBannerAd unitId={ADS.banner.vote_result} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
         </Box>
       </AppScrollView>
     </AppBackground>

@@ -15,6 +15,7 @@ import {
 import { useGetHomeStories } from '@/src/actions';
 import { timeAgo } from '@/src/utils';
 import { ADS } from '@/src/constants';
+import { BannerAdSize } from 'react-native-google-mobile-ads';
 
 const HomePage = () => {
   const { data, isLoading } = useGetHomeStories();
@@ -86,7 +87,7 @@ const HomePage = () => {
                 )}
               />
             </Box>
-            <AppBannerAd unitId={ADS.banner.home} />
+            <AppBannerAd unitId={ADS.banner.home} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
           </AppScrollView>
         )}
       </Box>
