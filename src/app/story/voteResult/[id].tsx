@@ -23,7 +23,7 @@ import { BannerAdSize } from 'react-native-google-mobile-ads';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { dismissTo } = useRouter();
+  const { replace, dismissTo, canDismiss } = useRouter();
 
   const toStoryDetail = useAppSelector((state) => state.app.toStoryDetail);
 
@@ -187,7 +187,7 @@ const StoryVoteResultPage = () => {
           <DetailSecondaryButton
             icon={RightChevronVector}
             label="Devam Et"
-            onPress={() => dismissTo(toStoryDetail as any)}
+            onPress={() => (canDismiss() ? dismissTo(toStoryDetail as any) : replace('/'))}
           />
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 my-4" />
