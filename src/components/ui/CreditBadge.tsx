@@ -6,9 +6,14 @@ import { AppText } from './AppText';
 interface CreditBadgeProps {
   credit: number;
   withBg?: boolean;
+  withNumber?: boolean;
 }
 
-const CreditBadge: React.FC<CreditBadgeProps> = ({ credit, withBg = false }) => {
+const CreditBadge: React.FC<CreditBadgeProps> = ({
+  credit,
+  withBg = false,
+  withNumber = false,
+}) => {
   if (withBg) {
     return (
       <HStack
@@ -16,21 +21,21 @@ const CreditBadge: React.FC<CreditBadgeProps> = ({ credit, withBg = false }) => 
         className="h-9 bg-credit-bg border border-credit-border items-center px-3 rounded-full"
       >
         <CreditVector width={14} height={14} />
-        <CreditText credit={credit} />
+        <CreditText credit={credit} withNumber={withNumber} />
       </HStack>
     );
   } else {
     return (
       <HStack space="sm" className=" items-center">
         <CreditVector width={14} height={14} />
-        <CreditText credit={credit} />
+        <CreditText credit={credit} withNumber={withNumber} />
       </HStack>
     );
   }
 };
 
-const CreditText: React.FC<{ credit: number }> = ({ credit }) => {
-  const creditLabel = useMemo(() => (credit !== 0 ? credit : 'Kredisiz'), [credit]);
+const CreditText: React.FC<{ credit: number; withNumber?: boolean }> = ({ credit, withNumber }) => {
+  const creditLabel = useMemo(() => (credit !== 0 || withNumber ? credit : 'Kredisiz'), [credit]);
   return (
     <AppText size={12} lineHeight={14} weight={600} className="text-headline">
       {creditLabel}
