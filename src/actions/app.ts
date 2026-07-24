@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAppConfig, getLeaderBoard } from '@/src/services';
+import { useAuth } from '@/src/hooks';
 
 const appKeys = {
   appConfig: ['app-config'],
-  leaderboard: ['leaderboard'],
+  leaderboard: (userId?: string) => ['leaderboard', userId],
 };
 
 export const useGetAppConfig = () => {
@@ -16,10 +17,12 @@ export const useGetAppConfig = () => {
 };
 
 export const useGetLeaderBoard = () => {
+  const { user } = useAuth();
   return useQuery({
-    queryKey: appKeys.leaderboard,
+    queryKey: appKeys.leaderboard(user?.id),
     queryFn: getLeaderBoard,
-    staleTime: Infinity,
-    gcTime: Infinity,
+    enabled: Boolean(user?.id),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 };
