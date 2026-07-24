@@ -48,6 +48,7 @@ export default ({ config }) => ({
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
+    permissions: ['android.permission.INTERNET', 'com.google.android.gms.permission.AD_ID'],
   },
   web: {
     favicon: './assets/favicon.png',
