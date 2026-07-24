@@ -1,3 +1,4 @@
+import { ILeaderBoardUser } from "./common";
 import { IStory, IStoryScene } from "./story";
 
 export interface UnlockStoryResponse {
@@ -48,4 +49,9 @@ export interface GetHomeStoriesResponse {
 export interface GetStoryAccessResponse {
   unlocked: boolean;
   voted: boolean;
+}
+
+export interface GetLeaderBoardResponse {
+  leaderboard: ILeaderBoardUser[],
+  current_user_rank: number;
 }

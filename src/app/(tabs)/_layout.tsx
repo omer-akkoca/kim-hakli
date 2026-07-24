@@ -2,8 +2,14 @@ import React, { useEffect } from 'react';
 import { Tabs } from 'expo-router';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
+import { SvgProps } from 'react-native-svg';
+import { BlurView } from 'expo-blur';
 import { HStack, Pressable, Box } from '@/components/ui';
 import {
+  CrownOutlineVector,
+  CrownVector,
   DiscoverVector,
   GlowEffect,
   HomeFillVector,
@@ -11,24 +17,23 @@ import {
   ProfileFillVector,
   ProfileOutlineVector,
 } from '@/assets';
-import { bottomBarHeight, colors, width } from '@/src/constants';
-import { useTranslation } from 'react-i18next';
-import { SvgProps } from 'react-native-svg';
-import { BlurView } from 'expo-blur';
+import { bottomBarHeight, colors, W, width } from '@/src/constants';
 import { AppText } from '@/src/components';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { useAppSelector } from '@/src/store';
-import { useModal } from '@/src/hooks';
+import { useAuth, useModal } from '@/src/hooks';
 
 export default function TabsLayout() {
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarStyle: { position: 'absolute' } }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { position: 'absolute' },
+      }}
       safeAreaInsets={{ bottom: 0 }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
       <Tabs.Screen name="home" />
       <Tabs.Screen name="discover" />
+      <Tabs.Screen name="leaderboard" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
@@ -38,16 +43,20 @@ const tabIcons: Record<string, React.FC<SvgProps>[]> = {
   home: [HomeFillVector, HomeOutlineVector],
   discover: [DiscoverVector, DiscoverVector],
   profile: [ProfileFillVector, ProfileOutlineVector],
+  leaderboard: [CrownVector, CrownOutlineVector],
 };
-
-const tabWidth = width / 3;
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { bottom } = useSafeAreaInsets();
   const { t } = useTranslation();
   const { show } = useModal();
+  const { user } = useAuth();
 
-  const { user } = useAppSelector((state) => state.auth);
+  const visibleRoutes = state.routes.filter((route) => {
+    return user || route.name !== 'leaderboard';
+  });
+
+  const tabWidth = width / visibleRoutes.length;
 
   const isFocused = (routeName: string) => {
     return state.routes[state.index].name === routeName;
@@ -74,15 +83,17 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
     }
   };
 
-  const activeIndex = state.routes.findIndex((e) => isFocused(e.name));
+  const activeIndex = visibleRoutes.findIndex(
+    (route) => route.name === state.routes[state.index].name,
+  );
 
   const translateX = useSharedValue(activeIndex * tabWidth + tabWidth / 2 - 2);
 
   useEffect(() => {
-    translateX.value = withSpring(activeIndex * tabWidth + tabWidth / 2 - 2, {
-      stiffness: 500,
-    });
-  }, [activeIndex]);
+    const safeIndex = activeIndex >= 0 ? activeIndex : 0;
+
+    translateX.value = withSpring(safeIndex * tabWidth + tabWidth / 2 - 2, { stiffness: 500 });
+  }, [activeIndex, tabWidth]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
@@ -100,7 +111,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
       <Box className="flex-1 bg-bottom-nav-bar rounded-tr-bottom-nav-bar rounded-tl-bottom-nav-bar">
         <BlurView intensity={18} tint="dark" className="flex-1">
           <HStack className="flex-1" style={{ marginBottom: bottom }}>
-            {state.routes.map((e) => {
+            {visibleRoutes.map((e) => {
               const active = isFocused(e.name);
               const Icon = active ? tabIcons[e.name][0] : tabIcons[e.name][1];
               return (
@@ -110,13 +121,13 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                     onPress={() => navigate(e.name)}
                   >
                     <Icon
-                      width={24}
-                      height={24}
+                      width={W(23)}
+                      height={W(23)}
                       color={active ? colors.primary : colors.secondary}
                     />
                     <AppText
-                      size={13}
-                      lineHeight={18}
+                      size={W(12)}
+                      lineHeight={W(18)}
                       weight={500}
                       className={`w-full mt-1 ${active ? 'text-primary-500' : 'text-secondary-500'}`}
                     >
@@ -126,7 +137,11 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                   </Pressable>
                   {active ? (
                     <GlowEffect
-                      style={{ position: 'absolute', top: 0, left: width / 3 / 2 - 60 }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: tabWidth / 2 - 60,
+                      }}
                     />
                   ) : null}
                 </Box>

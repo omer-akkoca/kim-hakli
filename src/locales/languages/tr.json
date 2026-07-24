@@ -40,7 +40,8 @@
   "tabs": {
     "home": "Anasayfa",
     "profile": "Profil",
-    "discover": "Keşfet"
+    "discover": "Keşfet",
+    "leaderboard": "Kim Haklı?"
   },
   "artStyles": {
     "all": "Tümü",

@@ -1,4 +1,4 @@
-import { CREDIT_FILTERS } from "../constants/values";
+import { CREDIT_FILTERS } from '../constants/values';
 
 export interface ICategory {
   id: string;
@@ -14,12 +14,34 @@ export interface IFaq {
   display_order: number;
 }
 
-export type CreditFilter =  (typeof CREDIT_FILTERS)[number]['value'];
+export type CreditFilter = (typeof CREDIT_FILTERS)[number]['value'];
 
 export type ToastType = 'error' | 'success';
-export type ShowToastProps = { type?: ToastType; title: string; description: string; duration?: number };
+export type ShowToastProps = {
+  type?: ToastType;
+  title: string;
+  description: string;
+  duration?: number;
+};
 
 export interface IAppConfig {
   version: string;
   update_message: string;
+}
+
+export interface ILeaderBoardUser {
+  id: string;
+  full_name: string;
+  avatar_path?: string;
+  avatar_url?: string;
+  credit_count: number;
+  order: number;
+}
+
+export interface ILeaderBoardProfile {
+  id: string;
+  full_name: string;
+  credit_count: number;
+  avatar?: string | null;
+  order: number;
 }

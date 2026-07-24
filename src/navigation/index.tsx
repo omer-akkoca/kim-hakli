@@ -18,6 +18,7 @@ const AppNavigation = () => {
       <Stack.Screen name="about" />
       <Stack.Screen name="settings" />
       <Stack.Screen name="edit_profile" />
+      <Stack.Screen name="complete_profile" />
     </Stack>
   );
 };
