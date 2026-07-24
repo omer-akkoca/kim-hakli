@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { getIsBookmarked, useAppSelector } from '../store';
-import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets/vectors/vectors';
-import { useAddBookmarkStory, useRemoveBookmark } from '../actions';
-import { BookmarkParams } from '../types';
+import { BookmarkFillVector, BookmarkOutlineVector } from '@/assets';
+import { getIsBookmarked, useAppSelector } from '@/src/store';
+import { useAddBookmarkStory, useRemoveBookmark } from '@/src/actions';
+import { BookmarkParams } from '@/src/types';
 
 const useBookmark = (id: string) => {
   const userId = useAppSelector((state) => state.auth.user?.id ?? '');

@@ -11,8 +11,8 @@ import {
   removeBookmark,
   setBookmarks,
   useAppDispatch,
-  useAppSelector,
 } from '@/src/store';
+import { useAuth } from '@/src/hooks/useAuth';
 
 const bookmarksKeys = {
   bookmarkedStoryIds: (userId?: string) => ['stories', 'bookmarked-ids', userId],
@@ -21,7 +21,7 @@ const bookmarksKeys = {
 
 export const useGetBookmarkedStoryIds = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+  const { user } = useAuth();
   const userId = user?.id;
 
   const query = useQuery({

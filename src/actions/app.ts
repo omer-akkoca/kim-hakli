@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAppConfig, getLeaderBoard } from '@/src/services';
-import { useAuth } from '@/src/hooks';
+import { useAuth } from '@/src/hooks/useAuth';
 
 const appKeys = {
   appConfig: ['app-config'],
