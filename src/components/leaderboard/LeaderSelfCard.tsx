@@ -39,10 +39,10 @@ const LeaderSelfCard: React.FC<LeaderSelfCardProps> = ({ rank }) => {
             />
           </Avatar>
           <AppText className="flex-1 text-headline" numberOfLines={1}>
-            {user!.full_name}
+            {user?.full_name ?? ''}
           </AppText>
         </HStack>
-        <CreditBadge credit={user!.credit_count} withNumber />
+        <CreditBadge credit={user?.credit_count ?? 0} withNumber />
       </HStack>
     </AppCard>
   );
