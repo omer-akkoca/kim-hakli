@@ -23,7 +23,7 @@ import { BannerAdSize } from 'react-native-google-mobile-ads';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { replace, dismissTo, canDismiss } = useRouter();
+  const { replace, dismissTo } = useRouter();
 
   const toStoryDetail = useAppSelector((state) => state.app.toStoryDetail);
 
@@ -57,6 +57,15 @@ const StoryVoteResultPage = () => {
     return resultsWithAvatar.filter((e) => e.side_id !== winner.side_id);
   }, [resultsWithAvatar]);
 
+  const handleContinue = () => {
+    if (toStoryDetail) {
+      dismissTo(toStoryDetail as any);
+      return;
+    }
+
+    replace('/');
+  };
+
   const handleShareStory = async () => {
     if (!story) return;
 
@@ -88,7 +97,8 @@ const StoryVoteResultPage = () => {
       <AppScrollView
         topPadding
         safeTop
-        //safeBottom
+        safeBottom
+        bottomPadding
         paddingHorizontal={24}
         loading={statsLoading}
         onRefresh={refetch}
@@ -187,7 +197,7 @@ const StoryVoteResultPage = () => {
           <DetailSecondaryButton
             icon={RightChevronVector}
             label="Devam Et"
-            onPress={() => (canDismiss() ? dismissTo(toStoryDetail as any) : replace('/'))}
+            onPress={handleContinue}
           />
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 my-4" />
