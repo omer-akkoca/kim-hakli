@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Box } from '@/components/ui';
 import {
   AppBackground,
@@ -12,22 +12,34 @@ import {
   HomeSkeleton,
   HomeStoryCard,
 } from '@/src/components';
-import { useGetHomeStories } from '@/src/actions';
+import { useGetClosingStory, useGetHomeStories } from '@/src/actions';
 import { timeAgo } from '@/src/utils';
 import { ADS } from '@/src/constants';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/src/hooks';
 
 const HomePage = () => {
+  const { push } = useRouter();
+  const { user } = useAuth();
+
   const { data, isLoading } = useGetHomeStories();
+  const { data: closingStory } = useGetClosingStory(user?.id);
 
   const { featured, latest, mostVoted } = useMemo(
     () => data ?? { featured: [], latest: [], mostVoted: [] },
     [data],
   );
 
+  useEffect(() => {
+    if (closingStory) {
+      push('/daily_vote');
+    }
+  }, [closingStory]);
+
   return (
     <AppBackground>
-      <AppBar creditLabel title="Kim Haklı?"></AppBar>
+      <AppBar creditLabel title="Kim Haklı?" />
       <Box className="flex-1">
         {isLoading ? (
           <HomeSkeleton />

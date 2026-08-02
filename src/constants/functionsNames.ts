@@ -7,3 +7,4 @@ export const DELETE_ACCOUNT = 'delete-account';
 export const GET_STORY_ACCESS = "get_story_access";
 export const GET_HOME_STORIES = "get_home_stories"
 export const xGET_LEADERBOARD = "get_leaderboard";
+export const GET_CLOSING_STORY = "get_closing_story"

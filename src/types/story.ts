@@ -11,6 +11,7 @@ export interface IStory {
   cover_image_path: string;
   created_at: string;
   updated_at: string;
+  closed_at: string | null;
 }
 
 export const storyArtStyles = [
@@ -26,8 +27,7 @@ export const storyArtStyles = [
 ] as const;
 
 export type StoryArtStyle = (typeof storyArtStyles)[number];
-export type StoryStatus = 'published' | 'draft' | 'deleted';
-
+export type StoryStatus = 'draft' | 'published' | 'closing' | 'completed' | 'deleted';
 export interface IStoryScene {
   id: string;
   story_id: string;

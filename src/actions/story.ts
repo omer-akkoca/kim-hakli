@@ -20,6 +20,7 @@ import {
   searchStories,
   getHomeStories,
   getStoryAccess,
+  getClosingStory,
 } from '@/src/services';
 
 const storyKeys = {
@@ -38,6 +39,7 @@ const storyKeys = {
   latest: () => ['stories', 'latest'] as const,
   mostVoted: () => ['stories', 'most-voted', "featured", "latest"] as const,
   storyAccess: ({ storyId, userId }: GetStoryAccessParams) => ['story-access', userId ?? '', storyId ?? ''],
+  closing: (userId?: string) =>[...storyKeys.all, 'closing', userId ?? 'anonymous'] as const,
 };
 
 const STORY_LIMIT = 11;
@@ -180,5 +182,14 @@ export const useGetHomeStories = () => {
     queryKey: storyKeys.mostVoted(),
     queryFn: getHomeStories,
     staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useGetClosingStory = (userId?: string) => {
+  return useQuery({
+    queryKey: storyKeys.closing(userId),
+    queryFn: () => getClosingStory(userId),
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };

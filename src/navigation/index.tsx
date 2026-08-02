@@ -19,6 +19,19 @@ const AppNavigation = () => {
       <Stack.Screen name="settings" />
       <Stack.Screen name="edit_profile" />
       <Stack.Screen name="complete_profile" />
+      <Stack.Screen
+        name="daily_vote"
+        options={{
+          presentation: 'formSheet',
+          sheetGrabberVisible: true,
+          sheetAllowedDetents: [0.5],
+          sheetElevation: 8,
+          sheetCornerRadius: 24,
+          contentStyle: {
+            backdropFilter: '5',
+          },
+        }}
+      />
     </Stack>
   );
 };

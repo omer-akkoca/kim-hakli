@@ -12,6 +12,7 @@ import {
   GetStoryAccessParams,
   GetStoryAccessResponse,
   GetHomeStoriesResponse,
+  StoryWithVoteCount,
 } from '@/src/types';
 import {
   GET_HOME_STORIES,
@@ -235,4 +236,16 @@ export const getStoryAccess = async (
   if (error) throw new Error(error.message || defaultMessage);
 
   return data as GetStoryAccessResponse;
+};
+
+export const getClosingStory = async (userId?: string): Promise<StoryWithVoteCount | null> => {
+  const { data, error } = await supabase
+  .rpc('get_closing_story', {
+    p_user_id: userId,
+  })
+  .single();
+
+  if (error) throw error;
+
+  return (data as StoryWithVoteCount | null);
 };
