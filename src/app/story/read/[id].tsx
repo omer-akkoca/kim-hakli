@@ -1,5 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, StatusBar } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Box } from '@/components/ui';
 import { useGetStoryScenes } from '@/src/actions';
 import {
@@ -17,13 +20,11 @@ import {
   storyReadProgressBarHeight as srpbh,
   width,
 } from '@/src/constants';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as NavigationBar from 'expo-navigation-bar';
 import { getCoverImageUrl } from '@/src/utils';
+import { StoryStatus } from '@/src/types';
 
-export default function StoryReadPage() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+const StoryReadPage = () => {
+  const { id, status } = useLocalSearchParams<{ id: string; status: StoryStatus }>();
 
   const { top, bottom } = useSafeAreaInsets();
 
@@ -99,6 +100,7 @@ export default function StoryReadPage() {
         </Box>
         <StoryReadActionButtons
           storyId={id}
+          storyStatus={status}
           activeIndex={activeIndex}
           length={listData.length}
           setActiveIndex={setActiveIndex}
@@ -106,4 +108,6 @@ export default function StoryReadPage() {
       </Box>
     </StoryReadBg>
   );
-}
+};
+
+export default StoryReadPage;

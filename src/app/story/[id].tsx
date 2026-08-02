@@ -5,85 +5,28 @@ import {
   AppLoading,
   AppText,
   CreditBadge,
+  DetailActionButton,
   DetailIconButton,
-  DetailPrimaryButton,
-  DetailSecondaryButton,
   StoryDetailBg,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { decreaseCredit, useAppSelector } from '@/src/store';
+import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  useGetStoryById,
-  useGetStoryCategories,
-  useStoryAccess,
-  useUnlockStory,
-} from '@/src/actions';
-import {
-  Book6Vector,
-  ChartVector,
-  LeftChevronVector,
-  LockCircleVector,
-  LoopVector,
-} from '@/assets';
-import { useAuth, useBookmark, useModal, useToast } from '@/src/hooks';
-import { useDispatch } from 'react-redux';
+import { useGetStoryById, useGetStoryCategories } from '@/src/actions';
+import { LeftChevronVector } from '@/assets';
+import { useAuth, useBookmark } from '@/src/hooks';
 import { getCoverImageUrl } from '@/src/utils';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const dispatch = useDispatch();
-  const { push, back, canGoBack, replace } = useRouter();
+  const { back, canGoBack, replace } = useRouter();
   const { bottom, top } = useSafeAreaInsets();
-  const { show } = useModal();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const { user } = useAuth();
-  const { show: showToast } = useToast();
   const { categories } = useAppSelector((state) => state.category);
 
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: storyCategories } = useGetStoryCategories(id);
-
-  const { data, isLoading: accessLoading } = useStoryAccess({ storyId: id, userId: user?.id });
-
-  const { mutate, isPending } = useUnlockStory(user?.id ?? '');
-
-  const handleUnlockStory = async () => {
-    if (!user) {
-      show({
-        title: 'Devam Et',
-        subtitle: 'Hikayeyi okumaya devam etmek için lütfen giriş yapınız.',
-        buttons: [
-          {
-            label: 'Giriş Yap',
-            onPress: () => push('/auth/login'),
-          },
-          {
-            label: 'Daha Sonra',
-          },
-        ],
-      });
-      return;
-    }
-    mutate(
-      { storyId: id },
-      {
-        onSuccess: ({ success }) => {
-          if (success) {
-            dispatch(decreaseCredit(story!.credit_cost));
-            push(`/story/read/${id}`);
-          }
-        },
-        onError: (error) => {
-          showToast({
-            type: 'error',
-            title: 'Hikaye Kilidi Açılamadı',
-            description: error.message,
-          });
-        },
-      },
-    );
-  };
 
   const getCategoryName = (key: string) => {
     const category = categories?.find((e) => e.code === key);
@@ -98,7 +41,7 @@ export default function StoryDetailPage() {
     }
   };
 
-  if (isLoading || accessLoading) {
+  if (isLoading) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -184,32 +127,7 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            {data && data.unlocked ? (
-              <>
-                <DetailPrimaryButton
-                  icon={data.voted ? LoopVector : Book6Vector}
-                  label={data.voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
-                  onPress={() => push(`/story/read/${id}`)}
-                  flex
-                />
-                {data.voted ? (
-                  <DetailSecondaryButton
-                    icon={ChartVector}
-                    label={'Sonuçları Gör'}
-                    onPress={() => push(`/story/voteResult/${id}`)}
-                    flex
-                  />
-                ) : null}
-              </>
-            ) : (
-              <DetailPrimaryButton
-                icon={LockCircleVector}
-                label="Hikaye Kilidini Aç"
-                onPress={handleUnlockStory}
-                loading={isPending}
-                flex
-              />
-            )}
+            <DetailActionButton story={story} />
           </HStack>
         </Box>
       </Box>

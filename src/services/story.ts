@@ -42,7 +42,7 @@ export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> =
       )
     `,
     )
-    .eq('status', 'published')
+    .in('status', ['published', 'closing', 'completed',])
     .order('created_at', { ascending: false })
     .range(from, to);
 
