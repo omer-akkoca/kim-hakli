@@ -3,7 +3,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { RightChevronVector, UsersFillVector } from '@/assets';
 import { Box, HStack, VStack } from '@/components/ui';
-import { AppCard, AppText, DetailPrimaryButton, StoryDetailBg } from '@/src/components';
+import {
+  AppBackground,
+  AppCard,
+  AppLoading,
+  AppText,
+  DetailPrimaryButton,
+  StoryDetailBg,
+} from '@/src/components';
 import { useGetClosingStory } from '@/src/actions';
 import { getCoverImageUrl } from '@/src/utils';
 import { colors, H } from '@/src/constants';
@@ -13,7 +20,7 @@ const DailyVote = () => {
   const { bottom } = useSafeAreaInsets();
   const { push } = useRouter();
 
-  const { data } = useGetClosingStory();
+  const { data, isLoading } = useGetClosingStory();
 
   const countdown = useCountdown(data?.closed_at);
 
@@ -28,6 +35,13 @@ const DailyVote = () => {
         { label: 'Saat', value: countdown.hours },
         { label: 'Dakika', value: countdown.minutes },
       ];
+
+  if (isLoading)
+    return (
+      <AppBackground>
+        <AppLoading fullScreen />
+      </AppBackground>
+    );
 
   if (!data) return null;
 
