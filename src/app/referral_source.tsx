@@ -6,7 +6,7 @@ import { LOGIN_TEXT, SendVector } from '@/assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { H, width } from '../constants';
 import { referralList } from '../constants/values';
-import { useUpdateReferralSource } from '../actions';
+import { useSignOut, useUpdateReferralSource } from '../actions';
 import { useAuth, useToast } from '../hooks';
 import { useRouter } from 'expo-router';
 import { setReferralSource, useAppDispatch } from '../store';
@@ -20,6 +20,7 @@ const ReferralSource = () => {
 
   const [source, setSource] = useState('');
 
+  const { mutate: logout } = useSignOut();
   const { mutate, isPending } = useUpdateReferralSource();
 
   const handleSend = useCallback(() => {
@@ -49,6 +50,12 @@ const ReferralSource = () => {
   return (
     <AppBackground>
       <Box className="flex-1 px-6" style={{ paddingTop: top, paddingBottom: bottom + 24 }}>
+        <HStack className="items-center justify-between py-2">
+          <Box />
+          <AppText weight={600} className="text-headline/75" onPress={logout}>
+            Çıkış Yap
+          </AppText>
+        </HStack>
         <Box className="flex-1 items-center justify-center gap-6">
           <RnImage
             source={LOGIN_TEXT}

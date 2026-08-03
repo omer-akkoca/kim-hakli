@@ -32,7 +32,7 @@ const HomePage = () => {
   );
 
   useEffect(() => {
-    if (closingStory) {
+    if (closingStory && (user ? user.referral_source && user.full_name && user.gender : true)) {
       push('/daily_vote');
     }
   }, [closingStory]);

@@ -16,15 +16,16 @@ const IndexPage = () => {
   }
 
   const renderScreen = () => {
-    if (!hasSeenOnboarding) return <Redirect href="/onboarding" />;
+    if (!hasSeenOnboarding) return <Redirect withAnchor href="/onboarding" />;
 
-    if (!isAuthenticated) return <Redirect href="/home" />;
+    if (!isAuthenticated) return <Redirect withAnchor href="/home" />;
 
-    if (user && !user.referral_source) return <Redirect href="/referral_source" />;
+    if (user && !user.referral_source) return <Redirect withAnchor href="/referral_source" />;
 
-    if (user && (!user.full_name || !user.gender)) return <Redirect href="/complete_profile" />;
+    if (user && (!user.full_name || !user.gender))
+      return <Redirect withAnchor href="/complete_profile" />;
 
-    return <Redirect href="/home" />;
+    return <Redirect withAnchor href="/home" />;
   };
 
   return <AppBackground>{renderScreen()}</AppBackground>;

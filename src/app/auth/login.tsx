@@ -7,11 +7,11 @@ import { colors } from '@/src/constants';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function LoginPage() {
+const LoginPage = () => {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
 
-  const onSuccess = () => router.replace('/(tabs)/home');
+  const onSuccess = () => router.replace('/');
 
   return (
     <Box className="flex-1">
@@ -91,4 +91,6 @@ export default function LoginPage() {
       </ImageBackground>
     </Box>
   );
-}
+};
+
+export default LoginPage;

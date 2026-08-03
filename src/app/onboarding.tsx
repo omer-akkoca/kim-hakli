@@ -33,7 +33,7 @@ export default function OnboardingPage() {
   const handleFinish = async () => {
     const result = await storage.set(STORAGE_KEYS.HAS_SEEN_ONBOARDING, true);
     if (result) {
-      router.replace('/home');
+      router.replace('/');
     }
   };
 
