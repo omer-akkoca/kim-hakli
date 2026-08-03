@@ -16,17 +16,20 @@ const AppleLoginButton = () => {
 
   const onSuccess = () => router.replace('/');
 
-  const handleApple = async () => {
+  const handleApple = () => {
     mutate(undefined, {
-      onError: (error) => {
+      onError: (error: Error) => {
         show({
           type: 'error',
           title: 'Giriş yapılamadı',
           description: error.message,
         });
       },
-      onSuccess: () => {
+      onSuccess: (result) => {
+        if (result.cancelled) return;
+
         onSuccess();
+
         show({
           type: 'success',
           title: 'Hoş geldin!',

@@ -53,7 +53,7 @@ export async function signInWithApple() {
     });
 
     if (!credential.identityToken) {
-      throw new Error('Apple girişi için hesap seçilmedi, lütfen bir hesap seçiniz.');
+      throw new Error('Apple girişi için hesap seçilmedi.');
     }
 
     const { error } = await supabase.auth.signInWithIdToken({
@@ -62,10 +62,11 @@ export async function signInWithApple() {
     });
 
     if (error) throw error;
+
+    return { cancelled: false };
   } catch (error: any) {
-    // Kullanıcı Apple login ekranını kapatırsa
     if (error.code === 'ERR_REQUEST_CANCELED') {
-      return null;
+      return { cancelled: true };
     }
 
     throw error;
