@@ -3,7 +3,7 @@ export default ({ config }) => ({
   name: 'Kim Haklı?',
   slug: 'kim-hakli',
   scheme: 'kim-hakli',
-  version: '1.4.2',
+  version: '1.5.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
