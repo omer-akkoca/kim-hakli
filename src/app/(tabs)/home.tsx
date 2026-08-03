@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Box } from '@/components/ui';
 import {
   AppBackground,
@@ -16,11 +16,13 @@ import { useGetClosingStory, useGetHomeStories } from '@/src/actions';
 import { timeAgo } from '@/src/utils';
 import { ADS } from '@/src/constants';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { useAuth } from '@/src/hooks';
 
 const HomePage = () => {
   const { push } = useRouter();
+  const pathname = usePathname();
+  const openedStoryIdRef = useRef<string | null>(null);
   const { user } = useAuth();
 
   const { data, isLoading } = useGetHomeStories();
@@ -32,10 +34,22 @@ const HomePage = () => {
   );
 
   useEffect(() => {
-    if (closingStory && (user ? user.referral_source && user.full_name && user.gender : true)) {
-      push('/daily_vote');
+    const profileCompleted = user
+      ? !!(user.referral_source && user.full_name && user.gender)
+      : true;
+
+    if (
+      !closingStory ||
+      !profileCompleted ||
+      pathname === '/daily_vote' ||
+      openedStoryIdRef.current === closingStory.id
+    ) {
+      return;
     }
-  }, [closingStory]);
+
+    openedStoryIdRef.current = closingStory.id;
+    push('/daily_vote');
+  }, [closingStory?.id, pathname, user?.referral_source, user?.full_name, user?.gender, push]);
 
   return (
     <AppBackground>
