@@ -59,6 +59,7 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
           width: '100%',
           height: '100%',
         }}
+        blurRadius={story.status === 'completed' ? 5 : undefined}
       />
       <LinearGradient
         colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
