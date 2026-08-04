@@ -1,17 +1,18 @@
 import React from 'react';
-import { IStory } from '@/src/types';
 import { useRouter } from 'expo-router';
-import { DetailPrimaryButton, DetailSecondaryButton } from './DetailButton';
 import { Book6Vector, ChartVector, LockCircleVector, LoopVector } from '@/assets';
-import { useStoryAccess, useUnlockStory } from '@/src/actions/story';
+import { GetStoryAccessResponse, IStory } from '@/src/types';
+import { useUnlockStory } from '@/src/actions/story';
 import { useAuth, useModal, useToast } from '@/src/hooks';
 import { decreaseCredit, useAppDispatch } from '@/src/store';
+import { DetailPrimaryButton, DetailSecondaryButton } from './DetailButton';
 
 interface DetailActionButtonProps {
   story: IStory;
+  storyAccess?: GetStoryAccessResponse;
 }
 
-const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story }) => {
+const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAccess }) => {
   const storyId = story.id;
 
   const { push } = useRouter();
@@ -19,11 +20,6 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story }) => {
   const { show: showToast } = useToast();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
-
-  const { data } = useStoryAccess({
-    storyId,
-    userId: user?.id,
-  });
 
   const { mutate, isPending } = useUnlockStory(user?.id ?? '');
 
@@ -78,15 +74,15 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story }) => {
       />
     );
 
-  return data && data.unlocked ? (
+  return storyAccess && storyAccess.unlocked ? (
     <>
       <DetailPrimaryButton
-        icon={data.voted ? LoopVector : Book6Vector}
-        label={data.voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
+        icon={storyAccess.voted ? LoopVector : Book6Vector}
+        label={storyAccess.voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
         onPress={handleReadStory}
         flex
       />
-      {data.voted ? (
+      {storyAccess.voted ? (
         <DetailSecondaryButton
           icon={ChartVector}
           label={'Sonuçları Gör'}

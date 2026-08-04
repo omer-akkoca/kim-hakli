@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGetStoryById, useGetStoryCategories } from '@/src/actions';
+import { useGetStoryById, useGetStoryCategories, useStoryAccess } from '@/src/actions';
 import { LeftChevronVector } from '@/assets';
 import { useAuth, useBookmark } from '@/src/hooks';
 import { getCoverImageUrl } from '@/src/utils';
@@ -27,6 +27,10 @@ export default function StoryDetailPage() {
 
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: storyCategories } = useGetStoryCategories(id);
+  const { data: storyAccess, isLoading: isStoryAccessLoading } = useStoryAccess({
+    storyId: id,
+    userId: user?.id,
+  });
 
   const getCategoryName = (key: string) => {
     const category = categories?.find((e) => e.code === key);
@@ -41,7 +45,7 @@ export default function StoryDetailPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isStoryAccessLoading) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -127,7 +131,7 @@ export default function StoryDetailPage() {
             </HStack>
           </VStack>
           <HStack space="lg" className="mt-10">
-            <DetailActionButton story={story} />
+            <DetailActionButton story={story} storyAccess={storyAccess} />
           </HStack>
         </Box>
       </Box>
