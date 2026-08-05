@@ -66,12 +66,20 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
 
   if (story.status === 'completed')
     return (
-      <DetailPrimaryButton
-        icon={Book6Vector}
-        label={'Hikayeyi Oku'}
-        onPress={handleReadStory}
-        flex
-      />
+      <>
+        <DetailPrimaryButton
+          icon={Book6Vector}
+          label={'Hikayeyi Oku'}
+          onPress={handleReadStory}
+          flex
+        />
+        <DetailSecondaryButton
+          icon={ChartVector}
+          label={'Sonuçları Gör'}
+          onPress={() => push(`/story/voteResult/${storyId}`)}
+          flex
+        />
+      </>
     );
 
   return storyAccess && storyAccess.unlocked ? (
