@@ -12,6 +12,7 @@ import { useBookmark } from '@/src/hooks/useBookmark';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
 import { useDispatch } from 'react-redux';
+import { Platform } from 'react-native';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -20,6 +21,7 @@ interface IStoryRenderItem {
 
 const itemWidth = (width - 48 - 8) / 2;
 const itemHeight = (itemWidth / 9) * 14;
+const completedBlur = Platform.OS === 'ios' ? 10 : 3;
 
 const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) => {
   const router = useRouter();
@@ -59,7 +61,7 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
           width: '100%',
           height: '100%',
         }}
-        blurRadius={story.status === 'completed' ? 10 : undefined}
+        blurRadius={story.status === 'completed' ? completedBlur : undefined}
       />
       <LinearGradient
         colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
