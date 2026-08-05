@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { FlatList, StatusBar } from 'react-native';
+import { FlatList, StatusBar, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as NavigationBar from 'expo-navigation-bar';
@@ -53,10 +53,14 @@ const StoryReadPage = () => {
 
   useFocusEffect(
     useCallback(() => {
-      NavigationBar.setVisibilityAsync('hidden');
+      if (Platform.OS === 'android') {
+        NavigationBar.setVisibilityAsync('hidden');
+      }
       StatusBar.setHidden(true, 'fade');
       return () => {
-        NavigationBar.setVisibilityAsync('visible');
+        if (Platform.OS === 'android') {
+          NavigationBar.setVisibilityAsync('visible');
+        }
         StatusBar.setHidden(false, 'fade');
       };
     }, []),
