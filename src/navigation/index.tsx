@@ -27,9 +27,7 @@ const AppNavigation = () => {
           sheetAllowedDetents: [0.5],
           sheetElevation: 8,
           sheetCornerRadius: 24,
-          contentStyle: {
-            backdropFilter: '5',
-          },
+          contentStyle: { backgroundColor: 'rgba(5,8,22,0.96)' },
         }}
       />
     </Stack>
