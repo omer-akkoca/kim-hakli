@@ -74,8 +74,18 @@ const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
       }}
     >
       <NativeAdView nativeAd={nativeAd} style={{ flex: 1 }}>
-        <NativeMediaView style={{ width: '100%', height: 96 }} resizeMode="cover" />
-        <Box className="flex-1 p-3 justify-between">
+        <Box className="w-full items-center justify-center">
+          <NativeMediaView
+            style={{
+              width: '100%',
+              height: 120,
+              minWidth: 120,
+              minHeight: 120,
+            }}
+            resizeMode="cover"
+          />
+        </Box>
+        <Box className="flex-1 p-2.5 justify-between">
           <HStack space="sm" className="items-center">
             {nativeAd.icon?.url ? (
               <NativeAsset assetType={NativeAssetType.ICON}>
@@ -98,25 +108,22 @@ const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
               Sponsorlu
             </AppText>
           </HStack>
-
           <NativeAsset assetType={NativeAssetType.HEADLINE}>
             <AppText
               size={15}
               lineHeight={19}
               weight={700}
               className="text-headline"
-              numberOfLines={3}
+              numberOfLines={2}
             >
               {nativeAd.headline}
             </AppText>
           </NativeAsset>
-
           <NativeAsset assetType={NativeAssetType.BODY}>
             <AppText size={11} lineHeight={14} className="text-secondary-500" numberOfLines={2}>
               {nativeAd.body}
             </AppText>
           </NativeAsset>
-
           <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
             <Box className="items-center justify-center bg-primary-500 rounded-lg py-2">
               <AppText
