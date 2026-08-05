@@ -4,6 +4,8 @@
 
 ```bash
 npx expo prebuild --clean --platform android
+
+npx expo prebuild --platform ios --clean
 ```
 
 ## Build
