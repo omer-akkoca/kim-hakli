@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
 import {
@@ -24,7 +24,9 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
 
   useEffect(() => {
-    NavigationBar.setButtonStyleAsync('light');
+    if (Platform.OS === 'android') {
+      NavigationBar.setButtonStyleAsync('light');
+    }
   }, []);
 
   useEffect(() => {
