@@ -90,8 +90,8 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
         </AppText>
         <AppCard>
           <TextInput
-            className="p-0 m-0 text-headline text-base px-4 py-3 bg-transparent"
-            style={{ fontFamily: 'Inter-Medium', fontSize: 14, lineHeight: 20 }}
+            className="p-4 m-0 text-headline"
+            style={{ fontFamily: 'Inter-Medium' }}
             placeholderTextColor={colors.whiteSmoke_50}
             placeholder={'Kullanıcı adınızı giriniz...'}
             value={fullName}
