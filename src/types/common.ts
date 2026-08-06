@@ -26,6 +26,9 @@ export type ShowToastProps = {
 
 export interface IAppConfig {
   version: string;
+  ios_version: string;
+  android_version: string;
+  dev_version: string;
   update_message: string;
 }
 

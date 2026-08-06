@@ -31,7 +31,9 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!appConfig) return;
-    if (version !== appConfig.version) {
+    const currentVersion =
+      Platform.OS === 'ios' ? appConfig.ios_version : appConfig.android_version;
+    if (version !== currentVersion) {
       show({
         noClosable: true,
         title: 'Güncelleme Gerekli',
