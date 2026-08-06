@@ -8,11 +8,6 @@ export default ({ config }) => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
   newArchEnabled: true,
-  splash: {
-    image: './assets/splash-icon.png',
-    resizeMode: 'contain',
-    backgroundColor: '#1C1F30',
-  },
   ios: {
     supportsTablet: false,
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
@@ -163,6 +158,21 @@ export default ({ config }) => ({
       {
         androidAppId: 'ca-app-pub-7102780910526722~6398986416',
         iosAppId: 'ca-app-pub-7102780910526722~9471872311',
+      },
+    ],
+    [
+      'expo-splash-screen',
+      {
+        backgroundColor: '#1C1F30',
+        image: './assets/splash/android-splash.png',
+        imageWidth: 200,
+        resizeMode: 'contain',
+        ios: {
+          image: './assets/splash/ios-splash.png',
+        },
+        android: {
+          image: './assets/splash/android-splash.png',
+        },
       },
     ],
   ],
