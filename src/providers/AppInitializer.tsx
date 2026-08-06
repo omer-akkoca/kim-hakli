@@ -11,7 +11,6 @@ import {
 import { FONTS, STORE_URL } from '@/src/constants';
 import { AppLoading } from '@/src/components';
 import { useAuth, useModal } from '@/src/hooks';
-import { version } from '@/package.json';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { show } = useModal();
@@ -31,9 +30,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!appConfig) return;
-    const currentVersion =
-      Platform.OS === 'ios' ? appConfig.ios_version : appConfig.android_version;
-    if (version !== currentVersion) {
+    if (appConfig.minimum_required_version !== appConfig.latest_version) {
       show({
         noClosable: true,
         title: 'Güncelleme Gerekli',

@@ -5,7 +5,7 @@ import { mapLeaderBoardProfiles } from "./storage";
 export const getAppConfig = async (): Promise<IAppConfig> => {
   const { data, error } = await supabase
     .from('app_config')
-    .select('version, ios_version, android_version, dev_version, update_message')
+    .select('version, latest_version, minimum_required_version, update_message')
     .single();
 
   if (error) throw error;
