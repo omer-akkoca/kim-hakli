@@ -29,6 +29,8 @@ export interface IAppConfig {
   latest_version: string;
   minimum_required_version: string;
   update_message: string;
+  android_version: string;
+  ios_version: string;
 }
 
 export interface ILeaderBoardUser {
