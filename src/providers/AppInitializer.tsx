@@ -30,16 +30,17 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!appConfig) return;
-    const currentVersion =
-      Platform.OS === 'android' ? appConfig.android_version : appConfig.ios_version;
-    if (currentVersion !== version) {
-      show({
-        noClosable: true,
-        title: 'Güncelleme Gerekli',
-        subtitle: appConfig.update_message,
-        buttons: [{ label: 'Güncelle', onPress: () => Linking.openURL(STORE_URL) }],
-      });
+    if (appConfig) {
+      const currentVersion =
+        Platform.OS === 'android' ? appConfig.android_version : appConfig.ios_version;
+      if (currentVersion !== version) {
+        show({
+          noClosable: true,
+          title: 'Güncelleme Gerekli',
+          subtitle: appConfig.update_message,
+          buttons: [{ label: 'Güncelle', onPress: () => Linking.openURL(STORE_URL) }],
+        });
+      }
     }
   }, [appConfig]);
 
