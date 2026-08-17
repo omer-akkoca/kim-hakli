@@ -9,49 +9,49 @@ import {
   LeaderSelfCard,
   LeaderTitle,
 } from '@/src/components';
-import { useGetLeaderBoard } from '@/src/actions';
-import { getUniqueLeader, isCurrentUserInTopTen } from '@/src/utils';
-import { ILeaderBoardProfile } from '@/src/types';
+import { useGetAllTimeLeaderBoard } from '@/src/actions';
+import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
 import { Box, Divider, HStack } from '@/components/ui';
 
 const LeaderBoardPage = () => {
   const {
-    data = { leaderboard: [], current_user_rank: 0 },
+    data: allTimeLeaderBoard = { leaderboard: [], current_user: null },
     isLoading,
     refetch,
     isRefetching,
-  } = useGetLeaderBoard();
+  } = useGetAllTimeLeaderBoard();
 
-  const uniqueLeader = getUniqueLeader(data.leaderboard);
-  const isInTopTen = isCurrentUserInTopTen(data.current_user_rank);
+  const first = allTimeLeaderBoard
+    ? allTimeLeaderBoard.leaderboard.find((e) => e.order === 1)
+    : null;
 
-  const filteredLeaderboard = uniqueLeader
-    ? data.leaderboard.filter((profile) => profile.id !== uniqueLeader.id)
-    : data.leaderboard;
+  const filteredLeaderboard = first
+    ? allTimeLeaderBoard.leaderboard.filter((profile) => profile.id !== first.id)
+    : allTimeLeaderBoard.leaderboard;
 
   const ListHeaderComponent = useCallback(
     () => (
       <Box className="mb-6">
         <LeaderTitle />
-        <LeaderCard leader={uniqueLeader} />
+        <LeaderCard leader={first} />
       </Box>
     ),
-    [uniqueLeader],
+    [first],
   );
 
   const ListFooterComponent = useCallback(
     () =>
-      !isInTopTen ? (
+      allTimeLeaderBoard.current_user ? (
         <Box className="mt-6">
           <HStack space="sm" className="mb-6 items-center justify-center">
             <Box className="w-1 h-1 rounded-full bg-secondary-500" />
             <Box className="w-1 h-1 rounded-full bg-secondary-500" />
             <Box className="w-1 h-1 rounded-full bg-secondary-500" />
           </HStack>
-          <LeaderSelfCard rank={data.current_user_rank} />
+          <LeaderSelfCard profile={allTimeLeaderBoard.current_user} />
         </Box>
       ) : null,
-    [isInTopTen],
+    [allTimeLeaderBoard],
   );
 
   const ItemSeparatorComponent = useCallback(
@@ -64,7 +64,7 @@ const LeaderBoardPage = () => {
   );
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<ILeaderBoardProfile>) => (
+    ({ item }: ListRenderItemInfo<IAllTimeLeaderboardUserWithAvatarUrl>) => (
       <LeaderListItem order={item.order} profile={item} />
     ),
     [],

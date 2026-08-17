@@ -1,20 +1,27 @@
 import React from 'react';
-import { Avatar, AvatarImage, Box, HStack, VStack } from '@/components/ui';
+import { Box, HStack, VStack } from '@/components/ui';
 import { CreditVector, CrownVector, LOGO } from '@/assets';
-import { ILeaderBoardProfile } from '@/src/types';
+import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
 import { colors } from '@/src/constants';
 import { AppText } from '../ui/AppText';
 import { AppCard } from '../ui/AppCard';
 import { useAuth } from '@/src/hooks';
+import { Image } from 'expo-image';
 
 interface LeaderCardProps {
-  leader: ILeaderBoardProfile | null;
+  leader?: IAllTimeLeaderboardUserWithAvatarUrl | null;
 }
 
 const LeaderCard: React.FC<LeaderCardProps> = ({ leader }) => {
   const { user } = useAuth();
 
   if (!leader) return null;
+
+  const avatar = leader.avatar_path_url
+    ? { uri: leader.avatar_path_url }
+    : leader.avatar_url
+      ? { uri: leader.avatar_url }
+      : LOGO;
 
   return (
     <AppCard className={user?.id === leader.id ? 'border-2 border-primary-500' : ''}>
@@ -26,12 +33,20 @@ const LeaderCard: React.FC<LeaderCardProps> = ({ leader }) => {
             color={colors.primary}
             style={{ transform: [{ translateY: 12 }] }}
           />
-          <Avatar
-            className="border-2 border-primary-500 bg-transparent"
-            style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)', width: 100, height: 100 }}
-          >
-            <AvatarImage source={leader.avatar ? { uri: leader.avatar } : LOGO} />
-          </Avatar>
+          <Image
+            source={avatar}
+            contentFit="cover"
+            cachePolicy="memory-disk"
+            transition={200}
+            recyclingKey={leader.id}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 99,
+              borderWidth: 2,
+              borderColor: colors.primary,
+            }}
+          />
           <Box
             className="absolute items-center justify-center bg-primary-500 rounded-full shadow-xl shadow-background-500"
             style={{ width: 32, height: 32, left: 34, bottom: -16 }}
@@ -47,7 +62,7 @@ const LeaderCard: React.FC<LeaderCardProps> = ({ leader }) => {
         <HStack space="sm" className="items-center">
           <CreditVector width={16} height={16} />
           <AppText size={15} weight={500} className="text-headline">
-            {leader.credit_count}
+            {leader.total_earned_credit}
           </AppText>
         </HStack>
       </VStack>

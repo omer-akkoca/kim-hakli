@@ -1,17 +1,22 @@
 import React from 'react';
-import { Avatar, AvatarImage, Box, HStack } from '@/components/ui';
+import { Box, HStack } from '@/components/ui';
 import { LOGO } from '@/assets';
 import { AppCard } from '../ui/AppCard';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
-import { useAuth } from '@/src/hooks';
+import { Image } from 'expo-image';
+import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
 
 interface LeaderSelfCardProps {
-  rank: number;
+  profile: IAllTimeLeaderboardUserWithAvatarUrl;
 }
 
-const LeaderSelfCard: React.FC<LeaderSelfCardProps> = ({ rank }) => {
-  const { user, profile_photo } = useAuth();
+const LeaderSelfCard: React.FC<LeaderSelfCardProps> = ({ profile }) => {
+  const avatar = profile.avatar_path_url
+    ? { uri: profile.avatar_path_url }
+    : profile.avatar_url
+      ? { uri: profile.avatar_url }
+      : LOGO;
 
   return (
     <AppCard className="border-2 border-primary-500">
@@ -26,23 +31,26 @@ const LeaderSelfCard: React.FC<LeaderSelfCardProps> = ({ rank }) => {
               minimumFontScale={0.75}
               className="w-full text-headline text-center"
             >
-              {rank}
+              {profile.order}
             </AppText>
           </Box>
-          <Avatar size="md">
-            <AvatarImage
-              source={
-                profile_photo || user?.avatar_url
-                  ? { uri: profile_photo ?? user?.avatar_url }
-                  : LOGO
-              }
-            />
-          </Avatar>
+          <Image
+            source={avatar}
+            contentFit="cover"
+            cachePolicy="memory-disk"
+            transition={200}
+            recyclingKey={profile.id}
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: 99,
+            }}
+          />
           <AppText className="flex-1 text-headline" numberOfLines={1}>
-            {user?.full_name ?? ''}
+            {profile?.full_name ?? ''}
           </AppText>
         </HStack>
-        <CreditBadge credit={user?.credit_count ?? 0} withNumber />
+        <CreditBadge credit={profile?.total_earned_credit ?? 0} withNumber />
       </HStack>
     </AppCard>
   );

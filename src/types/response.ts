@@ -55,3 +55,21 @@ export interface GetLeaderBoardResponse {
   leaderboard: ILeaderBoardUser[],
   current_user_rank: number;
 }
+
+export interface IAllTimeLeaderboardUser {
+  id: string;
+  full_name: string | null;
+  avatar_path: string | null;
+  avatar_url: string | null;
+  total_earned_credit: number;
+  order: number;
+}
+
+export interface GetAllTimeLeaderBoardResponse {
+  leaderboard: IAllTimeLeaderboardUserWithAvatarUrl[];
+  current_user: IAllTimeLeaderboardUserWithAvatarUrl | null;
+}
+
+export interface IAllTimeLeaderboardUserWithAvatarUrl extends IAllTimeLeaderboardUser {
+  avatar_path_url: string | null;
+}

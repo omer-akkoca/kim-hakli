@@ -1,19 +1,26 @@
 import React, { useCallback } from 'react';
 import { LOGO } from '@/assets';
-import { Avatar, AvatarImage, Box, HStack } from '@/components/ui';
-import { ILeaderBoardProfile } from '@/src/types';
+import { Box, HStack } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
 import { AppText } from '../ui/AppText';
 import { CreditBadge } from '../ui/CreditBadge';
 import { LeaderSelfCard } from './LeaderSelfCard';
+import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
+import { Image } from 'expo-image';
 
 interface LeaderListItemProps {
-  profile: ILeaderBoardProfile;
+  profile: IAllTimeLeaderboardUserWithAvatarUrl;
   order: number;
 }
 
 const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
   const { user } = useAuth();
+
+  const avatar = profile.avatar_path_url
+    ? { uri: profile.avatar_path_url }
+    : profile.avatar_url
+      ? { uri: profile.avatar_url }
+      : LOGO;
 
   const renderContent = useCallback(() => {
     return (
@@ -31,19 +38,28 @@ const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
               {order}
             </AppText>
           </Box>
-          <Avatar size="md">
-            <AvatarImage source={profile.avatar ? { uri: profile.avatar } : LOGO} />
-          </Avatar>
+          <Image
+            source={avatar}
+            contentFit="cover"
+            cachePolicy="memory-disk"
+            transition={200}
+            recyclingKey={profile.id}
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: 99,
+            }}
+          />
           <AppText className="flex-1 text-headline" numberOfLines={1}>
             {profile.full_name}
           </AppText>
         </HStack>
-        <CreditBadge credit={profile.credit_count} />
+        <CreditBadge credit={profile.total_earned_credit} />
       </HStack>
     );
   }, []);
 
-  if (user?.id === profile.id) return <LeaderSelfCard rank={profile.order} />;
+  if (user?.id === profile.id) return <LeaderSelfCard profile={profile} />;
 
   return renderContent();
 };

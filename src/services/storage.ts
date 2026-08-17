@@ -2,7 +2,7 @@ import { supabase } from '@/src/configs';
 import { File } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { decode } from 'base64-arraybuffer';
-import { ILeaderBoardProfile, ILeaderBoardUser } from '../types';
+import { IAllTimeLeaderboardUser, IAllTimeLeaderboardUserWithAvatarUrl } from '../types';
 
 export const createSignedUrlMap = async (paths: string[]) => {
   if (!paths.length) {
@@ -64,27 +64,26 @@ export const uploadAvatar = async (
 };
 
 export const mapLeaderBoardProfiles = async (
-  users: ILeaderBoardUser[],
-): Promise<ILeaderBoardProfile[]> => {
+  users: IAllTimeLeaderboardUser[]
+): Promise<IAllTimeLeaderboardUserWithAvatarUrl[]> => {
   return Promise.all(
     users.map(async (user) => {
-      let avatar = user.avatar_url || null;
+      let avatar_path_url: string | null = null;
 
       if (user.avatar_path) {
-        const { data } = await supabase.storage
+        const { data, error } = await supabase.storage
           .from('avatars')
           .createSignedUrl(user.avatar_path, 60 * 60);
 
-        avatar = data?.signedUrl || null;
+        if (!error) {
+          avatar_path_url = data?.signedUrl ?? null;
+        }
       }
 
       return {
-        id: user.id,
-        full_name: user.full_name,
-        credit_count: user.credit_count,
-        avatar,
-        order: user.order,
+        ...user,
+        avatar_path_url,
       };
-    }),
+    })
   );
 };
