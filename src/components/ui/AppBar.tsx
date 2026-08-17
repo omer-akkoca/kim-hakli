@@ -31,6 +31,9 @@ const AppBar: React.FC<IAppBar> = ({
 
   const { user } = useAppSelector((state) => state.auth);
 
+  const hasContent =
+    backIcon || creditLabel || Boolean(leading) || Boolean(title) || actions.length > 0;
+
   return (
     <Box
       className="relative bg-background-500 border-b border-white/5"
@@ -47,49 +50,52 @@ const AppBar: React.FC<IAppBar> = ({
               colors={['rgba(241,118,42,0.04)', 'rgba(241,118,42,0)']}
               start={{ x: 1, y: 0 }}
               end={{ x: 0, y: 1 }}
+              style={{ paddingTop: top }}
             >
-              <Box style={{ height: appBarHeight, marginTop: top }}>
-                <HStack
-                  className="flex-1 items-center justify-between"
-                  style={{ paddingHorizontal: 24 }}
-                >
-                  {leading ? (
+              {hasContent ? (
+                <Box style={{ height: appBarHeight }}>
+                  <HStack
+                    className="flex-1 items-center justify-between"
+                    style={{ paddingHorizontal: 24 }}
+                  >
+                    {leading ? (
+                      <HStack space="lg" className="items-center">
+                        {backIcon ? (
+                          <AppIconButton
+                            icon={LeftChevronVector}
+                            onPress={back}
+                            width={20}
+                            height={20}
+                            color={colors.headline}
+                          />
+                        ) : null}
+                        {leading}
+                      </HStack>
+                    ) : (
+                      <HStack space="lg" className="items-center">
+                        {backIcon ? (
+                          <AppIconButton
+                            icon={LeftChevronVector}
+                            onPress={back}
+                            width={20}
+                            height={20}
+                            color={colors.headline}
+                          />
+                        ) : null}
+                        {title ? (
+                          <AppText size={18} weight={700} className="text-headline">
+                            {title}
+                          </AppText>
+                        ) : null}
+                      </HStack>
+                    )}
                     <HStack space="lg" className="items-center">
-                      {backIcon ? (
-                        <AppIconButton
-                          icon={LeftChevronVector}
-                          onPress={back}
-                          width={20}
-                          height={20}
-                          color={colors.headline}
-                        />
-                      ) : null}
-                      {leading}
+                      {creditLabel && user ? <CreditLabel /> : <Box />}
+                      {actions.map((e) => e)}
                     </HStack>
-                  ) : (
-                    <HStack space="lg" className="items-center">
-                      {backIcon ? (
-                        <AppIconButton
-                          icon={LeftChevronVector}
-                          onPress={back}
-                          width={20}
-                          height={20}
-                          color={colors.headline}
-                        />
-                      ) : null}
-                      {title ? (
-                        <AppText size={18} weight={700} className="text-headline">
-                          {title}
-                        </AppText>
-                      ) : null}
-                    </HStack>
-                  )}
-                  <HStack space="lg" className="items-center">
-                    {creditLabel && user ? <CreditLabel /> : <Box />}
-                    {actions.map((e) => e)}
                   </HStack>
-                </HStack>
-              </Box>
+                </Box>
+              ) : null}
 
               <Box className="w-full">{children}</Box>
             </LinearGradient>
