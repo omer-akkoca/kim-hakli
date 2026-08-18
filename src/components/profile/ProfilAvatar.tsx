@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { Avatar, AvatarImage } from '@/components/ui';
-import { useAuth } from '@/src/hooks';
+import { Image } from 'expo-image';
 import { LOGO } from '@/assets';
+import { Box } from '@/components/ui';
+import { useAuth } from '@/src/hooks';
 
 const ProfileAvatar = () => {
   const { user, profile_photo } = useAuth();
@@ -12,12 +13,19 @@ const ProfileAvatar = () => {
   }, [user?.avatar_url, profile_photo]);
 
   return (
-    <Avatar
-      className="w-32 h-32 border-2 border-primary-500 bg-transparent"
+    <Box
+      className="w-32 h-32 border-2 border-primary-500 overflow-hidden rounded-full"
       style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)' }}
     >
-      <AvatarImage source={uri ? { uri } : LOGO} />
-    </Avatar>
+      <Image
+        source={uri ? { uri } : LOGO}
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        transition={200}
+        recyclingKey={user?.id ?? ''}
+        style={{ flex: 1 }}
+      />
+    </Box>
   );
 };
 
