@@ -9,3 +9,4 @@ export const GET_HOME_STORIES = "get_home_stories"
 export const xGET_LEADERBOARD = "get_leaderboard";
 export const GET_CLOSING_STORY = "get_closing_story"
 export const GET_ALL_TIME_LEADERBOARD = "get_all_time_leaderboard"
+export const GET_MONTHLY_LEADERBOARD = "get_monthly_leaderboard"

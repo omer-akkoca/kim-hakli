@@ -2,7 +2,12 @@ import React from 'react';
 import { VStack } from '@/components/ui';
 import { AppText } from '../ui/AppText';
 
-const LeaderTitle = () => {
+interface LeaderTitleProps {
+  title: string;
+  subTitle: string;
+}
+
+const LeaderTitle: React.FC<LeaderTitleProps> = ({ title, subTitle }) => {
   return (
     <VStack space="sm" className="mb-6">
       <AppText
@@ -12,9 +17,9 @@ const LeaderTitle = () => {
         weight={600}
         className="text-headline text-center"
       >
-        Haklılar Tablosu
+        {title}
       </AppText>
-      <AppText className="text-secondary-500 text-center">En çok haklı tarafı bulanlar</AppText>
+      <AppText className="text-secondary-500 text-center">{subTitle}</AppText>
     </VStack>
   );
 };

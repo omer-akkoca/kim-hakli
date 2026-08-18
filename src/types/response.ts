@@ -1,5 +1,4 @@
-import { ILeaderBoardUser } from "./common";
-import { IStory, IStoryScene } from "./story";
+import { IStory, IStoryScene } from './story';
 
 export interface UnlockStoryResponse {
   success: boolean;
@@ -41,19 +40,14 @@ export interface StoryWithVoteCount extends IStory {
 }
 
 export interface GetHomeStoriesResponse {
-  featured: IStory[],
-  latest: IStory[],
-  mostVoted: StoryWithVoteCount[],
+  featured: IStory[];
+  latest: IStory[];
+  mostVoted: StoryWithVoteCount[];
 }
 
 export interface GetStoryAccessResponse {
   unlocked: boolean;
   voted: boolean;
-}
-
-export interface GetLeaderBoardResponse {
-  leaderboard: ILeaderBoardUser[],
-  current_user_rank: number;
 }
 
 export interface IAllTimeLeaderboardUser {
@@ -65,7 +59,7 @@ export interface IAllTimeLeaderboardUser {
   order: number;
 }
 
-export interface GetAllTimeLeaderBoardResponse {
+export interface GetLeaderBoardResponse {
   leaderboard: IAllTimeLeaderboardUserWithAvatarUrl[];
   current_user: IAllTimeLeaderboardUserWithAvatarUrl | null;
 }

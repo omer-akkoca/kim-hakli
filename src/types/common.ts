@@ -49,3 +49,5 @@ export interface ILeaderBoardProfile {
   avatar?: string | null;
   order: number;
 }
+
+export type leaderBoardPeriod = 'all' | 'month'; 
