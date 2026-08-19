@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Platform, Share } from 'react-native';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
@@ -17,7 +17,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RightChevronVector, ShareVector, UsersVector } from '@/assets';
 import { ADS, colors } from '@/src/constants';
-import { formatStoryVoteCount } from '@/src/utils';
+import { formatStoryVoteCount, requestNativeAppReview } from '@/src/utils';
 import { useAppSelector } from '@/src/store';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 
@@ -81,6 +81,13 @@ const StoryVoteResultPage = () => {
           },
     );
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      requestNativeAppReview();
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   if (statsLoading) {
     return (
