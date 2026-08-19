@@ -51,6 +51,7 @@ export default ({ config }) => ({
   plugins: [
     'expo-router',
     'expo-apple-authentication',
+    'expo-notifications',
     [
       '@react-native-google-signin/google-signin',
       {

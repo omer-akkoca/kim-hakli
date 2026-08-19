@@ -6,3 +6,4 @@ export * from './bookmark';
 export * from './vote';
 export * from './faq';
 export * from './app';
+export * from './notifications';

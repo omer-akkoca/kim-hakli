@@ -60,3 +60,8 @@ export interface GetStoryAccessParams {
   userId?: string;
   storyId: string;
 }
+
+export type SavePushTokenParams = {
+  userId: string;
+  token: string;
+};

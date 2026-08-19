@@ -5,3 +5,4 @@ export * from './profile';
 export * from './bookmark';
 export * from './vote';
 export * from './app';
+export * from './notifications';

@@ -4,7 +4,13 @@ import { Box } from '@/components/ui';
 import { AppStatusBar } from '@/src/components';
 import { store } from '@/src/store';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import { AppInitializer, AuthProvider, ModalProvider, ToastProvider } from '@/src/providers';
+import {
+  AppInitializer,
+  AuthProvider,
+  ModalProvider,
+  NotificationObserver,
+  ToastProvider,
+} from '@/src/providers';
 import { AppNavigation } from '@/src/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@/global.css';
@@ -23,7 +29,9 @@ const RootLayout = () => {
               <ToastProvider>
                 <AuthProvider>
                   <AppInitializer>
-                    <AppNavigation />
+                    <NotificationObserver>
+                      <AppNavigation />
+                    </NotificationObserver>
                   </AppInitializer>
                 </AuthProvider>
               </ToastProvider>
