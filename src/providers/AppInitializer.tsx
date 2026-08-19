@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { Linking, Platform } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
+import { version } from '@/package.json';
 import {
   useGetAppConfig,
   useGetAvatarUrl,
@@ -13,7 +14,7 @@ import { FONTS, STORE_URL } from '@/src/constants';
 import { AppLoading } from '@/src/components';
 import { useAuth, useModal } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
-import { version } from '@/package.json';
+import { isVersionLower } from '@/src/utils';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { show } = useModal();
@@ -29,9 +30,10 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
   const notificationRegistrationStarted = useRef(false);
 
-  const isUpdateRequired =
-    !!appConfig &&
-    (Platform.OS === 'android' ? appConfig.android_version : appConfig.ios_version) !== version;
+  const minimumVersion =
+    Platform.OS === 'android' ? appConfig?.android_version : appConfig?.ios_version;
+
+  const isUpdateRequired = !!minimumVersion && isVersionLower(version, minimumVersion);
 
   useEffect(() => {
     if (Platform.OS === 'android') {
