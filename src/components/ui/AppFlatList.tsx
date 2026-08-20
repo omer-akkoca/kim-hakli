@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { FlatList, Platform, RefreshControl } from 'react-native';
 import { AppText } from './AppText';
 import { bottomBarHeight, colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -81,7 +81,7 @@ const AppFlatList = <T,>({
             refreshing={loading}
             onRefresh={onRefresh}
             tintColor={colors.primary}
-            progressBackgroundColor={colors.backgroud}
+            progressBackgroundColor={Platform.OS === 'android' ? colors.backgroud : undefined}
             colors={[colors.primary]}
           />
         ) : undefined
