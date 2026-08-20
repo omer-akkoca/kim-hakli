@@ -41,6 +41,9 @@ const authSlice = createSlice({
     decreaseCredit: (state, action: PayloadAction<number>) => {
       state.user!.credit_count = state.user!.credit_count - action.payload;
     },
+    increaseCredit: (state, action: PayloadAction<number>) => {
+      state.user!.credit_count = state.user!.credit_count + action.payload;
+    },
     resetAuth: (state) => {
       state.session = null;
       state.user = null;
@@ -50,6 +53,14 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuthLoading, setSession, setUser, resetAuth, decreaseCredit, setProfilePhoto, setReferralSource } =
-  authSlice.actions;
+export const {
+  setAuthLoading,
+  setSession,
+  setUser,
+  resetAuth,
+  decreaseCredit,
+  setProfilePhoto,
+  setReferralSource,
+  increaseCredit,
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;

@@ -8,6 +8,7 @@ import {
   ProfileLogoutButton,
   ProfileAvatar,
   AppCard,
+  WatchAdBadge,
 } from '@/src/components';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetUserStoryStats } from '@/src/actions';
@@ -44,6 +45,7 @@ export default function ProfilePage() {
           <CreditLabel long />
         </Box>
         <VStack space="xl" className="px-6">
+          <WatchAdBadge />
           {/* Statistics Card */}
           <HStack space="xl">
             <AppCard flex onPress={() => push('/unlocked_stories')}>
