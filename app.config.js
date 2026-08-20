@@ -52,6 +52,7 @@ export default ({ config }) => ({
     'expo-router',
     'expo-apple-authentication',
     'expo-notifications',
+    '@bacons/apple-targets',
     [
       '@react-native-google-signin/google-signin',
       {
