@@ -76,25 +76,26 @@ const ToastView: React.FC<{
     opacity: opacity.value,
   }));
 
-  const bgColor = useMemo(
-    () => (toast ? (toast?.type === 'error' ? '#2A1215' : '#102A1C') : colors.tranparent),
-    [toast],
-  );
+  const bgColor = useMemo(() => {
+    if (!toast) return colors.tranparent;
+    if (toast.type === 'error') return '#2A1215';
+    if (toast.type === 'warning') return '#2A2112';
+    return '#102A1C';
+  }, [toast]);
 
-  const iconColor = useMemo(
-    () => (toast ? (toast?.type === 'error' ? '#F87171' : '#4ADE80') : colors.tranparent),
-    [toast],
-  );
+  const iconColor = useMemo(() => {
+    if (!toast) return colors.tranparent;
+    if (toast.type === 'error') return '#F87171';
+    if (toast.type === 'warning') return '#FBBF24';
+    return '#4ADE80';
+  }, [toast]);
 
-  const Icon = useMemo(
-    () =>
-      toast
-        ? toast?.type === 'error'
-          ? ErrorCircleVector
-          : SuccessCircleVector
-        : WarningCircleVector,
-    [toast],
-  );
+  const Icon = useMemo(() => {
+    if (!toast) return WarningCircleVector;
+    if (toast.type === 'error') return ErrorCircleVector;
+    if (toast.type === 'warning') return WarningCircleVector;
+    return SuccessCircleVector;
+  }, [toast]);
 
   if (!toast) return null;
 
