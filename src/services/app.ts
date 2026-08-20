@@ -1,6 +1,6 @@
-import { supabase } from '../configs';
-import { GET_ALL_TIME_LEADERBOARD, GET_MONTHLY_LEADERBOARD } from '../constants';
-import { GetLeaderBoardResponse, IAppConfig } from '../types';
+import { supabase } from '@/src/configs';
+import { GET_ALL_TIME_LEADERBOARD, GET_MONTHLY_LEADERBOARD } from '@/src/constants';
+import { GetLeaderBoardResponse, IAppConfig } from '@/src/types';
 import { mapLeaderBoardProfiles } from './storage';
 
 export const getAppConfig = async (): Promise<IAppConfig> => {
@@ -25,8 +25,10 @@ export const getAllTimeLeaderBoard = async (): Promise<GetLeaderBoardResponse> =
 
   const [currentUser] = await mapLeaderBoardProfiles(data?.current_user ? [data.current_user] : []);
 
+  const sortedLeaderboard = [...leaderboard].sort((a, b) => a.order - b.order);
+
   return {
-    leaderboard,
+    leaderboard: sortedLeaderboard,
     current_user: currentUser ?? null,
   };
 };
@@ -40,8 +42,10 @@ export const getMonthlyLeaderBoard = async (): Promise<GetLeaderBoardResponse> =
 
   const [currentUser] = await mapLeaderBoardProfiles(data?.current_user ? [data.current_user] : []);
 
+  const sortedLeaderboard = [...leaderboard].sort((a, b) => a.order - b.order);
+
   return {
-    leaderboard,
+    leaderboard: sortedLeaderboard,
     current_user: currentUser ?? null,
   };
 };
