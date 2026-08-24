@@ -16,6 +16,7 @@ export interface IFaq {
 
 export type CreditFilter = (typeof CREDIT_FILTERS)[number]['value'];
 
+export type AlertType = 'success' | 'error' | 'warning';
 export type ToastType = 'success' | 'error' | 'warning';
 export type ShowToastProps = {
   type?: ToastType;
