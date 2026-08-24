@@ -12,15 +12,17 @@ export const colors = {
   text: 'rgba(245,245,245,0.82)',
   like: '#FF3040',
   headline: '#f5f5f5',
+  headline_50: "rgb(245 245 245 / 0.5)",
   whiteSmoke: '#f5f5f5',
   whiteSmoke_32: 'rgba(245,245,245,0.32)',
   whiteSmoke_50: 'rgba(245,245,245,0.5)',
   delete: '#FF3040',
-
+  warning: '#FBBF24',
+  error: '#F87171',
+  success: '#4ADE80',
   //old colors
   border: '#383838',
   facebook: '#1877F2',
-  error: 'rgb(230,53,53)',
   quickSilver: '#A2A2A2',
 
   lightBackgroud: 'red',

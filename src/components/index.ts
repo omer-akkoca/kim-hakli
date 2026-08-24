@@ -13,6 +13,7 @@ export { AppStatusBar } from './ui/AppStatusBar';
 export { AppSkeleton } from './ui/AppSkeleton';
 export { AppBannerAd } from './ui/AppBannerAd';
 export { WatchAdBadge } from './ui/WatchAdBadge';
+export { AppAlert } from './ui/AppAlert';
 
 export * from './auth';
 export * from './discover';
