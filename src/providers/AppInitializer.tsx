@@ -15,6 +15,7 @@ import { AppLoading } from '@/src/components';
 import { useAuth, useModal } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
 import { isVersionLower } from '@/src/utils';
+import '@/src/configs/google';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { show } = useModal();

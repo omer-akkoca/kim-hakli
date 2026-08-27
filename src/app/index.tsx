@@ -1,7 +1,6 @@
 import { AppBackground, AppLoading } from '@/src/components';
 import { Redirect } from 'expo-router';
 import { useAuth, useAppState } from '@/src/hooks';
-import '@/src/configs/google';
 
 const IndexPage = () => {
   const { loading, hasSeenOnboarding } = useAppState();
