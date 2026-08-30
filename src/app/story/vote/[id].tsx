@@ -17,7 +17,8 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants';
-import { useAuth } from '@/src/hooks';
+import { useAuth, useReward } from '@/src/hooks';
+import { increaseCredit, useAppDispatch } from '@/src/store';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -25,6 +26,8 @@ export default function StoryVotePage() {
   const { back, replace } = useRouter();
   const { top } = useSafeAreaInsets();
   const { user } = useAuth();
+  const { showReward } = useReward();
+  const dispatch = useAppDispatch();
 
   const [selectedSide, setSelectedSide] = useState<string>('');
 
@@ -49,6 +52,7 @@ export default function StoryVotePage() {
         onSuccess: (data) => {
           if (data.success) {
             replace(`/story/voteResult/${id}`);
+            showReward({ amount: 6 }, () => dispatch(increaseCredit(5)));
           }
         },
       },
