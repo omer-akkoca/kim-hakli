@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { Platform, Share } from 'react-native';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
@@ -17,7 +16,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RightChevronVector, ShareVector, UsersVector } from '@/assets';
 import { ADS, colors } from '@/src/constants';
-import { formatStoryVoteCount, requestNativeAppReview } from '@/src/utils';
+import { formatStoryVoteCount, handleShareStory, requestNativeAppReview } from '@/src/utils';
 import { useAppSelector } from '@/src/store';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 
@@ -64,22 +63,6 @@ const StoryVoteResultPage = () => {
     }
 
     replace('/');
-  };
-
-  const handleShareStory = async () => {
-    if (!story) return;
-
-    const storyUrl = `https://kimhakli.tr/story/${story.id}`;
-
-    await Share.share(
-      Platform.OS === 'ios'
-        ? {
-            url: storyUrl,
-          }
-        : {
-            message: storyUrl,
-          },
-    );
   };
 
   useEffect(() => {
@@ -200,7 +183,11 @@ const StoryVoteResultPage = () => {
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 my-4" />
         <VStack space="lg">
-          <DetailPrimaryButton icon={ShareVector} label="Paylaş" onPress={handleShareStory} />
+          <DetailPrimaryButton
+            icon={ShareVector}
+            label="Paylaş"
+            onPress={() => handleShareStory(story)}
+          />
           <DetailSecondaryButton
             icon={RightChevronVector}
             label="Devam Et"

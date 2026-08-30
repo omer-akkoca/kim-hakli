@@ -13,9 +13,9 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGetStoryById, useGetStoryCategories, useStoryAccess } from '@/src/actions';
-import { LeftChevronVector } from '@/assets';
+import { LeftChevronVector, ShareVector } from '@/assets';
 import { useAuth, useBookmark } from '@/src/hooks';
-import { getCoverImageUrl } from '@/src/utils';
+import { getCoverImageUrl, handleShareStory } from '@/src/utils';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -65,9 +65,12 @@ export default function StoryDetailPage() {
           style={{ marginTop: top + 24, paddingHorizontal: 24 }}
         >
           <DetailIconButton icon={LeftChevronVector} onPress={handleBack} />
-          {user ? (
-            <DetailIconButton icon={BookmarkIcon} onPress={toggleBookmark} disabled={loading} />
-          ) : null}
+          <HStack space="md">
+            {user ? (
+              <DetailIconButton icon={BookmarkIcon} onPress={toggleBookmark} disabled={loading} />
+            ) : null}
+            <DetailIconButton icon={ShareVector} onPress={() => handleShareStory(story)} />
+          </HStack>
         </HStack>
         <Box
           className="flex-1 justify-end"
