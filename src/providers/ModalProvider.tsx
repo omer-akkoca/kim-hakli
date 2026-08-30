@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ButtonAction, ModalContext, ShowOptions } from '@/src/contexts';
 import {
   Modal,
@@ -11,29 +11,11 @@ import {
   VStack,
 } from '@/components/ui';
 import { AppText } from '../components';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [options, setOptions] = useState<ShowOptions | null>(null);
-
-  const modalShadow = useMemo(
-    () =>
-      Platform.OS === 'ios'
-        ? {
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 24,
-            },
-            shadowOpacity: 0.35,
-            shadowRadius: 35,
-          }
-        : {
-            boxShadow: '0 24px 70px rgba(0,0,0,0.45)',
-          },
-    [],
-  );
 
   const show = useCallback((opts: ShowOptions) => {
     setOptions(opts);
@@ -62,7 +44,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         <ModalBackdrop className="bg-modal-backdrop" />
         <ModalContent
           className="bg-background-500 border border-white/10 rounded-4xl w-5/6"
-          style={modalShadow}
+          style={styles.modalShadow}
         >
           <ModalHeader>
             {/* Title */}
@@ -118,3 +100,20 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     </ModalContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  modalShadow:
+    Platform.OS === 'ios'
+      ? {
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 24,
+          },
+          shadowOpacity: 0.35,
+          shadowRadius: 35,
+        }
+      : {
+          boxShadow: '0 24px 70px rgba(0,0,0,0.45)',
+        },
+});
