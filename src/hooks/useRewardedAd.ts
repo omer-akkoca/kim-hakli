@@ -10,6 +10,7 @@ import { ADS } from '@/src/constants';
 import { supabase } from '@/src/configs';
 import { useToast } from '@/src/hooks/useToast';
 import { increaseCredit } from '@/src/store/slices/authSlice';
+import { useReward } from './useReward';
 
 type AdRewardResult = {
   success: boolean;
@@ -20,6 +21,7 @@ type AdRewardResult = {
 export const useRewardedAd = () => {
   const dispatch = useDispatch();
   const { show } = useToast();
+  const { showReward } = useReward();
 
   const rewardedAdRef = useRef(
     RewardedAd.createForAdRequest(ADS.rewarded),
@@ -70,13 +72,7 @@ export const useRewardedAd = () => {
 
         if (result.success) {
           dispatch(increaseCredit(3));
-
-          show({
-            type: 'success',
-            title: '+3 kredi kazandın!',
-            description: `Bugün ${result.remaining_ads} reklam hakkın kaldı.`,
-          });
-
+          showReward({ amount: 3 })
           return;
         }
 
