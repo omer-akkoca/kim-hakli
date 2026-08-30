@@ -20,6 +20,7 @@ export const colors = {
   warning: '#FBBF24',
   error: '#F87171',
   success: '#4ADE80',
+  modal_backdrop: 'rgba(0,0,0,0.58)',
   //old colors
   border: '#383838',
   facebook: '#1877F2',

@@ -5,3 +5,4 @@ export { useAuth } from './useAuth';
 export { useToast } from './useToast';
 export { useCountdown } from './useCountDown';
 export { useRewardedAd } from './useRewardedAd'
+export { useReward } from './useReward'

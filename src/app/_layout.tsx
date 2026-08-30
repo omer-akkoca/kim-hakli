@@ -10,6 +10,7 @@ import {
   AuthProvider,
   ModalProvider,
   NotificationObserver,
+  RewardProvider,
   ToastProvider,
 } from '@/src/providers';
 import { AppNavigation } from '@/src/navigation';
@@ -30,6 +31,7 @@ const providersConfig: ProviderConfig[] = [
   { component: ToastProvider },
   { component: AuthProvider },
   { component: AppInitializer },
+  { component: RewardProvider },
   { component: NotificationObserver },
 ];
 

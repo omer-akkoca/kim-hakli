@@ -4,3 +4,4 @@ export * from './AppInitializer';
 export * from './ToastProvider';
 export * from './QueryProvider';
 export * from './NotificationObserver';
+export * from './RewardProvider';
