@@ -12,6 +12,9 @@ interface WinnerResultCardProps {
 }
 
 const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
+  const titleWords = winner.title.trim().split(/\s+/);
+  const isSingleWord = titleWords.length === 1;
+
   return (
     <Box
       className="w-full rounded-2xl bg-background-500/70 border-1.5 border-primary-500/60 overflow-hidden"
@@ -44,7 +47,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner }) => {
                 lineHeight={36}
                 weight={700}
                 className="text-headline mt-2 text-center"
-                numberOfLines={2}
+                numberOfLines={isSingleWord ? 1 : 2}
                 adjustsFontSizeToFit
                 minimumFontScale={0.72}
               >
@@ -88,6 +91,9 @@ interface ResultCardProps {
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
+  const titleWords = side.title.trim().split(/\s+/);
+  const isSingleWord = titleWords.length === 1;
+
   return (
     <Box
       className="rounded-2xl border border-white/5 overflow-hidden"
@@ -118,7 +124,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ side }) => {
                 lineHeight={35}
                 weight={700}
                 className="text-headline text-center w-full"
-                numberOfLines={2}
+                numberOfLines={isSingleWord ? 1 : 2}
                 adjustsFontSizeToFit
                 minimumFontScale={0.72}
               >
