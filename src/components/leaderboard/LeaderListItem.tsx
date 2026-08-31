@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
-import { LOGO } from '@/assets';
+import { CreditVector, LOGO } from '@/assets';
 import { Box, HStack } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
 import { AppText } from '../ui/AppText';
-import { CreditBadge } from '../ui/CreditBadge';
 import { LeaderSelfCard } from './LeaderSelfCard';
 import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
 import { Image } from 'expo-image';
@@ -54,7 +53,12 @@ const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
             {profile.full_name}
           </AppText>
         </HStack>
-        <CreditBadge credit={profile.total_earned_credit} />
+        <HStack space="sm" className="items-center">
+          <CreditVector width={14} height={14} />
+          <AppText size={12} lineHeight={14} weight={600} className="text-headline">
+            {profile.total_earned_credit}
+          </AppText>
+        </HStack>
       </HStack>
     );
   }, []);
