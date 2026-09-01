@@ -61,7 +61,7 @@ const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
         </HStack>
       </HStack>
     );
-  }, []);
+  }, [order]);
 
   if (user?.id === profile.id) return <LeaderSelfCard profile={profile} />;
 

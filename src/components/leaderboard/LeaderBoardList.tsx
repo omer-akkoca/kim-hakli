@@ -72,7 +72,7 @@ const LeaderBoardList: React.FC<LeaderBoardListProps> = ({
     ({ item }: ListRenderItemInfo<IAllTimeLeaderboardUserWithAvatarUrl>) => (
       <LeaderListItem order={item.order} profile={item} />
     ),
-    [],
+    [filteredLeaderboard],
   );
 
   if (loading) return <AppLoading fullScreen />;
