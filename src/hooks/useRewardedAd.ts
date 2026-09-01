@@ -27,6 +27,9 @@ export const useRewardedAd = () => {
     RewardedAd.createForAdRequest(ADS.rewarded),
   );
 
+  const adClosedRef = useRef(false);
+  const shouldShowRewardRef = useRef(false);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [isWatching, setIsWatching] = useState(false);
   const [isRewarding, setIsRewarding] = useState(false);
@@ -40,6 +43,18 @@ export const useRewardedAd = () => {
     const loadAd = () => {
       setIsLoaded(false);
       rewardedAd.load();
+    };
+
+    const showRewardAfterAdClosed = () => {
+      if (!adClosedRef.current || !shouldShowRewardRef.current) {
+        return;
+      }
+
+      shouldShowRewardRef.current = false;
+
+      setTimeout(() => {
+        showReward({ amount: 3 });
+      }, 350);
     };
 
     const unsubscribeLoaded = rewardedAd.addAdEventListener(
@@ -72,7 +87,10 @@ export const useRewardedAd = () => {
 
         if (result.success) {
           dispatch(increaseCredit(3));
-          showReward({ amount: 3 })
+
+          shouldShowRewardRef.current = true;
+          showRewardAfterAdClosed();
+
           return;
         }
 
@@ -87,7 +105,10 @@ export const useRewardedAd = () => {
     const unsubscribeClosed = rewardedAd.addAdEventListener(
       AdEventType.CLOSED,
       () => {
+        adClosedRef.current = true;
         setIsWatching(false);
+
+        showRewardAfterAdClosed();
         loadAd();
       },
     );
@@ -108,12 +129,15 @@ export const useRewardedAd = () => {
       unsubscribeClosed();
       unsubscribeError();
     };
-  }, [dispatch, show]);
+  }, [dispatch, show, showReward]);
 
   const watchAndEarn = async () => {
     if (isDisabled) {
       return;
     }
+
+    adClosedRef.current = false;
+    shouldShowRewardRef.current = false;
 
     setIsWatching(true);
     setIsLoaded(false);
