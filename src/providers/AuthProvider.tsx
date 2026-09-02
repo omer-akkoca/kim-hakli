@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { Linking } from 'react-native';
 import {
   resetAuth,
   resetBookmark,
@@ -9,19 +8,17 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/src/store';
-import { useGetProfile, useSignOut } from '@/src/actions';
+import { useGetProfile } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
 import { createUser, onAuthStateChanged } from '@/src/services';
-import { useModal, useToast } from '@/src/hooks';
+import { useToast } from '@/src/hooks';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { show, hide } = useModal();
   const { show: showToast } = useToast();
   const session = useAppSelector((state) => state.auth.session);
 
   const { mutateAsync } = useGetProfile();
-  const { mutate: logOut } = useSignOut();
 
   const handleAuthError = (title: string, description: string) => {
     dispatch(resetAuth());
@@ -52,34 +49,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       if (!user) {
         user = await createUser(sessionUser);
-      }
-
-      if (user?.status === 'deleted') {
-        show({
-          noClosable: true,
-          title: 'Hesabınız Silinmiş',
-          subtitle:
-            'Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
-          buttons: [
-            {
-              label: 'Çıkış Yap',
-              onPress: () => {
-                logOut();
-                hide();
-              },
-            },
-            {
-              label: 'Hesabı Etkinleştir',
-              onPress() {
-                logOut();
-                hide();
-                Linking.openURL('https://kimhakli.tr/support');
-              },
-            },
-          ],
-        });
-
-        return;
       }
 
       if (user) {

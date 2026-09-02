@@ -14,3 +14,8 @@ export const isVersionLower = (currentVersion: string, minimumVersion: string): 
 
   return false;
 };
+
+export const getMonthlyRewardUrl = (): string => {
+  const currentMonthYear = new Date().toISOString().slice(0, 7).split('-').reverse().join('-');
+  return `${process.env.EXPO_PUBLIC_SUPABASE_URL}/storage/v1/object/public/rewards/${currentMonthYear}.webp`;
+}

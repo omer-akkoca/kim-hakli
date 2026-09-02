@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, ReactNode } from 'react';
 
 export type ButtonAction = {
   label: string;
@@ -8,10 +8,11 @@ export type ButtonAction = {
 };
 
 export type ShowOptions = {
-  title: string;
+  title?: string;
   subtitle?: string;
-  buttons?: [ButtonAction] | [ButtonAction, ButtonAction];
+  buttons?: ButtonAction[];
   noClosable?: boolean;
+  content?: ReactNode;
 };
 
 export interface ModalContextValue {
