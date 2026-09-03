@@ -14,17 +14,20 @@ import {
   useSavePushToken,
   useSignOut,
 } from '@/src/actions';
-import { FONTS, STORE_URL, width } from '@/src/constants';
+import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
 import { AppLoading, DetailIconButton } from '@/src/components';
-import { useAuth, useModal } from '@/src/hooks';
+import { useAppState, useAuth, useModal } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
-import { getMonthlyRewardUrl, isVersionLower } from '@/src/utils';
+import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
+import { setHasSeenOnboarding, useAppDispatch } from '@/src/store';
 import '@/src/configs/google';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { show, hide } = useModal();
   const [fontsLoaded] = useFonts(FONTS);
   const { user } = useAuth();
+  const dispatch = useAppDispatch();
+  const { hasSeenOnboarding } = useAppState();
 
   const { mutate: logOut } = useSignOut();
 
@@ -37,14 +40,14 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
   const notificationRegistrationStarted = useRef(false);
 
-  const deletedAccount = user?.status === 'deleted';
+  const deletedAccount = user ? user.status === 'deleted' : false;
 
   const minimumVersion =
     Platform.OS === 'android' ? appConfig?.android_version : appConfig?.ios_version;
   const isUpdateRequired =
     !deletedAccount && !!minimumVersion && isVersionLower(version, minimumVersion);
 
-  const isRewardAvailable = !deletedAccount || !isUpdateRequired;
+  const isRewardAvailable = !deletedAccount && !isUpdateRequired && hasSeenOnboarding;
 
   // navigation bar style
   useEffect(() => {
@@ -52,6 +55,16 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
       NavigationBar.setButtonStyleAsync('light');
     }
   }, []);
+
+  // onboarding kontrolü
+  useEffect(() => {
+    const initializeOnboarding = async () => {
+      const value = await storage.get<boolean>(STORAGE_KEYS.HAS_SEEN_ONBOARDING);
+      dispatch(setHasSeenOnboarding(value ?? false));
+    };
+
+    initializeOnboarding();
+  }, [dispatch]);
 
   // silinmiş hesap uyarısı
   useEffect(() => {
@@ -123,6 +136,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
     return () => clearTimeout(timeout);
   }, [fontsLoaded, isLoading, isUpdateRequired, user?.id, savePushToken]);
 
+  // aylık ödül popup'ı
   useEffect(() => {
     if (isRewardAvailable) {
       const imageWidth = width * 0.9;
@@ -150,7 +164,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isRewardAvailable]);
 
-  if (!fontsLoaded || isLoading) return <AppLoading fullScreen />;
+  if (!fontsLoaded || isLoading || hasSeenOnboarding === null) return <AppLoading fullScreen />;
 
   return children;
 };
