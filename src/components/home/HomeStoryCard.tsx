@@ -4,7 +4,6 @@ import { width } from '@/src/constants';
 import { IStory } from '@/src/types';
 import { usePathname, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { AppText } from '../ui/AppText';
 import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
 import { useDispatch } from 'react-redux';
@@ -14,7 +13,7 @@ interface HomeStoryCardProps extends PropsWithChildren {
   story: IStory;
 }
 
-const cardWidth = width / 3.5;
+const cardWidth = width / 4;
 const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
@@ -47,7 +46,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
           height: '100%',
         }}
         contentFit="cover"
-        blurRadius={1}
+        //blurRadius={1}
         cachePolicy="memory-disk"
         recyclingKey={story.id}
         transition={200}
@@ -60,14 +59,16 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
         className="flex-1"
       >
         <VStack space="sm" className="flex-1 justify-end p-2">
-          <AppText
-            size={12}
-            lineHeight={16}
-            weight={500}
-            className="-tracking-2 text-headline text-center"
-          >
-            {story.title}
-          </AppText>
+          {/*
+            <AppText
+              size={12}
+              lineHeight={16}
+              weight={500}
+              className="-tracking-2 text-headline text-center"
+            >
+              {story.title}
+            </AppText>
+            */}
 
           {children}
         </VStack>
