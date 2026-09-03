@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { FlatList, Image, ListRenderItemInfo } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
   RightChevronVector,
@@ -13,12 +15,12 @@ import {
 import { AppBackground, AppFlatList, AppText, DetailPrimaryButton } from '@/src/components';
 import { height, STORAGE_KEYS, width } from '@/src/constants';
 import { storage } from '@/src/utils';
-import { useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { setHasSeenOnboarding, useAppDispatch } from '@/src/store';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
 
   const flatListRef = useRef<FlatList>(null);
 
@@ -32,6 +34,7 @@ export default function OnboardingPage() {
 
   const handleFinish = async () => {
     const result = await storage.set(STORAGE_KEYS.HAS_SEEN_ONBOARDING, true);
+    dispatch(setHasSeenOnboarding(true));
     if (result) {
       router.replace('/');
     }

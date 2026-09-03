@@ -3,10 +3,10 @@ import { Redirect } from 'expo-router';
 import { useAuth, useAppState } from '@/src/hooks';
 
 const IndexPage = () => {
-  const { loading, hasSeenOnboarding } = useAppState();
+  const { hasSeenOnboarding } = useAppState();
   const { isAuthenticated, authLoading, user } = useAuth();
 
-  if (loading || authLoading) {
+  if (authLoading) {
     return (
       <AppBackground>
         <AppLoading fullScreen />

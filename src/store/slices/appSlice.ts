@@ -1,12 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppState {
-    toStoryDetail: string;
+  toStoryDetail: string;
+  hasSeenOnboarding: boolean | null;
 }
 
 const initialState: AppState = {
-  toStoryDetail: "",
+  toStoryDetail: '',
+  hasSeenOnboarding: null,
 };
 
 const appSlice = createSlice({
@@ -14,10 +15,13 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     setToStoryDetail: (state, action: PayloadAction<string>) => {
-        state.toStoryDetail = action.payload;
-    }
+      state.toStoryDetail = action.payload;
+    },
+    setHasSeenOnboarding(state, action: PayloadAction<boolean>) {
+      state.hasSeenOnboarding = action.payload;
+    },
   },
 });
 
-export const { setToStoryDetail } = appSlice.actions;
+export const { setToStoryDetail, setHasSeenOnboarding } = appSlice.actions;
 export const appReducer = appSlice.reducer;

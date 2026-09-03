@@ -1,35 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { storage } from '@/src/utils';
-import { STORAGE_KEYS } from '@/src/constants';
+import { useAppSelector } from '../store';
 
 const useAppState = () => {
-  const [loading, setLoading] = useState(true);
-  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
+  const { hasSeenOnboarding, toStoryDetail } = useAppSelector(state => state.app)
 
-  useEffect(() => {
-    const boot = async () => {
-      setLoading(true);
-      await checkOnboarding();
-      setLoading(false);
-    };
-    boot();
-  }, []);
-
-  const checkOnboarding = useCallback(async () => {
-    try {
-      const value = await storage.get<boolean>(STORAGE_KEYS.HAS_SEEN_ONBOARDING);
-      if (value) {
-        setHasSeenOnboarding(value);
-      } else {
-        setHasSeenOnboarding(false);
-      }
-    } catch {
-      setHasSeenOnboarding(true);
-    }
-  }, []);
-
-
-  return { loading, hasSeenOnboarding };
+  return { hasSeenOnboarding, toStoryDetail };
 };
 
 export { useAppState };
