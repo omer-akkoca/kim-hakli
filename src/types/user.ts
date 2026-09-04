@@ -13,6 +13,7 @@ export interface IUser {
   referral_source?: string;
   gender: genderType;
   platform?: PlatformType;
+  referral_code: string;
 }
 
 export type genderType = "male" | "female" | "other" | undefined;

@@ -5,6 +5,7 @@ const AppNavigation = () => {
     <Stack initialRouteName="onboarding" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="auth/login" />
+      <Stack.Screen name="invite/[ref]" />
       <Stack.Screen name="referral_source" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="story/[id]" />

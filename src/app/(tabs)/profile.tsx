@@ -8,25 +8,28 @@ import {
   ProfileLogoutButton,
   ProfileAvatar,
   AppCard,
-  WatchAdBadge,
 } from '@/src/components';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { useGetUserStoryStats } from '@/src/actions';
 import { colors } from '@/src/constants';
 import {
   AboutVector,
+  AddFriendVector,
   BookmarkOutlineVector,
   HistoryVector,
   LockOutlineVector,
   ScalesVector,
   SettingsVector,
+  WatchVector,
 } from '@/assets';
 import { useRouter } from 'expo-router';
 import { version } from '@/package.json';
-import { useAuth } from '@/src/hooks';
+import { useAuth, useRewardedAd } from '@/src/hooks';
+import { handleShareReferral } from '@/src/utils';
 
 export default function ProfilePage() {
   const { push } = useRouter();
+  const { watchAndEarn } = useRewardedAd();
 
   const { user, isAuthenticated } = useAuth();
 
@@ -45,7 +48,6 @@ export default function ProfilePage() {
           <CreditLabel long />
         </Box>
         <VStack space="xl" className="px-6">
-          <WatchAdBadge />
           {/* Statistics Card */}
           <HStack space="xl">
             <AppCard flex onPress={() => push('/unlocked_stories')}>
@@ -71,10 +73,17 @@ export default function ProfilePage() {
               </Box>
             </AppCard>
           </HStack>
-
           {/* Buttons */}
           <AppCard>
             <VStack space="xs" className="px-4 py-1">
+              <ProfileTab icon={WatchVector} label="İzle ve Kazan" onPress={watchAndEarn} />
+              <Divider className="bg-white/20" />
+              <ProfileTab
+                icon={AddFriendVector}
+                label="Arkadaşını Davet Et"
+                onPress={() => handleShareReferral(user?.referral_code)}
+              />
+              <Divider className="bg-white/20" />
               <ProfileTab
                 icon={BookmarkOutlineVector}
                 label="Kaydedilen Hikayeler"

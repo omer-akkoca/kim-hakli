@@ -5,3 +5,4 @@ export * from './image_picker';
 export * from './leaderboard';
 export * from './appReview';
 export * from './version';
+export * from './user';

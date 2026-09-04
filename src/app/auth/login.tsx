@@ -4,10 +4,11 @@ import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/compone
 import { AppleLoginButton, AppText, GoogleLoginButton } from '@/src/components';
 import { LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
 import { colors } from '@/src/constants';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const LoginPage = () => {
+  const { ref } = useLocalSearchParams<{ ref?: string }>();
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
 
