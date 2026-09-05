@@ -1,4 +1,5 @@
 import { IStory, IStoryScene } from './story';
+import { IUser } from './user';
 
 export interface UnlockStoryResponse {
   success: boolean;
@@ -66,4 +67,12 @@ export interface GetLeaderBoardResponse {
 
 export interface IAllTimeLeaderboardUserWithAvatarUrl extends IAllTimeLeaderboardUser {
   avatar_path_url: string | null;
+}
+
+export interface UpdateProfileResponse {
+  user: IUser;
+  referral: {
+    success: boolean;
+    reason?: string;
+  };
 }

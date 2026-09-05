@@ -48,7 +48,8 @@ export interface UpdateProfileParams {
   userId: string;
   fullName: string;
   photo?: ImagePickerAsset;
-    gender: genderType;
+  gender: genderType;
+  referralCode?: string;
 }
 
 export interface GetAvatarUrlParams {

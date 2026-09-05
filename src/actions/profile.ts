@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   deleteAccount,
   getAvatarUrl,
+  getCanApplyReferralCode,
   getProfile,
   getUserStoryStats,
   getUserUnlockedStories,
@@ -16,7 +17,8 @@ export const userKeys = {
   userStoryStats: (userId: string) => ['users', userId, 'story-stats'] as const,
   unlockedStories: (userId: string) => ['users', userId, 'unlocked-stories'] as const,
   deleteAccount: () => ['users', 'delete-account'] as const,
-  avatarUrl: (params: GetAvatarUrlParams) => ['avatar-url', params.userId, params.avatarPath]
+  avatarUrl: (params: GetAvatarUrlParams) => ['avatar-url', params.userId, params.avatarPath],
+  canApplyReferralCode: (userId?: string) => ['user', userId, 'can-apply-referral-code'] as const,
 };
 
 export const useGetProfile = () => {
@@ -82,4 +84,11 @@ export const useGetAvatarUrl = ({
   }, [query.isSuccess, query.data]);
 
   return query;
+};
+
+export const useCanApplyReferralCode = (userId?: string) => {
+  return useQuery({
+    queryKey: userKeys.canApplyReferralCode(userId),
+    queryFn: getCanApplyReferralCode,
+  });
 };

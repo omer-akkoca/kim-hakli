@@ -15,8 +15,6 @@ export default function ReferralDeepLink() {
     }
   }, [ref]);
 
-  console.log('Referral code:', ref);
-
   return (
     <AppBackground>
       <AppLoading fullScreen />

@@ -1,14 +1,14 @@
 import { supabase } from '@/src/configs';
 import {
   DeleteAccountResponse,
-  genderType,
   IUser,
   UnlockedStory,
   UpdateProfileParams,
+  UpdateProfileResponse,
   UpdateReferralSourceParams,
   UserStoryStats,
 } from '@/src/types';
-import { DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '@/src/constants';
+import { CAN_APPLY_REFERRAL_CODE, COMPLETE_PROFILE, DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '@/src/constants';
 import { uploadAvatar } from './storage';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
@@ -68,29 +68,20 @@ export const updateProfile = async ({
   fullName,
   photo,
   gender,
-}: UpdateProfileParams): Promise<IUser> => {
-  const payload: {
-    full_name: string;
-    avatar_path?: string | null;
-    updated_at: string;
-    gender: genderType;
-  } = {
-    full_name: fullName,
-    gender: gender,
-    updated_at: new Date().toISOString(),
-  };
+  referralCode,
+}: UpdateProfileParams): Promise<UpdateProfileResponse> => {
+  let avatarPath: string | null | undefined;
 
   if (photo !== undefined) {
-    const avatarPath = await uploadAvatar(userId, photo);
-    payload.avatar_path = avatarPath;
+    avatarPath = await uploadAvatar(userId, photo);
   }
 
-  const { data, error } = await supabase
-    .from('users')
-    .update(payload)
-    .eq('id', userId)
-    .select()
-    .single();
+  const { data, error } = await supabase.rpc(COMPLETE_PROFILE, {
+    p_full_name: fullName,
+    p_gender: gender,
+    p_avatar_path: avatarPath,
+    p_referral_code: referralCode?.trim().toUpperCase() || null,
+  });
 
   if (error) {
     throw new Error(error.message || 'Profil güncellenemedi.');
@@ -109,4 +100,14 @@ export const getAvatarUrl = async (avatarPath: string): Promise<string> => {
   }
 
   return data.signedUrl;
+};
+
+export const getCanApplyReferralCode = async (): Promise<boolean> => {
+  const { data, error } = await supabase.rpc(CAN_APPLY_REFERRAL_CODE);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 };
