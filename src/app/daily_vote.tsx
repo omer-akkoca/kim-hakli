@@ -10,32 +10,18 @@ import {
   AppLoading,
   AppText,
   DetailPrimaryButton,
+  StoryCountDown,
   StoryDetailBg,
 } from '@/src/components';
 import { useGetClosingStory } from '@/src/actions';
 import { getCoverImageUrl } from '@/src/utils';
 import { colors, H, height } from '@/src/constants';
-import { useCountdown } from '@/src/hooks';
 
 const DailyVote = () => {
   const { bottom } = useSafeAreaInsets();
   const { replace } = useRouter();
 
   const { data, isLoading } = useGetClosingStory();
-
-  const countdown = useCountdown(data?.closed_at);
-
-  const countdownItems = countdown.isLessThan24Hours
-    ? [
-        { label: 'Saat', value: countdown.hours },
-        { label: 'Dakika', value: countdown.minutes },
-        { label: 'Saniye', value: countdown.seconds },
-      ]
-    : [
-        { label: 'Gün', value: countdown.days },
-        { label: 'Saat', value: countdown.hours },
-        { label: 'Dakika', value: countdown.minutes },
-      ];
 
   if (isLoading)
     return (
@@ -71,7 +57,7 @@ const DailyVote = () => {
               </AppText>
 
               <VStack space="md">
-                {!countdown.isFinished ? (
+                {data.status === 'closing' ? (
                   <AppText
                     size={H(16)}
                     lineHeight={H(22)}
@@ -81,45 +67,15 @@ const DailyVote = () => {
                     Oylama Kapanıyor
                   </AppText>
                 ) : null}
-                <HStack space="md" className="w-full">
-                  {countdown.isFinished ? (
-                    <AppCard className="w-full">
-                      <VStack className="items-center p-4">
-                        <AppText
-                          size={14}
-                          lineHeight={21}
-                          weight={600}
-                          className="text-primary-500"
-                        >
-                          Süre Doldu
-                        </AppText>
-                      </VStack>
-                    </AppCard>
-                  ) : (
-                    countdownItems.map((item) => (
-                      <AppCard key={item.label} className="flex-1">
-                        <VStack space="md" className="items-center p-4">
-                          <AppText
-                            size={30}
-                            weight={700}
-                            lineHeight={38}
-                            className="text-center text-primary-500"
-                          >
-                            {String(item.value).padStart(2, '0')}
-                          </AppText>
-                          <AppText
-                            size={H(19)}
-                            weight={500}
-                            lineHeight={H(25)}
-                            className="text-headline text-center"
-                          >
-                            {item.label}
-                          </AppText>
-                        </VStack>
-                      </AppCard>
-                    ))
-                  )}
-                </HStack>
+                <StoryCountDown closed_at={data.closed_at} status={data.status}>
+                  <AppCard className="w-full">
+                    <VStack className="items-center p-4">
+                      <AppText size={14} lineHeight={21} weight={600} className="text-primary-500">
+                        Süre Doldu
+                      </AppText>
+                    </VStack>
+                  </AppCard>
+                </StoryCountDown>
               </VStack>
             </VStack>
 

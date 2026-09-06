@@ -10,7 +10,9 @@ import {
   AppText,
   DetailPrimaryButton,
   DetailSecondaryButton,
+  HeaderTitle,
   ResultCard,
+  StoryCountDown,
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -106,40 +108,14 @@ const StoryVoteResultPage = () => {
           >
             SONUÇLAR
           </AppText>
-          <Box className="relative mb-2.5">
-            <AppText
-              family="PlayfairDisplay"
-              size={72}
-              weight={700}
-              lineHeight={74}
-              className="-tracking-3 text-headline text-center"
-              style={{
-                position: 'absolute',
-                textShadowColor: 'rgba(241,118,42,0.18)',
-                textShadowOffset: { width: 0, height: 0 },
-                textShadowRadius: 28,
-              }}
-            >
-              Karar Verildi!
+          <HeaderTitle
+            title={story.status === 'completed' ? 'Karar Verildi!' : 'Oylama Devam Ediyor'}
+          />
+          <StoryCountDown closed_at={story.closed_at} status={story.status}>
+            <AppText size={15} className="-tracking-1 text-headline/60 mb-6">
+              Topluluk oy verdi ve haklı olan belirlendi.
             </AppText>
-            <AppText
-              family="PlayfairDisplay"
-              size={72}
-              weight={700}
-              lineHeight={74}
-              className="-tracking-3 text-headline text-center"
-              style={{
-                textShadowColor: 'rgba(0,0,0,0.32)',
-                textShadowOffset: { width: 0, height: 8 },
-                textShadowRadius: 24,
-              }}
-            >
-              Karar Verildi!
-            </AppText>
-          </Box>
-          <AppText size={15} className="-tracking-1 text-headline/60 mb-6">
-            Topluluk oy verdi ve haklı olan belirlendi.
-          </AppText>
+          </StoryCountDown>
           <Box
             className="w-10 h-1 bg-primary-500 rounded-full "
             style={{ boxShadow: '0 0 14px rgba(241,118,42,0.26)' }}
