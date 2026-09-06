@@ -8,17 +8,21 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/src/store';
-import { useGetProfile } from '@/src/actions';
+import { useGetProfile, useSignOut } from '@/src/actions';
 import { Session } from '@supabase/supabase-js';
 import { createUser, onAuthStateChanged } from '@/src/services';
-import { useToast } from '@/src/hooks';
+import { useModal, useToast } from '@/src/hooks';
+import { Linking } from 'react-native';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
   const { show: showToast } = useToast();
+  const { show: showModal, hide } = useModal();
+
   const session = useAppSelector((state) => state.auth.session);
 
   const { mutateAsync } = useGetProfile();
+  const { mutate: logOut } = useSignOut();
 
   const handleAuthError = (title: string, description: string) => {
     dispatch(resetAuth());
@@ -49,6 +53,32 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       if (!user) {
         user = await createUser(sessionUser);
+      }
+
+      if (user && user.status === 'deleted') {
+        showModal({
+          noClosable: true,
+          title: 'Hesabınız Silinmiş',
+          subtitle:
+            'Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
+          buttons: [
+            {
+              label: 'Çıkış Yap',
+              onPress: () => {
+                logOut();
+                hide();
+              },
+            },
+            {
+              label: 'Hesabı Etkinleştir',
+              onPress() {
+                logOut();
+                hide();
+                Linking.openURL('https://kimhakli.tr/support');
+              },
+            },
+          ],
+        });
       }
 
       if (user) {

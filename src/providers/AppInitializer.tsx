@@ -3,6 +3,7 @@ import { Linking, Platform } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
 import { Image } from 'expo-image';
+import { usePathname } from 'expo-router';
 import { version } from '@/package.json';
 import { CrossVector } from '@/assets';
 import { Box } from '@/components/ui';
@@ -12,24 +13,22 @@ import {
   useGetBookmarkedStoryIds,
   useGetCategories,
   useSavePushToken,
-  useSignOut,
 } from '@/src/actions';
 import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
 import { AppLoading, DetailIconButton } from '@/src/components';
 import { useAppState, useAuth, useModal } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
 import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
-import { setHasSeenOnboarding, useAppDispatch } from '@/src/store';
+import { setHasSeenOnboarding, setHasSeenReward, useAppDispatch } from '@/src/store';
 import '@/src/configs/google';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
-  const { show, hide } = useModal();
   const [fontsLoaded] = useFonts(FONTS);
   const { user } = useAuth();
+  const { hasSeenOnboarding, hasSeenReward } = useAppState();
+  const pathName = usePathname();
+  const { show, hide } = useModal();
   const dispatch = useAppDispatch();
-  const { hasSeenOnboarding } = useAppState();
-
-  const { mutate: logOut } = useSignOut();
 
   const { data: appConfig, isLoading } = useGetAppConfig();
   useGetCategories();
@@ -40,14 +39,11 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
   const notificationRegistrationStarted = useRef(false);
 
-  const deletedAccount = user ? user.status === 'deleted' : false;
-
   const minimumVersion =
     Platform.OS === 'android' ? appConfig?.android_version : appConfig?.ios_version;
-  const isUpdateRequired =
-    !deletedAccount && !!minimumVersion && isVersionLower(version, minimumVersion);
+  const isUpdateRequired = !!minimumVersion && isVersionLower(version, minimumVersion);
 
-  const isRewardAvailable = !deletedAccount && !isUpdateRequired && hasSeenOnboarding;
+  const isRewardAvailable = pathName === '/home' && !hasSeenReward;
 
   // navigation bar style
   useEffect(() => {
@@ -65,35 +61,6 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
     initializeOnboarding();
   }, [dispatch]);
-
-  // silinmiş hesap uyarısı
-  useEffect(() => {
-    if (deletedAccount) {
-      show({
-        noClosable: true,
-        title: 'Hesabınız Silinmiş',
-        subtitle:
-          'Hesabınızı yeniden etkinleştirmek istiyorsanız destek sayfamız üzerinden bizimle iletişime geçebilirsiniz.',
-        buttons: [
-          {
-            label: 'Çıkış Yap',
-            onPress: () => {
-              logOut();
-              hide();
-            },
-          },
-          {
-            label: 'Hesabı Etkinleştir',
-            onPress() {
-              logOut();
-              hide();
-              Linking.openURL('https://kimhakli.tr/support');
-            },
-          },
-        ],
-      });
-    }
-  }, [deletedAccount]);
 
   // version kontrolü ve güncelleme uyarısı
   useEffect(() => {
@@ -139,6 +106,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   // aylık ödül popup'ı
   useEffect(() => {
     if (isRewardAvailable) {
+      dispatch(setHasSeenReward(true));
       const imageWidth = width * 0.9;
       const imageHeight = (imageWidth / 9) * 16;
       show({
