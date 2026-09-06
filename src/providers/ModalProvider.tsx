@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
-
 import { ButtonAction, ModalContext, ShowOptions } from '@/src/contexts';
 import {
   Modal,
@@ -12,23 +11,44 @@ import {
   Pressable,
   VStack,
 } from '@/components/ui';
-import { AppText } from '../components';
+import { AppText } from '@/src/components';
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [visible, setVisible] = useState(false);
-  const [options, setOptions] = useState<ShowOptions | null>(null);
+  const [modalQueue, setModalQueue] = useState<ShowOptions[]>([]);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const closingRef = useRef(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Kuyruktaki ilk modal ekranda gösterilir.
+  const options = modalQueue[0] ?? null;
+  const visible = Boolean(options) && !isClosing;
 
   const show = useCallback((opts: ShowOptions) => {
-    setOptions(opts);
-    setVisible(true);
+    setModalQueue((previousQueue) => [...previousQueue, opts]);
   }, []);
 
   const hide = useCallback(() => {
-    setVisible(false);
+    if (closingRef.current) {
+      return;
+    }
 
-    setTimeout(() => {
-      setOptions(null);
+    closingRef.current = true;
+    setIsClosing(true);
+
+    closeTimerRef.current = setTimeout(() => {
+      setModalQueue((previousQueue) => previousQueue.slice(1));
+      setIsClosing(false);
+      closingRef.current = false;
     }, 300);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
   }, []);
 
   const handleButtonPress = useCallback(
@@ -52,14 +72,14 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         <ModalBackdrop className="bg-modal-backdrop" />
 
         {hasCustomContent ? (
-          <ModalContent className="w-full bg-transparent p-0 border-0">
+          <ModalContent className="w-full border-0 bg-transparent p-0">
             <ModalBody className="w-full" style={{ padding: 0, margin: 0 }}>
               {options?.content}
             </ModalBody>
           </ModalContent>
         ) : (
           <ModalContent
-            className="bg-background-500 border border-white/10 rounded-4xl w-5/6"
+            className="w-5/6 rounded-4xl border border-white/10 bg-background-500"
             style={styles.modalShadow}
           >
             <>
@@ -68,7 +88,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                   size={22}
                   lineHeight={26}
                   weight={700}
-                  className="-tracking-2 text-modal-title text-center w-11/12 mx-auto"
+                  className="-tracking-2 mx-auto w-11/12 text-center text-modal-title"
                 >
                   {options?.title}
                 </AppText>
@@ -79,7 +99,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                   <AppText
                     size={14}
                     weight={400}
-                    className="-tracking-2 text-modal-desc text-center w-11/12 mx-auto"
+                    className="-tracking-2 mx-auto w-11/12 text-center text-modal-desc"
                   >
                     {options.subtitle}
                   </AppText>
@@ -96,10 +116,10 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                         <Pressable
                           key={`${btn.label}-${index}`}
                           onPress={() => handleButtonPress(btn)}
-                          className={`w-full h-modal-button items-center justify-center border rounded-[18px] ${
+                          className={`h-modal-button w-full items-center justify-center rounded-[18px] border ${
                             isPrimary
-                              ? 'bg-primary-500 border-transparent'
-                              : 'bg-white/5 border-white/10'
+                              ? 'border-transparent bg-primary-500'
+                              : 'border-white/10 bg-white/5'
                           }`}
                         >
                           <AppText
