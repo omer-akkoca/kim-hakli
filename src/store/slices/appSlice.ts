@@ -4,12 +4,14 @@ interface AppState {
   toStoryDetail: string;
   hasSeenOnboarding: boolean | null;
   hasSeenReward: boolean;
+  refCode: string | null;
 }
 
 const initialState: AppState = {
   toStoryDetail: '',
   hasSeenOnboarding: null,
   hasSeenReward: false,
+  refCode: null,
 };
 
 const appSlice = createSlice({
@@ -25,8 +27,11 @@ const appSlice = createSlice({
     setHasSeenReward(state, action: PayloadAction<boolean>) {
       state.hasSeenReward = action.payload;
     },
+    setRefCode(state, action: PayloadAction<string>) {
+      state.refCode = action.payload;
+    },
   },
 });
 
-export const { setToStoryDetail, setHasSeenOnboarding, setHasSeenReward } = appSlice.actions;
+export const { setToStoryDetail, setHasSeenOnboarding, setHasSeenReward, setRefCode } = appSlice.actions;
 export const appReducer = appSlice.reducer;

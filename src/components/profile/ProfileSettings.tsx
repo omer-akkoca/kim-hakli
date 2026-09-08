@@ -1,22 +1,24 @@
 import React, { useMemo, useState } from 'react';
 import { TextInput } from 'react-native';
 import { ImagePickerAsset } from 'expo-image-picker';
+import * as Clipboard from 'expo-clipboard';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DeleteVector, EditVector, LOGO, SaveVector } from '@/assets';
+import { DeleteVector, EditVector, LOGO, PasteVector, SaveVector } from '@/assets';
 import { Avatar, AvatarImage, Box, Divider, HStack, VStack } from '@/components/ui';
 import { genderType } from '@/src/types';
 import { useCanApplyReferralCode, useUpdateProfile } from '@/src/actions';
 import { pickProfileImage } from '@/src/utils';
 import { setUser, useAppDispatch, useAppSelector } from '@/src/store';
 import { ProfileFormValues, profileSchema } from '@/src/schemas';
-import { useToast } from '@/src/hooks';
+import { useAppState, useToast } from '@/src/hooks';
 import { DetailIconButton, DetailPrimaryButton, DetailSecondaryButton } from '../story';
 import { AppText } from '../ui/AppText';
 import { AppCard } from '../ui/AppCard';
 import { colors } from '@/src/constants';
 import { AppAlert } from '../ui/AppAlert';
 import { AppLoading } from '../ui/AppLoading';
+import { AppIconButton } from '../ui/AppIconButton';
 
 interface ProfileSettingsProps {
   onSave?: () => void;
@@ -25,6 +27,7 @@ interface ProfileSettingsProps {
 const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
   const dispatch = useAppDispatch();
   const { show } = useToast();
+  const { refCode } = useAppState();
 
   const { user, profile_photo } = useAppSelector((state) => state.auth);
 
@@ -36,12 +39,13 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
     handleSubmit,
     reset,
     formState: { isValid, isSubmitting },
+    setValue,
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     mode: 'onChange',
     defaultValues: {
       fullName: user?.full_name ?? '',
-      referralCode: '',
+      referralCode: refCode ?? '',
     },
   });
 
@@ -64,6 +68,13 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
         title: 'Hata',
         description: 'Fotoğraf seçiminde bir hata meydana geldi.',
       });
+    }
+  };
+
+  const handlePasteRefCode = async () => {
+    const copiedRefCode = await Clipboard.getStringAsync();
+    if (copiedRefCode) {
+      setValue('referralCode', copiedRefCode);
     }
   };
 
@@ -196,15 +207,25 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
               <>
                 <AppCard>
-                  <TextInput
-                    className="p-4 m-0 text-headline"
-                    style={{ fontFamily: 'Inter-Medium' }}
-                    placeholderTextColor={colors.whiteSmoke_50}
-                    placeholder={'Referans kodunuzu giriniz...'}
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                  />
+                  <HStack className="flex-1 items-center justify-center px-4">
+                    <TextInput
+                      className="flex-1 px-0 py-4 m-0 text-headline"
+                      style={{ fontFamily: 'Inter-Medium' }}
+                      placeholderTextColor={colors.whiteSmoke_50}
+                      placeholder={'Referans kodunuzu giriniz...'}
+                      value={value}
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                    />
+                    <AppIconButton
+                      icon={PasteVector}
+                      onPress={handlePasteRefCode}
+                      color={colors.whiteSmoke_50}
+                      width={20}
+                      height={20}
+                    />
+                    ,
+                  </HStack>
                 </AppCard>
                 <AppAlert
                   message={
