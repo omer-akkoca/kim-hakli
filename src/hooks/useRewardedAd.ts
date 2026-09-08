@@ -10,7 +10,6 @@ import { ADS } from '@/src/constants';
 import { supabase } from '@/src/configs';
 import { useToast } from '@/src/hooks/useToast';
 import { increaseCredit } from '@/src/store/slices/authSlice';
-import { useReward } from './useReward';
 
 type AdRewardResult = {
   success: boolean;
@@ -21,14 +20,10 @@ type AdRewardResult = {
 export const useRewardedAd = () => {
   const dispatch = useDispatch();
   const { show } = useToast();
-  const { showReward } = useReward();
 
   const rewardedAdRef = useRef(
     RewardedAd.createForAdRequest(ADS.rewarded),
   );
-
-  const adClosedRef = useRef(false);
-  const shouldShowRewardRef = useRef(false);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isWatching, setIsWatching] = useState(false);
@@ -43,18 +38,6 @@ export const useRewardedAd = () => {
     const loadAd = () => {
       setIsLoaded(false);
       rewardedAd.load();
-    };
-
-    const showRewardAfterAdClosed = () => {
-      if (!adClosedRef.current || !shouldShowRewardRef.current) {
-        return;
-      }
-
-      shouldShowRewardRef.current = false;
-
-      setTimeout(() => {
-        showReward({ amount: 3 });
-      }, 350);
     };
 
     const unsubscribeLoaded = rewardedAd.addAdEventListener(
@@ -88,8 +71,11 @@ export const useRewardedAd = () => {
         if (result.success) {
           dispatch(increaseCredit(3));
 
-          shouldShowRewardRef.current = true;
-          showRewardAfterAdClosed();
+          show({
+            type: 'success',
+            title: '+3 kredi kazandın!',
+            description: `Bugün ${result.remaining_ads} reklam hakkın kaldı.`,
+          });
 
           return;
         }
@@ -105,10 +91,7 @@ export const useRewardedAd = () => {
     const unsubscribeClosed = rewardedAd.addAdEventListener(
       AdEventType.CLOSED,
       () => {
-        adClosedRef.current = true;
         setIsWatching(false);
-
-        showRewardAfterAdClosed();
         loadAd();
       },
     );
@@ -129,15 +112,13 @@ export const useRewardedAd = () => {
       unsubscribeClosed();
       unsubscribeError();
     };
-  }, [dispatch, show, showReward]);
+  }, [dispatch, show]);
 
   const watchAndEarn = async () => {
     if (isDisabled) {
       return;
     }
 
-    adClosedRef.current = false;
-    shouldShowRewardRef.current = false;
 
     setIsWatching(true);
     setIsLoaded(false);
