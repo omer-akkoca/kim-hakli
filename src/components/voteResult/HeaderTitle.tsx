@@ -8,7 +8,7 @@ interface HeaderTitleProps {
 
 const HeaderTitle: React.FC<HeaderTitleProps> = ({ title }) => {
   return (
-    <Box className="relative mb-2.5">
+    <Box className="relative">
       <AppText
         family="PlayfairDisplay"
         size={72}

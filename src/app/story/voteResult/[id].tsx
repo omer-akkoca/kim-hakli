@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
-import { Box, Divider, HStack, VStack } from '@/components/ui';
+import { Box, Divider, VStack } from '@/components/ui';
 import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
 import {
   AppBackground,
   AppBannerAd,
-  AppCard,
   AppLoading,
   AppScrollView,
   AppText,
@@ -13,12 +12,13 @@ import {
   HeaderTitle,
   ResultCard,
   StoryCountDown,
+  VoteCountCard,
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { RightChevronVector, ShareVector, UsersVector } from '@/assets';
-import { ADS, colors } from '@/src/constants';
-import { formatStoryVoteCount, handleShareStory, requestNativeAppReview } from '@/src/utils';
+import { RightChevronVector, ShareVector } from '@/assets';
+import { ADS } from '@/src/constants';
+import { handleShareStory, requestNativeAppReview } from '@/src/utils';
 import { useAppSelector } from '@/src/store';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 
@@ -95,11 +95,11 @@ const StoryVoteResultPage = () => {
         loading={statsLoading}
         onRefresh={refetch}
       >
-        <Box className="items-center justify-center mb-10">
+        <VStack space="xl" className="w-full mb-6">
           <AppText
             size={15}
             weight={700}
-            className="tracking-10 text-primary-500 text-center mb-3"
+            className="tracking-10 text-primary-500 text-center"
             style={{
               textShadowColor: 'rgba(241,118,42,0.22)',
               textShadowOffset: { width: 0, height: 0 },
@@ -112,53 +112,24 @@ const StoryVoteResultPage = () => {
             title={story.status === 'completed' ? 'Karar Verildi!' : 'Oylama Devam Ediyor'}
           />
           <StoryCountDown closed_at={story.closed_at} status={story.status}>
-            <AppText size={15} className="-tracking-1 text-headline/60 mb-6">
+            <AppText size={15} className="-tracking-1 text-headline/60 text-center">
               Topluluk oy verdi ve haklı olan belirlendi.
             </AppText>
           </StoryCountDown>
           <Box
-            className="w-10 h-1 bg-primary-500 rounded-full "
+            className="w-10 h-1 bg-primary-500 rounded-full self-center"
             style={{ boxShadow: '0 0 14px rgba(241,118,42,0.26)' }}
           />
-        </Box>
-        <VStack space="md" className="w-full">
+        </VStack>
+        <VStack space="md" className="w-full mb-6">
           {winner ? <WinnerResultCard winner={winner} /> : null}
           {restSides.map((e, i) => (
             <ResultCard key={i.toString()} side={e} />
           ))}
-          <AppCard>
-            <HStack className="items-center justify-between px-4 py-2">
-              <HStack space="md" className="items-center">
-                <Box className="w-12 h-12 bg-background-500 rounded-lg items-center justify-center">
-                  <UsersVector width={20} height={20} color={colors.primary} />
-                </Box>
-                <AppText
-                  size={14}
-                  lineHeight={20}
-                  weight={500}
-                  className="-tracking-1 text-whiteSmoke-500"
-                >
-                  Toplam Oy
-                </AppText>
-              </HStack>
-              <AppText
-                size={28}
-                lineHeight={34}
-                weight={800}
-                className="-tracking-4 text-headline"
-                style={{
-                  textShadowColor: 'rgba(0,0,0,0.22)',
-                  textShadowOffset: { width: 0, height: 4 },
-                  textShadowRadius: 12,
-                }}
-              >
-                {formatStoryVoteCount(totalVote)}
-              </AppText>
-            </HStack>
-          </AppCard>
+          <VoteCountCard voteCount={totalVote} />
         </VStack>
-        <Divider className="h-[1px] w-full bg-white/10 my-4" />
-        <VStack space="lg">
+        <Divider className="h-[1px] w-full bg-white/10 mb-6" />
+        <VStack space="lg" className="mb-6">
           <DetailPrimaryButton
             icon={ShareVector}
             label="Paylaş"
@@ -170,10 +141,7 @@ const StoryVoteResultPage = () => {
             onPress={handleContinue}
           />
         </VStack>
-        <Divider className="h-[1px] w-full bg-white/10 my-4" />
-        <Box className="-mx-6">
-          <AppBannerAd unitId={ADS.banner.vote_result} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
-        </Box>
+        <AppBannerAd unitId={ADS.banner.vote_result} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
       </AppScrollView>
     </AppBackground>
   );

@@ -30,7 +30,7 @@ const StoryCountDown: React.FC<StoryCountDownProps> = ({ closed_at, status, chil
   }
 
   return (
-    <HStack space="md" className="w-full my-6">
+    <HStack space="md" className="w-full">
       {countdownItems.map((item) => (
         <AppCard key={item.label} className="flex-1">
           <VStack space="md" className="items-center p-4">
