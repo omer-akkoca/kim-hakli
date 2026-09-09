@@ -202,7 +202,7 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
   const { data, error } = await supabase
     .from('stories')
     .select('*')
-    .eq('status', 'published')
+    .in('status', ['published', 'closing', 'completed'])
     .ilike('title', `%${trimmedQuery}%`)
     .order('created_at', {
       ascending: false,
