@@ -10,3 +10,10 @@ export interface VoteHistory {
   total_vote_count: number;
   same_vote_percentage: number;
 }
+
+export interface IVotedSide {
+  avatar_path: string;
+  avatar_url: string;
+  side_id: string;
+  title: string;
+}

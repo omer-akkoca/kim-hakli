@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { Box, Divider, VStack } from '@/components/ui';
-import { useGetStoryById, useGetStoryImageUrls, useGetStoryVoteResults } from '@/src/actions';
+import {
+  useGetStoryById,
+  useGetStoryImageUrls,
+  useGetStoryVoteResults,
+  useGetVotedStorySideId,
+} from '@/src/actions';
 import {
   AppBackground,
   AppBannerAd,
@@ -13,6 +18,7 @@ import {
   ResultCard,
   StoryCountDown,
   VoteCountCard,
+  VotedSideCard,
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -26,10 +32,12 @@ const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { replace, dismissTo } = useRouter();
 
+  const user = useAppSelector((state) => state.auth.user);
   const toStoryDetail = useAppSelector((state) => state.app.toStoryDetail);
 
   const { data: story } = useGetStoryById(id);
   const { data: stats = [], isPending: statsLoading, refetch } = useGetStoryVoteResults(id);
+  const { data: votedSideId } = useGetVotedStorySideId(story?.id, user?.id);
 
   const avatarPaths = useMemo(
     () => stats?.map((item) => item.avatar_path).filter(Boolean) ?? [],
@@ -57,6 +65,8 @@ const StoryVoteResultPage = () => {
     if (!winner) return resultsWithAvatar;
     return resultsWithAvatar.filter((e) => e.side_id !== winner.side_id);
   }, [resultsWithAvatar]);
+
+  const votedSide = votedSideId ? resultsWithAvatar.find((e) => e.side_id === votedSideId) : null;
 
   const handleContinue = () => {
     if (toStoryDetail) {
@@ -126,6 +136,7 @@ const StoryVoteResultPage = () => {
           {restSides.map((e, i) => (
             <ResultCard key={i.toString()} side={e} />
           ))}
+          {votedSide ? <VotedSideCard side={votedSide} /> : null}
           <VoteCountCard voteCount={totalVote} />
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 mb-6" />

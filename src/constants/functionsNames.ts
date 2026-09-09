@@ -12,3 +12,4 @@ export const GET_ALL_TIME_LEADERBOARD = "get_all_time_leaderboard"
 export const GET_MONTHLY_LEADERBOARD = "get_monthly_leaderboard"
 export const COMPLETE_PROFILE = "complete_profile"
 export const CAN_APPLY_REFERRAL_CODE = "can_apply_referral_code";
+export const GET_MY_STORY_VOTE_SIDE_ID = "get_my_story_vote_side_id";
