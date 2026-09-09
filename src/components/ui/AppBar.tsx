@@ -4,15 +4,17 @@ import { appBarHeight, colors } from '@/src/constants';
 import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CreditLabel } from './CreditLabel';
-import { LeftChevronVector } from '@/assets';
+import { LeftChevronVector, LOGO } from '@/assets';
 import { useRouter } from 'expo-router';
 import { AppText } from './AppText';
 import { AppIconButton } from './AppIconButton';
 import { useAppSelector } from '@/src/store';
+import { Image } from 'expo-image';
 
 interface IAppBar extends PropsWithChildren {
   backIcon?: boolean;
   creditLabel?: boolean;
+  showLogo?: boolean;
   title?: string;
   leading?: React.ReactNode;
   actions?: React.ReactNode[];
@@ -22,6 +24,7 @@ const AppBar: React.FC<IAppBar> = ({
   backIcon,
   creditLabel,
   leading,
+  showLogo = false,
   title,
   actions = [],
   children,
@@ -83,9 +86,21 @@ const AppBar: React.FC<IAppBar> = ({
                           />
                         ) : null}
                         {title ? (
-                          <AppText size={18} weight={700} className="text-headline">
-                            {title}
-                          </AppText>
+                          <HStack space="sm" className="items-center">
+                            {showLogo ? (
+                              <Image
+                                source={LOGO}
+                                contentFit="cover"
+                                cachePolicy="memory-disk"
+                                transition={200}
+                                recyclingKey={'logo'}
+                                style={{ width: 36, height: 36, borderRadius: 8 }}
+                              />
+                            ) : null}
+                            <AppText size={18} weight={700} className="text-headline">
+                              {title}
+                            </AppText>
+                          </HStack>
                         ) : null}
                       </HStack>
                     )}

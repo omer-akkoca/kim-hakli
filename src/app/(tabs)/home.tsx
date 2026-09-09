@@ -53,7 +53,7 @@ const HomePage = () => {
 
   return (
     <AppBackground>
-      <AppBar creditLabel title="Kim Haklı?" />
+      <AppBar showLogo title="Kim Haklı?" creditLabel />
       <Box className="flex-1">
         <AppScrollView safeBottom safeBottomNav bottomPadding topPadding>
           <VStack space="xl">
