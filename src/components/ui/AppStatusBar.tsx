@@ -6,15 +6,7 @@ interface AppStatusBarProps {
 }
 
 const AppStatusBar: React.FC<AppStatusBarProps> = ({ hidden = false }) => {
-  return (
-    <StatusBar
-      translucent
-      backgroundColor="transparent"
-      animated
-      barStyle={'light-content'}
-      hidden={hidden}
-    />
-  );
+  return <StatusBar animated barStyle="light-content" hidden={hidden} />;
 };
 
 export { AppStatusBar };
