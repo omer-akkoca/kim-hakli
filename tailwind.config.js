@@ -24,12 +24,12 @@ module.exports = {
         subText: 'rgba(245,245,245,0.42)',
         apple: '#000000',
         like: '#FF3040',
-        'bottom-nav-bar': 'rgba(16,18,28,0.92)',
+        'bottom-nav-bar': 'rgba(28, 31, 48, 0.78)',
+        'app-bar': 'rgba(28, 31, 48, 0.78)',
         'dreamless-sleep': 'rgb(17 17 17 / <alpha-value>)',
         'modal-title': '#f5f5f5',
         'modal-desc': 'rgba(245,245,245,0.78)',
         'modal-backdrop': 'rgba(0,0,0,0.58)',
-        'app-bar': 'rgba(28, 31, 48, 0.78)',
         'credit-label': 'rgba(16,18,28,0.82)',
         'credit-bg': 'rgba(16, 18, 28, 0.78)',
         'credit-border': 'rgba(241, 118, 42, 0.32)',
@@ -266,7 +266,6 @@ module.exports = {
       },
       borderRadius: {
         button: '12px',
-        'bottom-nav-bar': '32px',
         '4xl': '28px',
       },
       padding: {
