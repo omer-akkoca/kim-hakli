@@ -1,8 +1,8 @@
-import { Center, HStack, LinearGradient, Pressable } from '@/components/ui';
-import { colors } from '@/src/constants';
-import { BlurView } from 'expo-blur';
 import React from 'react';
 import { SvgProps } from 'react-native-svg';
+import { Box, Center, HStack, LinearGradient, Pressable } from '@/components/ui';
+import { colors } from '@/src/constants';
+import { commonStyles } from '@/src/styles';
 import { AppText } from '../ui/AppText';
 import { AppLoading } from '../ui/AppLoading';
 
@@ -16,21 +16,18 @@ const DetailIconButton: React.FC<DetailIconButtonProps> = ({ icon: Icon, onPress
   return (
     <Pressable
       onPress={onPress}
-      className="bg-background-500/75 rounded-full border border-white/10 overflow-hidden disabled:opacity-50"
-      style={{ height: 48, width: 48, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      className="bg-background-500/75 rounded-full border border-white/5 overflow-hidden disabled:opacity-50"
+      style={{
+        height: 48,
+        width: 48,
+        borderWidth: 1.75,
+        boxShadow: '0 10px 15px rgba(0,0,0,0.18)',
+      }}
       disabled={disabled}
     >
-      <BlurView intensity={18} tint="dark" className="flex-1">
-        <LinearGradient
-          colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
-          locations={[0, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          className="flex-1 items-center justify-center"
-        >
-          <Icon width={26} height={26} color={colors.headline} />
-        </LinearGradient>
-      </BlurView>
+      <Box className="flex-1 items-center justify-center">
+        <Icon width={26} height={26} color={colors.headline} />
+      </Box>
     </Pressable>
   );
 };
@@ -57,8 +54,8 @@ const DetailPrimaryButton: React.FC<DetailButtonProps> = ({
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="h-button rounded-button overflow-hidden disabled:opacity-50"
-      style={{ flex: flex ? 1 : undefined, boxShadow: '0 14px 40px rgba(241,118,42,0.22)' }}
+      className="h-button rounded-xl overflow-hidden disabled:opacity-50"
+      style={[{ flex: flex ? 1 : undefined }, commonStyles.barShadow]}
       disabled={disabled}
     >
       <LinearGradient
@@ -108,35 +105,26 @@ const DetailSecondaryButton: React.FC<DetailButtonProps> = ({
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="h-button bg-detail-secondary-button rounded-button border border-white/10 overflow-hidden disabled:opacity-50"
-      style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 24px rgba(0,0,0,0.18)' }}
+      className="h-button bg-detail-secondary-button rounded-xl border border-white/10 overflow-hidden disabled:opacity-50"
+      style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 15px rgba(0,0,0,0.18)' }}
       disabled={disabled}
     >
-      <BlurView intensity={18} tint="dark" className="flex-1 relative">
-        {loading ? (
-          <AppLoading fullScreen color={colors.headline} size={'small'} />
-        ) : (
-          <HStack
-            space="md"
-            className="flex-1 items-center justify-center z-20"
-            style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
-          >
-            <Center className="w-9 h-9 bg-white/5 rounded-full border border-white/15">
-              <Icon width={16} height={16} color={colors.headline} />
-            </Center>
-            <AppText size={16} lineHeight={20} weight={600} className="text-headline -tracking-2">
-              {label}
-            </AppText>
-          </HStack>
-        )}
-        <LinearGradient
-          colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
-          locations={[0, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          className="absolute inset-0 h-2 top-1 z-10"
-        />
-      </BlurView>
+      {loading ? (
+        <AppLoading fullScreen color={colors.headline} size={'small'} />
+      ) : (
+        <HStack
+          space="md"
+          className="flex-1 items-center justify-center z-20"
+          style={{ flexDirection: reverse ? 'row-reverse' : 'row' }}
+        >
+          <Center className="w-9 h-9 bg-white/5 rounded-full border border-white/15">
+            <Icon width={16} height={16} color={colors.headline} />
+          </Center>
+          <AppText size={16} lineHeight={20} weight={600} className="text-headline -tracking-2">
+            {label}
+          </AppText>
+        </HStack>
+      )}
     </Pressable>
   );
 };
