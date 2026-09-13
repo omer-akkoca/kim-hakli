@@ -18,7 +18,6 @@ import {
   ResultCard,
   StoryCountDown,
   VoteCountCard,
-  VotedSideCard,
   WinnerResultCard,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -65,8 +64,6 @@ const StoryVoteResultPage = () => {
     if (!winner) return resultsWithAvatar;
     return resultsWithAvatar.filter((e) => e.side_id !== winner.side_id);
   }, [resultsWithAvatar]);
-
-  const votedSide = votedSideId ? resultsWithAvatar.find((e) => e.side_id === votedSideId) : null;
 
   const handleContinue = () => {
     if (toStoryDetail) {
@@ -132,11 +129,10 @@ const StoryVoteResultPage = () => {
           />
         </VStack>
         <VStack space="md" className="w-full mb-6">
-          {winner ? <WinnerResultCard winner={winner} /> : null}
+          {winner ? <WinnerResultCard winner={winner} votedId={votedSideId} /> : null}
           {restSides.map((e, i) => (
-            <ResultCard key={i.toString()} side={e} />
+            <ResultCard key={i.toString()} side={e} votedId={votedSideId} />
           ))}
-          {votedSide ? <VotedSideCard side={votedSide} /> : null}
           <VoteCountCard voteCount={totalVote} />
         </VStack>
         <Divider className="h-[1px] w-full bg-white/10 mb-6" />

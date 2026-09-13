@@ -1,10 +1,10 @@
 import React from 'react';
-import { AppCard } from '../ui/AppCard';
-import { Box, HStack } from '@/components/ui';
 import { UsersVector } from '@/assets';
-import { AppText } from '../ui/AppText';
-import { formatStoryVoteCount } from '@/src/utils';
+import { HStack } from '@/components/ui';
 import { colors } from '@/src/constants';
+import { formatStoryVoteCount } from '@/src/utils';
+import { AppCard } from '../ui/AppCard';
+import { AppText } from '../ui/AppText';
 
 interface VoteCountCardProps {
   voteCount: number;
@@ -13,11 +13,9 @@ interface VoteCountCardProps {
 const VoteCountCard: React.FC<VoteCountCardProps> = ({ voteCount }) => {
   return (
     <AppCard>
-      <HStack className="items-center justify-between px-4 py-2">
+      <HStack className="items-center justify-between px-4 py-3">
         <HStack space="md" className="items-center">
-          <Box className="w-12 h-12 bg-background-500 rounded-lg items-center justify-center">
-            <UsersVector width={20} height={20} color={colors.primary} />
-          </Box>
+          <UsersVector width={20} height={20} color={colors.primary} />
           <AppText
             size={14}
             lineHeight={20}
