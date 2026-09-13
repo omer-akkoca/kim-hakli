@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { bottomBarHeight, colors } from '@/src/constants';
+import { colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
@@ -10,7 +10,6 @@ interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
   safeTop?: boolean;
   bottomPadding?: boolean;
   safeBottom?: boolean;
-  safeBottomNav?: boolean;
   paddingHorizontal?: number;
   gap?: number;
 }
@@ -22,7 +21,6 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
   safeTop,
   bottomPadding = false,
   safeBottom,
-  safeBottomNav,
   paddingHorizontal,
   gap,
   ...props
@@ -40,9 +38,8 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
     let padding = 0;
     if (bottomPadding) padding += 24;
     if (safeBottom) padding += bottom;
-    if (safeBottomNav) padding += bottomBarHeight;
     return padding;
-  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
+  }, [bottomPadding, safeBottom, bottom]);
 
   return (
     <ScrollView

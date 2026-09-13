@@ -113,8 +113,6 @@ const DiscoverPage = () => {
             noContentText="Uygun kriterlere uygun hikaye bulunamadı."
             paddingHorizontal={24}
             topPadding
-            safeBottom
-            safeBottomNav
             bottomPadding
             gap={8}
             onEndReached={() => {

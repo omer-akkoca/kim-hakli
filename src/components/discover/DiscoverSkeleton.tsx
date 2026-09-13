@@ -17,8 +17,6 @@ const DiscoverSkeleton: React.FC = () => {
       numColumns={2}
       paddingHorizontal={24}
       topPadding
-      safeBottom
-      safeBottomNav
       bottomPadding
       gap={8}
     />

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { FlatList, Platform, RefreshControl } from 'react-native';
 import { AppText } from './AppText';
-import { bottomBarHeight, colors } from '@/src/constants';
+import { colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type AppFlatListOmittedProps =
@@ -23,7 +23,6 @@ interface AppFlatListProps<T> extends Omit<
   safeTop?: boolean;
   bottomPadding?: boolean;
   safeBottom?: boolean;
-  safeBottomNav?: boolean;
   paddingHorizontal?: number;
   gap?: number;
 }
@@ -37,7 +36,6 @@ const AppFlatList = <T,>({
   safeTop,
   bottomPadding,
   safeBottom,
-  safeBottomNav,
   paddingHorizontal,
   gap,
   ...props
@@ -55,9 +53,8 @@ const AppFlatList = <T,>({
     let padding = 0;
     if (bottomPadding) padding += 24;
     if (safeBottom) padding += bottom;
-    if (safeBottomNav) padding += bottomBarHeight;
     return padding;
-  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
+  }, [bottomPadding, safeBottom, bottom]);
 
   const ListEmptyComponent = useMemo(() => {
     if (loading || !noContentText) return undefined;

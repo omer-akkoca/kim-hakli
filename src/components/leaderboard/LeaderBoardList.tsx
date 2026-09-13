@@ -87,9 +87,7 @@ const LeaderBoardList: React.FC<LeaderBoardListProps> = ({
       ItemSeparatorComponent={ItemSeparatorComponent}
       refreshing={isRefetching}
       onRefresh={refetch}
-      safeBottom
       bottomPadding
-      safeBottomNav
       topPadding
       paddingHorizontal={24}
     />

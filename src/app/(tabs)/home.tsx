@@ -55,7 +55,7 @@ const HomePage = () => {
     <AppBackground>
       <AppBar showLogo title="Kim Haklı?" creditLabel />
       <Box className="flex-1">
-        <AppScrollView safeBottom safeBottomNav bottomPadding topPadding>
+        <AppScrollView bottomPadding topPadding>
           <VStack space="xl">
             <HomeSlider />
             {isLoading ? (
