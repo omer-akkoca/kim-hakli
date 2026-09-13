@@ -41,7 +41,7 @@ export default function ProfilePage() {
     <AppBackground>
       <AppScrollView safeTop topPadding bottomPadding safeBottomNav safeBottom>
         <Box className="items-center justify-center py-8 gap-6">
-          <ProfileAvatar />
+          <ProfileAvatar size={128} shadow borderWidth={2} borderColor={colors.primary} />
           <AppText size={26} lineHeight={32} weight={700} className="text-headline -tracking-4">
             {user?.full_name ?? 'Kim Haklı Üyesi'}
           </AppText>
