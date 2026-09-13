@@ -15,7 +15,7 @@ import {
   AppText,
   MonthlyLeaderboard,
 } from '@/src/components';
-import { appBarHeight } from '@/src/constants';
+import { appBarHeight, colors } from '@/src/constants';
 
 type LeaderboardRoute = {
   key: 'all' | 'month';
@@ -89,9 +89,8 @@ const LeaderboardTabBar: React.FC<LeaderboardTabBarProps> = ({ navigationState, 
                 bottom: 0,
                 left: 0,
                 width: tabWidth,
-                height: 2,
-                borderRadius: 99,
-                backgroundColor: '#F1762A',
+                height: 1.75,
+                backgroundColor: colors.primary,
               },
               indicatorStyle,
             ]}
