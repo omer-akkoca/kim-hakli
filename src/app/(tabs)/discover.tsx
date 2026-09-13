@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SearchMagnifyingVector } from '@/assets';
+import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { Box } from '@/components/ui';
 import { GetStoriesParams } from '@/src/types';
 import {
@@ -11,7 +11,6 @@ import {
   AppIconButton,
   AppLoading,
   DiscoverFilterDrawer,
-  DiscoverFilterTabs,
   DiscoverListItem,
   DiscoverNativeAd,
   DiscoverSkeleton,
@@ -86,14 +85,16 @@ const DiscoverPage = () => {
             height={20}
             color={colors.headline}
           />,
+          <AppIconButton
+            key={'filter'}
+            icon={FilterVector}
+            onPress={() => setShowDrawer(true)}
+            width={20}
+            height={20}
+            color={colors.headline}
+          />,
         ]}
-      >
-        <DiscoverFilterTabs
-          filters={filters}
-          setFilters={setFilters}
-          setShowDrawer={setShowDrawer}
-        />
-      </AppBar>
+      />
       <Box className="w-full flex-1">
         {isLoading ? (
           <DiscoverSkeleton />
