@@ -79,8 +79,9 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
         >
           <VStack className="flex-1 p-4 justify-between">
             <HStack className="items-center justify-between">
-              <CreditBadge credit={story.credit_cost} withBg />
-
+              {story.status !== 'completed' ? (
+                <CreditBadge credit={story.credit_cost} withBg />
+              ) : null}
               {user ? (
                 <AppIconButton
                   icon={BookmarkIcon}
