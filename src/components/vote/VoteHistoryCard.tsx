@@ -1,21 +1,21 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Image } from 'expo-image';
+import { usePathname, useRouter } from 'expo-router';
+import { CalendarVector, UsersVector } from '@/assets';
 import { HStack, VStack } from '@/components/ui';
 import { VoteHistory } from '@/src/types';
-import { AppText } from '../ui/AppText';
-import { CalendarVector, UsersVector } from '@/assets';
-import { colors } from '@/src/constants';
 import { getCoverImageUrl, timeAgo } from '@/src/utils';
-import { usePathname, useRouter } from 'expo-router';
-import { AppCard } from '../ui/AppCard';
-import { Image } from 'expo-image';
-import { useDispatch } from 'react-redux';
 import { setToStoryDetail } from '@/src/store';
+import { useTheme } from '@/src/hooks';
+import { AppCard, AppText } from '../ui';
 
 interface VoteHistoryCardProps {
   voteHistory: VoteHistory;
 }
 
 const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
+  const { colors } = useTheme();
   const { navigate } = useRouter();
   const pathName = usePathname();
   const dispatch = useDispatch();
@@ -43,31 +43,32 @@ const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
             size={16}
             lineHeight={22}
             weight={600}
-            className="text-headline -tracking-2"
+            color="headline"
+            className="-tracking-2"
             numberOfLines={1}
           >
             {voteHistory.story_title}
           </AppText>
-          <AppText size={12} lineHeight={18} className="text-whiteSmoke-500/75">
+          <AppText size={12} lineHeight={18} color="headline_75">
             Sen{' '}
-            <AppText size={12} lineHeight={18} className="text-primary-500" weight={500}>
+            <AppText size={12} lineHeight={18} color="primary" weight={500}>
               {voteHistory.side_title}
             </AppText>{' '}
             tarafını seçtin
           </AppText>
           <HStack space="sm" className="items-center">
-            <UsersVector width={14} height={14} color={colors.whiteSmoke_50} />
-            <AppText size={12} lineHeight={14} className="flex-1 text-whiteSmoke-500/50">
+            <UsersVector width={14} height={14} color={colors.headline_50} />
+            <AppText size={12} lineHeight={14} color="headline_50" className="flex-1">
               Topluluk{' '}
-              <AppText size={12} lineHeight={14} className="text-primary-500">
+              <AppText size={12} lineHeight={14} color="primary">
                 {voteHistory.same_vote_percentage}% {voteHistory.side_title}
               </AppText>{' '}
               dedi.
             </AppText>
           </HStack>
           <HStack space="sm">
-            <CalendarVector width={14} height={14} color={colors.whiteSmoke_50} />
-            <AppText size={12} lineHeight={14} className="flex-1 text-whiteSmoke-500/50">
+            <CalendarVector width={14} height={14} color={colors.headline_50} />
+            <AppText size={12} lineHeight={14} color="headline_50" className="flex-1">
               {timeAgo(voteHistory.voted_at)}
             </AppText>
           </HStack>

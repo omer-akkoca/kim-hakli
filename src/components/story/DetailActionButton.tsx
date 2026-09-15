@@ -5,7 +5,7 @@ import { GetStoryAccessResponse, IStory } from '@/src/types';
 import { useUnlockStory } from '@/src/actions/story';
 import { useAuth, useModal, useToast } from '@/src/hooks';
 import { decreaseCredit, useAppDispatch } from '@/src/store';
-import { DetailPrimaryButton, DetailSecondaryButton } from './DetailButton';
+import { AppPrimaryButton, AppSecondaryButton } from '../ui/AppButtons';
 
 interface DetailActionButtonProps {
   story: IStory;
@@ -67,13 +67,13 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
   if (story.status === 'completed')
     return (
       <>
-        <DetailPrimaryButton
+        <AppPrimaryButton
           icon={Book6Vector}
           label={'Hikayeyi Oku'}
           onPress={handleReadStory}
           flex
         />
-        <DetailSecondaryButton
+        <AppSecondaryButton
           icon={ChartVector}
           label={'Sonuçları Gör'}
           onPress={() => push(`/story/voteResult/${storyId}`)}
@@ -84,14 +84,14 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
 
   return storyAccess && storyAccess.unlocked ? (
     <>
-      <DetailPrimaryButton
+      <AppPrimaryButton
         icon={storyAccess.voted ? LoopVector : Book6Vector}
         label={storyAccess.voted ? 'Tekrar Oku' : 'Hikayeyi Oku'}
         onPress={handleReadStory}
         flex
       />
       {storyAccess.voted ? (
-        <DetailSecondaryButton
+        <AppSecondaryButton
           icon={ChartVector}
           label={'Sonuçları Gör'}
           onPress={() => push(`/story/voteResult/${storyId}`)}
@@ -100,7 +100,7 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
       ) : null}
     </>
   ) : (
-    <DetailPrimaryButton
+    <AppPrimaryButton
       icon={LockCircleVector}
       label="Hikaye Kilidini Aç"
       onPress={handleUnlockStory}

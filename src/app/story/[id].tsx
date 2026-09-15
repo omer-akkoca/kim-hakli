@@ -2,11 +2,11 @@ import React from 'react';
 import { Box, HStack, VStack } from '@/components/ui/';
 import {
   AppBackground,
+  AppIconButton,
   AppLoading,
   AppText,
   CreditBadge,
   DetailActionButton,
-  DetailIconButton,
   StoryDetailBg,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -14,12 +14,13 @@ import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGetStoryById, useGetStoryCategories, useStoryAccess } from '@/src/actions';
 import { LeftChevronVector, ShareVector } from '@/assets';
-import { useAuth, useBookmark } from '@/src/hooks';
+import { useAuth, useBookmark, useTheme } from '@/src/hooks';
 import { getCoverImageUrl, handleShareStory } from '@/src/utils';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { back, canGoBack, replace } = useRouter();
+  const { colors } = useTheme();
   const { bottom, top } = useSafeAreaInsets();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const { user } = useAuth();
@@ -64,12 +65,23 @@ export default function StoryDetailPage() {
           className="w-full items-center justify-between"
           style={{ marginTop: top + 24, paddingHorizontal: 24 }}
         >
-          <DetailIconButton icon={LeftChevronVector} onPress={handleBack} />
+          <AppIconButton icon={LeftChevronVector} onPress={handleBack} color="title" withBg />
           <HStack space="md">
             {user ? (
-              <DetailIconButton icon={BookmarkIcon} onPress={toggleBookmark} disabled={loading} />
+              <AppIconButton
+                icon={BookmarkIcon}
+                onPress={toggleBookmark}
+                disabled={loading}
+                color="title"
+                withBg
+              />
             ) : null}
-            <DetailIconButton icon={ShareVector} onPress={() => handleShareStory(story)} />
+            <AppIconButton
+              icon={ShareVector}
+              onPress={() => handleShareStory(story)}
+              color="title"
+              withBg
+            />
           </HStack>
         </HStack>
         <Box
@@ -83,7 +95,8 @@ export default function StoryDetailPage() {
               size={46}
               lineHeight={56}
               weight={700}
-              className="w-3/4 -tracking-4 text-headline"
+              color="title"
+              className="w-3/4 -tracking-4"
               style={{
                 textShadowColor: 'rgba(0,0,0,0.34)',
                 textShadowOffset: { width: 0, height: 4 },
@@ -104,13 +117,14 @@ export default function StoryDetailPage() {
             size={14}
             lineHeight={24}
             weight={400}
-            className="w-5/6 text-text -tracking-widest mt-5"
+            color="title_82"
+            className="w-5/6 -tracking-widest mt-5"
           >
             {story.description}
           </AppText>
           {/* Categories */}
           <VStack space="lg" className="mt-9">
-            <AppText weight={600} className="text-text tracking-8">
+            <AppText weight={600} color="title" className="tracking-8">
               Kategoriler
             </AppText>
             <HStack space="md" className="flex-wrap">
@@ -118,13 +132,18 @@ export default function StoryDetailPage() {
                 ? storyCategories.map((e, i) => (
                     <Box
                       key={i.toString()}
-                      className="bg-background-500/50 border border-primary-500/90 px-4 py-2 rounded-full"
+                      className="px-4 py-2 border rounded-full"
+                      style={{
+                        backgroundColor: colors.categoryBadgeBg,
+                        borderColor: colors.primary,
+                      }}
                     >
                       <AppText
                         size={12}
                         lineHeight={16}
                         weight={500}
-                        className="text-loginText capitalize"
+                        color="title"
+                        className="capitalize"
                       >
                         {getCategoryName(e.code)}
                       </AppText>

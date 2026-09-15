@@ -1,11 +1,10 @@
 import React from 'react';
-import { HStack, Pressable } from '@/components/ui';
-import { GoogleVector } from '@/assets';
-import { useGoogleSingIn } from '@/src/actions';
 import { useRouter } from 'expo-router';
-import { AppText } from '../ui/AppText';
-import { AppLoading } from '../ui/AppLoading';
+import { GoogleVector } from '@/assets';
+import { HStack, Pressable } from '@/components/ui';
+import { useGoogleSingIn } from '@/src/actions';
 import { useToast } from '@/src/hooks';
+import { AppLoading, AppText } from '../ui';
 
 const GoogleLoginButton = () => {
   const router = useRouter();

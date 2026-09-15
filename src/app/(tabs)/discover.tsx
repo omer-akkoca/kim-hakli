@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SearchMagnifyingVector } from '@/assets';
+import { FilterVector, SearchMagnifyingVector } from '@/assets';
 import { Box } from '@/components/ui';
 import { GetStoriesParams } from '@/src/types';
 import {
@@ -11,13 +11,11 @@ import {
   AppIconButton,
   AppLoading,
   DiscoverFilterDrawer,
-  DiscoverFilterTabs,
   DiscoverListItem,
   DiscoverNativeAd,
   DiscoverSkeleton,
   StoryRenderItem,
 } from '@/src/components';
-import { colors } from '@/src/constants';
 import { useGetStories } from '@/src/actions';
 
 const DiscoverPage = () => {
@@ -82,18 +80,18 @@ const DiscoverPage = () => {
             key="search"
             icon={SearchMagnifyingVector}
             onPress={() => push('/search')}
-            width={20}
-            height={20}
-            color={colors.headline}
+            size={20}
+            color={'headline'}
+          />,
+          <AppIconButton
+            key={'filter'}
+            icon={FilterVector}
+            onPress={() => setShowDrawer(true)}
+            size={20}
+            color={'headline'}
           />,
         ]}
-      >
-        <DiscoverFilterTabs
-          filters={filters}
-          setFilters={setFilters}
-          setShowDrawer={setShowDrawer}
-        />
-      </AppBar>
+      />
       <Box className="w-full flex-1">
         {isLoading ? (
           <DiscoverSkeleton />
@@ -113,8 +111,6 @@ const DiscoverPage = () => {
             noContentText="Uygun kriterlere uygun hikaye bulunamadı."
             paddingHorizontal={24}
             topPadding
-            safeBottom
-            safeBottomNav
             bottomPadding
             gap={8}
             onEndReached={() => {

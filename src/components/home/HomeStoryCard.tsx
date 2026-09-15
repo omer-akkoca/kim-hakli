@@ -1,13 +1,13 @@
 import React, { PropsWithChildren } from 'react';
+import { usePathname, useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { IStory } from '@/src/types';
-import { usePathname, useRouter } from 'expo-router';
-import { Image } from 'expo-image';
-import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
-import { useDispatch } from 'react-redux';
-import { setToStoryDetail } from '@/src/store';
+import { setToStoryDetail, useAppDispatch } from '@/src/store';
+import { useTheme } from '@/src/hooks';
+import { AppSkeleton } from '../ui';
 
 interface HomeStoryCardProps extends PropsWithChildren {
   story: IStory;
@@ -18,8 +18,9 @@ const cardHeight = (cardWidth / 9) * 16;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   const { push } = useRouter();
+  const { colors } = useTheme();
   const pathName = usePathname();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const coverImage = getCoverImageUrl(story.id);
 
@@ -31,11 +32,13 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   return (
     <Pressable
       onPress={handleRoute}
-      className="bg-background-500 border border-white/5 rounded-xl overflow-hidden"
+      className="rounded-xl overflow-hidden"
       style={{
         width: cardWidth,
         height: cardHeight,
-        //boxShadow: '0 5px 15px rgba(0,0,0,0.22)',
+        backgroundColor: colors.background,
+        borderWidth: 1.75,
+        borderColor: colors.white_5,
       }}
     >
       <Image
@@ -46,7 +49,6 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
           height: '100%',
         }}
         contentFit="cover"
-        //blurRadius={1}
         cachePolicy="memory-disk"
         recyclingKey={story.id}
         transition={200}
@@ -59,17 +61,6 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
         className="flex-1"
       >
         <VStack space="sm" className="flex-1 justify-end p-2">
-          {/*
-            <AppText
-              size={12}
-              lineHeight={16}
-              weight={500}
-              className="-tracking-2 text-headline text-center"
-            >
-              {story.title}
-            </AppText>
-            */}
-
           {children}
         </VStack>
       </LinearGradient>
@@ -78,10 +69,16 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
 };
 
 const HomeSkeletonCard: React.FC = () => {
+  const { colors } = useTheme();
   return (
     <Box
-      className="bg-background-500 border border-white/5 rounded-xl overflow-hidden"
-      style={{ boxShadow: '0 5px 15px rgba(0,0,0,0.22)', width: cardWidth, height: cardHeight }}
+      className="border rounded-xl overflow-hidden"
+      style={{
+        backgroundColor: colors.background,
+        boxShadow: colors.white_5,
+        width: cardWidth,
+        height: cardHeight,
+      }}
     >
       <AppSkeleton />
     </Box>

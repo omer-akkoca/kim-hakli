@@ -10,7 +10,6 @@ import {
   AppFlatList,
   AppLoading,
   StoryReadActionButtons,
-  StoryReadBg,
   StoryReadProgressBar,
   StoryReadRenderItem,
 } from '@/src/components';
@@ -79,7 +78,7 @@ const StoryReadPage = () => {
     );
 
   return (
-    <StoryReadBg>
+    <AppBackground>
       <Box className="flex-1" style={{ paddingTop: top + 16, paddingBottom: bottom + 16, gap: 16 }}>
         <StoryReadProgressBar current={activeIndex + 1} total={listData.length} />
         <Box className="flex-1">
@@ -110,7 +109,7 @@ const StoryReadPage = () => {
           setActiveIndex={setActiveIndex}
         />
       </Box>
-    </StoryReadBg>
+    </AppBackground>
   );
 };
 

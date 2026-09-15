@@ -1,3 +1,4 @@
+import { lightColors } from '../constants';
 import { CREDIT_FILTERS } from '../constants/values';
 
 export interface ICategory {
@@ -51,4 +52,6 @@ export interface ILeaderBoardProfile {
   order: number;
 }
 
-export type leaderBoardPeriod = 'all' | 'month'; 
+export type leaderBoardPeriod = 'all' | 'month';
+export type ThemeMode = 'light' | 'dark';
+export type AppColors = typeof lightColors;

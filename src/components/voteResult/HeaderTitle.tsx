@@ -14,7 +14,8 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ title }) => {
         size={72}
         weight={700}
         lineHeight={74}
-        className="-tracking-3 text-headline text-center"
+        color="headline"
+        className="-tracking-3 text-center"
         numberOfLines={2}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
@@ -32,7 +33,8 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ title }) => {
         size={72}
         weight={700}
         lineHeight={74}
-        className="-tracking-3 text-headline text-center"
+        color="headline"
+        className="-tracking-3 text-center"
         numberOfLines={2}
         adjustsFontSizeToFit
         minimumFontScale={0.72}

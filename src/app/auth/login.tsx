@@ -1,18 +1,20 @@
 import React from 'react';
 import { ImageBackground, Linking } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
 import { Box, HStack, Image, LinearGradient, Pressable, VStack } from '@/components/ui';
 import { AppleLoginButton, AppText, GoogleLoginButton } from '@/src/components';
-import { LOGIN_BG, LOGIN_TEXT, PersonVector } from '@/assets';
-import { colors } from '@/src/constants';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '@/src/hooks';
 
 const LoginPage = () => {
   const { ref } = useLocalSearchParams<{ ref?: string }>();
-  const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
 
-  const onSuccess = () => router.replace('/');
+  const { colors } = useTheme();
+  const { bottom } = useSafeAreaInsets();
+  const { replace } = useRouter();
+
+  const onSuccess = () => replace('/');
 
   return (
     <Box className="flex-1">
@@ -38,14 +40,15 @@ const LoginPage = () => {
               />
               {/* Content Area */}
               <VStack className="mt-3">
-                <AppText className="text-loginText text-center" size={16} lineHeight={26}>
+                <AppText color="title" className="text-center" size={16} lineHeight={26}>
                   Hikayeleri oku, kendi kararını ver.
                 </AppText>
                 <AppText
-                  className="text-primary-500 text-center tracking-x-tighter"
+                  className="text-center tracking-x-tighter"
                   weight={600}
                   size={17}
                   lineHeight={24}
+                  color="primary"
                 >
                   Kim haklı, sen söyle.
                 </AppText>
@@ -60,17 +63,17 @@ const LoginPage = () => {
                 >
                   <HStack space="lg" className="flex-1 items-center">
                     <PersonVector width={24} height={24} color={colors.primary} />
-                    <AppText className="flex-1 text-center text-white" size={14} weight={600}>
+                    <AppText color="title" className="flex-1 text-center" size={14} weight={600}>
                       Hesapsız Devam Et
                     </AppText>
                   </HStack>
                 </Pressable>
               </VStack>
               {/* Terms Text  */}
-              <AppText className="w-11/12 text-loginText text-center" size={13} weight={400}>
+              <AppText color="title" className="w-11/12 text-center" size={13} weight={400}>
                 Devam ederek,{' '}
                 <AppText
-                  className="text-primary-500"
+                  color="primary"
                   weight={500}
                   onPress={() => Linking.openURL('https://kimhakli.tr/terms-of-use')}
                 >
@@ -78,7 +81,7 @@ const LoginPage = () => {
                 </AppText>{' '}
                 ve{' '}
                 <AppText
-                  className="text-primary-500"
+                  color="primary"
                   weight={500}
                   onPress={() => Linking.openURL('https://kimhakli.tr/privacy-policy')}
                 >

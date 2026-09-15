@@ -1,4 +1,6 @@
 import { Text } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
+import { AppColors } from '@/src/types';
 import React from 'react';
 import { TextProps } from 'react-native';
 
@@ -36,6 +38,7 @@ interface AppTextProps extends TextProps {
   weight?: FontWeight;
   size?: number;
   lineHeight?: number;
+  color?: keyof AppColors;
   onPress?: () => void;
 }
 
@@ -47,9 +50,11 @@ export const AppText: React.FC<AppTextProps> = ({
   style,
   className,
   children,
+  color = 'black',
   onPress,
   ...props
 }: AppTextProps) => {
+  const { colors } = useTheme();
   return (
     <Text
       style={[
@@ -57,6 +62,7 @@ export const AppText: React.FC<AppTextProps> = ({
           fontFamily: fontMap[family][weight],
           fontSize: size,
           lineHeight: lineHeight,
+          color: colors[color],
         },
         style,
       ]}

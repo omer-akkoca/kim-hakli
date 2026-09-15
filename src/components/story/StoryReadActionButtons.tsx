@@ -6,8 +6,8 @@ import { useStoryAccess } from '@/src/actions';
 import { storyReadActionBarHeight } from '@/src/constants';
 import { useAuth } from '@/src/hooks';
 import { StoryStatus } from '@/src/types';
-import { DetailIconButton, DetailPrimaryButton } from './DetailButton';
 import { StoryReadCounter } from './StoryReadCounter';
+import { AppIconButton, AppPrimaryButton } from '../ui/AppButtons';
 
 interface StoryReadActionButtonsProps {
   storyId: string;
@@ -47,12 +47,12 @@ const StoryReadActionButtons: React.FC<StoryReadActionButtonsProps> = ({
   return (
     <HStack space="lg" className="px-4" style={{ height: storyReadActionBarHeight }}>
       <Box className="items-center justify-center">
-        <DetailIconButton icon={CrossVector} onPress={back} />
+        <AppIconButton icon={CrossVector} onPress={back} withBg color="title" />
       </Box>
       {storyStatus === 'completed' ? (
-        <DetailPrimaryButton icon={VoteVector} label={'Sonucu Gör'} onPress={handleNavigate} flex />
+        <AppPrimaryButton icon={VoteVector} label={'Sonucu Gör'} onPress={handleNavigate} flex />
       ) : (
-        <DetailPrimaryButton
+        <AppPrimaryButton
           icon={voted ? ChartVector : VoteVector}
           label={voted ? 'Sonucu Gör' : 'Kim Haklı Oy Ver'}
           onPress={handleNavigate}

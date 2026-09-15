@@ -15,8 +15,8 @@ import {
   useSavePushToken,
 } from '@/src/actions';
 import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
-import { AppLoading, DetailIconButton } from '@/src/components';
-import { useAppState, useAuth, useModal } from '@/src/hooks';
+import { AppIconButton, AppLoading } from '@/src/components';
+import { useAppState, useAuth, useModal, useTheme } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
 import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
 import { setHasSeenOnboarding, setHasSeenReward, useAppDispatch } from '@/src/store';
@@ -28,6 +28,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { hasSeenOnboarding, hasSeenReward } = useAppState();
   const pathName = usePathname();
   const { show, hide } = useModal();
+  const { loading: themeLoading } = useTheme();
   const dispatch = useAppDispatch();
 
   const { data: appConfig, isLoading } = useGetAppConfig();
@@ -124,7 +125,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
               style={{ width: '100%', height: '100%' }}
             />
             <Box className="absolute top-2 right-2">
-              <DetailIconButton icon={CrossVector} onPress={hide} />
+              <AppIconButton icon={CrossVector} onPress={hide} withBg color="title" />
             </Box>
           </Box>
         ),
@@ -132,7 +133,8 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isRewardAvailable]);
 
-  if (!fontsLoaded || isLoading || hasSeenOnboarding === null) return <AppLoading fullScreen />;
+  if (!fontsLoaded || isLoading || hasSeenOnboarding === null || themeLoading)
+    return <AppLoading fullScreen />;
 
   return children;
 };

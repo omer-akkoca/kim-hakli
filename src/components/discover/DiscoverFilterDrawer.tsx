@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DeleteVector, FilterVector } from '@/assets';
 import {
   Drawer,
   DrawerBackdrop,
@@ -9,15 +11,10 @@ import {
   VStack,
 } from '@/components/ui';
 import { CreditFilter, GetStoriesParams } from '@/src/types';
-import { AppBackground } from '../ui/AppBackground';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppSelector } from '@/src/store';
-import { AppText } from '../ui/AppText';
-import { DetailPrimaryButton, DetailSecondaryButton } from '../story';
-import { DeleteVector, FilterVector } from '@/assets';
-import { CREDIT_FILTERS } from '@/src/constants/values';
+import { CREDIT_FILTERS } from '@/src/constants';
 import { DiscoverFilterBadge } from './DiscoverFilterBadge';
-import { AppScrollView } from '../ui/AppScrollView';
+import { AppBackground, AppPrimaryButton, AppSecondaryButton, AppScrollView, AppText } from '../ui';
 
 interface DiscoverFilterDrawerProps {
   showDrawer: boolean;
@@ -62,7 +59,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
             <AppScrollView gap={24} paddingHorizontal={16} safeTop>
               {/* Kategori Filtreleri */}
               <VStack space="lg">
-                <AppText size={18} weight={600} className="text-headline -tracking-2 px-2">
+                <AppText size={18} weight={600} color="headline" className="-tracking-2 px-2">
                   Kategoriler
                 </AppText>
                 <HStack space="sm" className="flex-wrap">
@@ -81,7 +78,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
               </VStack>
               {/* Kredi Filtreleri */}
               <VStack space="lg">
-                <AppText size={18} weight={600} className="text-headline -tracking-2 px-2">
+                <AppText size={18} weight={600} color="headline" className="-tracking-2 px-2">
                   Kredi
                 </AppText>
                 <HStack space="sm" className="flex-wrap">
@@ -102,7 +99,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
           </DrawerBody>
           <DrawerFooter style={{ paddingBottom: bottom }}>
             <VStack space="xl" className="w-full p-4">
-              <DetailPrimaryButton
+              <AppPrimaryButton
                 label="Uygula"
                 onPress={() => {
                   setFilters({ ...filters, categoryCode: categortyCode, creditFilter: credit });
@@ -110,11 +107,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
                 }}
                 icon={FilterVector}
               />
-              <DetailSecondaryButton
-                label="Temizle"
-                onPress={handleClearFilter}
-                icon={DeleteVector}
-              />
+              <AppSecondaryButton label="Temizle" onPress={handleClearFilter} icon={DeleteVector} />
             </VStack>
           </DrawerFooter>
         </AppBackground>

@@ -1,15 +1,13 @@
 import React from 'react';
-import { AppCard } from '../ui/AppCard';
-import { useModal } from '@/src/hooks';
-import { useDeleteAccount, useSignOut } from '@/src/actions';
-import { HStack } from '@/components/ui';
 import { DeleteVector, RightChevronVector } from '@/assets';
-import { AppText } from '../ui/AppText';
-import { colors } from '@/src/constants';
-import { AppLoading } from '../ui/AppLoading';
+import { HStack } from '@/components/ui';
+import { useModal, useTheme } from '@/src/hooks';
+import { useDeleteAccount, useSignOut } from '@/src/actions';
+import { AppText, AppCard, AppLoading } from '../ui';
 
 const DeleteAccountCard = () => {
   const { show } = useModal();
+  const { colors } = useTheme();
 
   const { mutate: deleteAccount, isPending } = useDeleteAccount();
   const { mutate: signOut } = useSignOut();
@@ -48,11 +46,11 @@ const DeleteAccountCard = () => {
           <>
             <HStack space="lg" className="items-center">
               <DeleteVector width={20} height={20} color={colors.delete} />
-              <AppText size={14} weight={600} className="text-delete -tracking-2">
+              <AppText size={14} weight={600} color="delete" className="-tracking-2">
                 Hesabımı Sil
               </AppText>
             </HStack>
-            <RightChevronVector width={16} height={16} color={colors.whiteSmoke_32} />
+            <RightChevronVector width={16} height={16} color={colors.headline_32} />
           </>
         )}
       </HStack>

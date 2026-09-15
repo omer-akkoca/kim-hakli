@@ -1,17 +1,12 @@
 import React from 'react';
+import { Image } from 'expo-image';
+import { usePathname, useRouter } from 'expo-router';
 import { HStack, VStack } from '@/components/ui';
 import { IStory } from '@/src/types';
-import { AppText } from '../ui/AppText';
-import { CreditBadge } from '../ui/CreditBadge';
-import { usePathname, useRouter } from 'expo-router';
-import { AppIconButton } from '../ui/AppIconButton';
-import { colors } from '@/src/constants';
-import { setToStoryDetail, useAppSelector } from '@/src/store';
-import { useBookmark } from '@/src/hooks/useBookmark';
+import { setToStoryDetail, useAppDispatch, useAppSelector } from '@/src/store';
+import { useBookmark } from '@/src/hooks';
 import { getCoverImageUrl } from '@/src/utils';
-import { AppCard } from '../ui/AppCard';
-import { Image } from 'expo-image';
-import { useDispatch } from 'react-redux';
+import { AppIconButton, AppCard, CreditBadge, AppText } from '../ui';
 interface SearchRenderItemProps {
   story: IStory;
 }
@@ -19,7 +14,7 @@ interface SearchRenderItemProps {
 const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
   const { push } = useRouter();
   const pathName = usePathname();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
@@ -50,12 +45,13 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
             size={16}
             lineHeight={20}
             weight={600}
-            className="text-headline -tracking-2"
+            color="headline"
+            className="-tracking-2"
             numberOfLines={1}
           >
             {story.title}
           </AppText>
-          <AppText size={12} className="text-loginText" numberOfLines={2}>
+          <AppText size={12} color="headline_82" numberOfLines={2}>
             {story.description}
           </AppText>
           <HStack className="items-center justify-between">
@@ -64,9 +60,8 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
               <AppIconButton
                 icon={BookmarkIcon}
                 onPress={toggleBookmark}
-                color={colors.headline}
-                width={22}
-                height={22}
+                color={'headline'}
+                size={22}
                 disabled={loading}
               />
             ) : null}

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Box, LinearGradient } from '@/components/ui';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -8,10 +7,14 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import { Box, LinearGradient } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
 
 const SHIMMER_WIDTH = 110;
 
 const AppSkeleton: React.FC = () => {
+  const { colors } = useTheme();
+
   const translateX = useSharedValue(-SHIMMER_WIDTH);
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const AppSkeleton: React.FC = () => {
   }));
 
   return (
-    <Box className="flex-1 bg-background-500">
+    <Box style={{ backgroundColor: colors.background }} className="flex-1">
       <Animated.View
         pointerEvents="none"
         className="absolute top-0 left-0 w-full h-full"

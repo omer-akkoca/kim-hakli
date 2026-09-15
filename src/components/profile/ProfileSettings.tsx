@@ -1,35 +1,40 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { TextInput } from 'react-native';
+import { Image } from 'expo-image';
 import { ImagePickerAsset } from 'expo-image-picker';
 import * as Clipboard from 'expo-clipboard';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DeleteVector, EditVector, LOGO, PasteVector, SaveVector } from '@/assets';
-import { Avatar, AvatarImage, Box, Divider, HStack, VStack } from '@/components/ui';
+import { DeleteVector, EditVector, PasteVector, SaveVector } from '@/assets';
+import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { genderType } from '@/src/types';
 import { useCanApplyReferralCode, useUpdateProfile } from '@/src/actions';
 import { pickProfileImage } from '@/src/utils';
 import { setUser, useAppDispatch, useAppSelector } from '@/src/store';
 import { ProfileFormValues, profileSchema } from '@/src/schemas';
-import { useAppState, useToast } from '@/src/hooks';
-import { DetailIconButton, DetailPrimaryButton, DetailSecondaryButton } from '../story';
-import { AppText } from '../ui/AppText';
-import { AppCard } from '../ui/AppCard';
-import { colors } from '@/src/constants';
-import { AppAlert } from '../ui/AppAlert';
-import { AppLoading } from '../ui/AppLoading';
-import { AppIconButton } from '../ui/AppIconButton';
+import { useAppState, useTheme, useToast } from '@/src/hooks';
+import {
+  AppText,
+  AppCard,
+  AppAlert,
+  AppLoading,
+  AppIconButton,
+  AppPrimaryButton,
+  AppSecondaryButton,
+} from '../ui';
+import { ProfileAvatar } from './ProfilAvatar';
 
 interface ProfileSettingsProps {
   onSave?: () => void;
 }
 
 const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
-  const dispatch = useAppDispatch();
+  const { colors } = useTheme();
   const { show } = useToast();
   const { refCode } = useAppState();
+  const dispatch = useAppDispatch();
 
-  const { user, profile_photo } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   const { mutate, isPending } = useUpdateProfile();
   const { data: canApplyReferralCode = false, isLoading } = useCanApplyReferralCode(user?.id);
@@ -51,12 +56,6 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
 
   const [photo, setPhoto] = useState<ImagePickerAsset | undefined>();
   const [gender, setGender] = useState<genderType>(user?.gender);
-
-  const uri = useMemo(() => {
-    if (photo) return photo.uri;
-    if (profile_photo) return profile_photo;
-    if (user?.avatar_url) return user.avatar_url;
-  }, [photo, user, profile_photo]);
 
   const handleSelectPhoto = async () => {
     try {
@@ -110,16 +109,31 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
     <VStack space="2xl">
       <Box className="items-center justify-center">
         <Box className="relative">
-          <Avatar className="w-40 h-40 border-2 border-primary-500 bg-transparent">
-            <AvatarImage source={uri ? { uri } : LOGO} />
-          </Avatar>
+          {photo ? (
+            <Image
+              source={{ uri: photo.uri }}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+              recyclingKey={photo.assetId}
+              style={{
+                width: 140,
+                height: 140,
+                borderRadius: 140,
+                borderColor: colors.primary,
+                borderWidth: 1.75,
+              }}
+            />
+          ) : (
+            <ProfileAvatar size={140} borderColor={colors.primary} borderWidth={1.75} />
+          )}
           <Box className="absolute -right-1 -bottom-1">
-            <DetailIconButton icon={EditVector} onPress={handleSelectPhoto} />
+            <AppIconButton icon={EditVector} onPress={handleSelectPhoto} withBg />
           </Box>
         </Box>
       </Box>
       <VStack space="md">
-        <AppText size={16} lineHeight={22} weight={600} className="text-headline -tracking-2">
+        <AppText size={16} lineHeight={22} weight={600} color="headline" className="-tracking-2">
           Kullanıcı Adı
         </AppText>
         <Controller
@@ -129,9 +143,9 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             <>
               <AppCard>
                 <TextInput
-                  className="p-4 m-0 text-headline"
-                  style={{ fontFamily: 'Inter-Medium' }}
-                  placeholderTextColor={colors.whiteSmoke_50}
+                  className="p-4 m-0"
+                  style={{ fontFamily: 'Inter-Medium', color: colors.headline }}
+                  placeholderTextColor={colors.headline_50}
                   placeholder={'Kullanıcı adınızı giriniz...'}
                   value={value}
                   onChangeText={onChange}
@@ -151,18 +165,23 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
         />
       </VStack>
       <VStack space="md">
-        <AppText size={16} lineHeight={22} weight={600} className="text-headline -tracking-2">
+        <AppText size={16} lineHeight={22} weight={600} color="headline" className="-tracking-2">
           Cinsiyet
         </AppText>
         <HStack space="md">
           <AppCard
             flex
             onPress={() => setGender('male')}
-            className={`${gender === 'male' ? 'border-primary-500' : ''}`}
+            style={{
+              borderWidth: 1.75,
+              borderColor: gender === 'male' ? colors.primary : colors.tranparent,
+            }}
           >
             <Box className="py-3">
               <AppText
-                className={`${gender === 'male' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                weight={gender === 'male' ? 500 : 400}
+                color={gender === 'male' ? 'primary' : 'headline'}
+                className="text-center text-base"
               >
                 Erkek
               </AppText>
@@ -171,11 +190,16 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
           <AppCard
             flex
             onPress={() => setGender('female')}
-            className={`${gender === 'female' ? 'border-primary-500' : ''}`}
+            style={{
+              borderWidth: 1.75,
+              borderColor: gender === 'female' ? colors.primary : colors.tranparent,
+            }}
           >
             <Box className="py-3">
               <AppText
-                className={`${gender === 'female' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                weight={gender === 'female' ? 500 : 400}
+                color={gender === 'female' ? 'primary' : 'headline'}
+                className="text-center text-base"
               >
                 Kadın
               </AppText>
@@ -184,11 +208,16 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
           <AppCard
             flex
             onPress={() => setGender('other')}
-            className={`${gender === 'other' ? 'border-primary-500' : ''}`}
+            style={{
+              borderWidth: 1.75,
+              borderColor: gender === 'other' ? colors.primary : colors.tranparent,
+            }}
           >
             <Box className="py-3">
               <AppText
-                className={`${gender === 'other' ? 'text-primary-500' : 'text-headline'} text-center text-base`}
+                weight={gender === 'other' ? 500 : 400}
+                color={gender === 'other' ? 'primary' : 'headline'}
+                className="text-center text-base"
               >
                 Diğer
               </AppText>
@@ -198,7 +227,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
       </VStack>
       {canApplyReferralCode ? (
         <VStack space="md">
-          <AppText size={16} lineHeight={22} weight={600} className="text-headline -tracking-2">
+          <AppText size={16} lineHeight={22} weight={600} color="headline" className="-tracking-2">
             Referans Kodu
           </AppText>
           <Controller
@@ -209,9 +238,9 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
                 <AppCard>
                   <HStack className="flex-1 items-center justify-center px-4">
                     <TextInput
-                      className="flex-1 px-0 py-4 m-0 text-headline"
-                      style={{ fontFamily: 'Inter-Medium' }}
-                      placeholderTextColor={colors.whiteSmoke_50}
+                      className="flex-1 px-0 py-4 m-0"
+                      style={{ fontFamily: 'Inter-Medium', color: colors.headline }}
+                      placeholderTextColor={colors.headline_50}
                       placeholder={'Referans kodunuzu giriniz...'}
                       value={value}
                       onChangeText={onChange}
@@ -220,11 +249,9 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
                     <AppIconButton
                       icon={PasteVector}
                       onPress={handlePasteRefCode}
-                      color={colors.whiteSmoke_50}
-                      width={20}
-                      height={20}
+                      color={'headline_50'}
+                      size={20}
                     />
-                    ,
                   </HStack>
                 </AppCard>
                 <AppAlert
@@ -243,14 +270,14 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
 
       <Divider className="h-[1px] w-full bg-white/10" />
       <VStack space="lg">
-        <DetailPrimaryButton
+        <AppPrimaryButton
           icon={SaveVector}
           label="Kaydet"
           onPress={handleSubmit(handleSave)}
           disabled={!isValid || !gender || isPending || isSubmitting}
           loading={isPending || isSubmitting}
         />
-        <DetailSecondaryButton icon={DeleteVector} label="İptal Et" onPress={handleReset} />
+        <AppSecondaryButton icon={DeleteVector} label="İptal Et" onPress={handleReset} />
       </VStack>
     </VStack>
   );

@@ -1,14 +1,19 @@
-import { HStack } from '@/components/ui';
 import React from 'react';
-import { AppText } from '../ui/AppText';
 import { CrownVector } from '@/assets';
-import { colors } from '@/src/constants';
+import { HStack } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
+import { AppText } from '../ui';
 
 const WinnerBadge = () => {
+  const { colors } = useTheme();
   return (
-    <HStack space="sm" className="items-center px-4 py-2 rounded-full bg-primary-500/30">
-      <CrownVector width={14} height={14} color={colors.primary} />
-      <AppText size={12} lineHeight={16} weight={700} className="text-primary-500 -tracking-2">
+    <HStack
+      space="sm"
+      style={{ backgroundColor: colors.primary }}
+      className="items-center px-4 rounded-full h-8"
+    >
+      <CrownVector width={14} height={14} color={colors.title} />
+      <AppText size={12} lineHeight={16} weight={700} color="title" className="-tracking-2">
         HAKLI
       </AppText>
     </HStack>

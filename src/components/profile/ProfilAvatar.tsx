@@ -4,7 +4,19 @@ import { LOGO } from '@/assets';
 import { Box } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
 
-const ProfileAvatar = () => {
+interface ProfileAvatarProps {
+  size: number;
+  shadow?: boolean;
+  borderWidth?: number;
+  borderColor?: string;
+}
+
+const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
+  size,
+  shadow = false,
+  borderWidth,
+  borderColor,
+}) => {
   const { user, profile_photo } = useAuth();
 
   const uri = useMemo(() => {
@@ -14,8 +26,14 @@ const ProfileAvatar = () => {
 
   return (
     <Box
-      className="w-32 h-32 border-2 border-primary-500 overflow-hidden rounded-full"
-      style={{ boxShadow: '0 0 40px rgba(241,118,42,0.28)' }}
+      className="rounded-full overflow-hidden"
+      style={{
+        width: size,
+        height: size,
+        boxShadow: shadow ? '0 0 40px rgba(241,118,42,0.28)' : undefined,
+        borderWidth,
+        borderColor,
+      }}
     >
       <Image
         source={uri ? { uri } : LOGO}

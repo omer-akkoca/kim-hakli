@@ -1,31 +1,34 @@
-import { LinearGradient, Pressable } from '@/components/ui';
-import { BlurView } from 'expo-blur';
 import React, { PropsWithChildren } from 'react';
+import { Pressable } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
+import { ViewStyle } from 'react-native';
 
 interface AppCardProps extends PropsWithChildren {
   flex?: boolean;
   onPress?: () => void;
   className?: string;
+  style?: ViewStyle | ViewStyle[];
 }
 
-const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, children }) => {
+const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, style, children }) => {
+  const { colors } = useTheme();
+
   return (
     <Pressable
       onPress={onPress}
-      className={`bg-background-500/75 rounded-xl border border-white/10 overflow-hidden ${className}`}
-      style={{ flex: flex ? 1 : undefined, boxShadow: '0 10px 24px rgba(0,0,0,0.24)' }}
+      className={`border rounded-xl overflow-hidden ${className}`}
+      style={[
+        {
+          flex: flex ? 1 : undefined,
+          backgroundColor: colors.appCardBg,
+          boxShadow: colors.shadow,
+          borderColor: colors.white_10,
+        },
+        style,
+      ]}
       disabled={!onPress}
     >
-      <BlurView intensity={18} tint="dark">
-        <LinearGradient
-          colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
-          locations={[0, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-        >
-          {children}
-        </LinearGradient>
-      </BlurView>
+      {children}
     </Pressable>
   );
 };

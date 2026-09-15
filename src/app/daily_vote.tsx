@@ -8,16 +8,18 @@ import {
   AppBackground,
   AppCard,
   AppLoading,
+  AppPrimaryButton,
   AppText,
-  DetailPrimaryButton,
   StoryCountDown,
   StoryDetailBg,
 } from '@/src/components';
 import { useGetClosingStory } from '@/src/actions';
 import { getCoverImageUrl } from '@/src/utils';
-import { colors, H, height } from '@/src/constants';
+import { H, height } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
 
 const DailyVote = () => {
+  const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
   const { replace } = useRouter();
 
@@ -40,7 +42,7 @@ const DailyVote = () => {
         <Box className="flex-1" style={{ paddingBottom: bottom + 16 }}>
           {Platform.OS === 'android' ? (
             <Box className="h-8 items-center justify-center">
-              <Box className="h-1.5 w-10 rounded-md bg-white/50 shadow-md" />
+              <Box style={{ backgroundColor: colors.white_50 }} className="h-1.5 w-10 rounded-md" />
             </Box>
           ) : null}
           <Box className="flex-1 justify-end px-6">
@@ -51,7 +53,8 @@ const DailyVote = () => {
                 size={H(32)}
                 lineHeight={H(40)}
                 numberOfLines={2}
-                className="text-headline text-center w-11/12 mx-auto -tracking-4"
+                color="title"
+                className="text-center w-11/12 mx-auto -tracking-4"
               >
                 {data.title}
               </AppText>
@@ -62,7 +65,8 @@ const DailyVote = () => {
                     size={H(16)}
                     lineHeight={H(22)}
                     weight={600}
-                    className="text-headline text-center"
+                    color="title"
+                    className="text-center"
                   >
                     Oylama Kapanıyor
                   </AppText>
@@ -70,7 +74,7 @@ const DailyVote = () => {
                 <StoryCountDown closed_at={data.closed_at} status={data.status}>
                   <AppCard className="w-full">
                     <VStack className="items-center p-4">
-                      <AppText size={14} lineHeight={21} weight={600} className="text-primary-500">
+                      <AppText size={14} lineHeight={21} weight={600} color="primary">
                         Süre Doldu
                       </AppText>
                     </VStack>
@@ -87,14 +91,14 @@ const DailyVote = () => {
                   height={20}
                   color={colors.primary}
                 />
-                <AppText size={13} lineHeight={16} weight={500} className="text-headline/75">
-                  <AppText weight={700} size={14} lineHeight={16} className="text-headline">
+                <AppText size={13} lineHeight={16} weight={500} color="title_75">
+                  <AppText weight={700} size={14} lineHeight={16} color="title">
                     {data.vote_count}
                   </AppText>{' '}
                   kişi oy verdi
                 </AppText>
               </HStack>
-              <DetailPrimaryButton
+              <AppPrimaryButton
                 icon={RightChevronVector}
                 label="Hikayeyi Görüntüle"
                 reverse

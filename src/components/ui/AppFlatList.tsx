@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { FlatList, Platform, RefreshControl } from 'react-native';
-import { AppText } from './AppText';
-import { bottomBarHeight, colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '@/src/hooks';
+import { AppText } from './AppText';
 
 type AppFlatListOmittedProps =
   | 'refreshControl'
@@ -23,7 +23,6 @@ interface AppFlatListProps<T> extends Omit<
   safeTop?: boolean;
   bottomPadding?: boolean;
   safeBottom?: boolean;
-  safeBottomNav?: boolean;
   paddingHorizontal?: number;
   gap?: number;
 }
@@ -37,12 +36,12 @@ const AppFlatList = <T,>({
   safeTop,
   bottomPadding,
   safeBottom,
-  safeBottomNav,
   paddingHorizontal,
   gap,
   ...props
 }: AppFlatListProps<T>) => {
   const { top, bottom } = useSafeAreaInsets();
+  const { colors } = useTheme();
 
   const paddingTop = useMemo(() => {
     let padding = 0;
@@ -55,14 +54,13 @@ const AppFlatList = <T,>({
     let padding = 0;
     if (bottomPadding) padding += 24;
     if (safeBottom) padding += bottom;
-    if (safeBottomNav) padding += bottomBarHeight;
     return padding;
-  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
+  }, [bottomPadding, safeBottom, bottom]);
 
   const ListEmptyComponent = useMemo(() => {
     if (loading || !noContentText) return undefined;
     return (
-      <AppText size={12} weight={600} className="text-loginText text-center">
+      <AppText size={12} weight={600} color="headline_90" className="text-center">
         {noContentText}
       </AppText>
     );
@@ -81,7 +79,7 @@ const AppFlatList = <T,>({
             refreshing={loading}
             onRefresh={onRefresh}
             tintColor={colors.primary}
-            progressBackgroundColor={Platform.OS === 'android' ? colors.backgroud : undefined}
+            progressBackgroundColor={Platform.OS === 'android' ? colors.background : undefined}
             colors={[colors.primary]}
           />
         ) : undefined

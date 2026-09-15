@@ -2,7 +2,6 @@ import { useCallback, useRef, useState } from 'react';
 import { FlatList, Image, ListRenderItemInfo } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box, HStack, VStack } from '@/components/ui';
 import {
   RightChevronVector,
   StarVector,
@@ -12,13 +11,16 @@ import {
   ONBOARDING_THREE,
   ONBOARDING_TWO,
 } from '@/assets';
-import { AppBackground, AppFlatList, AppText, DetailPrimaryButton } from '@/src/components';
+import { Box, HStack, VStack } from '@/components/ui';
+import { AppBackground, AppFlatList, AppPrimaryButton, AppText } from '@/src/components';
 import { height, STORAGE_KEYS, width } from '@/src/constants';
 import { storage } from '@/src/utils';
 import { setHasSeenOnboarding, useAppDispatch } from '@/src/store';
+import { useTheme } from '../hooks';
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
@@ -56,20 +58,22 @@ export default function OnboardingPage() {
               size={24}
               lineHeight={30}
               weight={700}
-              className="text-center capitalize text-headline"
+              className="text-center capitalize"
               numberOfLines={2}
               adjustsFontSizeToFit
               minimumFontScale={0.9}
+              color="headline"
             >
               {item.title}
             </AppText>
             <AppText
               size={16}
               lineHeight={22}
-              className="w-3/4 text-center text-whiteSmoke-500/75"
+              className="w-3/4 text-center"
               numberOfLines={3}
               adjustsFontSizeToFit
               minimumFontScale={0.9}
+              color="headline_82"
             >
               {item.description}
             </AppText>
@@ -108,12 +112,13 @@ export default function OnboardingPage() {
               return (
                 <Box
                   key={i}
-                  className={`w-2 h-2 rounded-full ${active ? 'bg-primary-500' : 'bg-secondary-500'}`}
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: active ? colors.primary : colors.headline_75 }}
                 />
               );
             })}
           </HStack>
-          <DetailPrimaryButton
+          <AppPrimaryButton
             onPress={isLast ? handleFinish : goNext}
             label={isLast ? 'Başla' : 'Devam Et'}
             icon={isLast ? StarVector : RightChevronVector}

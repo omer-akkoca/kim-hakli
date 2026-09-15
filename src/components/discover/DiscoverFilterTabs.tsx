@@ -1,12 +1,9 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { FilterVector } from '@/assets';
+import { useTranslation } from 'react-i18next';
 import { HStack, Pressable } from '@/components/ui';
 import { GetStoriesParams, storyArtStyles } from '@/src/types';
-import { AppText } from '../ui/AppText';
-import { AppIconButton } from '../ui/AppIconButton';
-import { colors } from '@/src/constants';
-import { useTranslation } from 'react-i18next';
+import { AppText } from '../ui';
 
 interface DiscoverFilterTabsProps {
   filters: GetStoriesParams;
@@ -14,11 +11,7 @@ interface DiscoverFilterTabsProps {
   setShowDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DiscoverFilterTabs: React.FC<DiscoverFilterTabsProps> = ({
-  filters,
-  setFilters,
-  setShowDrawer,
-}) => {
+const DiscoverFilterTabs: React.FC<DiscoverFilterTabsProps> = ({ filters, setFilters }) => {
   const { t } = useTranslation();
 
   return (
@@ -52,15 +45,6 @@ const DiscoverFilterTabs: React.FC<DiscoverFilterTabsProps> = ({
           })}
         </ScrollView>
       </HStack>
-      <AppIconButton
-        icon={FilterVector}
-        onPress={() => setShowDrawer(true)}
-        width={20}
-        height={20}
-        color={colors.headline}
-        className="ml-4"
-        style={{ marginRight: 24 }}
-      />
     </HStack>
   );
 };

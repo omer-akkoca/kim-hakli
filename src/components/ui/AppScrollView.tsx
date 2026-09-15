@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { bottomBarHeight, colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '@/src/hooks';
 
 interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
   loading?: boolean;
@@ -10,7 +10,6 @@ interface AppScrollViewProps extends React.ComponentProps<typeof ScrollView> {
   safeTop?: boolean;
   bottomPadding?: boolean;
   safeBottom?: boolean;
-  safeBottomNav?: boolean;
   paddingHorizontal?: number;
   gap?: number;
 }
@@ -22,12 +21,12 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
   safeTop,
   bottomPadding = false,
   safeBottom,
-  safeBottomNav,
   paddingHorizontal,
   gap,
   ...props
 }) => {
   const { top, bottom } = useSafeAreaInsets();
+  const { colors } = useTheme();
 
   const paddingTop = useMemo(() => {
     let padding = 0;
@@ -40,9 +39,8 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
     let padding = 0;
     if (bottomPadding) padding += 24;
     if (safeBottom) padding += bottom;
-    if (safeBottomNav) padding += bottomBarHeight;
     return padding;
-  }, [bottomPadding, safeBottom, safeBottomNav, bottom]);
+  }, [bottomPadding, safeBottom, bottom]);
 
   return (
     <ScrollView
@@ -60,7 +58,7 @@ const AppScrollView: React.FC<AppScrollViewProps> = ({
             refreshing={loading}
             onRefresh={onRefresh}
             tintColor={colors.primary}
-            progressBackgroundColor={colors.backgroud}
+            progressBackgroundColor={colors.background}
             colors={[colors.primary]}
             progressViewOffset={top}
           />
