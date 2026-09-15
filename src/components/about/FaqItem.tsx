@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { RightChevronVector } from '@/assets';
 import { HStack, VStack } from '@/components/ui';
 import { IFaq } from '@/src/types';
-import { AppCard } from '../ui/AppCard';
-import { AppText } from '../ui/AppText';
-import { RightChevronVector } from '@/assets';
-import { colors } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
+import { AppCard, AppText } from '../ui';
 
 interface FaqItemProps {
   item: IFaq;
 }
 
 const FaqItem: React.FC<FaqItemProps> = ({ item }) => {
+  const { colors } = useTheme();
+
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -21,18 +22,19 @@ const FaqItem: React.FC<FaqItemProps> = ({ item }) => {
             size={16}
             lineHeight={22}
             weight={600}
-            className="text-headline -tracking-2 flex-1"
+            color="headline"
+            className="-tracking-2 flex-1"
           >
             {item.question}
           </AppText>
           <RightChevronVector
             width={16}
             height={16}
-            color={colors.whiteSmoke_50}
+            color={colors.headline_50}
             transform={[{ rotate: expanded ? '90deg' : '0deg' }]}
           />
         </HStack>
-        {expanded ? <AppText className="text-whiteSmoke-500/75">{item.answer}</AppText> : null}
+        {expanded ? <AppText color="headline_90">{item.answer}</AppText> : null}
       </VStack>
     </AppCard>
   );

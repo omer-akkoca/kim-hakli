@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { FlatList, Platform, RefreshControl } from 'react-native';
-import { AppText } from './AppText';
-import { colors } from '@/src/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '@/src/hooks';
+import { AppText } from './AppText';
 
 type AppFlatListOmittedProps =
   | 'refreshControl'
@@ -41,6 +41,7 @@ const AppFlatList = <T,>({
   ...props
 }: AppFlatListProps<T>) => {
   const { top, bottom } = useSafeAreaInsets();
+  const { colors } = useTheme();
 
   const paddingTop = useMemo(() => {
     let padding = 0;
@@ -59,7 +60,7 @@ const AppFlatList = <T,>({
   const ListEmptyComponent = useMemo(() => {
     if (loading || !noContentText) return undefined;
     return (
-      <AppText size={12} weight={600} className="text-loginText text-center">
+      <AppText size={12} weight={600} color="headline_90" className="text-center">
         {noContentText}
       </AppText>
     );
@@ -78,7 +79,7 @@ const AppFlatList = <T,>({
             refreshing={loading}
             onRefresh={onRefresh}
             tintColor={colors.primary}
-            progressBackgroundColor={Platform.OS === 'android' ? colors.backgroud : undefined}
+            progressBackgroundColor={Platform.OS === 'android' ? colors.background : undefined}
             colors={[colors.primary]}
           />
         ) : undefined

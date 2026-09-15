@@ -9,7 +9,6 @@ import SLIDER2 from './slider/slider-2.webp';
 import SLIDER3 from './slider/slider-3.webp';
 import SLIDER4 from './slider/slider-4.webp';
 
-
 import LOGIN_BG from './loginBg.webp';
 import LOGIN_TEXT from './kimHakliText.png';
 import LOGO from './logo.png';
@@ -26,5 +25,5 @@ export {
   SLIDER4,
   LOGIN_BG,
   LOGIN_TEXT,
-  LOGO
+  LOGO,
 };

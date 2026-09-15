@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { Box } from '@/components/ui';
 import { width } from '@/src/constants';
-import { AppFlatList } from '../ui/AppFlatList';
 import { IStory } from '@/src/types';
+import { AppFlatList } from '../ui';
 import { FeaturedStoryCard } from './FeaturedStoryCard';
 
 const scale = (width - 64) / 9;

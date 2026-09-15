@@ -1,18 +1,15 @@
 import React, { memo } from 'react';
-import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { colors, width } from '@/src/constants';
-import { IStory } from '@/src/types';
+import { Platform } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { AppText } from '@/src/components/ui/AppText';
-import { CreditBadge } from '../ui/CreditBadge';
-import { AppIconButton } from '../ui/AppIconButton';
-import { setToStoryDetail, useAppSelector } from '@/src/store';
+import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { width } from '@/src/constants';
+import { IStory } from '@/src/types';
+import { setToStoryDetail, useAppDispatch, useAppSelector } from '@/src/store';
 import { useBookmark } from '@/src/hooks/useBookmark';
-import { AppSkeleton } from '../ui/AppSkeleton';
 import { getCoverImageUrl } from '@/src/utils';
-import { useDispatch } from 'react-redux';
-import { Platform } from 'react-native';
+import { useTheme } from '@/src/hooks';
+import { AppIconButton, AppSkeleton, CreditBadge, AppText } from '../ui';
 
 interface IStoryRenderItem {
   story: IStory;
@@ -24,9 +21,10 @@ const itemHeight = (itemWidth / 9) * 14;
 const completedBlur = Platform.OS === 'ios' ? 10 : 3;
 
 const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) => {
+  const { colors } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
 
@@ -42,12 +40,15 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
   return (
     <Pressable
       onPress={handleRoute}
-      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
+      className="rounded-3xl overflow-hidden"
       style={{
         width: itemWidth,
         height: itemHeight,
         marginRight: order % 2 === 0 ? 8 : 0,
-        boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
+        boxShadow: colors.shadow,
+        backgroundColor: colors.background,
+        borderWidth: 1.75,
+        borderColor: colors.white_5,
       }}
     >
       <Image
@@ -86,20 +87,20 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
                 <AppIconButton
                   icon={BookmarkIcon}
                   onPress={toggleBookmark}
-                  className="w-9 h-9 bg-credit-bg items-center justify-center rounded-full border border-white/5"
-                  color={colors.headline}
-                  width={22}
-                  height={22}
+                  color={'title'}
+                  size={24}
+                  buttonSize={40}
                   disabled={loading}
+                  withBg
                 />
               ) : null}
             </HStack>
-
             <AppText
               size={18}
               lineHeight={24}
               weight={600}
-              className="text-headline -tracking-2"
+              color="title"
+              className="-tracking-2"
               numberOfLines={3}
               adjustsFontSizeToFit
               minimumFontScale={0.75}
@@ -116,15 +117,18 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
 const StoryRenderItem = memo(StoryRenderItemComponent);
 
 const StorySkeletonItem: React.FC<{ order: number }> = ({ order }) => {
+  const { colors } = useTheme();
   return (
     <Box
       style={{
         width: itemWidth,
         height: itemHeight,
         marginRight: order % 2 === 0 ? 8 : 0,
-        boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
+        boxShadow: colors.shadow,
+        backgroundColor: colors.background,
+        borderColor: colors.white_5,
       }}
-      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
+      className="border rounded-3xl overflow-hidden"
     >
       <AppSkeleton />
     </Box>

@@ -12,8 +12,11 @@ import {
   VStack,
 } from '@/components/ui';
 import { AppText } from '@/src/components';
+import { useTheme } from '@/src/hooks';
 
-export function ModalProvider({ children }: { children: React.ReactNode }) {
+const ModalProvider = ({ children }: { children: React.ReactNode }) => {
+  const { colors } = useTheme();
+
   const [modalQueue, setModalQueue] = useState<ShowOptions[]>([]);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -69,7 +72,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       {children}
 
       <Modal isOpen={visible} onClose={options?.noClosable ? undefined : hide}>
-        <ModalBackdrop className="bg-modal-backdrop" />
+        <ModalBackdrop style={{ backgroundColor: colors.modalBackdrop }} />
 
         {hasCustomContent ? (
           <ModalContent className="w-full border-0 bg-transparent p-0">
@@ -79,8 +82,11 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
           </ModalContent>
         ) : (
           <ModalContent
-            className="w-5/6 rounded-4xl border border-white/10 bg-background-500"
-            style={styles.modalShadow}
+            className="w-5/6 rounded-4xl border"
+            style={[
+              { backgroundColor: colors.background, borderColor: colors.white_10 },
+              styles.modalShadow,
+            ]}
           >
             <>
               <ModalHeader>
@@ -88,7 +94,8 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                   size={22}
                   lineHeight={26}
                   weight={700}
-                  className="-tracking-2 mx-auto w-11/12 text-center text-modal-title"
+                  color="headline"
+                  className="-tracking-2 mx-auto w-11/12 text-center"
                 >
                   {options?.title}
                 </AppText>
@@ -99,7 +106,8 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                   <AppText
                     size={14}
                     weight={400}
-                    className="-tracking-2 mx-auto w-11/12 text-center text-modal-desc"
+                    color="headline_90"
+                    className="-tracking-2 mx-auto w-11/12 text-center"
                   >
                     {options.subtitle}
                   </AppText>
@@ -111,21 +119,17 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                   <VStack space="sm" className="w-full">
                     {options.buttons.map((btn, index) => {
                       const isPrimary = index === 0;
-
                       return (
                         <Pressable
                           key={`${btn.label}-${index}`}
                           onPress={() => handleButtonPress(btn)}
-                          className={`h-modal-button w-full items-center justify-center rounded-[18px] border ${
-                            isPrimary
-                              ? 'border-transparent bg-primary-500'
-                              : 'border-white/10 bg-white/5'
-                          }`}
+                          className="h-modal-button w-full items-center justify-center rounded-2xl border"
+                          style={{
+                            backgroundColor: isPrimary ? colors.primary : colors.background_75,
+                            borderColor: isPrimary ? colors.tranparent : colors.white_10,
+                          }}
                         >
-                          <AppText
-                            weight={700}
-                            className={isPrimary ? 'text-modal-title' : 'text-loginText'}
-                          >
+                          <AppText weight={700} color={isPrimary ? 'title' : 'headline'}>
                             {btn.label}
                           </AppText>
                         </Pressable>
@@ -140,7 +144,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       </Modal>
     </ModalContext.Provider>
   );
-}
+};
+
+export { ModalProvider };
 
 const styles = StyleSheet.create({
   modalShadow:

@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from 'react';
-import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { Box, LinearGradient } from '@/components/ui';
 
@@ -58,30 +57,4 @@ const StoryDetailBg: React.FC<StoryDetailBgProps> = ({ coverImage, children }) =
   );
 };
 
-const StoryReadBg: React.FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <Box className="flex-1 bg-background-500">
-      <BlurView intensity={28} tint="dark" className="flex-1">
-        <Box className="flex-1 bg-[rgba(5,8,22,0.62)]">
-          <Box className="flex-1 z-20">{children}</Box>
-          <LinearGradient
-            colors={['rgba(5,8,22,0.72)', 'rgba(5,8,22,0)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="absolute top-0 left-0 right-0 h-1/4"
-          />
-          <LinearGradient
-            colors={['rgba(5,8,22,0)', 'rgba(5,8,22,0.88)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="absolute bottom-0 left-0 right-0 h-1/4"
-          />
-        </Box>
-      </BlurView>
-    </Box>
-  );
-};
-
-export { StoryDetailBg, StoryReadBg };
+export { StoryDetailBg };

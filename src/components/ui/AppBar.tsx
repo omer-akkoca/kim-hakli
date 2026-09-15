@@ -4,12 +4,12 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { LeftChevronVector, LOGO } from '@/assets';
 import { Box, HStack } from '@/components/ui';
-import { appBarHeight, colors } from '@/src/constants';
+import { appBarHeight } from '@/src/constants';
 import { useAppSelector } from '@/src/store';
-import { commonStyles } from '@/src/styles';
 import { AppText } from './AppText';
-import { AppIconButton } from './AppIconButton';
 import { CreditLabel } from './CreditLabel';
+import { useTheme } from '@/src/hooks';
+import { AppIconButton } from './AppButtons';
 
 interface IAppBar extends PropsWithChildren {
   backIcon?: boolean;
@@ -29,6 +29,7 @@ const AppBar: React.FC<IAppBar> = ({
   actions = [],
   children,
 }) => {
+  const { colors } = useTheme();
   const { top } = useSafeAreaInsets();
   const { back } = useRouter();
 
@@ -38,8 +39,11 @@ const AppBar: React.FC<IAppBar> = ({
     backIcon || creditLabel || Boolean(leading) || Boolean(title) || actions.length > 0;
 
   return (
-    <Box className="relative bg-background-500" style={commonStyles.barShadow}>
-      <Box className="bg-app-bar" style={{ paddingTop: top }}>
+    <Box
+      className="relative"
+      style={{ backgroundColor: colors.background, boxShadow: colors.shadow }}
+    >
+      <Box style={{ backgroundColor: colors.appBarBg, paddingTop: top }}>
         {hasContent ? (
           <Box style={{ height: appBarHeight }}>
             <HStack
@@ -52,9 +56,8 @@ const AppBar: React.FC<IAppBar> = ({
                     <AppIconButton
                       icon={LeftChevronVector}
                       onPress={back}
-                      width={20}
-                      height={20}
-                      color={colors.headline}
+                      size={20}
+                      color={'headline'}
                     />
                   ) : null}
                   {leading}
@@ -65,9 +68,8 @@ const AppBar: React.FC<IAppBar> = ({
                     <AppIconButton
                       icon={LeftChevronVector}
                       onPress={back}
-                      width={20}
-                      height={20}
-                      color={colors.headline}
+                      size={20}
+                      color={'headline'}
                     />
                   ) : null}
                   {title ? (
@@ -82,7 +84,7 @@ const AppBar: React.FC<IAppBar> = ({
                           style={{ width: 36, height: 36, borderRadius: 8 }}
                         />
                       ) : null}
-                      <AppText size={18} weight={700} className="text-headline">
+                      <AppText size={18} weight={700} color="headline">
                         {title}
                       </AppText>
                     </HStack>

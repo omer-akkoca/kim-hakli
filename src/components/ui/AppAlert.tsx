@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { ErrorCircleVector, SuccessCircleVector, WarningCircleVector } from '@/assets';
 import { HStack } from '@/components/ui';
 import { AlertType } from '@/src/types';
-import { colors } from '@/src/constants';
 import { AppText } from './AppText';
+import { useTheme } from '@/src/hooks';
 
 interface AppAlertProps {
   message: string;
@@ -11,6 +11,8 @@ interface AppAlertProps {
 }
 
 const AppAlert: React.FC<AppAlertProps> = ({ message, type }) => {
+  const { colors } = useTheme();
+
   const color = useMemo(() => {
     if (type === 'warning') return colors.headline_50;
     if (type === 'error') return colors.error;

@@ -13,8 +13,8 @@ import { Box, HStack, Pressable } from '@/components/ui';
 import { CrossVector, ErrorCircleVector, SuccessCircleVector, WarningCircleVector } from '@/assets';
 import { AppText } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '../constants';
 import { StyleSheet } from 'react-native';
+import { useTheme } from '../hooks';
 
 type ToastObject = { type: ToastType; title: string; description: string };
 
@@ -69,6 +69,7 @@ const ToastView: React.FC<{
   opacity: SharedValue<number>;
   onDismiss: () => void;
 }> = ({ toast, translateY, opacity, onDismiss }) => {
+  const { colors } = useTheme();
   const { top } = useSafeAreaInsets();
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -109,12 +110,12 @@ const ToastView: React.FC<{
           <Icon width={20} height={20} color={iconColor} />
           <Box style={{ flex: 1 }}>
             {toast.title ? (
-              <AppText size={14} weight={700} className="text-headline">
+              <AppText size={14} weight={700} color="title">
                 {toast.title}
               </AppText>
             ) : null}
             {toast.description ? (
-              <AppText size={12} weight={400} className="text-whiteSmoke-500/75">
+              <AppText size={12} weight={400} color="title_75">
                 {toast.description}
               </AppText>
             ) : null}

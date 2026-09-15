@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppText } from '../ui/AppText';
+import { AppText } from '../ui';
 
 interface HomeSectionTitleProps {
   title: string;
@@ -11,7 +11,8 @@ const HomeSectionTitle: React.FC<HomeSectionTitleProps> = ({ title }) => {
       size={12}
       lineHeight={20}
       weight={600}
-      className="text-whiteSmoke-500/75 -tracking-2 mb-2"
+      color="headline"
+      className="-tracking-2 mb-2"
       style={{ paddingHorizontal: 24 }}
     >
       {title}

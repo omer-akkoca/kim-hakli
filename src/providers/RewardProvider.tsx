@@ -12,7 +12,8 @@ import { RewardAnimation } from '@/assets';
 import { Box, VStack } from '@/components/ui';
 import { RewardContext, RewardData } from '@/src/contexts';
 import { AppText } from '@/src/components';
-import { colors, width } from '@/src/constants';
+import { width } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
 
 type RewardProviderProps = PropsWithChildren;
 
@@ -21,6 +22,8 @@ const FADE_DURATION = 500;
 const FADE_DELAY = LOTTIE_DURATION - FADE_DURATION;
 
 const RewardProvider: React.FC<RewardProviderProps> = ({ children }) => {
+  const { colors } = useTheme();
+
   const [reward, setReward] = useState<RewardData | null>(null);
   const onSuccessRef = useRef<(() => void) | null>(null);
 
@@ -68,7 +71,9 @@ const RewardProvider: React.FC<RewardProviderProps> = ({ children }) => {
       {children}
 
       {reward ? (
-        <Animated.View style={[styles.overlay, overlayAnimatedStyle]}>
+        <Animated.View
+          style={[styles.overlay, overlayAnimatedStyle, { backgroundColor: colors.modalBackdrop }]}
+        >
           <Box className="items-center justify-center">
             <LottieView
               autoPlay
@@ -111,7 +116,6 @@ const styles = StyleSheet.create({
     elevation: 9999,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.modal_backdrop,
   },
   lottie: {
     width,

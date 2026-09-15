@@ -1,15 +1,15 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { HStack, Pressable } from '@/components/ui';
-import { AppleVector } from '@/assets';
-import { useAppleSingIn } from '@/src/actions';
-import { AppLoading } from '../ui/AppLoading';
-import { AppText } from '../ui/AppText';
-import { useToast } from '@/src/hooks';
 import { useRouter } from 'expo-router';
+import { AppleVector } from '@/assets';
+import { HStack, Pressable } from '@/components/ui';
+import { useAppleSingIn } from '@/src/actions';
+import { useTheme, useToast } from '@/src/hooks';
+import { AppText, AppLoading } from '../ui';
 
 const AppleLoginButton = () => {
   const router = useRouter();
+  const { colors } = useTheme();
   const { show } = useToast();
 
   const { mutate, isPending } = useAppleSingIn();
@@ -42,7 +42,11 @@ const AppleLoginButton = () => {
   if (Platform.OS === 'android') return null;
 
   return (
-    <Pressable onPress={handleApple} className="w-full h-button rounded-button bg-white px-6">
+    <Pressable
+      onPress={handleApple}
+      style={{ backgroundColor: colors.white }}
+      className="w-full h-button rounded-button px-6"
+    >
       {isPending ? (
         <AppLoading fullScreen size={'small'} />
       ) : (

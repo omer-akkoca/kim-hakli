@@ -1,9 +1,8 @@
-import { useCountdown } from '@/src/hooks';
 import React, { PropsWithChildren } from 'react';
-import { AppCard } from '../ui/AppCard';
 import { HStack, VStack } from '@/components/ui';
-import { AppText } from '../ui/AppText';
+import { useCountdown } from '@/src/hooks';
 import { StoryStatus } from '@/src/types';
+import { AppText, AppCard } from '../ui';
 
 interface StoryCountDownProps extends PropsWithChildren {
   closed_at: string | null;
@@ -34,15 +33,16 @@ const StoryCountDown: React.FC<StoryCountDownProps> = ({ closed_at, status, chil
       {countdownItems.map((item) => (
         <AppCard key={item.label} className="flex-1">
           <VStack space="md" className="items-center p-4">
-            <AppText
-              size={30}
-              weight={700}
-              lineHeight={38}
-              className="text-center text-primary-500"
-            >
+            <AppText size={30} weight={700} lineHeight={38} color="primary" className="text-center">
               {String(item.value).padStart(2, '0')}
             </AppText>
-            <AppText size={19} weight={500} lineHeight={25} className="text-headline text-center">
+            <AppText
+              size={19}
+              weight={500}
+              lineHeight={25}
+              color="headline"
+              className="text-center"
+            >
               {item.label}
             </AppText>
           </VStack>

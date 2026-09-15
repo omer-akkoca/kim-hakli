@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { CreditVector } from '@/assets';
 import { HStack } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
 import { AppText } from './AppText';
 
 interface CreditBadgeProps {
@@ -14,30 +15,39 @@ const CreditBadge: React.FC<CreditBadgeProps> = ({
   withBg = false,
   withNumber = false,
 }) => {
+  const { colors } = useTheme();
   if (withBg) {
     return (
       <HStack
         space="sm"
-        className="h-9 bg-credit-bg border border-credit-border items-center px-3 rounded-full"
+        style={{
+          backgroundColor: colors.creditBadgeBg,
+          borderColor: colors.primary,
+        }}
+        className="h-9 border items-center px-3 rounded-full"
       >
         <CreditVector width={14} height={14} />
-        <CreditText credit={credit} withNumber={withNumber} />
+        <CreditText credit={credit} withNumber={withNumber} withBg={withBg} />
       </HStack>
     );
   } else {
     return (
       <HStack space="sm" className=" items-center">
         <CreditVector width={14} height={14} />
-        <CreditText credit={credit} withNumber={withNumber} />
+        <CreditText credit={credit} withNumber={withNumber} withBg={withBg} />
       </HStack>
     );
   }
 };
 
-const CreditText: React.FC<{ credit: number; withNumber?: boolean }> = ({ credit, withNumber }) => {
+const CreditText: React.FC<{ credit: number; withNumber?: boolean; withBg: boolean }> = ({
+  credit,
+  withNumber,
+  withBg,
+}) => {
   const creditLabel = useMemo(() => (credit !== 0 || withNumber ? credit : 'Kredisiz'), [credit]);
   return (
-    <AppText size={12} lineHeight={14} weight={600} className="text-headline">
+    <AppText size={12} lineHeight={14} weight={600} color={withBg ? 'title' : 'headline'}>
       {creditLabel}
     </AppText>
   );

@@ -11,10 +11,9 @@ import {
   HomeOutlineVector,
   ProfileOutlineVector,
 } from '@/assets';
-import { bottomBarHeight, colors, W, width } from '@/src/constants';
-import { useAuth, useModal } from '@/src/hooks';
+import { bottomBarHeight, W, width } from '@/src/constants';
+import { useAuth, useModal, useTheme } from '@/src/hooks';
 import { ProfileAvatar } from '@/src/components';
-import { commonStyles } from '@/src/styles';
 
 export default function TabsLayout() {
   return (
@@ -45,6 +44,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { bottom } = useSafeAreaInsets();
   const { show } = useModal();
   const { user } = useAuth();
+  const { colors } = useTheme();
 
   const visibleRoutes = state.routes.filter((route) => user || route.name !== 'leaderboard');
 
@@ -103,16 +103,15 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
 
   return (
     <Box
-      className="bg-background-500 border-white/5"
-      style={[
-        {
-          height: bottomBarHeight + bottom,
-          borderTopWidth: 1.75,
-        },
-        commonStyles.barShadow,
-      ]}
+      className="border-white/5"
+      style={{
+        height: bottomBarHeight + bottom,
+        borderTopWidth: 1.75,
+        backgroundColor: colors.background,
+        boxShadow: colors.shadow,
+      }}
     >
-      <Box className="flex-1 bg-bottom-nav-bar">
+      <Box className="flex-1" style={{ backgroundColor: colors.navBarBg }}>
         <HStack className="relative flex-1" style={{ marginBottom: bottom }}>
           <Animated.View
             pointerEvents="none"

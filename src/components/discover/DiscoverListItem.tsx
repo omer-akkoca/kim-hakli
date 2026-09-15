@@ -11,7 +11,8 @@ import { Image } from 'expo-image';
 import { Box, HStack } from '@/components/ui';
 import { IStory } from '@/src/types';
 import { ADS, width } from '@/src/constants';
-import { AppText } from '../ui/AppText';
+import { useTheme } from '@/src/hooks';
+import { AppText } from '../ui';
 
 interface DiscoverNativeAdProps {
   order: number;
@@ -21,6 +22,8 @@ const itemWidth = (width - 48 - 8) / 2;
 const itemHeight = (itemWidth / 9) * 14;
 
 const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
+  const { colors } = useTheme();
+
   const [nativeAd, setNativeAd] = useState<NativeAd | null>(null);
 
   useEffect(() => {
@@ -65,12 +68,15 @@ const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
 
   return (
     <Box
-      className="bg-background-500 border border-white/5 rounded-3xl overflow-hidden"
+      className="rounded-3xl overflow-hidden"
       style={{
         width: itemWidth,
         height: itemHeight,
         marginRight: order % 2 === 0 ? 8 : 0,
-        boxShadow: '0 10px 30px rgba(0,0,0,0.22)',
+        backgroundColor: colors.background,
+        boxShadow: colors.shadow,
+        borderWidth: 1.75,
+        borderColor: colors.white_5,
       }}
     >
       <NativeAdView nativeAd={nativeAd} style={{ flex: 1 }}>
@@ -103,36 +109,26 @@ const DiscoverNativeAd: React.FC<DiscoverNativeAdProps> = ({ order }) => {
                 />
               </NativeAsset>
             ) : null}
-
-            <AppText size={10} weight={600} lineHeight={12} className="text-secondary-500">
+            <AppText size={10} weight={600} lineHeight={12} color="headline">
               Sponsorlu
             </AppText>
           </HStack>
           <NativeAsset assetType={NativeAssetType.HEADLINE}>
-            <AppText
-              size={15}
-              lineHeight={19}
-              weight={700}
-              className="text-headline"
-              numberOfLines={2}
-            >
+            <AppText size={15} lineHeight={19} weight={700} color="headline" numberOfLines={2}>
               {nativeAd.headline}
             </AppText>
           </NativeAsset>
           <NativeAsset assetType={NativeAssetType.BODY}>
-            <AppText size={11} lineHeight={14} className="text-secondary-500" numberOfLines={2}>
+            <AppText size={11} lineHeight={14} color="headline_82" numberOfLines={2}>
               {nativeAd.body}
             </AppText>
           </NativeAsset>
           <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
-            <Box className="items-center justify-center bg-primary-500 rounded-lg py-2">
-              <AppText
-                size={12}
-                lineHeight={16}
-                weight={700}
-                className="text-headline"
-                numberOfLines={1}
-              >
+            <Box
+              style={{ backgroundColor: colors.primary }}
+              className="items-center justify-center rounded-lg py-2"
+            >
+              <AppText size={12} lineHeight={16} weight={700} color="title" numberOfLines={1}>
                 {nativeAd.callToAction}
               </AppText>
             </Box>

@@ -8,9 +8,9 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import { width } from '@/src/constants';
-import { AppCard } from '../ui/AppCard';
 import { SLIDER1, SLIDER2, SLIDER3, SLIDER4 } from '@/assets';
+import { width } from '@/src/constants';
+import { AppCard } from '../ui';
 
 const SLIDES = [
   {

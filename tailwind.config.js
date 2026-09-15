@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
+  userInterfaceStyle: 'automatic',
   content: [
     './app/**/*.{html,js,jsx,ts,tsx,mdx}',
     './components/**/*.{html,js,jsx,ts,tsx,mdx}',
@@ -24,17 +25,14 @@ module.exports = {
         subText: 'rgba(245,245,245,0.42)',
         apple: '#000000',
         like: '#FF3040',
-        'bottom-nav-bar': 'rgba(28, 31, 48, 0.78)',
-        'app-bar': 'rgba(28, 31, 48, 0.78)',
+        headline: '#1C1F30',
+        darkHeadline: '#f5f5f5',
         'dreamless-sleep': 'rgb(17 17 17 / <alpha-value>)',
         'modal-title': '#f5f5f5',
         'modal-desc': 'rgba(245,245,245,0.78)',
         'modal-backdrop': 'rgba(0,0,0,0.58)',
         'credit-label': 'rgba(16,18,28,0.82)',
-        'credit-bg': 'rgba(16, 18, 28, 0.78)',
-        'credit-border': 'rgba(241, 118, 42, 0.32)',
         'detail-secondary-button': 'rgba(10,12,20,0.42)',
-        headline: '#f5f5f5',
         delete: '#FF3040', // #FF0000
         primary: {
           0: 'rgb(255 255 255 / <alpha-value>)',
@@ -51,6 +49,20 @@ module.exports = {
           950: 'rgb(45 15 3 / <alpha-value>)',
         },
         background: {
+          0: 'rgb(255 255 255 / <alpha-value>)',
+          50: 'rgb(253 253 253 / <alpha-value>)',
+          100: 'rgb(251 251 251 / <alpha-value>)',
+          200: 'rgb(249 249 249 / <alpha-value>)',
+          300: 'rgb(247 247 247 / <alpha-value>)',
+          400: 'rgb(246 246 246 / <alpha-value>)',
+          500: 'rgb(245 245 245 / <alpha-value>)', // #F5F5F5
+          600: 'rgb(220 220 220 / <alpha-value>)',
+          700: 'rgb(190 190 190 / <alpha-value>)',
+          800: 'rgb(140 140 140 / <alpha-value>)',
+          900: 'rgb(85 85 85 / <alpha-value>)',
+          950: 'rgb(40 40 40 / <alpha-value>)',
+        },
+        darkBackground: {
           0: 'rgb(255 255 255 / <alpha-value>)',
           50: 'rgb(238 240 248 / <alpha-value>)',
           100: 'rgb(220 224 238 / <alpha-value>)',
@@ -278,6 +290,7 @@ module.exports = {
       },
       borderWidth: {
         1.5: '1.5px',
+        app: '1.5px',
       },
     },
   },

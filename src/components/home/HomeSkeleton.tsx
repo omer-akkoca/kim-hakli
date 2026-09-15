@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, VStack } from '@/components/ui';
-import { AppScrollView } from '../ui/AppScrollView';
+import { AppScrollView } from '../ui';
 import { HomeSectionTitle } from './HomeSectionTitle';
 import { HomeSkeletonCard } from './HomeStoryCard';
 

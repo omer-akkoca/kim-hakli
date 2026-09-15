@@ -691,3 +691,48 @@ export const PasteVector = (props: SvgProps) => (
     <Path d="M128 184c0-30.879 25.122-56 56-56h136V56c0-13.255-10.745-24-24-24h-80.61C204.306 12.89 183.637 0 160 0s-44.306 12.89-55.39 32H24C10.745 32 0 42.745 0 56v336c0 13.255 10.745 24 24 24h104V184zm32-144c13.255 0 24 10.745 24 24s-10.745 24-24 24-24-10.745-24-24 10.745-24 24-24zm184 248h104v200c0 13.255-10.745 24-24 24H184c-13.255 0-24-10.745-24-24V184c0-13.255 10.745-24 24-24h136v104c0 13.2 10.8 24 24 24zm104-38.059V256h-96v-96h6.059a24 24 0 0 1 16.97 7.029l65.941 65.941a24.002 24.002 0 0 1 7.03 16.971z" />
   </Svg>
 );
+
+export const MoonVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M11.0174 2.80157C6.37072 3.29221 2.75 7.22328 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C16.7767 21.25 20.7078 17.6293 21.1984 12.9826C19.8717 14.6669 17.8126 15.75 15.5 15.75C11.4959 15.75 8.25 12.5041 8.25 8.5C8.25 6.18738 9.33315 4.1283 11.0174 2.80157ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C12.7166 1.25 13.0754 1.82126 13.1368 2.27627C13.196 2.71398 13.0342 3.27065 12.531 3.57467C10.8627 4.5828 9.75 6.41182 9.75 8.5C9.75 11.6756 12.3244 14.25 15.5 14.25C17.5882 14.25 19.4172 13.1373 20.4253 11.469C20.7293 10.9658 21.286 10.804 21.7237 10.8632C22.1787 10.9246 22.75 11.2834 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12Z"
+      fill={props.color}
+    />
+  </Svg>
+);
+
+export const SunVector = (props: SvgProps) => (
+  <Svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" {...props}>
+    <Circle cx={12} cy={12} r={5} stroke={props.color} strokeWidth={1.5} />
+    <Path d="M12 2V4" stroke={props.color} strokeWidth={1.5} strokeLinecap="round" />
+    <Path d="M12 20V22" stroke={props.color} strokeWidth={1.5} strokeLinecap="round" />
+    <Path d="M4 12L2 12" stroke={props.color} strokeWidth={1.5} strokeLinecap="round" />
+    <Path d="M22 12L20 12" stroke={props.color} strokeWidth={1.5} strokeLinecap="round" />
+    <Path
+      d="M19.7778 4.22266L17.5558 6.25424"
+      stroke={props.color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M4.22217 4.22266L6.44418 6.25424"
+      stroke={props.color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M6.44434 17.5557L4.22211 19.7779"
+      stroke={props.color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    <Path
+      d="M19.7778 19.7773L17.5558 17.5551"
+      stroke={props.color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+  </Svg>
+);

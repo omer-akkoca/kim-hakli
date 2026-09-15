@@ -1,19 +1,31 @@
-import { Pressable } from '@/components/ui';
-import { commonStyles } from '@/src/styles';
 import React, { PropsWithChildren } from 'react';
+import { Pressable } from '@/components/ui';
+import { useTheme } from '@/src/hooks';
+import { ViewStyle } from 'react-native';
 
 interface AppCardProps extends PropsWithChildren {
   flex?: boolean;
   onPress?: () => void;
   className?: string;
+  style?: ViewStyle | ViewStyle[];
 }
 
-const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, children }) => {
+const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, style, children }) => {
+  const { colors } = useTheme();
+
   return (
     <Pressable
       onPress={onPress}
-      className={`bg-background-500 border border-white/10 rounded-xl overflow-hidden ${className}`}
-      style={[{ flex: flex ? 1 : undefined }, commonStyles.barShadow]}
+      className={`border rounded-xl overflow-hidden ${className}`}
+      style={[
+        {
+          flex: flex ? 1 : undefined,
+          backgroundColor: colors.appCardBg,
+          boxShadow: colors.shadow,
+          borderColor: colors.white_10,
+        },
+        style,
+      ]}
       disabled={!onPress}
     >
       {children}

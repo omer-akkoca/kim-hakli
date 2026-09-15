@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { Box, HStack } from '@/components/ui';
-import { colors, storyReadProgressBarHeight } from '@/src/constants';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { Box, HStack } from '@/components/ui';
+import { storyReadProgressBarHeight } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
 
 interface StoryProgressBarProps {
   total: number;
@@ -9,6 +10,7 @@ interface StoryProgressBarProps {
 }
 
 const ProgressSegment = ({ filled }: { filled: boolean }) => {
+  const { colors } = useTheme();
   const progress = useSharedValue(filled ? 1 : 0);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const ProgressSegment = ({ filled }: { filled: boolean }) => {
   }));
 
   return (
-    <Box className="flex-1 h-full rounded-full bg-secondary-500 overflow-hidden">
+    <Box style={{ backgroundColor: colors.headline_50 }} className="flex-1 h-full overflow-hidden">
       <Animated.View style={[{ height: '100%', backgroundColor: colors.primary }, animatedStyle]} />
     </Box>
   );

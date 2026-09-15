@@ -16,7 +16,6 @@ import {
   DiscoverSkeleton,
   StoryRenderItem,
 } from '@/src/components';
-import { colors } from '@/src/constants';
 import { useGetStories } from '@/src/actions';
 
 const DiscoverPage = () => {
@@ -81,17 +80,15 @@ const DiscoverPage = () => {
             key="search"
             icon={SearchMagnifyingVector}
             onPress={() => push('/search')}
-            width={20}
-            height={20}
-            color={colors.headline}
+            size={20}
+            color={'headline'}
           />,
           <AppIconButton
             key={'filter'}
             icon={FilterVector}
             onPress={() => setShowDrawer(true)}
-            width={20}
-            height={20}
-            color={colors.headline}
+            size={20}
+            color={'headline'}
           />,
         ]}
       />

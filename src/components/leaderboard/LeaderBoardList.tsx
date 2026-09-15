@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from 'react-native';
-import { Box, Divider, HStack, VStack } from '@/components/ui';
+import { Box, HStack, VStack } from '@/components/ui';
 import { GetLeaderBoardResponse, IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
-import { AppFlatList } from '../ui/AppFlatList';
+import { useTheme } from '@/src/hooks';
+import { AppDivider, AppFlatList, AppLoading, WatchAdBadge } from '../ui';
 import { LeaderTitle } from './LeaderTitle';
 import { LeaderCard } from './LeaderCard';
 import { LeaderSelfCard } from './LeaderSelfCard';
 import { LeaderListItem } from './LeaderListItem';
-import { AppLoading } from '../ui/AppLoading';
-import { WatchAdBadge } from '../ui/WatchAdBadge';
 
 interface LeaderBoardListProps {
   loading: boolean;
@@ -27,6 +26,7 @@ const LeaderBoardList: React.FC<LeaderBoardListProps> = ({
   title,
   subTitle,
 }) => {
+  const { colors } = useTheme();
   const first = data ? data.leaderboard.find((e) => e.order === 1) : null;
 
   const filteredLeaderboard = first
@@ -48,9 +48,9 @@ const LeaderBoardList: React.FC<LeaderBoardListProps> = ({
       data.current_user ? (
         <VStack space="lg" className="mt-6">
           <HStack space="sm" className="items-center justify-center">
-            <Box className="w-1 h-1 rounded-full bg-secondary-500" />
-            <Box className="w-1 h-1 rounded-full bg-secondary-500" />
-            <Box className="w-1 h-1 rounded-full bg-secondary-500" />
+            <Box style={{ backgroundColor: colors.headline_75 }} className="w-1 h-1 rounded-full" />
+            <Box style={{ backgroundColor: colors.headline_75 }} className="w-1 h-1 rounded-full" />
+            <Box style={{ backgroundColor: colors.headline_75 }} className="w-1 h-1 rounded-full" />
           </HStack>
           <LeaderSelfCard profile={data.current_user} />
           <WatchAdBadge />
@@ -59,14 +59,7 @@ const LeaderBoardList: React.FC<LeaderBoardListProps> = ({
     [data],
   );
 
-  const ItemSeparatorComponent = useCallback(
-    () => (
-      <Box className="py-4">
-        <Divider className="bg-white/5" />
-      </Box>
-    ),
-    [],
-  );
+  const ItemSeparatorComponent = useCallback(() => <AppDivider className="my-4" />, []);
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<IAllTimeLeaderboardUserWithAvatarUrl>) => (

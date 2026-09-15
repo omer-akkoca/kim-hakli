@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable } from '@/components/ui';
-import { AppText } from '../ui/AppText';
+import { Box, Pressable } from '@/components/ui';
+import { AppCard, AppText } from '../ui';
+import { useTheme } from '@/src/hooks';
 
 interface DiscoverFilterBadgeProps {
   active: boolean;
@@ -9,14 +10,23 @@ interface DiscoverFilterBadgeProps {
 }
 
 const DiscoverFilterBadge: React.FC<DiscoverFilterBadgeProps> = ({ label, onPress, active }) => {
+  const { colors } = useTheme();
+
+  if (active) {
+    return (
+      <AppCard style={{ borderColor: colors.primary }} className="rounded-full">
+        <Box className="px-4 py-2">
+          <AppText color="primary" weight={500}>
+            {label}
+          </AppText>
+        </Box>
+      </AppCard>
+    );
+  }
+
   return (
-    <Pressable
-      onPress={onPress}
-      className={`px-4 py-2 border rounded-full ${active ? 'border-primary-500/75 bg-primary-500/5' : 'border-transparent bg-transparent'}`}
-    >
-      <AppText className={active ? 'text-primary-500/75' : 'text-whiteSmoke-500/75'}>
-        {label}
-      </AppText>
+    <Pressable onPress={onPress} className="px-4 py-2 border-none">
+      <AppText color="headline">{label}</AppText>
     </Pressable>
   );
 };

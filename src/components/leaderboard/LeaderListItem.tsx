@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
+import { Image } from 'expo-image';
 import { CreditVector, LOGO } from '@/assets';
 import { Box, HStack } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
-import { AppText } from '../ui/AppText';
-import { LeaderSelfCard } from './LeaderSelfCard';
 import { IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
-import { Image } from 'expo-image';
+import { AppText } from '../ui';
+import { LeaderSelfCard } from './LeaderSelfCard';
 
 interface LeaderListItemProps {
   profile: IAllTimeLeaderboardUserWithAvatarUrl;
@@ -32,7 +32,8 @@ const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.75}
-              className="w-full text-headline text-center"
+              color="headline"
+              className="w-full text-center"
             >
               {order}
             </AppText>
@@ -49,13 +50,13 @@ const LeaderListItem: React.FC<LeaderListItemProps> = ({ profile, order }) => {
               borderRadius: 99,
             }}
           />
-          <AppText className="flex-1 text-headline" numberOfLines={1}>
+          <AppText color="headline" weight={500} className="flex-1" numberOfLines={1}>
             {profile.full_name}
           </AppText>
         </HStack>
         <HStack space="sm" className="items-center">
           <CreditVector width={14} height={14} />
-          <AppText size={12} lineHeight={14} weight={600} className="text-headline">
+          <AppText size={12} lineHeight={14} weight={600} color="headline">
             {profile.total_earned_credit}
           </AppText>
         </HStack>

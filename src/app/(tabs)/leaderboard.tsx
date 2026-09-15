@@ -15,7 +15,8 @@ import {
   AppText,
   MonthlyLeaderboard,
 } from '@/src/components';
-import { appBarHeight, colors } from '@/src/constants';
+import { appBarHeight } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
 
 type LeaderboardRoute = {
   key: 'all' | 'month';
@@ -32,6 +33,8 @@ type LeaderboardTabBarProps = SceneRendererProps & {
 };
 
 const LeaderboardTabBar: React.FC<LeaderboardTabBarProps> = ({ navigationState, jumpTo }) => {
+  const { colors } = useTheme();
+
   const [barWidth, setBarWidth] = useState(0);
   const tabProgress = useSharedValue(navigationState.index);
 
@@ -45,11 +48,7 @@ const LeaderboardTabBar: React.FC<LeaderboardTabBarProps> = ({ navigationState, 
   }, [navigationState.index, tabProgress]);
 
   const indicatorStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: tabProgress.value * tabWidth,
-      },
-    ],
+    transform: [{ translateX: tabProgress.value * tabWidth }],
   }));
 
   return (
@@ -71,8 +70,8 @@ const LeaderboardTabBar: React.FC<LeaderboardTabBarProps> = ({ navigationState, 
               <AppText
                 size={14}
                 lineHeight={16}
-                weight={active ? 500 : 400}
-                className={active ? 'text-primary-500' : 'text-loginText'}
+                weight={active ? 600 : 500}
+                color={active ? 'primary' : 'headline_78'}
               >
                 {route.title}
               </AppText>

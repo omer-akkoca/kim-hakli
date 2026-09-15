@@ -9,12 +9,12 @@ import Animated, {
   SharedValue,
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import { BlurView } from 'expo-blur';
-import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { colors, width } from '@/src/constants';
+import { Box, VStack } from '@/components/ui';
+import { width } from '@/src/constants';
 import { IStorySideWithImage } from '@/src/types';
-import { AppText } from '../ui/AppText';
 import { TickVector } from '@/assets';
+import { useTheme } from '@/src/hooks';
+import { AppCard, AppText } from '../ui';
 
 interface VoteSidesCarouselProps {
   sides: IStorySideWithImage[];
@@ -77,6 +77,8 @@ interface SegmentProps {
 }
 
 const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, setSelectedSide }) => {
+  const { colors } = useTheme();
+
   const animatedStyle = useAnimatedStyle(() => {
     const inputRange = [
       (index - 1) * (ITEM_WIDTH + SPACING),
@@ -101,63 +103,54 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
         animatedStyle,
       ]}
     >
-      <Pressable
+      <AppCard
+        flex
         onPress={() => setSelectedSide(item.id)}
-        style={[
-          {
-            width: ITEM_WIDTH,
-            height: ITEM_HEIGHT,
-            boxShadow: active ? '0 0 14px rgba(241,118,42,0.24)' : '0 10px 24px rgba(0,0,0,0.22)',
-          },
-        ]}
-        className={`bg-background-500/75 rounded-xl border overflow-hidden ${active ? 'border-primary-500' : 'border-white/10'}`}
+        style={{
+          width: ITEM_WIDTH,
+          height: ITEM_HEIGHT,
+          boxShadow: active ? '0 0 14px rgba(241,118,42,0.24)' : colors.shadow,
+          borderWidth: 1.75,
+          borderColor: active ? colors.primary : colors.white_10,
+        }}
       >
-        <BlurView intensity={18} tint="dark" className="flex-1">
-          <LinearGradient
-            colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="flex-1"
-          >
-            <Box className="flex-1 relative">
-              <Box className="w-full" style={{ height: ITEM_WIDTH }}>
-                <Image
-                  source={item.avatar_url}
-                  contentFit="cover"
-                  cachePolicy="memory-disk"
-                  transition={200}
-                  recyclingKey={item.id}
-                  style={{ flex: 1 }}
-                />
-              </Box>
-              <VStack space="md" className="flex-1 px-4 items-center justify-center">
-                <AppText
-                  size={20}
-                  lineHeight={26}
-                  weight={600}
-                  className="text-headline text-center"
-                >
-                  {item.title}
-                </AppText>
-                {item.description ? (
-                  <AppText size={14} weight={500} className="text-whiteSmoke-500/50 text-center">
-                    {item.description}
-                  </AppText>
-                ) : null}
-              </VStack>
-              {active ? (
-                <Box
-                  className="absolute top-4 right-4 h-11 w-11 bg-primary-500 rounded-full border border-primary-300 items-center justify-center"
-                  style={{ boxShadow: '0 5px 10px rgba(0,0,0,0.24)' }}
-                >
-                  <TickVector width={24} height={24} color={colors.headline} />
-                </Box>
-              ) : null}
+        <Box className="flex-1 relative">
+          <Box className="w-full" style={{ height: ITEM_WIDTH }}>
+            <Image
+              source={item.avatar_url}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+              recyclingKey={item.id}
+              style={{ flex: 1 }}
+            />
+          </Box>
+          <VStack space="md" className="flex-1 px-4 items-center justify-center">
+            <AppText
+              size={20}
+              lineHeight={26}
+              weight={600}
+              color="headline"
+              className="text-center"
+            >
+              {item.title}
+            </AppText>
+            {item.description ? (
+              <AppText size={14} weight={500} color="headline_82" className="text-center">
+                {item.description}
+              </AppText>
+            ) : null}
+          </VStack>
+          {active ? (
+            <Box
+              className="absolute top-4 right-4 h-11 w-11 rounded-full items-center justify-center"
+              style={{ boxShadow: colors.shadow, backgroundColor: colors.primary }}
+            >
+              <TickVector width={24} height={24} color={colors.title} />
             </Box>
-          </LinearGradient>
-        </BlurView>
-      </Pressable>
+          ) : null}
+        </Box>
+      </AppCard>
     </Animated.View>
   );
 };

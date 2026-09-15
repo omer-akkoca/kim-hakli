@@ -1,6 +1,5 @@
-import { Box, Spinner } from '@/components/ui';
-import { colors } from '@/src/constants';
 import React from 'react';
+import { Box, Spinner } from '@/components/ui';
 
 interface AppLoadingProps {
   fullScreen?: boolean;
@@ -11,7 +10,7 @@ interface AppLoadingProps {
 const AppLoading: React.FC<AppLoadingProps> = ({
   fullScreen,
   size = 'large',
-  color = colors.primary,
+  color = '#F56B20',
 }) => {
   return (
     <Box style={{ flex: fullScreen ? 1 : undefined }} className="justify-center items-center">

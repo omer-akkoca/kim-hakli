@@ -1,9 +1,9 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { HStack, Pressable } from '@/components/ui';
 import { GetStoriesParams, storyArtStyles } from '@/src/types';
-import { AppText } from '../ui/AppText';
-import { useTranslation } from 'react-i18next';
+import { AppText } from '../ui';
 
 interface DiscoverFilterTabsProps {
   filters: GetStoriesParams;

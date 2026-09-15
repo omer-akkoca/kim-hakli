@@ -5,3 +5,4 @@ export * from './ToastProvider';
 export * from './QueryProvider';
 export * from './NotificationObserver';
 export * from './RewardProvider';
+export * from './ThemeProvider';

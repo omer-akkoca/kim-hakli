@@ -1,18 +1,14 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
-import { colors, width } from '@/src/constants';
-import { IStory } from '@/src/types';
-import { AppText } from '../ui/AppText';
-import { CreditBadge } from '../ui/CreditBadge';
-import { AppIconButton } from '../ui/AppIconButton';
-import { useAuth, useBookmark } from '@/src/hooks';
 import { usePathname, useRouter } from 'expo-router';
-import { AppSkeleton } from '../ui/AppSkeleton';
 import { Image } from 'expo-image';
+import { Box, HStack, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { width } from '@/src/constants';
+import { IStory } from '@/src/types';
+import { useAuth, useBookmark } from '@/src/hooks';
 import { getCoverImageUrl } from '@/src/utils';
-import { useDispatch } from 'react-redux';
-import { setToStoryDetail } from '@/src/store';
+import { setToStoryDetail, useAppDispatch } from '@/src/store';
+import { AppIconButton, AppText, AppSkeleton, CreditBadge } from '../ui';
 
 const scale = (width - 64) / 9;
 const containerWidth = width;
@@ -34,7 +30,7 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
   const { push } = useRouter();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(story.id);
   const { user } = useAuth();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const pathName = usePathname();
 
   const coverImage = getCoverImageUrl(story.id);
@@ -82,10 +78,9 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
                   icon={BookmarkIcon}
                   onPress={toggleBookmark}
                   disabled={loading}
-                  color={colors.headline}
-                  width={22}
-                  height={22}
-                  className="w-credit-label h-credit-label bg-credit-bg items-center justify-center rounded-full border border-white/5"
+                  color="headline"
+                  size={22}
+                  withBg
                 />
               ) : null}
             </HStack>
@@ -96,16 +91,9 @@ const FeaturedStoryCard: React.FC<FeaturedStoryCardProps> = ({
                   size={26}
                   lineHeight={36}
                   weight={600}
-                  className="text-center text-headline -tracking-2 mx-auto w-3/4"
+                  className="text-center -tracking-2 mx-auto w-3/4"
+                  color="headline"
                   numberOfLines={2}
-                  style={{
-                    textShadowColor: 'rgba(0,0,0,0.34)',
-                    textShadowOffset: {
-                      width: 0,
-                      height: 4,
-                    },
-                    textShadowRadius: 18,
-                  }}
                 >
                   {story.title}
                 </AppText>

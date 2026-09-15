@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
   AppBackground,
+  AppIconButton,
+  AppPrimaryButton,
   AppText,
-  DetailIconButton,
-  DetailPrimaryButton,
   VoteSidesCarousel,
 } from '@/src/components';
 import { CrossVector, VerifyVector, VoteVector } from '@/assets';
@@ -16,13 +16,13 @@ import {
 } from '@/src/actions';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '@/src/constants';
-import { useAuth, useReward } from '@/src/hooks';
+import { useAuth, useReward, useTheme } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
+  const { colors } = useTheme();
   const { back, replace } = useRouter();
   const { top } = useSafeAreaInsets();
   const { user } = useAuth();
@@ -70,7 +70,7 @@ export default function StoryVotePage() {
           style={{ top: top + 8 }}
         >
           <Box />
-          <DetailIconButton icon={CrossVector} onPress={back} />
+          <AppIconButton icon={CrossVector} onPress={back} withBg color="title" />
         </HStack>
         <Box className="flex-1 justify-center items-center gap-10 z-10">
           <VStack className="w-full px-6">
@@ -79,7 +79,8 @@ export default function StoryVotePage() {
               size={40}
               lineHeight={75}
               weight={700}
-              className="w-full text-headline -tracking-1 text-center"
+              color="headline"
+              className="w-full -tracking-1 text-center"
               style={{
                 textShadowColor: 'rgba(241,118,42,0.35)',
                 textShadowOffset: { width: 0, height: 4 },
@@ -88,7 +89,7 @@ export default function StoryVotePage() {
             >
               Kim Haklı?
             </AppText>
-            <AppText className="text-whiteSmoke-500/60 text-center">
+            <AppText color="headline_90" className="text-center">
               Hikayeye göre kimin haklı olduğuna sen karar ver.
             </AppText>
           </VStack>
@@ -100,7 +101,7 @@ export default function StoryVotePage() {
           />
 
           <VStack space="md" className="w-full px-6">
-            <DetailPrimaryButton
+            <AppPrimaryButton
               label="Oy Ver"
               disabled={!!!selectedSide}
               loading={isPending}
@@ -108,8 +109,8 @@ export default function StoryVotePage() {
               icon={VoteVector}
             />
             <HStack space="sm" className="items-center justify-center">
-              <VerifyVector width={16} height={16} color={colors.whiteSmoke_50} />
-              <AppText size={10} weight={600} className="text-whiteSmoke-500/50 text-center">
+              <VerifyVector width={16} height={16} color={colors.headline_75} />
+              <AppText size={10} weight={600} color="headline_75" className="text-center">
                 Oyunla topluluğa yön ver, hikayenin gidişatını etkile.
               </AppText>
             </HStack>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, HStack } from '@/components/ui';
+import { useRouter } from 'expo-router';
 import { ProfileOutlineVector, RightChevronVector } from '@/assets';
+import { Box, HStack } from '@/components/ui';
 import {
   AppBackground,
   AppBar,
@@ -9,8 +10,7 @@ import {
   AppText,
   DeleteAccountCard,
 } from '@/src/components';
-import { useRouter } from 'expo-router';
-import { colors } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
 
 const tabs = [
   {
@@ -22,6 +22,7 @@ const tabs = [
 ];
 
 const SettingsPage = () => {
+  const { colors } = useTheme();
   const router = useRouter();
 
   return (
@@ -34,11 +35,11 @@ const SettingsPage = () => {
               <HStack className="p-4 items-center justify-between">
                 <HStack space="lg" className="items-center">
                   <e.icon width={20} height={20} color={colors.headline} />
-                  <AppText size={14} weight={600} className="text-headline -tracking-2">
+                  <AppText size={14} weight={600} color="headline" className="-tracking-2">
                     {e.label}
                   </AppText>
                 </HStack>
-                <RightChevronVector width={16} height={16} color={colors.whiteSmoke_32} />
+                <RightChevronVector width={16} height={16} color={colors.headline_32} />
               </HStack>
             </AppCard>
           ))}

@@ -4,9 +4,8 @@ import { Box, HStack } from '@/components/ui';
 import { StoryVoteCard } from '@/src/types';
 import { W } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
-import { AppText } from '../ui/AppText';
+import { AppCard, AppText } from '../ui';
 import { WinnerBadge } from './WinnerBadge';
-import { AppCard } from '../ui/AppCard';
 import { VotedBadge } from './VotedBadge';
 
 interface WinnerResultCardProps {
@@ -43,7 +42,8 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) 
             size={30}
             lineHeight={36}
             weight={700}
-            className="text-headline mt-2 text-center"
+            color="headline"
+            className="mt-2 text-center"
             numberOfLines={isSingleWord ? 1 : 2}
             adjustsFontSizeToFit
             minimumFontScale={0.72}
@@ -54,7 +54,8 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) 
             size={30}
             lineHeight={40}
             weight={800}
-            className="text-primary-500 text-center"
+            color="primary"
+            className="text-center"
             style={{
               textShadowColor: 'rgba(241,118,42,0.22)',
               textShadowOffset: { width: 0, height: 0 },
@@ -63,7 +64,7 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) 
           >
             {winner.percentage}%
           </AppText>
-          <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40 text-center">
+          <AppText weight={500} color="headline_82" className="-tracking-1 text-center">
             {formatStoryVoteCount(winner.vote_count)} Oy
           </AppText>
         </Box>
@@ -104,27 +105,18 @@ const ResultCard: React.FC<ResultCardProps> = ({ side, votedId }) => {
             size={25}
             lineHeight={35}
             weight={700}
-            className="text-headline text-center w-full"
+            color="headline"
+            className="text-center w-full"
             numberOfLines={isSingleWord ? 1 : 2}
             adjustsFontSizeToFit
             minimumFontScale={0.72}
           >
             {side.title}
           </AppText>
-          <AppText
-            size={25}
-            lineHeight={35}
-            weight={800}
-            className="text-primary-500 text-center"
-            style={{
-              textShadowColor: 'rgba(241,118,42,0.22)',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 24,
-            }}
-          >
+          <AppText size={25} lineHeight={35} weight={800} color="primary" className="text-center">
             {side.percentage}%
           </AppText>
-          <AppText weight={500} className="-tracking-1 text-whiteSmoke-500/40 text-center">
+          <AppText weight={500} color="headline_82" className="-tracking-1 text-center">
             {formatStoryVoteCount(side.vote_count)} Oy
           </AppText>
         </Box>

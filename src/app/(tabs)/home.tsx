@@ -6,14 +6,13 @@ import {
   AppBar,
   AppFlatList,
   AppScrollView,
-  AppText,
   HomeSectionTitle,
   HomeSkeleton,
   HomeSlider,
   HomeStoryCard,
+  PublishedDateBadge,
 } from '@/src/components';
 import { useGetClosingStory, useGetHomeStories } from '@/src/actions';
-import { timeAgo } from '@/src/utils';
 import { ADS } from '@/src/constants';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 import { usePathname, useRouter } from 'expo-router';
@@ -73,17 +72,7 @@ const HomePage = () => {
                     gap={12}
                     renderItem={({ item }) => (
                       <HomeStoryCard story={item}>
-                        <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
-                          <AppText
-                            size={10}
-                            lineHeight={12}
-                            weight={600}
-                            className="text-headline text-center capitalize"
-                            numberOfLines={1}
-                          >
-                            {timeAgo(item.created_at)}
-                          </AppText>
-                        </Box>
+                        <PublishedDateBadge created_at={item.created_at} />
                       </HomeStoryCard>
                     )}
                   />
@@ -99,17 +88,7 @@ const HomePage = () => {
                     gap={12}
                     renderItem={({ item }) => (
                       <HomeStoryCard story={item}>
-                        <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
-                          <AppText
-                            size={10}
-                            lineHeight={12}
-                            weight={600}
-                            className="text-headline text-center capitalize"
-                            numberOfLines={1}
-                          >
-                            {timeAgo(item.created_at)}
-                          </AppText>
-                        </Box>
+                        <PublishedDateBadge created_at={item.created_at} />
                       </HomeStoryCard>
                     )}
                   />
@@ -125,17 +104,7 @@ const HomePage = () => {
                     gap={12}
                     renderItem={({ item }) => (
                       <HomeStoryCard story={item}>
-                        <Box className="w-3/4 bg-primary-500/80 py-0.5 px-1 mx-auto rounded-md">
-                          <AppText
-                            size={10}
-                            lineHeight={12}
-                            weight={600}
-                            className="text-headline text-center capitalize"
-                            numberOfLines={1}
-                          >
-                            {item.vote_count} Oy
-                          </AppText>
-                        </Box>
+                        <PublishedDateBadge created_at={item.created_at} />
                       </HomeStoryCard>
                     )}
                   />

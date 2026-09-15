@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { AppFlatList } from '../ui/AppFlatList';
-import { StorySkeletonItem } from './StoryRenderItem';
 import { ListRenderItemInfo } from 'react-native';
+import { AppFlatList } from '../ui';
+import { StorySkeletonItem } from './StoryRenderItem';
 
 const DiscoverSkeleton: React.FC = () => {
   const renderItem = useCallback(
