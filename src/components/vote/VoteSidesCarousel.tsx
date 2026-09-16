@@ -9,10 +9,10 @@ import Animated, {
   SharedValue,
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';
+import { TickVector } from '@/assets';
 import { Box, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { IStorySideWithImage } from '@/src/types';
-import { TickVector } from '@/assets';
 import { useTheme } from '@/src/hooks';
 import { AppCard, AppText } from '../ui';
 
@@ -136,17 +136,24 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
               {item.title}
             </AppText>
             {item.description ? (
-              <AppText size={14} weight={500} color="headline_82" className="text-center">
+              <AppText size={14} weight={500} color="headline_90" className="text-center">
                 {item.description}
               </AppText>
             ) : null}
           </VStack>
           {active ? (
             <Box
-              className="absolute top-4 right-4 h-11 w-11 rounded-full items-center justify-center"
-              style={{ boxShadow: colors.shadow, backgroundColor: colors.primary }}
+              className="absolute rounded-full items-center justify-center"
+              style={{
+                boxShadow: colors.shadow,
+                backgroundColor: colors.primary,
+                width: 44,
+                height: 44,
+                top: ITEM_WIDTH - 22,
+                left: ITEM_WIDTH / 2 - 22,
+              }}
             >
-              <TickVector width={24} height={24} color={colors.title} />
+              <TickVector width={28} height={28} color={colors.title} />
             </Box>
           ) : null}
         </Box>

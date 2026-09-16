@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Box, VStack } from '@/components/ui';
+import { Box, HStack, VStack } from '@/components/ui';
 import {
   AppBackground,
   AppBannerAd,
   AppBar,
   AppFlatList,
+  AppNamedLogo,
   AppScrollView,
+  CreditLabel,
   HomeSectionTitle,
   HomeSkeleton,
   HomeSlider,
@@ -13,7 +15,7 @@ import {
   PublishedDateBadge,
 } from '@/src/components';
 import { useGetClosingStory, useGetHomeStories } from '@/src/actions';
-import { ADS } from '@/src/constants';
+import { ADS, appBarHeight } from '@/src/constants';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 import { usePathname, useRouter } from 'expo-router';
 import { useAuth } from '@/src/hooks';
@@ -52,7 +54,15 @@ const HomePage = () => {
 
   return (
     <AppBackground>
-      <AppBar showLogo title="Kim Haklı?" creditLabel />
+      <AppBar>
+        <HStack
+          style={{ height: appBarHeight, paddingHorizontal: 24 }}
+          className="items-center justify-between"
+        >
+          <AppNamedLogo fontSize={14} imageSize={24} />
+          <CreditLabel />
+        </HStack>
+      </AppBar>
       <Box className="flex-1">
         <AppScrollView bottomPadding topPadding>
           <VStack space="xl">
@@ -104,7 +114,10 @@ const HomePage = () => {
                     gap={12}
                     renderItem={({ item }) => (
                       <HomeStoryCard story={item}>
-                        <PublishedDateBadge created_at={item.created_at} />
+                        <PublishedDateBadge
+                          created_at={item.created_at}
+                          text={`${item.vote_count.toString()} Oy`}
+                        />
                       </HomeStoryCard>
                     )}
                   />

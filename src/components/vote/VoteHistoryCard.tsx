@@ -36,7 +36,7 @@ const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
           cachePolicy="memory-disk"
           transition={200}
           recyclingKey={voteHistory.story_id}
-          style={{ width: 54, height: 96 }}
+          style={{ width: 54, height: 96, borderRadius: 8 }}
         />
         <VStack space="sm" className="flex-1">
           <AppText
@@ -49,7 +49,7 @@ const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
           >
             {voteHistory.story_title}
           </AppText>
-          <AppText size={12} lineHeight={18} color="headline_75">
+          <AppText size={12} lineHeight={18} color="headline_90">
             Sen{' '}
             <AppText size={12} lineHeight={18} color="primary" weight={500}>
               {voteHistory.side_title}
@@ -57,8 +57,8 @@ const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
             tarafını seçtin
           </AppText>
           <HStack space="sm" className="items-center">
-            <UsersVector width={14} height={14} color={colors.headline_50} />
-            <AppText size={12} lineHeight={14} color="headline_50" className="flex-1">
+            <UsersVector width={14} height={14} color={colors.headline} />
+            <AppText size={12} lineHeight={14} color="headline_82" className="flex-1">
               Topluluk{' '}
               <AppText size={12} lineHeight={14} color="primary">
                 {voteHistory.same_vote_percentage}% {voteHistory.side_title}
@@ -67,8 +67,8 @@ const VoteHistoryCard: React.FC<VoteHistoryCardProps> = ({ voteHistory }) => {
             </AppText>
           </HStack>
           <HStack space="sm">
-            <CalendarVector width={14} height={14} color={colors.headline_50} />
-            <AppText size={12} lineHeight={14} color="headline_50" className="flex-1">
+            <CalendarVector width={14} height={14} color={colors.headline} />
+            <AppText size={12} lineHeight={14} color="headline_82" className="flex-1">
               {timeAgo(voteHistory.voted_at)}
             </AppText>
           </HStack>

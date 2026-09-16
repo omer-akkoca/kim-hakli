@@ -1,24 +1,22 @@
 import React, { PropsWithChildren } from 'react';
 import { usePathname, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { Box, LinearGradient, Pressable, VStack } from '@/components/ui';
+import { LinearGradient, VStack } from '@/components/ui';
 import { width } from '@/src/constants';
 import { IStory } from '@/src/types';
 import { getCoverImageUrl } from '@/src/utils';
 import { setToStoryDetail, useAppDispatch } from '@/src/store';
-import { useTheme } from '@/src/hooks';
-import { AppSkeleton } from '../ui';
+import { AppCard, AppSkeleton } from '../ui';
 
 interface HomeStoryCardProps extends PropsWithChildren {
   story: IStory;
 }
 
-const cardWidth = width / 4;
-const cardHeight = (cardWidth / 9) * 16;
+const cardWidth = width / 3.5;
+const cardHeight = (cardWidth / 9) * 15;
 
 const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   const { push } = useRouter();
-  const { colors } = useTheme();
   const pathName = usePathname();
   const dispatch = useAppDispatch();
 
@@ -30,17 +28,7 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
   };
 
   return (
-    <Pressable
-      onPress={handleRoute}
-      className="rounded-xl overflow-hidden"
-      style={{
-        width: cardWidth,
-        height: cardHeight,
-        backgroundColor: colors.background,
-        borderWidth: 1.75,
-        borderColor: colors.white_5,
-      }}
-    >
+    <AppCard onPress={handleRoute} style={{ width: cardWidth, height: cardHeight }}>
       <Image
         source={coverImage}
         style={{
@@ -64,24 +52,15 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
           {children}
         </VStack>
       </LinearGradient>
-    </Pressable>
+    </AppCard>
   );
 };
 
 const HomeSkeletonCard: React.FC = () => {
-  const { colors } = useTheme();
   return (
-    <Box
-      className="border rounded-xl overflow-hidden"
-      style={{
-        backgroundColor: colors.background,
-        boxShadow: colors.white_5,
-        width: cardWidth,
-        height: cardHeight,
-      }}
-    >
+    <AppCard style={{ width: cardWidth, height: cardHeight }}>
       <AppSkeleton />
-    </Box>
+    </AppCard>
   );
 };
 

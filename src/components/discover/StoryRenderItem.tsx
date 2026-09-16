@@ -82,7 +82,9 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
             <HStack className="items-center justify-between">
               {story.status !== 'completed' ? (
                 <CreditBadge credit={story.credit_cost} withBg />
-              ) : null}
+              ) : (
+                <Box />
+              )}
               {user ? (
                 <AppIconButton
                   icon={BookmarkIcon}

@@ -6,14 +6,15 @@ import { AppText } from '../ui';
 
 interface PublishedDateBadgeProps {
   created_at: string;
+  text?: string;
 }
 
-const PublishedDateBadge: React.FC<PublishedDateBadgeProps> = ({ created_at }) => {
+const PublishedDateBadge: React.FC<PublishedDateBadgeProps> = ({ created_at, text }) => {
   const { colors } = useTheme();
   return (
     <Box
       style={{ backgroundColor: colors.primary }}
-      className="w-3/4 py-0.5 px-1 mx-auto rounded-md"
+      className="w-3/4 py-1 px-1 mx-auto rounded-full"
     >
       <AppText
         size={10}
@@ -23,7 +24,7 @@ const PublishedDateBadge: React.FC<PublishedDateBadgeProps> = ({ created_at }) =
         className="text-center capitalize"
         numberOfLines={1}
       >
-        {timeAgo(created_at)}
+        {text ?? timeAgo(created_at)}
       </AppText>
     </Box>
   );

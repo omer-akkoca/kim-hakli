@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CrossVector, VerifyVector, VoteVector } from '@/assets';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
   AppBackground,
   AppIconButton,
   AppPrimaryButton,
   AppText,
+  HeaderTitle,
   VoteSidesCarousel,
 } from '@/src/components';
-import { CrossVector, VerifyVector, VoteVector } from '@/assets';
 import {
   useGetStoryById,
   useGetStoryImageUrls,
   useGetStorySides,
   useVoteStory,
 } from '@/src/actions';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth, useReward, useTheme } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
 
@@ -74,21 +75,7 @@ export default function StoryVotePage() {
         </HStack>
         <Box className="flex-1 justify-center items-center gap-10 z-10">
           <VStack className="w-full px-6">
-            <AppText
-              family="PlayfairDisplay"
-              size={40}
-              lineHeight={75}
-              weight={700}
-              color="headline"
-              className="w-full -tracking-1 text-center"
-              style={{
-                textShadowColor: 'rgba(241,118,42,0.35)',
-                textShadowOffset: { width: 0, height: 4 },
-                textShadowRadius: 18,
-              }}
-            >
-              Kim Haklı?
-            </AppText>
+            <HeaderTitle title="Kim Haklı?" fontSize={40} />
             <AppText color="headline_90" className="text-center">
               Hikayeye göre kimin haklı olduğuna sen karar ver.
             </AppText>
