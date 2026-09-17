@@ -137,7 +137,7 @@ const AppIconButton: React.FC<DetailIconButtonProps> = ({
       onPress={onPress}
       disabled={disabled}
       style={{
-        boxShadow: colors.shadow,
+        boxShadow: withBg ? colors.shadow : undefined,
         height: withBg ? buttonSize : undefined,
         width: withBg ? buttonSize : undefined,
         backgroundColor: withBg ? colors.appIconButtonBg : undefined,

@@ -2,13 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Box, HStack, VStack } from '@/components/ui';
-import { LOGO, SendVector } from '@/assets';
+import { SendVector } from '@/assets';
 import { referralList } from '@/src/constants';
 import { useSignOut, useUpdateReferralSource } from '@/src/actions';
 import { useAuth, useTheme, useToast } from '@/src/hooks';
 import { setReferralSource, useAppDispatch } from '@/src/store';
-import { AppBackground, AppCard, AppPrimaryButton, AppText } from '@/src/components';
-import { Image } from 'expo-image';
+import { AppBackground, AppCard, AppNamedLogo, AppPrimaryButton, AppText } from '@/src/components';
 
 const ReferralSource = () => {
   const { colors } = useTheme();
@@ -57,28 +56,7 @@ const ReferralSource = () => {
           </AppText>
         </HStack>
         <Box className="flex-1 items-center justify-center gap-6">
-          <HStack space="md" className="items-center">
-            <Image
-              source={LOGO}
-              contentFit="cover"
-              cachePolicy="memory-disk"
-              transition={200}
-              recyclingKey={'logo'}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 8,
-              }}
-            />
-            <HStack space="xs">
-              <AppText size={24} lineHeight={34} weight={800} color="primary">
-                KİM
-              </AppText>
-              <AppText size={24} lineHeight={34} weight={800} color="headline">
-                HAKLI?
-              </AppText>
-            </HStack>
-          </HStack>
+          <AppNamedLogo fontSize={24} imageSize={40} />
           <VStack space="sm">
             <AppText size={16} lineHeight={22} color="headline" className="text-center -tracking-2">
               Aramıza hoş geldin!

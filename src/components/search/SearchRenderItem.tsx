@@ -55,7 +55,7 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
             {story.description}
           </AppText>
           <HStack className="items-center justify-between">
-            <CreditBadge credit={story.credit_cost} />
+            <CreditBadge credit={story.credit_cost} color="reversed_headline" />
             {user ? (
               <AppIconButton
                 icon={BookmarkIcon}

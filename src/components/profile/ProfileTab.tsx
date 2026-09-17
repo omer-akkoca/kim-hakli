@@ -3,7 +3,7 @@ import { SvgProps } from 'react-native-svg';
 import { RightChevronVector } from '@/assets';
 import { HStack, Pressable } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
-import { AppText } from '../ui/AppText';
+import { AppText } from '../ui';
 
 interface ProfileTabProps {
   icon: React.FC<SvgProps>;

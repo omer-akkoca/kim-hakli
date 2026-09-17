@@ -7,6 +7,7 @@ import { formatStoryVoteCount } from '@/src/utils';
 import { AppCard, AppText } from '../ui';
 import { WinnerBadge } from './WinnerBadge';
 import { VotedBadge } from './VotedBadge';
+import { useTheme } from '@/src/hooks';
 
 interface WinnerResultCardProps {
   winner: StoryVoteCard;
@@ -14,13 +15,15 @@ interface WinnerResultCardProps {
 }
 
 const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) => {
+  const { colors } = useTheme();
+
   const titleWords = winner.title.trim().split(/\s+/);
   const isSingleWord = titleWords.length === 1;
 
   const iVoted = votedId === winner.side_id;
 
   return (
-    <AppCard className="border-1.5 border-primary-500/60">
+    <AppCard style={{ borderWidth: 1.75, borderColor: colors.primary }}>
       <HStack>
         <Box className="relative">
           <Image

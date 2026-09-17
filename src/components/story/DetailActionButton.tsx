@@ -5,7 +5,7 @@ import { GetStoryAccessResponse, IStory } from '@/src/types';
 import { useUnlockStory } from '@/src/actions/story';
 import { useAuth, useModal, useToast } from '@/src/hooks';
 import { decreaseCredit, useAppDispatch } from '@/src/store';
-import { AppPrimaryButton, AppSecondaryButton } from '../ui/AppButtons';
+import { AppPrimaryButton, AppSecondaryButton } from '../ui';
 
 interface DetailActionButtonProps {
   story: IStory;

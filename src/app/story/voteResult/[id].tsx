@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RightChevronVector, ShareVector } from '@/assets';
-import { Box, Divider, VStack } from '@/components/ui';
+import { Box, VStack } from '@/components/ui';
 import {
   useGetStoryById,
   useGetStoryImageUrls,
@@ -12,6 +12,7 @@ import {
 import {
   AppBackground,
   AppBannerAd,
+  AppDivider,
   AppLoading,
   AppPrimaryButton,
   AppScrollView,
@@ -128,6 +129,7 @@ const StoryVoteResultPage = () => {
             SONUÇLAR
           </AppText>
           <HeaderTitle
+            fontSize={72}
             title={story.status === 'completed' ? 'Karar Verildi!' : 'Oylama Devam Ediyor'}
           />
           <StoryCountDown closed_at={story.closed_at} status={story.status}>
@@ -147,8 +149,8 @@ const StoryVoteResultPage = () => {
           ))}
           <VoteCountCard voteCount={totalVote} />
         </VStack>
-        <Divider className="h-[1px] w-full bg-white/10 mb-6" />
-        <VStack space="lg" className="mb-6">
+        <AppDivider className="mb-6" />
+        <VStack space="md" className="mb-6">
           <AppPrimaryButton
             icon={ShareVector}
             label="Paylaş"

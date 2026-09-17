@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Box } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
-import { AppText } from '../ui/AppText';
+import { AppText } from '../ui';
 
 interface StoryReadCounterProps {
   activeIndex: number;

@@ -1,48 +1,47 @@
-import { Box } from '@/components/ui';
 import React from 'react';
-import { AppText } from '../ui/AppText';
+import { Box } from '@/components/ui';
+import { AppText } from '../ui';
 
 interface HeaderTitleProps {
   title: string;
+  fontSize: number;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ title }) => {
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ title, fontSize }) => {
   return (
     <Box className="relative">
+      {/* Shadow */}
       <AppText
         family="PlayfairDisplay"
-        size={72}
+        size={fontSize}
         weight={700}
-        lineHeight={74}
-        color="headline"
-        className="-tracking-3 text-center"
+        lineHeight={fontSize + 4}
+        color="primary"
+        className="-tracking-3 text-center opacity-80"
         numberOfLines={2}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
         style={{
           position: 'absolute',
-          textShadowColor: 'rgba(241,118,42,0.18)',
-          textShadowOffset: { width: 0, height: 0 },
-          textShadowRadius: 28,
+          top: 1,
+          left: 1,
+          right: -1,
         }}
       >
         {title}
       </AppText>
+
+      {/* Main text */}
       <AppText
         family="PlayfairDisplay"
-        size={72}
+        size={fontSize}
         weight={700}
-        lineHeight={74}
+        lineHeight={fontSize + 4}
         color="headline"
         className="-tracking-3 text-center"
         numberOfLines={2}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
-        style={{
-          textShadowColor: 'rgba(0,0,0,0.32)',
-          textShadowOffset: { width: 0, height: 8 },
-          textShadowRadius: 24,
-        }}
       >
         {title}
       </AppText>

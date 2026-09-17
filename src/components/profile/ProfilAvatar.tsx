@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { Image } from 'expo-image';
 import { LOGO } from '@/assets';
-import { Box } from '@/components/ui';
 import { useAuth } from '@/src/hooks';
+import { StyleSheet } from 'react-native';
 
 interface ProfileAvatarProps {
   size: number;
@@ -25,26 +25,38 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
   }, [user?.avatar_url, profile_photo]);
 
   return (
-    <Box
-      className="rounded-full overflow-hidden"
-      style={{
-        width: size,
-        height: size,
-        boxShadow: shadow ? '0 0 40px rgba(241,118,42,0.28)' : undefined,
-        borderWidth,
-        borderColor,
-      }}
-    >
-      <Image
-        source={uri ? { uri } : LOGO}
-        contentFit="cover"
-        cachePolicy="memory-disk"
-        transition={200}
-        recyclingKey={user?.id ?? ''}
-        style={{ flex: 1 }}
-      />
-    </Box>
+    <Image
+      source={uri ? { uri } : LOGO}
+      contentFit="cover"
+      cachePolicy="memory-disk"
+      transition={200}
+      recyclingKey={user?.id ?? ''}
+      style={[
+        {
+          width: size,
+          height: size,
+          borderWidth,
+          borderColor,
+          borderRadius: 999,
+        },
+        shadow ? styles.shadow : undefined,
+      ]}
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#F1762A',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.28,
+    shadowRadius: 20,
+    // Android için
+    elevation: 10,
+  },
+});
 
 export { ProfileAvatar };

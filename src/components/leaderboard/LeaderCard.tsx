@@ -67,7 +67,7 @@ const LeaderCard: React.FC<LeaderCardProps> = ({ leader }) => {
           {leader.full_name}
         </AppText>
         <HStack space="sm" className="items-center">
-          <CreditVector width={16} height={16} />
+          <CreditVector width={16} height={16} color={colors.reversed_headline} />
           <AppText size={15} weight={600} color="headline">
             {leader.total_earned_credit}
           </AppText>

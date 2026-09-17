@@ -11,7 +11,7 @@ import {
   HomeOutlineVector,
   ProfileOutlineVector,
 } from '@/assets';
-import { bottomBarHeight, W, width } from '@/src/constants';
+import { bottomBarHeight, width } from '@/src/constants';
 import { useAuth, useModal, useTheme } from '@/src/hooks';
 import { ProfileAvatar } from '@/src/components';
 
@@ -137,18 +137,18 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                 <Pressable
                   className="items-center justify-center"
                   onPress={() => handleTabPress(route.name, route.key)}
-                  hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
+                  hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
                 >
                   {route.name === 'profile' && user ? (
                     <ProfileAvatar
-                      size={W(25)}
+                      size={26}
                       borderWidth={1.75}
                       borderColor={active ? colors.primary : colors.tranparent}
                     />
                   ) : (
                     <Icon
-                      width={W(23)}
-                      height={W(23)}
+                      width={route.name === 'leaderboard' ? 23 : 26}
+                      height={route.name === 'leaderboard' ? 23 : 26}
                       color={active ? colors.primary : colors.headline_50}
                     />
                   )}

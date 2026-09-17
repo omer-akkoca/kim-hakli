@@ -8,8 +8,8 @@ interface HomeSectionTitleProps {
 const HomeSectionTitle: React.FC<HomeSectionTitleProps> = ({ title }) => {
   return (
     <AppText
-      size={12}
-      lineHeight={20}
+      size={14}
+      lineHeight={22}
       weight={600}
       color="headline"
       className="-tracking-2 mb-2"

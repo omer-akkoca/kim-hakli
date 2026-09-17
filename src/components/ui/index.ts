@@ -1,4 +1,3 @@
-export { AppIcon } from './AppIcon';
 export { AppBar } from './AppBar';
 export { AppText } from './AppText';
 export { CreditBadge } from './CreditBadge';
@@ -15,3 +14,4 @@ export { WatchAdBadge } from './WatchAdBadge';
 export { AppAlert } from './AppAlert';
 export { AppDivider } from './AppDivider';
 export { AppPrimaryButton, AppSecondaryButton, AppIconButton } from './AppButtons';
+export { AppNamedLogo } from './AppNamedLogo';
