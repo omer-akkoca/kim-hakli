@@ -20,6 +20,7 @@ export const commonColors = {
   categoryBadgeBg: 'rgba(28 31 48 / 0.50)',
   appIconButtonBg: 'rgba(28 31 48 / 0.75)',
   modalBackdrop: 'rgba(0 0 0 / 0.58)',
+  gunMetalGray: '#1C1F30',
 };
 
 export const lightColors = {
@@ -28,6 +29,7 @@ export const lightColors = {
   background: '#F2F2F7',
   background_75: 'rgba(242 242 247 / 0.75)',
   headline: '#1C1F30',
+  reversed_headline: '#f5f5f5',
   headline_90: 'rgb(28 31 48 / 0.9)',
   headline_82: 'rgb(28 31 48 / 0.82)',
   headline_78: 'rgba(28 31 48 / 0.78)',
@@ -47,6 +49,7 @@ export const darkColors = {
   background: '#1C1F30',
   background_75: 'rgba(28 31 48 / 0.75)',
   headline: '#f5f5f5',
+  reversed_headline: '#1C1F30',
   headline_90: 'rgba(245 245 245 / 0.90)',
   headline_82: 'rgba(245 245 245 / 0.82)',
   headline_78: 'rgba(245 245 245 / 0.78)',

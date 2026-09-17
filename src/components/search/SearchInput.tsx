@@ -1,9 +1,9 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Box, HStack } from '@/components/ui';
 import { CancelVector, SearchMagnifyingVector } from '@/assets';
+import { Box, HStack } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
-import { AppIconButton } from '../ui/AppButtons';
+import { AppIconButton } from '../ui';
 
 interface SearchInputProps {
   query: string;

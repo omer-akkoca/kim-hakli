@@ -128,7 +128,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             <ProfileAvatar size={140} borderColor={colors.primary} borderWidth={1.75} />
           )}
           <Box className="absolute -right-1 -bottom-1">
-            <AppIconButton icon={EditVector} onPress={handleSelectPhoto} withBg />
+            <AppIconButton icon={EditVector} onPress={handleSelectPhoto} withBg color="title" />
           </Box>
         </Box>
       </Box>

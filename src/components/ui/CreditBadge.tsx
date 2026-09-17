@@ -3,17 +3,20 @@ import { CreditVector } from '@/assets';
 import { HStack } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
 import { AppText } from './AppText';
+import { AppColors } from '@/src/types';
 
 interface CreditBadgeProps {
   credit: number;
   withBg?: boolean;
   withNumber?: boolean;
+  color?: keyof AppColors;
 }
 
 const CreditBadge: React.FC<CreditBadgeProps> = ({
   credit,
   withBg = false,
   withNumber = false,
+  color = 'gunMetalGray',
 }) => {
   const { colors } = useTheme();
   if (withBg) {
@@ -26,14 +29,14 @@ const CreditBadge: React.FC<CreditBadgeProps> = ({
         }}
         className="h-9 border items-center px-3 rounded-full"
       >
-        <CreditVector width={14} height={14} />
+        <CreditVector width={14} height={14} color={colors[color]} />
         <CreditText credit={credit} withNumber={withNumber} withBg={withBg} />
       </HStack>
     );
   } else {
     return (
       <HStack space="sm" className=" items-center">
-        <CreditVector width={14} height={14} />
+        <CreditVector width={14} height={14} color={colors[color]} />
         <CreditText credit={credit} withNumber={withNumber} withBg={withBg} />
       </HStack>
     );

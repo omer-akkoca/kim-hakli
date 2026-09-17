@@ -154,7 +154,7 @@ export const CreditVector = (props: SvgProps) => (
     <Circle cx={11} cy={11} r={11} fill="#F1762A" />
     <Path
       d="M11 4.7 C11.85 7.95 14.05 10.15 17.3 11 C14.05 11.85 11.85 14.05 11 17.3 C10.15 14.05 7.95 11.85 4.7 11        C7.95 10.15 10.15 7.95 11 4.7Z"
-      fill="#1C1F30"
+      fill={props.color ?? '#1C1F30'}
     />
   </Svg>
 );
