@@ -1,4 +1,3 @@
-export { AppIcon } from './AppIcon';
 export { AppBar } from './AppBar';
 export { AppText } from './AppText';
 export { CreditBadge } from './CreditBadge';

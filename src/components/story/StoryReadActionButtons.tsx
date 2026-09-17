@@ -7,7 +7,7 @@ import { storyReadActionBarHeight } from '@/src/constants';
 import { useAuth } from '@/src/hooks';
 import { StoryStatus } from '@/src/types';
 import { StoryReadCounter } from './StoryReadCounter';
-import { AppIconButton, AppPrimaryButton } from '../ui/AppButtons';
+import { AppIconButton, AppPrimaryButton } from '../ui';
 
 interface StoryReadActionButtonsProps {
   storyId: string;
