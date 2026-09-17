@@ -15,7 +15,7 @@ import {
   useSavePushToken,
 } from '@/src/actions';
 import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
-import { AppIconButton, AppLoading } from '@/src/components';
+import { AppIconButton, AppSplash } from '@/src/components';
 import { useAppState, useAuth, useModal, useTheme } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
 import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
@@ -133,8 +133,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isRewardAvailable]);
 
-  if (!fontsLoaded || isLoading || hasSeenOnboarding === null || themeLoading)
-    return <AppLoading fullScreen />;
+  if (!fontsLoaded || isLoading || hasSeenOnboarding === null || themeLoading) return <AppSplash />;
 
   return children;
 };
