@@ -96,7 +96,7 @@ export default function ProfilePage() {
               <ProfileTab
                 icon={AddFriendVector}
                 label="Arkadaşını Davet Et"
-                onPress={() => handleShareReferral(user?.referral_code)}
+                onPress={() => handleShareReferral(user?.referral_code, user?.full_name)}
               />
               <AppDivider />
               <ProfileTab
