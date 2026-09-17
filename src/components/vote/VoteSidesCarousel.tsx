@@ -115,7 +115,7 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
         }}
       >
         <Box className="flex-1 relative">
-          <Box className="w-full" style={{ height: ITEM_WIDTH }}>
+          <Box className="w-full overflow-hidden" style={{ height: ITEM_WIDTH }}>
             <Image
               source={item.avatar_url}
               contentFit="cover"
