@@ -84,7 +84,7 @@ const AppBar: React.FC<IAppBar> = ({
                           style={{ width: 36, height: 36, borderRadius: 8 }}
                         />
                       ) : null}
-                      <AppText size={18} weight={700} color="headline">
+                      <AppText size={18} lineHeight={24} weight={700} color="headline">
                         {title}
                       </AppText>
                     </HStack>
