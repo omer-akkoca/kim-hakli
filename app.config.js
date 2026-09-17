@@ -3,7 +3,7 @@ export default ({ config }) => ({
   name: 'Kim Haklı?',
   slug: 'kim-hakli',
   scheme: 'kim-hakli',
-  version: '1.8.1',
+  version: '1.8.2',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -13,14 +13,14 @@ export default ({ config }) => ({
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
     usesAppleSignIn: true,
-    buildNumber: '35',
+    buildNumber: '36',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
     associatedDomains: ['applinks:kimhakli.tr'],
   },
   android: {
-    versionCode: 35,
+    versionCode: 36,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#1C1F30',
