@@ -46,69 +46,66 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
         marginRight: order % 2 === 0 ? 8 : 0,
       }}
     >
-      <Box className="flex-1 overflow-hidden">
-        <Image
-          source={coverImageUrl}
-          contentFit="cover"
-          cachePolicy="memory-disk"
-          transition={200}
-          recyclingKey={story.id}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}
-          blurRadius={story.status === 'completed' ? completedBlur : undefined}
-        />
+      <Image
+        source={coverImageUrl}
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        transition={200}
+        recyclingKey={story.id}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        blurRadius={story.status === 'completed' ? completedBlur : undefined}
+      />
+      <LinearGradient
+        colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
+        locations={[0, 0.5, 1]}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        className="flex-1"
+      >
         <LinearGradient
-          colors={['rgba(0,0,0,0.82)', 'rgba(0,0,0,0.18)', 'rgba(0,0,0,0.06)']}
-          locations={[0, 0.5, 1]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
+          colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
+          locations={[0, 1]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
           className="flex-1"
         >
-          <LinearGradient
-            colors={['rgba(124,144,164,0.05)', 'rgba(124,144,164,0)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="flex-1"
-          >
-            <VStack className="flex-1 p-4 justify-between">
-              <HStack className="items-center justify-between">
-                {story.status !== 'completed' ? (
-                  <CreditBadge credit={story.credit_cost} withBg />
-                ) : (
-                  <Box />
-                )}
-                {user ? (
-                  <AppIconButton
-                    icon={BookmarkIcon}
-                    onPress={toggleBookmark}
-                    color={'title'}
-                    size={24}
-                    buttonSize={40}
-                    disabled={loading}
-                    withBg
-                  />
-                ) : null}
-              </HStack>
-              <AppText
-                size={18}
-                lineHeight={24}
-                weight={600}
-                color="title"
-                className="-tracking-2"
-                numberOfLines={3}
-                adjustsFontSizeToFit
-                minimumFontScale={0.75}
-              >
-                {story.title}
-              </AppText>
-            </VStack>
-          </LinearGradient>
+          <VStack className="flex-1 p-4 justify-between">
+            <HStack className="items-center justify-between">
+              {story.status !== 'completed' ? (
+                <CreditBadge credit={story.credit_cost} withBg />
+              ) : (
+                <Box />
+              )}
+              {user ? (
+                <AppIconButton
+                  icon={BookmarkIcon}
+                  onPress={toggleBookmark}
+                  color={'title'}
+                  size={24}
+                  buttonSize={40}
+                  disabled={loading}
+                  withBg
+                />
+              ) : null}
+            </HStack>
+            <AppText
+              size={18}
+              lineHeight={24}
+              weight={600}
+              color="title"
+              className="-tracking-2"
+              numberOfLines={3}
+              adjustsFontSizeToFit
+              minimumFontScale={0.75}
+            >
+              {story.title}
+            </AppText>
+          </VStack>
         </LinearGradient>
-      </Box>
+      </LinearGradient>
     </AppCard>
   );
 };

@@ -33,7 +33,6 @@ const HomeStoryCard: React.FC<HomeStoryCardProps> = ({ story, children }) => {
         <Image
           source={coverImage}
           style={{
-            position: 'absolute',
             width: '100%',
             height: '100%',
           }}
