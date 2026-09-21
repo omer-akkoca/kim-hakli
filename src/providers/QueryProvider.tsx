@@ -1,18 +1,6 @@
-import React, { PropsWithChildren, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '../hooks';
+import React, { PropsWithChildren } from 'react';
 
 const QueryProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const queryClient = useQueryClient();
-
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      queryClient.clear();
-    }
-  }, [user?.id]);
-
   return children;
 };
 

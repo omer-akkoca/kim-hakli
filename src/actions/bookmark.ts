@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   addBookmarkStory,
@@ -6,39 +5,21 @@ import {
   getBookmarkedStoryIds,
   getStoriesByIds,
 } from '@/src/services';
-import {
-  addBookmark,
-  removeBookmark,
-  setBookmarks,
-  useAppDispatch,
-} from '@/src/store';
-import { useAuth } from '@/src/hooks/useAuth';
+import { addBookmark, removeBookmark, useAppDispatch } from '@/src/store';
 
 const bookmarksKeys = {
   bookmarkedStoryIds: (userId?: string) => ['stories', 'bookmarked-ids', userId],
-  storiesByIds: ['stories', 'by-ids'],
+  storiesByIds: (storyIds: string[]) => ['stories', 'by-ids', ...storyIds] as const,
 };
 
-export const useGetBookmarkedStoryIds = () => {
-  const dispatch = useAppDispatch();
-  const { user } = useAuth();
-  const userId = user?.id;
-
-  const query = useQuery({
+export const useGetBookmarkedStoryIds = (userId?: string) => {
+  return useQuery({
     queryKey: bookmarksKeys.bookmarkedStoryIds(userId),
     queryFn: () => getBookmarkedStoryIds(userId!),
     enabled: !!userId,
     staleTime: Infinity,
     gcTime: Infinity,
   });
-
- useEffect(() => {
-    if (query.isSuccess && query.data) {
-      dispatch(setBookmarks(query.data));
-    }
-  }, [query.isSuccess, query.data, dispatch]);
-
-  return query;
 };
 
 export const useAddBookmarkStory = () => {
@@ -67,7 +48,7 @@ export const useRemoveBookmark = () => {
 
 export const useGetStoriesByIds = (storyIds: string[]) => {
   return useQuery({
-    queryKey: bookmarksKeys.storiesByIds,
+    queryKey: bookmarksKeys.storiesByIds(storyIds),
     queryFn: () => getStoriesByIds(storyIds),
     enabled: storyIds.length > 0,
   });

@@ -9,9 +9,6 @@ export interface GetProfileParams {
 }
 
 // story
-export interface GetStoryImageUrlParams {
-  path: string;
-}
 
 export interface UnlockStoryParams {
   storyId: string;

@@ -17,8 +17,8 @@ export const userKeys = {
   userStoryStats: (userId: string) => ['users', userId, 'story-stats'] as const,
   unlockedStories: (userId: string) => ['users', userId, 'unlocked-stories'] as const,
   deleteAccount: () => ['users', 'delete-account'] as const,
-  avatarUrl: (params: GetAvatarUrlParams) => ['avatar-url', params.userId, params.avatarPath],
-  canApplyReferralCode: (userId?: string) => ['user', userId, 'can-apply-referral-code'] as const,
+  avatar: (userId?: string, avatarPath?: string) => ['user', 'avatar', userId, avatarPath] as const,
+  canApplyReferralCode: (userId?: string) => ['user', 'can-apply-referral-code', userId] as const,
 };
 
 export const useGetProfile = () => {
@@ -63,23 +63,20 @@ export const useUpdateProfile = () => {
   return useMutation({ mutationFn: updateProfile });
 };
 
-export const useGetAvatarUrl = ({
-  userId,
-  avatarPath,
-}: GetAvatarUrlParams) => {
+export const useGetAvatarUrl = ({ userId, avatarPath }: GetAvatarUrlParams) => {
   const dispatch = useAppDispatch();
 
   const query = useQuery({
-    queryKey: ['avatar-url', userId, avatarPath],
+    queryKey: userKeys.avatar(userId, avatarPath ?? ''),
     queryFn: () => getAvatarUrl(avatarPath!),
     enabled: !!userId && !!avatarPath,
-    staleTime: 1000 * 60 * 55,
-    gcTime: 1000 * 60 * 60,
+    staleTime: 55 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
   });
 
   useEffect(() => {
     if (query.isSuccess && query.data) {
-      dispatch(setProfilePhoto(query.data))
+      dispatch(setProfilePhoto(query.data));
     }
   }, [query.isSuccess, query.data]);
 
@@ -90,5 +87,6 @@ export const useCanApplyReferralCode = (userId?: string) => {
   return useQuery({
     queryKey: userKeys.canApplyReferralCode(userId),
     queryFn: getCanApplyReferralCode,
+    enabled: !!userId,
   });
 };

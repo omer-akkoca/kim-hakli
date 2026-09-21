@@ -19,7 +19,7 @@ import { AppIconButton, AppSplash } from '@/src/components';
 import { useAppState, useAuth, useModal, useTheme } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
 import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
-import { setHasSeenOnboarding, setHasSeenReward, useAppDispatch } from '@/src/store';
+import { setBookmarks, setHasSeenOnboarding, setHasSeenReward, useAppDispatch } from '@/src/store';
 import '@/src/configs/google';
 
 const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
@@ -32,8 +32,8 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   const { data: appConfig, isLoading } = useGetAppConfig();
+  const { data: bookmarkData, isSuccess: bookmarkSuccess } = useGetBookmarkedStoryIds(user?.id);
   useGetCategories();
-  useGetBookmarkedStoryIds();
   useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
 
   const { mutate: savePushToken } = useSavePushToken();
@@ -132,6 +132,13 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
       });
     }
   }, [isRewardAvailable]);
+
+  // kullanıcının kaydedilen hikayeleri getirme
+  useEffect(() => {
+    if (bookmarkSuccess && bookmarkData) {
+      dispatch(setBookmarks(bookmarkData));
+    }
+  }, [bookmarkSuccess, bookmarkData]);
 
   if (!fontsLoaded || isLoading || hasSeenOnboarding === null || themeLoading) return <AppSplash />;
 

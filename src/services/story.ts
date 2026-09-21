@@ -42,7 +42,7 @@ export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> =
       )
     `,
     )
-    .in('status', ['published', 'closing', 'completed',])
+    .in('status', ['published', 'closing', 'completed'])
     .order('created_at', { ascending: false })
     .range(from, to);
 
@@ -69,18 +69,6 @@ export const getStories = async (params?: GetStoriesParams): Promise<IStory[]> =
   }
 
   return (data ?? []) as IStory[];
-};
-
-export const getStoryImageUrl = async (path: string) => {
-  const { data, error } = await supabase.storage
-    .from('story-assets')
-    .createSignedUrl(path, 60 * 60);
-
-  if (error) {
-    throw error;
-  }
-
-  return data.signedUrl;
 };
 
 export const getStoryById = async (storyId: string): Promise<IStory | null> => {
@@ -215,7 +203,6 @@ export const searchStories = async (params: SearchStoriesParams): Promise<IStory
   return data ?? [];
 };
 
-
 export const getHomeStories = async (): Promise<GetHomeStoriesResponse> => {
   const { data, error } = await supabase.rpc(GET_HOME_STORIES);
 
@@ -240,12 +227,12 @@ export const getStoryAccess = async (
 
 export const getClosingStory = async (userId?: string): Promise<StoryWithVoteCount | null> => {
   const { data, error } = await supabase
-  .rpc('get_closing_story', {
-    p_user_id: userId,
-  })
-  .single();
+    .rpc('get_closing_story', {
+      p_user_id: userId,
+    })
+    .single();
 
   if (error) throw error;
 
-  return (data as StoryWithVoteCount | null);
+  return data as StoryWithVoteCount | null;
 };

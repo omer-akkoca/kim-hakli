@@ -4,9 +4,8 @@ import { useAuth } from '@/src/hooks/useAuth';
 
 const appKeys = {
   appConfig: ['app-config'],
-  leaderboard: (userId?: string) => ['leaderboard', userId],
-  allTimeLeaderboard: (userId?: string) => ['leaderboard', "alltime", userId],
-  monthlyLeaderboard: (userId?: string) => ['leaderboard', "montly", userId, ],
+  allTimeLeaderboard: (userId?: string) => ['leaderboard', 'alltime', userId],
+  monthlyLeaderboard: (userId?: string) => ['leaderboard', 'monthly', userId],
 };
 
 export const useGetAppConfig = () => {
@@ -39,4 +38,3 @@ export const useGetMonthlyLeaderBoard = () => {
     gcTime: 30 * 60 * 1000,
   });
 };
-

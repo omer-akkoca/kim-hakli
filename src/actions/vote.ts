@@ -4,7 +4,8 @@ import { useAppSelector } from '../store';
 
 const storyKeys = {
   voteHistory: (userId: string) => ['stories', 'vote-history', userId] as const,
-  getVotedSideId: (storyId?: string, userId?: string) => ['getVotedSideId', userId, storyId] as const,
+  getVotedSideId: (storyId?: string, userId?: string) =>
+    ['vote', 'voted-side', storyId, userId] as const,
 };
 
 export const useGeVoteHistory = () => {
@@ -19,7 +20,7 @@ export const useGeVoteHistory = () => {
   });
 };
 
-export const useGetVotedStorySideId = (storyId?: string, userId?: string,) => {
+export const useGetVotedStorySideId = (storyId?: string, userId?: string) => {
   return useQuery({
     queryKey: storyKeys.getVotedSideId(storyId, userId),
     queryFn: () => getVotedStorySideId(storyId),
