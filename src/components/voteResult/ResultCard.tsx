@@ -4,11 +4,10 @@ import { Box, HStack } from '@/components/ui';
 import { StoryVoteCard } from '@/src/types';
 import { W } from '@/src/constants';
 import { formatStoryVoteCount } from '@/src/utils';
+import { useTheme } from '@/src/hooks';
 import { AppCard, AppText } from '../ui';
 import { WinnerBadge } from './WinnerBadge';
 import { VotedBadge } from './VotedBadge';
-import { useTheme } from '@/src/hooks';
-
 interface WinnerResultCardProps {
   winner: StoryVoteCard;
   votedId?: string;
@@ -18,9 +17,12 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) 
   const { colors } = useTheme();
 
   const titleWords = winner.title.trim().split(/\s+/);
-  const isSingleWord = titleWords.length === 1;
-
   const iVoted = votedId === winner.side_id;
+
+  const titleLines =
+    titleWords.length <= 2
+      ? titleWords
+      : [`${titleWords.slice(0, -1).join(' ')}`, titleWords.at(-1)!];
 
   return (
     <AppCard style={{ borderWidth: 1.75, borderColor: colors.primary }}>
@@ -40,19 +42,24 @@ const WinnerResultCard: React.FC<WinnerResultCardProps> = ({ winner, votedId }) 
         </Box>
         <Box className="flex-1 items-center justify-center px-4">
           <WinnerBadge />
-          <AppText
-            family="PlayfairDisplay"
-            size={30}
-            lineHeight={36}
-            weight={700}
-            color="headline"
-            className="mt-2 text-center"
-            numberOfLines={isSingleWord ? 1 : 2}
-            adjustsFontSizeToFit
-            minimumFontScale={0.72}
-          >
-            {winner.title}
-          </AppText>
+          <Box className="mt-2 w-full">
+            {titleLines.map((line, index) => (
+              <AppText
+                key={`${line}-${index}`}
+                family="PlayfairDisplay"
+                size={30}
+                lineHeight={36}
+                weight={700}
+                color="headline"
+                className="text-center"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
+              >
+                {line}
+              </AppText>
+            ))}
+          </Box>
           <AppText
             size={30}
             lineHeight={40}
@@ -83,9 +90,13 @@ interface ResultCardProps {
 
 const ResultCard: React.FC<ResultCardProps> = ({ side, votedId }) => {
   const titleWords = side.title.trim().split(/\s+/);
-  const isSingleWord = titleWords.length === 1;
 
   const iVoted = votedId === side.side_id;
+
+  const titleLines =
+    titleWords.length <= 2
+      ? titleWords
+      : [`${titleWords.slice(0, -1).join(' ')}`, titleWords.at(-1)!];
 
   return (
     <AppCard>
@@ -103,19 +114,24 @@ const ResultCard: React.FC<ResultCardProps> = ({ side, votedId }) => {
           {iVoted ? <VotedBadge /> : null}
         </Box>
         <Box className="flex-1 items-center justify-center pl-4">
-          <AppText
-            family="PlayfairDisplay"
-            size={25}
-            lineHeight={35}
-            weight={700}
-            color="headline"
-            className="text-center w-full"
-            numberOfLines={isSingleWord ? 1 : 2}
-            adjustsFontSizeToFit
-            minimumFontScale={0.72}
-          >
-            {side.title}
-          </AppText>
+          <Box className="mt-2 w-full">
+            {titleLines.map((line, index) => (
+              <AppText
+                key={`${line}-${index}`}
+                family="PlayfairDisplay"
+                size={25}
+                lineHeight={35}
+                weight={700}
+                color="headline"
+                className="text-center w-full"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
+              >
+                {line}
+              </AppText>
+            ))}
+          </Box>
           <AppText size={25} lineHeight={35} weight={800} color="primary" className="text-center">
             {side.percentage}%
           </AppText>

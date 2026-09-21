@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGetStoryById, useGetStoryCategories, useStoryAccess } from '@/src/actions';
 import { LeftChevronVector, ShareVector } from '@/assets';
 import { useAuth, useBookmark, useTheme } from '@/src/hooks';
-import { getCoverImageUrl, handleShareStory } from '@/src/utils';
+import { getCoverImageUrl, handleShareStory, preventWordBreak } from '@/src/utils';
 
 export default function StoryDetailPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -57,6 +57,7 @@ export default function StoryDetailPage() {
   if (!story) return <></>;
 
   const coverImage = getCoverImageUrl(story.id);
+  const storyTitle = preventWordBreak(story.title);
 
   return (
     <StoryDetailBg coverImage={coverImage}>
@@ -106,7 +107,7 @@ export default function StoryDetailPage() {
               adjustsFontSizeToFit
               minimumFontScale={0.9}
             >
-              {story.title}
+              {storyTitle}
             </AppText>
             <Box className="absolute right-0 bottom-0 h-14 justify-center">
               <CreditBadge credit={story.credit_cost} withBg />
