@@ -52,10 +52,7 @@ const StoryRenderItemComponent: React.FC<IStoryRenderItem> = ({ story, order }) 
         cachePolicy="memory-disk"
         transition={200}
         recyclingKey={story.id}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
+        style={{ position: 'absolute', width: '100%', height: '100%' }}
         blurRadius={story.status === 'completed' ? completedBlur : undefined}
       />
       <LinearGradient
