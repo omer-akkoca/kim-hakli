@@ -8,16 +8,26 @@ import {
   UpdateReferralSourceParams,
   UserStoryStats,
 } from '@/src/types';
-import { CAN_APPLY_REFERRAL_CODE, COMPLETE_PROFILE, DELETE_ACCOUNT, GET_USER_UNLOCKED_STORIES } from '@/src/constants';
+import {
+  CAN_APPLY_REFERRAL_CODE,
+  COMPLETE_PROFILE,
+  DELETE_ACCOUNT,
+  GET_USER_UNLOCKED_STORIES,
+} from '@/src/constants';
 import { uploadAvatar } from './storage';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
-  try {
-    const { data: profile } = await supabase.from('users').select('*').eq('id', userId).single();
-    return profile;
-  } catch {
+  const { data: profile, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
     throw new Error('Profil bilgileri çekilirken hata oluştu.');
   }
+
+  return profile;
 };
 
 export const getUserStoryStats = async (): Promise<UserStoryStats> => {
