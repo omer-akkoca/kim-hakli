@@ -9,7 +9,9 @@ export const getSession = async () => await supabase.auth.getSession();
 export const onAuthStateChanged = (
   callback: (event: AuthChangeEvent, session: Session | null) => void | Promise<void>,
 ) => {
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => callback(event, session));
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event, session) => callback(event, session));
 
   return subscription;
 };
@@ -34,7 +36,6 @@ export async function signInWithGoogle() {
     });
 
     if (error) throw error;
-
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       return null;
@@ -74,20 +75,23 @@ export async function signInWithApple() {
 }
 
 export async function signOut() {
-  try {
-    await supabase.auth.signOut();
-    await GoogleSignin.signOut();
-    return true;
-  } catch (error) {
-    throw error;
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw error;
+
+  const googleUser = GoogleSignin.getCurrentUser();
+
+  if (googleUser) {
+    try {
+      await GoogleSignin.signOut();
+    } catch {}
   }
+
+  return true;
 }
 
 export const createUser = async (user: User) => {
-  const provider =
-    user.app_metadata?.provider ??
-    user.app_metadata?.providers?.[0] ??
-    null;
+  const provider = user.app_metadata?.provider ?? user.app_metadata?.providers?.[0] ?? null;
 
   const { error, data } = await supabase
     .from('users')

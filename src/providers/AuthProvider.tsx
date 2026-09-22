@@ -1,4 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
+import { Linking } from 'react-native';
+import { Session } from '@supabase/supabase-js';
 import {
   resetAuth,
   resetBookmark,
@@ -6,20 +8,16 @@ import {
   setSession,
   setUser,
   useAppDispatch,
-  useAppSelector,
 } from '@/src/store';
 import { useGetProfile, useSignOut } from '@/src/actions';
-import { Session } from '@supabase/supabase-js';
 import { createUser, onAuthStateChanged } from '@/src/services';
-import { useModal, useToast } from '@/src/hooks';
-import { Linking } from 'react-native';
+import { useAuth, useModal, useToast } from '@/src/hooks';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
   const { show: showToast } = useToast();
   const { show: showModal, hide } = useModal();
-
-  const session = useAppSelector((state) => state.auth.session);
+  const { session } = useAuth();
 
   const { mutateAsync } = useGetProfile();
   const { mutate: logOut } = useSignOut();
@@ -79,9 +77,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             },
           ],
         });
-      }
-
-      if (user) {
+      } else if (user) {
         dispatch(setUser(user));
       }
     } catch {

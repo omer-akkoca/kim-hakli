@@ -29,9 +29,9 @@ const providersConfig: ProviderConfig[] = [
   { component: GluestackUIProvider },
   { component: ModalProvider },
   { component: ToastProvider },
+  { component: RewardProvider },
   { component: AuthProvider },
   { component: AppInitializer },
-  { component: RewardProvider },
   { component: NotificationObserver },
 ];
 

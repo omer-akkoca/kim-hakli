@@ -88,7 +88,8 @@ const RewardProvider: React.FC<RewardProviderProps> = ({ children }) => {
                 size={42}
                 lineHeight={50}
                 weight={800}
-                className="text-primary-500 -tracking-1 text-center"
+                color="primary"
+                className="-tracking-1 text-center"
               >
                 +{reward.amount}
               </AppText>
@@ -97,7 +98,8 @@ const RewardProvider: React.FC<RewardProviderProps> = ({ children }) => {
                 size={24}
                 lineHeight={30}
                 weight={700}
-                className="text-white -tracking-1 text-center"
+                color="headline"
+                className="-tracking-1 text-center"
               >
                 Puan Kazandın!
               </AppText>
