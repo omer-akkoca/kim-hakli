@@ -11,8 +11,6 @@ export const getBookmarkedStoryIds = async (userId: string): Promise<string[]> =
     throw error;
   }
 
-  console.log(data);
-
   return data.map((item) => item.story_id);
 };
 
