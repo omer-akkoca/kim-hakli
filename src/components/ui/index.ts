@@ -16,3 +16,4 @@ export { AppDivider } from './AppDivider';
 export { AppPrimaryButton, AppSecondaryButton, AppIconButton } from './AppButtons';
 export { AppNamedLogo } from './AppNamedLogo';
 export { AppSplash } from './AppSplash';
+export { AppNoInternet } from './AppNoInternet';

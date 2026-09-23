@@ -6,7 +6,7 @@ const IndexPage = () => {
   const { hasSeenOnboarding } = useAppState();
   const { isAuthenticated, authLoading, user } = useAuth();
 
-  if (authLoading) {
+  if (authLoading || hasSeenOnboarding === null) {
     return (
       <AppBackground>
         <AppLoading fullScreen />
@@ -14,20 +14,23 @@ const IndexPage = () => {
     );
   }
 
-  const renderScreen = () => {
-    if (!hasSeenOnboarding) return <Redirect withAnchor href="/onboarding" />;
+  if (!hasSeenOnboarding) {
+    return <Redirect withAnchor href="/onboarding" />;
+  }
 
-    if (!isAuthenticated) return <Redirect withAnchor href="/home" />;
-
-    if (user && !user.referral_source) return <Redirect withAnchor href="/referral_source" />;
-
-    if (user && (!user.full_name || !user.gender))
-      return <Redirect withAnchor href="/complete_profile" />;
-
+  if (!isAuthenticated) {
     return <Redirect withAnchor href="/home" />;
-  };
+  }
 
-  return <AppBackground>{renderScreen()}</AppBackground>;
+  if (user && !user.referral_source) {
+    return <Redirect withAnchor href="/referral_source" />;
+  }
+
+  if (user && (!user.full_name || !user.gender)) {
+    return <Redirect withAnchor href="/complete_profile" />;
+  }
+
+  return <Redirect withAnchor href="/home" />;
 };
 
 export default IndexPage;

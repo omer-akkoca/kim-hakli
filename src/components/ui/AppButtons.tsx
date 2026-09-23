@@ -14,6 +14,7 @@ interface AppButtonProps {
   disabled?: boolean;
   flex?: boolean;
   reverse?: boolean;
+  className?: string;
 }
 
 interface DetailIconButtonProps {
@@ -34,13 +35,14 @@ const AppPrimaryButton: React.FC<AppButtonProps> = ({
   disabled,
   flex = false,
   reverse = false,
+  className,
 }) => {
   const { colors } = useTheme();
 
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="h-button rounded-xl overflow-hidden disabled:opacity-50"
+      className={`h-button rounded-xl overflow-hidden disabled:opacity-50 ${className}`}
       style={{ flex: flex ? 1 : undefined, boxShadow: colors.shadow }}
       disabled={disabled}
     >
