@@ -122,7 +122,7 @@ const ToastView: React.FC<{
           </Box>
         </HStack>
         <Pressable onPress={onDismiss}>
-          <CrossVector width={20} height={20} color={colors.headline} />
+          <CrossVector width={20} height={20} color={colors.title} />
         </Pressable>
       </HStack>
     </Animated.View>
