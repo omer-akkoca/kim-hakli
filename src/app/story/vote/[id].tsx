@@ -53,7 +53,7 @@ export default function StoryVotePage() {
         onSuccess: (data) => {
           if (data.success) {
             replace(`/story/voteResult/${id}`);
-            showReward({ amount: 6 }, () => dispatch(increaseCredit(5)));
+            showReward({ amount: 6 }, () => dispatch(increaseCredit(6)));
           }
         },
       },

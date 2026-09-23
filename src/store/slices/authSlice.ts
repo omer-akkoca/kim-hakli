@@ -39,7 +39,9 @@ const authSlice = createSlice({
       }
     },
     decreaseCredit: (state, action: PayloadAction<number>) => {
-      state.user!.credit_count = state.user!.credit_count - action.payload;
+      if (state.user) {
+        state.user.credit_count = state.user!.credit_count - action.payload;
+      }
     },
     increaseCredit: (state, action: PayloadAction<number>) => {
       state.user!.credit_count = state.user!.credit_count + action.payload;
