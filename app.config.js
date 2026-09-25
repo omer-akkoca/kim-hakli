@@ -123,6 +123,7 @@ export default ({ config }) => ({
         enforceContrast: true,
       },
     ],
+    './plugins/withUnityAdsMediation',
     [
       'expo-build-properties',
       {
@@ -140,6 +141,10 @@ export default ({ config }) => ({
             {
               name: 'RecaptchaInterop',
               modular_headers: true,
+            },
+            {
+              name: 'GoogleMobileAdsMediationUnity',
+              version: '4.17.0.0',
             },
           ],
         },
