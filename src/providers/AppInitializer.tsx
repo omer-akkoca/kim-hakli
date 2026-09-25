@@ -13,6 +13,7 @@ import {
   useGetAvatarUrl,
   useGetBookmarkedStoryIds,
   useGetCategories,
+  useGetMyTotalCredits,
   useSavePushToken,
 } from '@/src/actions';
 import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
@@ -36,6 +37,7 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: bookmarkData, isSuccess: bookmarkSuccess } = useGetBookmarkedStoryIds(user?.id);
   useGetCategories();
   useGetAvatarUrl({ userId: user?.id, avatarPath: user?.avatar_path });
+  useGetMyTotalCredits(user?.id);
 
   const { mutate: savePushToken } = useSavePushToken();
 

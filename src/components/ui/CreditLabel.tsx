@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { CreditVector } from '@/assets';
 import { Box, HStack, LinearGradient } from '@/components/ui';
-import { AppText } from './AppText';
 import { formatStoryVoteCount } from '@/src/utils';
 import { useAuth, useTheme } from '@/src/hooks';
+import { AppText } from './AppText';
 
 interface CreditLabelProps {
   long?: boolean;
@@ -11,14 +11,12 @@ interface CreditLabelProps {
 
 const CreditLabel: React.FC<CreditLabelProps> = ({ long = false }) => {
   const { colors } = useTheme();
-  const { user } = useAuth();
+  const { total_credits } = useAuth();
 
-  const creditCount = useMemo(() => {
-    if (!user) return 0;
-    return long ? user.credit_count : formatStoryVoteCount(user?.credit_count);
-  }, [user, long]);
-
-  if (!user) return <></>;
+  const creditCount = useMemo(
+    () => (long ? total_credits : formatStoryVoteCount(total_credits)),
+    [total_credits, long],
+  );
 
   return (
     <Box

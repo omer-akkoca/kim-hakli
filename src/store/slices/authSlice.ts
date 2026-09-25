@@ -5,6 +5,7 @@ import { Session } from '@supabase/supabase-js';
 interface AuthState {
   session: Session | null;
   user: IUser | null;
+  total_credits: number;
   profile_photo: string | null;
   loading: boolean;
 }
@@ -12,6 +13,7 @@ interface AuthState {
 const initialState: AuthState = {
   session: null,
   user: null,
+  total_credits: 0,
   profile_photo: null,
   loading: false,
 };
@@ -38,17 +40,19 @@ const authSlice = createSlice({
         state.user = newUser;
       }
     },
+    setTotalCredits: (state, action: PayloadAction<number>) => {
+      state.total_credits = action.payload;
+    },
     decreaseCredit: (state, action: PayloadAction<number>) => {
-      if (state.user) {
-        state.user.credit_count = state.user!.credit_count - action.payload;
-      }
+      state.total_credits -= action.payload;
     },
     increaseCredit: (state, action: PayloadAction<number>) => {
-      state.user!.credit_count = state.user!.credit_count + action.payload;
+      state.total_credits += action.payload;
     },
     resetAuth: (state) => {
       state.session = null;
       state.user = null;
+      state.total_credits = 0;
       state.profile_photo = null;
       state.loading = false;
     },
@@ -64,5 +68,6 @@ export const {
   setProfilePhoto,
   setReferralSource,
   increaseCredit,
+  setTotalCredits,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

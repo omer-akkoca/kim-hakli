@@ -7,11 +7,12 @@ const useAuth = () => {
     loading: authLoading,
     profile_photo,
     session,
+    total_credits,
   } = useAppSelector((state) => state.auth);
 
   const isAuthenticated = useMemo(() => !!user, [user]);
 
-  return { user, isAuthenticated, authLoading, profile_photo, session };
+  return { user, isAuthenticated, authLoading, profile_photo, session, total_credits };
 };
 
 export { useAuth };

@@ -3,6 +3,7 @@ import {
   deleteAccount,
   getAvatarUrl,
   getCanApplyReferralCode,
+  getMyTotalCredits,
   getProfile,
   getUserStoryStats,
   getUserUnlockedStories,
@@ -10,7 +11,7 @@ import {
   updateReferralSource,
 } from '@/src/services';
 import { GetAvatarUrlParams, GetProfileParams, UpdateReferralSourceParams } from '@/src/types';
-import { setProfilePhoto, useAppDispatch, useAppSelector } from '../store';
+import { setProfilePhoto, setTotalCredits, useAppDispatch, useAppSelector } from '../store';
 import { useEffect } from 'react';
 
 export const userKeys = {
@@ -19,6 +20,7 @@ export const userKeys = {
   deleteAccount: () => ['users', 'delete-account'] as const,
   avatar: (userId?: string, avatarPath?: string) => ['user', 'avatar', userId, avatarPath] as const,
   canApplyReferralCode: (userId?: string) => ['user', 'can-apply-referral-code', userId] as const,
+  getMyTotalCredits: (userId?: string) => ['user', 'my-total-credits', userId] as const,
 };
 
 export const useGetProfile = () => {
@@ -89,4 +91,23 @@ export const useCanApplyReferralCode = (userId?: string) => {
     queryFn: getCanApplyReferralCode,
     enabled: !!userId,
   });
+};
+
+export const useGetMyTotalCredits = (userId?: string) => {
+  const dispatch = useAppDispatch();
+
+  const { data } = useQuery({
+    queryKey: userKeys.getMyTotalCredits(userId),
+    queryFn: getMyTotalCredits,
+    enabled: !!userId,
+    staleTime: 55 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  });
+
+  useEffect(() => {
+    if (data) {
+      const { total_credits } = data;
+      dispatch(setTotalCredits(total_credits));
+    }
+  }, [data]);
 };

@@ -76,3 +76,7 @@ export interface UpdateProfileResponse {
     reason?: string;
   };
 }
+
+export interface GetMyTotalCreditsResponse {
+  total_credits: number;
+}

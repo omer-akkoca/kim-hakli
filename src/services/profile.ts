@@ -1,6 +1,7 @@
 import { supabase } from '@/src/configs';
 import {
   DeleteAccountResponse,
+  GetMyTotalCreditsResponse,
   IUser,
   UnlockedStory,
   UpdateProfileParams,
@@ -12,6 +13,7 @@ import {
   CAN_APPLY_REFERRAL_CODE,
   COMPLETE_PROFILE,
   DELETE_ACCOUNT,
+  GET_MY_TOTAL_CREDITS,
   GET_USER_UNLOCKED_STORIES,
 } from '@/src/constants';
 import { uploadAvatar } from './storage';
@@ -114,6 +116,16 @@ export const getAvatarUrl = async (avatarPath: string): Promise<string> => {
 
 export const getCanApplyReferralCode = async (): Promise<boolean> => {
   const { data, error } = await supabase.rpc(CAN_APPLY_REFERRAL_CODE);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+export const getMyTotalCredits = async (): Promise<GetMyTotalCreditsResponse> => {
+  const { data, error } = await supabase.rpc(GET_MY_TOTAL_CREDITS);
 
   if (error) {
     throw new Error(error.message);
