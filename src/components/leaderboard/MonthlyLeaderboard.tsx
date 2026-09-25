@@ -1,6 +1,6 @@
 import React from 'react';
-import { useGetMonthlyLeaderBoard } from '@/src/actions';
 import { LeaderBoardList } from './LeaderBoardList';
+import { useGetMonthlyLeaderBoard } from '@/src/actions';
 
 const MonthlyLeaderboard = () => {
   const {

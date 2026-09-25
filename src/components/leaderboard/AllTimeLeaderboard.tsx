@@ -1,6 +1,6 @@
 import React from 'react';
-import { LeaderBoardList } from './LeaderBoardList';
 import { useGetAllTimeLeaderBoard } from '@/src/actions';
+import { LeaderBoardList } from './LeaderBoardList';
 
 const AllTimeLeaderboard = () => {
   const {

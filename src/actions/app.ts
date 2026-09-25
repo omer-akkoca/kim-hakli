@@ -4,8 +4,18 @@ import { useAuth } from '@/src/hooks/useAuth';
 
 const appKeys = {
   appConfig: ['app-config'],
-  allTimeLeaderboard: (userId?: string) => ['leaderboard', 'alltime', userId],
-  monthlyLeaderboard: (userId?: string) => ['leaderboard', 'monthly', userId],
+  allTimeLeaderboard: (totalCredits: number, userId?: string) => [
+    'leaderboard',
+    'alltime',
+    userId,
+    totalCredits,
+  ],
+  monthlyLeaderboard: (totalCredits: number, userId?: string) => [
+    'leaderboard',
+    'monthly',
+    userId,
+    totalCredits,
+  ],
 };
 
 export const useGetAppConfig = () => {
@@ -18,9 +28,9 @@ export const useGetAppConfig = () => {
 };
 
 export const useGetAllTimeLeaderBoard = () => {
-  const { user } = useAuth();
+  const { user, total_credits } = useAuth();
   return useQuery({
-    queryKey: appKeys.allTimeLeaderboard(user?.id),
+    queryKey: appKeys.allTimeLeaderboard(total_credits, user?.id),
     queryFn: getAllTimeLeaderBoard,
     enabled: Boolean(user?.id),
     staleTime: 5 * 60 * 1000,
@@ -29,9 +39,9 @@ export const useGetAllTimeLeaderBoard = () => {
 };
 
 export const useGetMonthlyLeaderBoard = () => {
-  const { user } = useAuth();
+  const { user, total_credits } = useAuth();
   return useQuery({
-    queryKey: appKeys.monthlyLeaderboard(user?.id),
+    queryKey: appKeys.monthlyLeaderboard(total_credits, user?.id),
     queryFn: getMonthlyLeaderBoard,
     enabled: Boolean(user?.id),
     staleTime: 5 * 60 * 1000,
