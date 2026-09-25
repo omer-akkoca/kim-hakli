@@ -158,7 +158,11 @@ const StoryVoteResultPage = () => {
           />
           <AppSecondaryButton icon={RightChevronVector} label="Devam Et" onPress={handleContinue} />
         </VStack>
-        <AppBannerAd unitId={ADS.banner.vote_result} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
+        <AppBannerAd
+          unitId={ADS.banner.vote_result}
+          size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
+          collapsible="bottom"
+        />
       </AppScrollView>
     </AppBackground>
   );

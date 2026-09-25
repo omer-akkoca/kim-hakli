@@ -122,7 +122,11 @@ const HomePage = () => {
                     )}
                   />
                 </Box>
-                <AppBannerAd unitId={ADS.banner.home} size={BannerAdSize.INLINE_ADAPTIVE_BANNER} />
+                <AppBannerAd
+                  unitId={ADS.banner.home}
+                  size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
+                  collapsible="bottom"
+                />
               </>
             )}
           </VStack>
