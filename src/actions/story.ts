@@ -1,4 +1,10 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   GetStoriesParams,
   GetStoryAccessParams,
@@ -167,6 +173,7 @@ export const useSearchStories = (params: SearchStoriesParams) => {
     queryFn: () => searchStories(params),
     enabled: !!params.query.trim(),
     staleTime: 1000 * 60 * 2,
+    placeholderData: keepPreviousData,
   });
 };
 

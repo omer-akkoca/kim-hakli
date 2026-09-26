@@ -27,7 +27,7 @@ const SearchScreen = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebouncedQuery(query.trim());
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [query]);
@@ -35,15 +35,15 @@ const SearchScreen = () => {
   const ListHeaderComponent = useCallback(() => {
     if (!(debouncedQuery && stories.length !== 0)) return null;
     return (
-      <AppText size={12} lineHeight={16} weight={500} className="text-loginText">
+      <AppText size={12} lineHeight={16} weight={500} color="headline_90">
         {`"${debouncedQuery}"`} için{' '}
-        <AppText size={12} lineHeight={16} weight={500} className="text-primary-500">
+        <AppText size={12} lineHeight={16} weight={600} color="primary">
           {stories?.length}
         </AppText>{' '}
         sonuç{' '}
       </AppText>
     );
-  }, []);
+  }, [debouncedQuery, stories.length]);
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<IStory>) => <SearchRenderItem story={item} />,

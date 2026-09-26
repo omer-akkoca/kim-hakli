@@ -38,7 +38,7 @@ const SearchRenderItem: React.FC<SearchRenderItemProps> = ({ story }) => {
           recyclingKey={story.id}
           className="w-32 h-32"
           style={{ width: 128, height: 128 }}
-          blurRadius={story.status !== 'published' ? 3 : undefined}
+          blurRadius={story.status === 'completed' ? 3 : undefined}
         />
         <VStack className="flex-1 p-3 pl-0 justify-between">
           <AppText
