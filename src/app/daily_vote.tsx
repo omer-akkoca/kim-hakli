@@ -16,14 +16,15 @@ import {
 import { useGetClosingStory } from '@/src/actions';
 import { getCoverImageUrl } from '@/src/utils';
 import { H, height } from '@/src/constants';
-import { useTheme } from '@/src/hooks';
+import { useAuth, useTheme } from '@/src/hooks';
 
 const DailyVote = () => {
   const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
   const { replace } = useRouter();
+  const { user } = useAuth();
 
-  const { data, isLoading } = useGetClosingStory();
+  const { data, isLoading } = useGetClosingStory(user?.id);
 
   if (isLoading)
     return (
