@@ -67,7 +67,7 @@ export default function StoryVotePage() {
       <Box className="flex-1 relative">
         <HStack
           space="lg"
-          className="absoluteleft-0 right-0 px-6 items-center justify-between z-20"
+          className="absolute left-0 right-0 px-6 items-center justify-between z-20"
           style={{ top: top + 8 }}
         >
           <Box />

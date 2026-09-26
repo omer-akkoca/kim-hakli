@@ -85,7 +85,7 @@ const LoginPage = () => {
                   weight={500}
                   onPress={() => Linking.openURL('https://kimhakli.tr/privacy-policy')}
                 >
-                  Gizlilk Politikası
+                  Gizlilik Politikası
                 </AppText>
                 {"'"}nı kabul etmiş olursunuz.
               </AppText>

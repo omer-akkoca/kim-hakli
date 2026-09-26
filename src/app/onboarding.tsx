@@ -106,7 +106,7 @@ export default function OnboardingPage() {
           className="absolute w-full left-0 px-6 z-20"
           style={{ bottom: bottom + 16 }}
         >
-          <HStack space="sm" className="justify-center items-center0">
+          <HStack space="sm" className="justify-center items-center">
             {slides.map((_, i) => {
               const active = i === currentIndex;
               return (
