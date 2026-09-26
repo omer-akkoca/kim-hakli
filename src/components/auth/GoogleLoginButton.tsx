@@ -23,7 +23,8 @@ const GoogleLoginButton = () => {
           description: error.message,
         });
       },
-      onSuccess: () => {
+      onSuccess: ({ cancelled }) => {
+        if (cancelled) return;
         onSuccess();
         show({
           type: 'success',
@@ -35,7 +36,11 @@ const GoogleLoginButton = () => {
   };
 
   return (
-    <Pressable onPress={handleGoogle} className="w-full h-button rounded-button bg-white px-6">
+    <Pressable
+      onPress={handleGoogle}
+      disabled={isPending}
+      className="w-full h-button rounded-button bg-white px-6"
+    >
       {isPending ? (
         <AppLoading fullScreen size={'small'} />
       ) : (

@@ -16,30 +16,37 @@ export const onAuthStateChanged = (
   return subscription;
 };
 
-export async function signInWithGoogle() {
+export async function signInWithGoogle(): Promise<{ cancelled: boolean }> {
   try {
     await GoogleSignin.hasPlayServices({
       showPlayServicesUpdateDialog: true,
     });
 
     const userInfo = await GoogleSignin.signIn();
-    const idToken = userInfo.data?.idToken;
+
+    if (userInfo.type === 'cancelled') {
+      return { cancelled: true };
+    }
+
+    const idToken = userInfo.data.idToken;
 
     if (!idToken) {
-      throw new Error('Google girişi için hesap seçilmedi, lütfen bir hesap seçiniz.');
+      throw new Error('Google girişi için hesap seçilmedi, lütfen tekrar deneyin.');
     }
 
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
       token: idToken,
-      //nonce: decoded.nonce,
     });
 
     if (error) throw error;
+
+    return { cancelled: false };
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      return null;
+      return { cancelled: true };
     }
+
     throw error;
   }
 }
