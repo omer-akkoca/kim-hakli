@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'expo-router';
 import { GoogleVector } from '@/assets';
 import { HStack, Pressable } from '@/components/ui';
-import { useGoogleSingIn } from '@/src/actions';
+import { useGoogleSignIn } from '@/src/actions';
 import { useToast } from '@/src/hooks';
 import { AppLoading, AppText } from '../ui';
 
@@ -10,7 +10,7 @@ const GoogleLoginButton = () => {
   const router = useRouter();
   const { show } = useToast();
 
-  const { mutate, isPending } = useGoogleSingIn();
+  const { mutate, isPending } = useGoogleSignIn();
 
   const onSuccess = () => router.replace('/');
 

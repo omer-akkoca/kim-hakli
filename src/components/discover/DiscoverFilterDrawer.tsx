@@ -15,6 +15,7 @@ import { useAppSelector } from '@/src/store';
 import { CREDIT_FILTERS } from '@/src/constants';
 import { DiscoverFilterBadge } from './DiscoverFilterBadge';
 import { AppBackground, AppPrimaryButton, AppSecondaryButton, AppScrollView, AppText } from '../ui';
+import { useTheme } from '@/src/hooks';
 
 interface DiscoverFilterDrawerProps {
   showDrawer: boolean;
@@ -29,6 +30,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
   filters,
   setFilters,
 }) => {
+  const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
 
   const categories = useAppSelector((state) => state.category.categories);
@@ -52,8 +54,8 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
         setShowDrawer(false);
       }}
     >
-      <DrawerBackdrop className="bg-modal-backdrop" />
-      <DrawerContent className="border-l border-whiteSmoke-500/25 p-0">
+      <DrawerBackdrop style={{ backgroundColor: colors.modalBackdrop }} />
+      <DrawerContent style={{ borderColor: colors.headline_32 }} className="border-l p-0">
         <AppBackground>
           <DrawerBody className="flex-1">
             <AppScrollView gap={24} paddingHorizontal={16} safeTop>

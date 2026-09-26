@@ -16,7 +16,7 @@ export const useGetStoryVoteResults = (storyId: string) => {
   });
 };
 
-export const useGeVoteHistory = (userId?: string) => {
+export const useGetVoteHistory = (userId?: string) => {
   return useQuery({
     queryKey: voteKeys.voteHistory(userId),
     queryFn: () => getVoteHistory(userId!),

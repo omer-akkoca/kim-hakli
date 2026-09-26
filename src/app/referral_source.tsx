@@ -74,7 +74,6 @@ const ReferralSource = () => {
                   key={e.value}
                   onPress={() => setSource(e.value)}
                   style={{ borderColor: active ? colors.primary : colors.white_10 }}
-                  className={active ? 'border-primary-500' : ''}
                 >
                   <Box className="px-4 py-2">
                     <AppText weight={500} color={active ? 'primary' : 'headline_75'}>

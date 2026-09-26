@@ -1,6 +1,6 @@
 export const commonColors = {
   primary: '#F56B20',
-  tranparent: '#ffffff00',
+  transparent: '#ffffff00',
   black: '#000000',
   white: '#ffffff',
   white_5: 'rgba(255 255 255 / 0.05)',
@@ -21,6 +21,8 @@ export const commonColors = {
   appIconButtonBg: 'rgba(28 31 48 / 0.75)',
   modalBackdrop: 'rgba(0 0 0 / 0.58)',
   gunMetalGray: '#1C1F30',
+  loginBg: 'rgba(28 31 48 / 0.55)',
+  loginButton: 'rgba(28 31 48 / 0.25)',
 };
 
 export const lightColors = {
@@ -28,6 +30,8 @@ export const lightColors = {
   shadow: '0 0 6px 1px rgba(12, 10, 10, 0.05)',
   background: '#F2F2F7',
   background_75: 'rgba(242 242 247 / 0.75)',
+  background_55: 'rgba(242 242 247 / 0.55)',
+  background_25: 'rgba(242 242 247 / 0.25)',
   headline: '#1C1F30',
   reversed_headline: '#f5f5f5',
   headline_90: 'rgb(28 31 48 / 0.9)',
@@ -48,6 +52,8 @@ export const darkColors = {
   shadow: '0 10px 15px rgba(0,0,0,0.18)',
   background: '#1C1F30',
   background_75: 'rgba(28 31 48 / 0.75)',
+  background_55: 'rgba(28 31 48 / 0.55)',
+  background_25: 'rgba(28 31 48 / 0.25)',
   headline: '#f5f5f5',
   reversed_headline: '#1C1F30',
   headline_90: 'rgba(245 245 245 / 0.90)',

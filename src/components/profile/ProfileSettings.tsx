@@ -209,7 +209,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             onPress={() => setGender('male')}
             style={{
               borderWidth: 1.75,
-              borderColor: gender === 'male' ? colors.primary : colors.tranparent,
+              borderColor: gender === 'male' ? colors.primary : colors.transparent,
             }}
           >
             <Box className="py-3">
@@ -227,7 +227,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             onPress={() => setGender('female')}
             style={{
               borderWidth: 1.75,
-              borderColor: gender === 'female' ? colors.primary : colors.tranparent,
+              borderColor: gender === 'female' ? colors.primary : colors.transparent,
             }}
           >
             <Box className="py-3">
@@ -245,7 +245,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
             onPress={() => setGender('other')}
             style={{
               borderWidth: 1.75,
-              borderColor: gender === 'other' ? colors.primary : colors.tranparent,
+              borderColor: gender === 'other' ? colors.primary : colors.transparent,
             }}
           >
             <Box className="py-3">

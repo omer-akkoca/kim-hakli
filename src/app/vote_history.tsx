@@ -9,7 +9,7 @@ import {
   AppLoading,
   VoteHistoryCard,
 } from '@/src/components';
-import { useGeVoteHistory } from '@/src/actions';
+import { useGetVoteHistory } from '@/src/actions';
 import { VoteHistory } from '@/src/types';
 import { ADS } from '@/src//constants';
 import { useAuth } from '@/src/hooks';
@@ -17,7 +17,7 @@ import { useAuth } from '@/src/hooks';
 const VoteHistoryPage = () => {
   const { user } = useAuth();
 
-  const { data, isLoading, refetch, isRefetching } = useGeVoteHistory(user?.id);
+  const { data, isLoading, refetch, isRefetching } = useGetVoteHistory(user?.id);
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<VoteHistory>) => <VoteHistoryCard voteHistory={item} />,

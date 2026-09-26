@@ -126,7 +126,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
                           className="h-modal-button w-full items-center justify-center rounded-2xl border"
                           style={{
                             backgroundColor: isPrimary ? colors.primary : colors.background_75,
-                            borderColor: isPrimary ? colors.tranparent : colors.white_10,
+                            borderColor: isPrimary ? colors.transparent : colors.white_10,
                           }}
                         >
                           <AppText weight={700} color={isPrimary ? 'title' : 'headline'}>

@@ -78,14 +78,14 @@ const ToastView: React.FC<{
   }));
 
   const bgColor = useMemo(() => {
-    if (!toast) return colors.tranparent;
+    if (!toast) return colors.transparent;
     if (toast.type === 'error') return '#2A1215';
     if (toast.type === 'warning') return '#2A2112';
     return '#102A1C';
   }, [toast]);
 
   const iconColor = useMemo(() => {
-    if (!toast) return colors.tranparent;
+    if (!toast) return colors.transparent;
     if (toast.type === 'error') return '#F87171';
     if (toast.type === 'warning') return '#FBBF24';
     return '#4ADE80';

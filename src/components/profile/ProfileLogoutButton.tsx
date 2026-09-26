@@ -38,12 +38,7 @@ const ProfileLogoutButton = () => {
         <HStack className="p-4 items-center justify-between">
           <HStack space="lg" className="items-center">
             <LogoutVector width={20} height={20} color={colors.primary} />
-            <AppText
-              size={14}
-              weight={600}
-              color="primary"
-              className="text-primary-500 -tracking-2"
-            >
+            <AppText size={14} weight={600} color="primary" className="-tracking-2">
               Çıkış Yap
             </AppText>
           </HStack>

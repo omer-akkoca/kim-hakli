@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { signInWithGoogle, signInWithApple ,signOut } from '@/src/services';
+import { signInWithGoogle, signInWithApple, signOut } from '@/src/services';
 import { useRouter } from 'expo-router';
 
-export const useGoogleSingIn = () => {
+export const useGoogleSignIn = () => {
   return useMutation({ mutationFn: signInWithGoogle });
 };
 
@@ -12,5 +12,5 @@ export const useAppleSingIn = () => {
 
 export const useSignOut = () => {
   const { replace } = useRouter();
-  return useMutation({ mutationFn: signOut, onSuccess: () => replace("/auth/login")});
+  return useMutation({ mutationFn: signOut, onSuccess: () => replace('/auth/login') });
 };

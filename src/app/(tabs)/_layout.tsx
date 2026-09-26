@@ -143,7 +143,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
                     <ProfileAvatar
                       size={25}
                       borderWidth={1.75}
-                      borderColor={active ? colors.primary : colors.tranparent}
+                      borderColor={active ? colors.primary : colors.transparent}
                     />
                   ) : (
                     <Icon

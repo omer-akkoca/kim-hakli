@@ -19,7 +19,7 @@ const LoginPage = () => {
   return (
     <Box className="flex-1">
       <ImageBackground source={LOGIN_BG} className="flex-1">
-        <Box className="flex-1 bg-backgroud-500/55">
+        <Box style={{ backgroundColor: colors.loginBg }} className="flex-1">
           <LinearGradient
             colors={['rgba(28,31,48,0)', 'rgba(28,31,48,0.92)']}
             locations={[0, 1]}
@@ -59,7 +59,8 @@ const LoginPage = () => {
                 <AppleLoginButton />
                 <Pressable
                   onPress={onSuccess}
-                  className="w-full h-button rounded-button bg-backgroud-500/25 border border-primary-500 px-6"
+                  style={{ backgroundColor: colors.loginButton, borderColor: colors.primary }}
+                  className="w-full h-button rounded-button border px-6"
                 >
                   <HStack space="lg" className="flex-1 items-center">
                     <PersonVector width={24} height={24} color={colors.primary} />
