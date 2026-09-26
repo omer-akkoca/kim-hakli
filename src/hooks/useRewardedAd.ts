@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  AdEventType,
-  RewardedAd,
-  RewardedAdEventType,
-} from 'react-native-google-mobile-ads';
-
+import { AdEventType, RewardedAd, RewardedAdEventType } from 'react-native-google-mobile-ads';
 import { ADS } from '@/src/constants';
 import { supabase } from '@/src/configs';
-import { useToast } from '@/src/hooks/useToast';
-import { increaseCredit } from '@/src/store/slices/authSlice';
+import { useToast } from '@/src/hooks/';
+import { useAppDispatch, increaseCredit } from '@/src/store';
 
 type AdRewardResult = {
   success: boolean;
@@ -17,13 +11,15 @@ type AdRewardResult = {
   credit_count: number;
 };
 
+const REWARDED_AD_MAX_AGE_MS = 55 * 60 * 1000;
+
 export const useRewardedAd = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { show } = useToast();
 
-  const rewardedAdRef = useRef(
-    RewardedAd.createForAdRequest(ADS.rewarded),
-  );
+  const rewardedAdRef = useRef(RewardedAd.createForAdRequest(ADS.rewarded));
+
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isWatching, setIsWatching] = useState(false);
@@ -35,17 +31,28 @@ export const useRewardedAd = () => {
   useEffect(() => {
     const rewardedAd = rewardedAdRef.current;
 
+    const clearRefreshTimer = () => {
+      if (refreshTimerRef.current) {
+        clearTimeout(refreshTimerRef.current);
+        refreshTimerRef.current = null;
+      }
+    };
+
     const loadAd = () => {
+      clearRefreshTimer();
       setIsLoaded(false);
       rewardedAd.load();
     };
 
-    const unsubscribeLoaded = rewardedAd.addAdEventListener(
-      RewardedAdEventType.LOADED,
-      () => {
-        setIsLoaded(true);
-      },
-    );
+    const unsubscribeLoaded = rewardedAd.addAdEventListener(RewardedAdEventType.LOADED, () => {
+      setIsLoaded(true);
+
+      clearRefreshTimer();
+
+      refreshTimerRef.current = setTimeout(() => {
+        loadAd();
+      }, REWARDED_AD_MAX_AGE_MS);
+    });
 
     const unsubscribeReward = rewardedAd.addAdEventListener(
       RewardedAdEventType.EARNED_REWARD,
@@ -62,7 +69,6 @@ export const useRewardedAd = () => {
             title: 'Kredi eklenemedi.',
             description: 'Lütfen tekrar dene.',
           });
-
           return;
         }
 
@@ -70,13 +76,11 @@ export const useRewardedAd = () => {
 
         if (result.success) {
           dispatch(increaseCredit(3));
-
           show({
             type: 'success',
             title: '+3 kredi kazandın!',
             description: `Bugün ${result.remaining_ads} reklam hakkın kaldı.`,
           });
-
           return;
         }
 
@@ -88,25 +92,21 @@ export const useRewardedAd = () => {
       },
     );
 
-    const unsubscribeClosed = rewardedAd.addAdEventListener(
-      AdEventType.CLOSED,
-      () => {
-        setIsWatching(false);
-        loadAd();
-      },
-    );
+    const unsubscribeClosed = rewardedAd.addAdEventListener(AdEventType.CLOSED, () => {
+      setIsWatching(false);
+      loadAd();
+    });
 
-    const unsubscribeError = rewardedAd.addAdEventListener(
-      AdEventType.ERROR,
-      () => {
-        setIsWatching(false);
-        setIsLoaded(false);
-      },
-    );
+    const unsubscribeError = rewardedAd.addAdEventListener(AdEventType.ERROR, () => {
+      clearRefreshTimer();
+      setIsWatching(false);
+      setIsLoaded(false);
+    });
 
     loadAd();
 
     return () => {
+      clearRefreshTimer();
       unsubscribeLoaded();
       unsubscribeReward();
       unsubscribeClosed();
@@ -115,10 +115,12 @@ export const useRewardedAd = () => {
   }, [dispatch, show]);
 
   const watchAndEarn = async () => {
-    if (isDisabled) {
-      return;
-    }
+    if (isDisabled) return;
 
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
 
     setIsWatching(true);
     setIsLoaded(false);
