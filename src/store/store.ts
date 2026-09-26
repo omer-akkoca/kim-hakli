@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authReducer, categoryReducer, bookmarkReducer, appReducer } from './slices';
+import { authReducer, bookmarkReducer, appReducer } from './slices';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    category: categoryReducer,
     bookmark: bookmarkReducer,
     app: appReducer,
   },

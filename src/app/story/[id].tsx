@@ -10,9 +10,13 @@ import {
   StoryDetailBg,
 } from '@/src/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useAppSelector } from '@/src/store';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGetStoryById, useGetStoryCategories, useStoryAccess } from '@/src/actions';
+import {
+  useGetCategories,
+  useGetStoryById,
+  useGetStoryCategories,
+  useStoryAccess,
+} from '@/src/actions';
 import { LeftChevronVector, ShareVector } from '@/assets';
 import { useAuth, useBookmark, useTheme } from '@/src/hooks';
 import { getCoverImageUrl, handleShareStory, preventWordBreak } from '@/src/utils';
@@ -24,8 +28,8 @@ export default function StoryDetailPage() {
   const { bottom, top } = useSafeAreaInsets();
   const { BookmarkIcon, toggleBookmark, loading } = useBookmark(id);
   const { user } = useAuth();
-  const { categories } = useAppSelector((state) => state.category);
 
+  const { data: categories } = useGetCategories();
   const { data: story, isLoading } = useGetStoryById(id);
   const { data: storyCategories } = useGetStoryCategories(id);
   const { data: storyAccess, isLoading: isStoryAccessLoading } = useStoryAccess({

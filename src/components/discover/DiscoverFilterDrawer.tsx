@@ -11,11 +11,11 @@ import {
   VStack,
 } from '@/components/ui';
 import { CreditFilter, GetStoriesParams } from '@/src/types';
-import { useAppSelector } from '@/src/store';
 import { CREDIT_FILTERS } from '@/src/constants';
+import { useTheme } from '@/src/hooks';
+import { useGetCategories } from '@/src/actions';
 import { DiscoverFilterBadge } from './DiscoverFilterBadge';
 import { AppBackground, AppPrimaryButton, AppSecondaryButton, AppScrollView, AppText } from '../ui';
-import { useTheme } from '@/src/hooks';
 
 interface DiscoverFilterDrawerProps {
   showDrawer: boolean;
@@ -33,7 +33,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
   const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
 
-  const categories = useAppSelector((state) => state.category.categories);
+  const { data: categories } = useGetCategories();
 
   const [categortyCode, setCategoryCode] = React.useState<string | undefined>(undefined);
   const [credit, setCredit] = React.useState<CreditFilter>('all');
@@ -65,7 +65,7 @@ const DiscoverFilterDrawer: React.FC<DiscoverFilterDrawerProps> = ({
                   Kategoriler
                 </AppText>
                 <HStack space="sm" className="flex-wrap">
-                  {categories.map((e) => {
+                  {categories?.map((e) => {
                     const active = categortyCode === e.code;
                     return (
                       <DiscoverFilterBadge
