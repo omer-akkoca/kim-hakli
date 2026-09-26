@@ -11,10 +11,13 @@ import {
 } from '@/src/components';
 import { useGeVoteHistory } from '@/src/actions';
 import { VoteHistory } from '@/src/types';
-import { ADS } from '../constants';
+import { ADS } from '@/src//constants';
+import { useAuth } from '@/src/hooks';
 
 const VoteHistoryPage = () => {
-  const { data, isLoading, refetch, isRefetching } = useGeVoteHistory();
+  const { user } = useAuth();
+
+  const { data, isLoading, refetch, isRefetching } = useGeVoteHistory(user?.id);
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<VoteHistory>) => <VoteHistoryCard voteHistory={item} />,

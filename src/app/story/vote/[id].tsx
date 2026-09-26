@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useQueryClient } from '@tanstack/react-query';
 import { CrossVector, VerifyVector, VoteVector } from '@/assets';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
@@ -16,6 +17,7 @@ import {
   useGetStoryImageUrls,
   useGetStorySides,
   useVoteStory,
+  voteKeys,
 } from '@/src/actions';
 import { useAuth, useReward, useTheme } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
@@ -29,6 +31,7 @@ export default function StoryVotePage() {
   const { user } = useAuth();
   const { showReward } = useReward();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const [selectedSide, setSelectedSide] = useState<string>('');
 
@@ -54,6 +57,12 @@ export default function StoryVotePage() {
           if (data.success) {
             replace(`/story/voteResult/${id}`);
             showReward({ amount: 6 }, () => dispatch(increaseCredit(6)));
+            queryClient.invalidateQueries({
+              queryKey: voteKeys.voteHistory(),
+            });
+            queryClient.invalidateQueries({
+              queryKey: voteKeys.voteResults(data.story_id),
+            });
           }
         },
       },

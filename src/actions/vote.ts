@@ -1,18 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
-import { getVotedStorySideId, getVoteHistory } from '../services';
-import { useAppSelector } from '../store';
+import { getStoryVoteResults, getVotedStorySideId, getVoteHistory } from '@/src/services';
 
-const storyKeys = {
-  voteHistory: (userId: string) => ['stories', 'vote-history', userId] as const,
+export const voteKeys = {
+  voteResults: (storyId: string) => ['stories', storyId, 'vote-results'] as const,
+  voteHistory: (userId?: string) => ['stories', 'vote-history', userId] as const,
   getVotedSideId: (storyId?: string, userId?: string) =>
     ['vote', 'voted-side', storyId, userId] as const,
 };
 
-export const useGeVoteHistory = () => {
-  const user = useAppSelector((state) => state.auth.user);
-  const userId = user ? user.id : '';
+export const useGetStoryVoteResults = (storyId: string) => {
   return useQuery({
-    queryKey: storyKeys.voteHistory(userId ?? ''),
+    queryKey: voteKeys.voteResults(storyId),
+    queryFn: () => getStoryVoteResults(storyId!),
+    enabled: !!storyId,
+  });
+};
+
+export const useGeVoteHistory = (userId?: string) => {
+  return useQuery({
+    queryKey: voteKeys.voteHistory(userId),
     queryFn: () => getVoteHistory(userId!),
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
@@ -22,7 +28,7 @@ export const useGeVoteHistory = () => {
 
 export const useGetVotedStorySideId = (storyId?: string, userId?: string) => {
   return useQuery({
-    queryKey: storyKeys.getVotedSideId(storyId, userId),
+    queryKey: voteKeys.getVotedSideId(storyId, userId),
     queryFn: () => getVotedStorySideId(storyId),
     enabled: !!userId && !!storyId,
     staleTime: 1000 * 60 * 5,

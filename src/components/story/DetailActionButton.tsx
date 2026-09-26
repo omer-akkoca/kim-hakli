@@ -16,12 +16,12 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
   const storyId = story.id;
 
   const { push } = useRouter();
-  const { show } = useModal();
+  const { show: showModal } = useModal();
   const { show: showToast } = useToast();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
 
-  const { mutate, isPending } = useUnlockStory(user?.id ?? '');
+  const { mutate, isPending } = useUnlockStory(user?.id);
 
   const handleReadStory = () => {
     push({ pathname: `/story/read/${storyId}` as any, params: { status: story.status } });
@@ -29,7 +29,7 @@ const DetailActionButton: React.FC<DetailActionButtonProps> = ({ story, storyAcc
 
   const handleUnlockStory = async () => {
     if (!user) {
-      show({
+      showModal({
         title: 'Devam Et',
         subtitle: 'Hikayeyi okumaya devam etmek için lütfen giriş yapınız.',
         buttons: [

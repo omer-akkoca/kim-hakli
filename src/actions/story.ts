@@ -20,7 +20,6 @@ import {
   getStoryImageUrls,
   getStorySides,
   voteStory,
-  getStoryVoteResults,
   searchStories,
   getHomeStories,
   getStoryAccess,
@@ -35,7 +34,6 @@ const storyKeys = {
   scenes: (id: string) => ['stories', id, 'scenes'] as const,
   storyImages: (paths: string[]) => ['storage', 'story-images', ...paths] as const,
   sides: (id: string) => ['stories', id, 'sides'] as const,
-  voteResults: (storyId: string) => ['stories', storyId, 'vote-results'] as const,
   search: (query: string) => ['stories', 'search', query] as const,
   homeStories: () => ['stories', 'most-voted', 'featured', 'latest'] as const,
   storyAccess: ({ storyId, userId }: GetStoryAccessParams) => [
@@ -90,7 +88,7 @@ export const useGetStoryCategories = (storyId?: string) => {
   });
 };
 
-export const useUnlockStory = (userId: string) => {
+export const useUnlockStory = (userId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -156,14 +154,6 @@ export const useVoteStory = (userId?: string) => {
         voted: true,
       });
     },
-  });
-};
-
-export const useGetStoryVoteResults = (storyId: string) => {
-  return useQuery({
-    queryKey: storyKeys.voteResults(storyId),
-    queryFn: () => getStoryVoteResults(storyId!),
-    enabled: !!storyId,
   });
 };
 
