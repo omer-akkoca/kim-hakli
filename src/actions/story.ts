@@ -115,6 +115,7 @@ export const useGetStoryScenes = (storyId: string) => {
     queryKey: storyKeys.scenes(storyId),
     queryFn: () => getStoryScenes(storyId),
     enabled: !!storyId,
+    staleTime: 50 * 60 * 1000,
   });
 };
 

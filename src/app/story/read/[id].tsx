@@ -20,7 +20,7 @@ import {
   width,
 } from '@/src/constants';
 import { getCoverImageUrl } from '@/src/utils';
-import { StoryStatus } from '@/src/types';
+import { IStoryReadItem, StoryStatus } from '@/src/types';
 
 const StoryReadPage = () => {
   const { id, status } = useLocalSearchParams<{ id: string; status: StoryStatus }>();
@@ -42,9 +42,10 @@ const StoryReadPage = () => {
   });
 
   const listData = useMemo(() => {
-    const images = [];
-    if (coverImage) images.push(coverImage);
-    if (scenes.length !== 0) images.push(...scenes.map((e) => e.image_url));
+    const images: IStoryReadItem[] = [];
+    if (coverImage) images.push({ id: coverImage, url: coverImage });
+    if (scenes.length !== 0)
+      images.push(...scenes.map((e) => ({ id: e.image_path, url: e.image_url })));
     return images;
   }, [coverImage, scenes]);
 
@@ -66,7 +67,9 @@ const StoryReadPage = () => {
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: string }) => <StoryReadRenderItem item={item} boxHeight={boxHeight} />,
+    ({ item }: { item: IStoryReadItem }) => (
+      <StoryReadRenderItem item={item} boxHeight={boxHeight} />
+    ),
     [boxHeight],
   );
 
@@ -85,7 +88,7 @@ const StoryReadPage = () => {
           <AppFlatList
             flatListRef={flatListRef}
             data={listData}
-            keyExtractor={(e) => e}
+            keyExtractor={(e) => e.id}
             initialNumToRender={3}
             windowSize={5}
             maxToRenderPerBatch={2}

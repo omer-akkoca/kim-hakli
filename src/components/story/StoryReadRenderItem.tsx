@@ -1,14 +1,17 @@
 import React, { memo, useMemo } from 'react';
-import { Image as RnImage } from 'react-native';
+import { Image } from 'expo-image';
 import { Box } from '@/components/ui';
 import { width } from '@/src/constants';
+import { IStoryReadItem } from '@/src/types';
 
 interface StoryReadRenderItemProps {
-  item: string;
+  item: IStoryReadItem;
   boxHeight: number;
 }
 
 const StoryReadRenderItem = memo<StoryReadRenderItemProps>(({ item, boxHeight }) => {
+  const { id, url } = item;
+
   const { boxWidth, imageWidth, imageHeight } = useMemo(() => {
     const bh = boxHeight;
     const bw = width;
@@ -21,10 +24,13 @@ const StoryReadRenderItem = memo<StoryReadRenderItemProps>(({ item, boxHeight })
 
   return (
     <Box className="items-center justify-center" style={{ width: boxWidth, height: boxHeight }}>
-      <RnImage
-        source={{ uri: item }}
+      <Image
+        source={{ uri: url, cacheKey: id }}
+        contentFit="contain"
+        cachePolicy="memory-disk"
+        transition={200}
+        recyclingKey={id}
         style={{ width: imageWidth, height: imageHeight }}
-        resizeMode="contain"
       />
     </Box>
   );

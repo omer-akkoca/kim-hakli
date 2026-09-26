@@ -36,6 +36,11 @@ export interface IStoryScene {
   created_at: string;
 }
 
+export interface IStoryReadItem {
+  id: string;
+  url: string;
+}
+
 export interface IStorySide {
   id: string;
   story_id: string;
