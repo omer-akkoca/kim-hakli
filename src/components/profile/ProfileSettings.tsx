@@ -5,10 +5,11 @@ import { ImagePickerAsset } from 'expo-image-picker';
 import * as Clipboard from 'expo-clipboard';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { DeleteVector, EditVector, PasteVector, SaveVector } from '@/assets';
 import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { genderType } from '@/src/types';
-import { useCanApplyReferralCode, useUpdateProfile } from '@/src/actions';
+import { profileKeys, useCanApplyReferralCode, useUpdateProfile } from '@/src/actions';
 import { pickProfileImage } from '@/src/utils';
 import { setUser, useAppDispatch, useAppSelector } from '@/src/store';
 import { ProfileFormValues, profileSchema } from '@/src/schemas';
@@ -32,6 +33,8 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
   const { colors } = useTheme();
   const { show } = useToast();
   const { refCode } = useAppState();
+  const queryClient = useQueryClient();
+
   const dispatch = useAppDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
@@ -91,6 +94,13 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
         onSuccess: (data) => {
           const updatedUser = data.user;
           dispatch(setUser(updatedUser));
+          if (photo) {
+            if (photo) {
+              queryClient.invalidateQueries({
+                queryKey: profileKeys.avatar(updatedUser.id, updatedUser.avatar_path),
+              });
+            }
+          }
           show({ title: 'Başarılı', description: 'Profiliniz güncellendi.' });
           if (onSave) {
             onSave();

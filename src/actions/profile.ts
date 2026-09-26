@@ -14,7 +14,7 @@ import { GetAvatarUrlParams, GetProfileParams, UpdateReferralSourceParams } from
 import { setProfilePhoto, setTotalCredits, useAppDispatch, useAppSelector } from '../store';
 import { useEffect } from 'react';
 
-export const userKeys = {
+export const profileKeys = {
   userStoryStats: (userId: string) => ['users', userId, 'story-stats'] as const,
   unlockedStories: (userId: string) => ['users', userId, 'unlocked-stories'] as const,
   deleteAccount: () => ['users', 'delete-account'] as const,
@@ -31,7 +31,7 @@ export const useGetProfile = () => {
 
 export const useGetUserStoryStats = (userId?: string) => {
   return useQuery({
-    queryKey: userKeys.userStoryStats(userId ?? ''),
+    queryKey: profileKeys.userStoryStats(userId ?? ''),
     queryFn: getUserStoryStats,
     enabled: !!userId,
   });
@@ -41,7 +41,7 @@ export const useGetUserUnlockedStories = () => {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user ? user.id : '';
   return useQuery({
-    queryKey: userKeys.unlockedStories(userId),
+    queryKey: profileKeys.unlockedStories(userId),
     queryFn: () => getUserUnlockedStories(userId),
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
@@ -50,7 +50,7 @@ export const useGetUserUnlockedStories = () => {
 
 export const useDeleteAccount = () => {
   return useMutation({
-    mutationKey: userKeys.deleteAccount(),
+    mutationKey: profileKeys.deleteAccount(),
     mutationFn: deleteAccount,
   });
 };
@@ -69,7 +69,7 @@ export const useGetAvatarUrl = ({ userId, avatarPath }: GetAvatarUrlParams) => {
   const dispatch = useAppDispatch();
 
   const query = useQuery({
-    queryKey: userKeys.avatar(userId, avatarPath ?? ''),
+    queryKey: profileKeys.avatar(userId, avatarPath ?? ''),
     queryFn: () => getAvatarUrl(avatarPath!),
     enabled: !!userId && !!avatarPath,
     staleTime: 55 * 60 * 1000,
@@ -87,7 +87,7 @@ export const useGetAvatarUrl = ({ userId, avatarPath }: GetAvatarUrlParams) => {
 
 export const useCanApplyReferralCode = (userId?: string) => {
   return useQuery({
-    queryKey: userKeys.canApplyReferralCode(userId),
+    queryKey: profileKeys.canApplyReferralCode(userId),
     queryFn: getCanApplyReferralCode,
     enabled: !!userId,
   });
@@ -97,7 +97,7 @@ export const useGetMyTotalCredits = (userId?: string) => {
   const dispatch = useAppDispatch();
 
   const { data } = useQuery({
-    queryKey: userKeys.getMyTotalCredits(userId),
+    queryKey: profileKeys.getMyTotalCredits(userId),
     queryFn: getMyTotalCredits,
     enabled: !!userId,
     staleTime: 55 * 60 * 1000,
