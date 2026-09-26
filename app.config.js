@@ -1,9 +1,11 @@
+const { version } = require('./package.json');
+
 export default ({ config }) => ({
   ...config,
   name: 'Kim Haklı?',
   slug: 'kim-hakli',
   scheme: 'kim-hakli',
-  version: '1.8.2',
+  version,
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -121,7 +123,6 @@ export default ({ config }) => ({
         },
       },
     ],
-    'expo-sqlite',
     [
       'expo-navigation-bar',
       {
