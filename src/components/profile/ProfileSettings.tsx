@@ -11,7 +11,7 @@ import { Box, Divider, HStack, VStack } from '@/components/ui';
 import { genderType } from '@/src/types';
 import { profileKeys, useCanApplyReferralCode, useUpdateProfile } from '@/src/actions';
 import { pickProfileImage } from '@/src/utils';
-import { setUser, useAppDispatch, useAppSelector } from '@/src/store';
+import { clearRefCode, setUser, useAppDispatch, useAppSelector } from '@/src/store';
 import { ProfileFormValues, profileSchema } from '@/src/schemas';
 import { useAppState, useTheme, useToast } from '@/src/hooks';
 import {
@@ -91,20 +91,45 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
     mutate(
       { fullName, referralCode, userId: user!.id, photo, gender },
       {
-        onSuccess: (data) => {
-          const updatedUser = data.user;
+        onSuccess: (result) => {
+          const updatedUser = result.user;
+          const referral = result.referral;
+          const hasReferralCode = Boolean(referralCode?.trim());
+
           dispatch(setUser(updatedUser));
+
           if (photo) {
-            if (photo) {
-              queryClient.invalidateQueries({
-                queryKey: profileKeys.avatar(updatedUser.id, updatedUser.avatar_path),
-              });
-            }
+            queryClient.invalidateQueries({
+              queryKey: profileKeys.avatar(updatedUser.id, updatedUser.avatar_path),
+            });
           }
-          show({ title: 'Başarılı', description: 'Profiliniz güncellendi.' });
-          if (onSave) {
-            onSave();
+
+          if (hasReferralCode && referral.success) {
+            dispatch(clearRefCode());
+            queryClient.invalidateQueries({
+              queryKey: profileKeys.canApplyReferralCode(updatedUser.id),
+            });
+            show({
+              type: 'success',
+              title: 'Başarılı',
+              description: 'Profiliniz güncellendi ve davet kodunuz başarıyla uygulandı.',
+            });
+          } else if (hasReferralCode) {
+            dispatch(clearRefCode());
+            show({
+              type: 'error',
+              title: 'Profil güncellendi',
+              description: referral.reason ?? 'Davet kodu uygulanamadı.',
+            });
+          } else {
+            show({
+              type: 'success',
+              title: 'Başarılı',
+              description: 'Profiliniz güncellendi.',
+            });
           }
+
+          onSave?.();
         },
         onError: (error) => {
           show({ type: 'error', title: 'Hata', description: error.message });

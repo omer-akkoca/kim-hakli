@@ -30,8 +30,17 @@ const appSlice = createSlice({
     setRefCode(state, action: PayloadAction<string>) {
       state.refCode = action.payload;
     },
+    clearRefCode(state) {
+      state.refCode = null;
+    },
   },
 });
 
-export const { setToStoryDetail, setHasSeenOnboarding, setHasSeenReward, setRefCode } = appSlice.actions;
+export const {
+  setToStoryDetail,
+  setHasSeenOnboarding,
+  setHasSeenReward,
+  setRefCode,
+  clearRefCode,
+} = appSlice.actions;
 export const appReducer = appSlice.reducer;
