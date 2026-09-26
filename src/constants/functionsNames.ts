@@ -6,7 +6,6 @@ export const GET_USER_UNLOCKED_STORIES = 'get_user_unlocked_stories';
 export const DELETE_ACCOUNT = 'delete-account';
 export const GET_STORY_ACCESS = 'get_story_access';
 export const GET_HOME_STORIES = 'get_home_stories';
-export const xGET_LEADERBOARD = 'get_leaderboard';
 export const GET_CLOSING_STORY = 'get_closing_story';
 export const GET_ALL_TIME_LEADERBOARD = 'get_all_time_leaderboard';
 export const GET_MONTHLY_LEADERBOARD = 'get_monthly_leaderboard';

@@ -11,7 +11,7 @@ export const useGetCategories = () => {
   const dispatch = useAppDispatch();
 
   const query = useQuery({
-    queryKey: ['categories'],
+    queryKey: categoryKeys.all,
     queryFn: getCategories,
     staleTime: 1000 * 60 * 15,
   });

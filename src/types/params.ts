@@ -14,11 +14,6 @@ export interface UnlockStoryParams {
   storyId: string;
 }
 
-export interface SubmitVoteParams {
-  storyId: string;
-  side: string;
-}
-
 export interface BookmarkParams {
   userId: string;
   storyId: string;

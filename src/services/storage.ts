@@ -27,19 +27,6 @@ export const attachSignedImageUrls = async <T extends { image_path: string }>(it
   }));
 };
 
-export const attachSignedCoverUrls = async <T extends { cover_image_path: string | null }>(
-  items: T[],
-) => {
-  const paths = items.map((item) => item.cover_image_path).filter(Boolean) as string[];
-
-  const signedUrlMap = await createSignedUrlMap(paths);
-
-  return items.map((item) => ({
-    ...item,
-    cover_image_url: item.cover_image_path ? (signedUrlMap.get(item.cover_image_path) ?? '') : '',
-  }));
-};
-
 export const uploadAvatar = async (
   userId: string,
   asset: ImagePicker.ImagePickerAsset,
@@ -64,7 +51,7 @@ export const uploadAvatar = async (
 };
 
 export const mapLeaderBoardProfiles = async (
-  users: IAllTimeLeaderboardUser[]
+  users: IAllTimeLeaderboardUser[],
 ): Promise<IAllTimeLeaderboardUserWithAvatarUrl[]> => {
   return Promise.all(
     users.map(async (user) => {
@@ -84,6 +71,6 @@ export const mapLeaderBoardProfiles = async (
         ...user,
         avatar_path_url,
       };
-    })
+    }),
   );
 };
