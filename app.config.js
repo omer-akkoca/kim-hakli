@@ -39,6 +39,11 @@ export default ({ config }) => ({
             host: 'kimhakli.tr',
             pathPrefix: '/story',
           },
+          {
+            scheme: 'https',
+            host: 'kimhakli.tr',
+            pathPrefix: '/invite',
+          },
         ],
         category: ['BROWSABLE', 'DEFAULT'],
       },
