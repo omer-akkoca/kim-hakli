@@ -130,7 +130,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (session) {
       syncAuth();
     }
-  }, [session]);
+  }, [session?.user?.id]);
 
   return children;
 };
