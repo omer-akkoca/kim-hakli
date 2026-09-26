@@ -11,7 +11,7 @@ import {
 } from '@/src/components';
 import { useGetUserUnlockedStories } from '@/src/actions';
 import { UnlockedStory } from '@/src/types';
-import { ADS } from '../constants';
+import { ADS } from '@/src/constants';
 
 const UnlockedStories: React.FC = () => {
   const { data: unlockedStories, isLoading, refetch, isRefetching } = useGetUserUnlockedStories();

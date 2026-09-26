@@ -12,7 +12,7 @@ import {
 import { useAppSelector } from '@/src/store';
 import { useGetStoriesByIds } from '@/src/actions';
 import { IStory } from '@/src/types';
-import { ADS } from '../constants';
+import { ADS } from '@/src/constants';
 
 const BookmarksPage = () => {
   const bookmarks = useAppSelector((state) => state.bookmark.bookmarks);

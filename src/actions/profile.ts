@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   deleteAccount,
@@ -11,8 +12,7 @@ import {
   updateReferralSource,
 } from '@/src/services';
 import { GetAvatarUrlParams, GetProfileParams, UpdateReferralSourceParams } from '@/src/types';
-import { setProfilePhoto, setTotalCredits, useAppDispatch, useAppSelector } from '../store';
-import { useEffect } from 'react';
+import { setProfilePhoto, setTotalCredits, useAppDispatch, useAppSelector } from '@/src/store';
 
 export const profileKeys = {
   userStoryStats: (userId: string) => ['users', userId, 'story-stats'] as const,

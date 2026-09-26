@@ -1,5 +1,4 @@
-import { lightColors } from '../constants';
-import { CREDIT_FILTERS } from '../constants/values';
+import { lightColors, CREDIT_FILTERS } from '@/src/constants';
 
 export interface ICategory {
   id: string;

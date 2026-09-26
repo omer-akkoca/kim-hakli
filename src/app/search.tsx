@@ -11,7 +11,7 @@ import {
   SearchRenderItem,
 } from '@/src/components';
 import { useSearchStories } from '@/src/actions';
-import { IStory } from '../types';
+import { IStory } from '@/src/types';
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');

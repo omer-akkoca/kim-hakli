@@ -1,4 +1,6 @@
 import React, { PropsWithChildren, useCallback, useMemo, useRef, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing,
   SharedValue,
@@ -7,14 +9,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { CrossVector, ErrorCircleVector, SuccessCircleVector, WarningCircleVector } from '@/assets';
+import { Box, HStack, Pressable } from '@/components/ui';
 import { ShowToastProps, ToastType } from '@/src/types';
 import { ToastContext } from '@/src/contexts';
-import { Box, HStack, Pressable } from '@/components/ui';
-import { CrossVector, ErrorCircleVector, SuccessCircleVector, WarningCircleVector } from '@/assets';
-import { AppText } from '../components';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
-import { useTheme } from '../hooks';
+import { AppText } from '@/src/components';
+import { useTheme } from '@/src/hooks';
 
 type ToastObject = { type: ToastType; title: string; description: string };
 

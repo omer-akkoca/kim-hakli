@@ -16,7 +16,7 @@ import { AppBackground, AppFlatList, AppPrimaryButton, AppText } from '@/src/com
 import { height, STORAGE_KEYS, width } from '@/src/constants';
 import { storage } from '@/src/utils';
 import { setHasSeenOnboarding, useAppDispatch } from '@/src/store';
-import { useTheme } from '../hooks';
+import { useTheme } from '@/src/hooks';
 
 export default function OnboardingPage() {
   const router = useRouter();

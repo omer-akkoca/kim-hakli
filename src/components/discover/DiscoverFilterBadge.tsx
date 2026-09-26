@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Pressable } from '@/components/ui';
-import { AppCard, AppText } from '../ui';
 import { useTheme } from '@/src/hooks';
+import { AppCard, AppText } from '../ui';
 
 interface DiscoverFilterBadgeProps {
   active: boolean;

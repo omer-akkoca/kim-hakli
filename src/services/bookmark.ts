@@ -1,5 +1,5 @@
 import { supabase } from '@/src/configs';
-import { BookmarkParams, IStory } from '../types';
+import { BookmarkParams, IStory } from '@/src/types';
 
 export const getBookmarkedStoryIds = async (userId: string): Promise<string[]> => {
   const { data, error } = await supabase

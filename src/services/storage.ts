@@ -1,8 +1,8 @@
-import { supabase } from '@/src/configs';
-import { File } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import { File } from 'expo-file-system';
 import { decode } from 'base64-arraybuffer';
-import { IAllTimeLeaderboardUser, IAllTimeLeaderboardUserWithAvatarUrl } from '../types';
+import { supabase } from '@/src/configs';
+import { IAllTimeLeaderboardUser, IAllTimeLeaderboardUserWithAvatarUrl } from '@/src/types';
 
 export const createSignedUrlMap = async (paths: string[]) => {
   if (!paths.length) {

@@ -1,4 +1,4 @@
-import { ILeaderBoardProfile } from '../types';
+import { ILeaderBoardProfile } from '@/src/types';
 
 export const getUniqueLeader = (leaderboard: ILeaderBoardProfile[]): ILeaderBoardProfile | null => {
   if (leaderboard.length === 0) return null;
