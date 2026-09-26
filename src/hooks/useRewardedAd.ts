@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AdEventType, RewardedAd, RewardedAdEventType } from 'react-native-google-mobile-ads';
 import { ADS } from '@/src/constants';
 import { supabase } from '@/src/configs';
-import { useToast } from '@/src/hooks/';
+import { useToast } from './useToast';
 import { useAppDispatch, increaseCredit } from '@/src/store';
 
 type AdRewardResult = {
