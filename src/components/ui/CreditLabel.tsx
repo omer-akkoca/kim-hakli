@@ -11,12 +11,14 @@ interface CreditLabelProps {
 
 const CreditLabel: React.FC<CreditLabelProps> = ({ long = false }) => {
   const { colors } = useTheme();
-  const { total_credits } = useAuth();
+  const { user, total_credits } = useAuth();
 
   const creditCount = useMemo(
     () => (long ? total_credits : formatStoryVoteCount(total_credits)),
     [total_credits, long],
   );
+
+  if (!user) return <Box />;
 
   return (
     <Box

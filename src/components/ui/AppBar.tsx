@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import { LeftChevronVector, LOGO } from '@/assets';
 import { Box, HStack } from '@/components/ui';
 import { appBarHeight } from '@/src/constants';
-import { useAppSelector } from '@/src/store';
 import { AppText } from './AppText';
 import { CreditLabel } from './CreditLabel';
 import { useTheme } from '@/src/hooks';
@@ -32,8 +31,6 @@ const AppBar: React.FC<IAppBar> = ({
   const { colors } = useTheme();
   const { top } = useSafeAreaInsets();
   const { back } = useRouter();
-
-  const { user } = useAppSelector((state) => state.auth);
 
   const hasContent =
     backIcon || creditLabel || Boolean(leading) || Boolean(title) || actions.length > 0;
@@ -92,7 +89,7 @@ const AppBar: React.FC<IAppBar> = ({
                 </HStack>
               )}
               <HStack space="lg" className="items-center">
-                {creditLabel && user ? <CreditLabel /> : <Box />}
+                {creditLabel ? <CreditLabel /> : null}
                 {actions.map((e) => e)}
               </HStack>
             </HStack>
