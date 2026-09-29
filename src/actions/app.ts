@@ -24,6 +24,7 @@ export const useGetAppConfig = () => {
     queryFn: getAppConfig,
     staleTime: Infinity,
     gcTime: Infinity,
+    retry: false,
   });
 };
 

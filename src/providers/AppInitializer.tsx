@@ -4,7 +4,8 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { useFonts } from 'expo-font';
 import { Image } from 'expo-image';
 import { usePathname } from 'expo-router';
-import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
+import { onlineManager } from '@tanstack/react-query';
 import { version } from '@/package.json';
 import { CrossVector } from '@/assets';
 import { Box } from '@/components/ui';
@@ -20,7 +21,7 @@ import { FONTS, STORAGE_KEYS, STORE_URL, width } from '@/src/constants';
 import { AppIconButton, AppNoInternet, AppSplash } from '@/src/components';
 import { useAppState, useAuth, useModal, useTheme } from '@/src/hooks';
 import { registerForPushNotificationsAsync } from '@/src/services';
-import { getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
+import { getIsOnline, getMonthlyRewardUrl, isVersionLower, storage } from '@/src/utils';
 import { setBookmarks, setHasSeenOnboarding, setHasSeenReward, useAppDispatch } from '@/src/store';
 import '@/src/configs/google';
 
@@ -44,9 +45,6 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
   const notificationRegistrationStarted = useRef(false);
 
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
-
-  const getIsOnline = (state: NetInfoState) =>
-    state.isConnected === true && state.isInternetReachable !== false;
 
   const minimumVersion =
     Platform.OS === 'android' ? appConfig?.android_version : appConfig?.ios_version;
@@ -77,17 +75,24 @@ const AppInitializer: React.FC<PropsWithChildren> = ({ children }) => {
 
     const checkInitialConnection = async () => {
       const state = await NetInfo.fetch();
+      const online = getIsOnline(state);
+
+      onlineManager.setOnline(online);
 
       if (mounted) {
-        setIsOnline(getIsOnline(state));
+        setIsOnline(online);
       }
     };
 
     checkInitialConnection();
 
     const unsubscribe = NetInfo.addEventListener((state) => {
+      const online = getIsOnline(state);
+
+      onlineManager.setOnline(online);
+
       if (mounted) {
-        setIsOnline(getIsOnline(state));
+        setIsOnline(online);
       }
     });
 

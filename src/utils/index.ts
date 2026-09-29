@@ -6,3 +6,4 @@ export * from './leaderboard';
 export * from './appReview';
 export * from './version';
 export * from './user';
+export * from './app';
