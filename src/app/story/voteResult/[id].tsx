@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { BannerAdSize } from 'react-native-google-mobile-ads';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { RightChevronVector, ShareVector } from '@/assets';
+import { LeftChevronVector, LoopVector, RightChevronVector, ShareVector } from '@/assets';
 import { Box, VStack } from '@/components/ui';
 import {
   useGetStoryById,
@@ -17,6 +17,7 @@ import {
   AppPrimaryButton,
   AppScrollView,
   AppSecondaryButton,
+  AppStateScreen,
   AppText,
   HeaderTitle,
   ResultCard,
@@ -31,13 +32,13 @@ import { useTheme } from '@/src/hooks';
 
 const StoryVoteResultPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { replace, dismissTo } = useRouter();
+  const { replace, dismissTo, back } = useRouter();
   const { colors } = useTheme();
 
   const user = useAppSelector((state) => state.auth.user);
   const toStoryDetail = useAppSelector((state) => state.app.toStoryDetail);
 
-  const { data: story, refetch: refetchStoryDetail } = useGetStoryById(id);
+  const { data: story, refetch: refetchStoryDetail, error } = useGetStoryById(id);
   const {
     data: stats = [],
     isPending: statsLoading,
@@ -101,7 +102,15 @@ const StoryVoteResultPage = () => {
     );
   }
 
-  if (!story || !stats) return <></>;
+  if (!story || !stats)
+    return (
+      <AppStateScreen
+        title="Oylama Sonuçları Yüklenemedi"
+        description={error?.message}
+        primaryButton={{ icon: LoopVector, label: 'Tekrar Dene', onPress: refetchStoryDetail }}
+        secondaryButton={{ icon: LeftChevronVector, label: 'Geri Dön', onPress: back }}
+      />
+    );
 
   return (
     <AppBackground>

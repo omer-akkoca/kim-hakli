@@ -4,18 +4,7 @@ import { Center, HStack, LinearGradient, Pressable } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
 import { AppLoading } from './AppLoading';
 import { AppText } from './AppText';
-import { AppColors } from '@/src/types';
-
-interface AppButtonProps {
-  label: string;
-  icon: React.FC<SvgProps>;
-  onPress: () => void;
-  loading?: boolean;
-  disabled?: boolean;
-  flex?: boolean;
-  reverse?: boolean;
-  className?: string;
-}
+import { AppButtonProps, AppColors } from '@/src/types';
 
 interface DetailIconButtonProps {
   icon: React.FC<SvgProps>;
@@ -89,12 +78,13 @@ const AppSecondaryButton: React.FC<AppButtonProps> = ({
   disabled,
   flex = false,
   reverse = false,
+  className,
 }) => {
   const { colors } = useTheme();
   return (
     <Pressable
       onPress={loading ? () => null : onPress}
-      className="h-button rounded-xl overflow-hidden disabled:opacity-50"
+      className={`h-button rounded-xl overflow-hidden disabled:opacity-50 ${className}`}
       style={{
         flex: flex ? 1 : undefined,
         backgroundColor: colors.appSecondaryButton,

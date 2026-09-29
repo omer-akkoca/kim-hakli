@@ -4,6 +4,7 @@ import {
   AppBackground,
   AppIconButton,
   AppLoading,
+  AppStateScreen,
   AppText,
   CreditBadge,
   DetailActionButton,
@@ -17,7 +18,7 @@ import {
   useGetStoryCategories,
   useStoryAccess,
 } from '@/src/actions';
-import { LeftChevronVector, ShareVector } from '@/assets';
+import { LeftChevronVector, LoopVector, ShareVector } from '@/assets';
 import { useAuth, useBookmark, useTheme } from '@/src/hooks';
 import { getCoverImageUrl, handleShareStory, preventWordBreak } from '@/src/utils';
 
@@ -30,7 +31,7 @@ export default function StoryDetailPage() {
   const { user } = useAuth();
 
   const { data: categories } = useGetCategories();
-  const { data: story, isLoading } = useGetStoryById(id);
+  const { data: story, isLoading, refetch, error } = useGetStoryById(id);
   const { data: storyCategories } = useGetStoryCategories(id);
   const { data: storyAccess, isLoading: isStoryAccessLoading } = useStoryAccess({
     storyId: id,
@@ -58,7 +59,24 @@ export default function StoryDetailPage() {
     );
   }
 
-  if (!story) return <></>;
+  if (!story)
+    return (
+      <AppStateScreen
+        title="Hikaye Detayına Ulaşılamıyor"
+        description={error?.message}
+        primaryButton={{ icon: LoopVector, label: 'Tekrar Dene', onPress: refetch }}
+        secondaryButton={{ icon: LeftChevronVector, label: 'Geri Dön', onPress: handleBack }}
+      />
+    );
+
+  if (story.status === 'draft')
+    return (
+      <AppStateScreen
+        title="Hikayeye Henüz Erişemezsiniz"
+        description="Bu hikaye henüz geliştirme aşamasındadır. Lütfen daha sonra tekrar deneyiniz."
+        primaryButton={{ icon: LeftChevronVector, label: 'Geri Dön', onPress: handleBack }}
+      />
+    );
 
   const coverImage = getCoverImageUrl(story.id);
   const storyTitle = preventWordBreak(story.title);

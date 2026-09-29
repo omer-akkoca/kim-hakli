@@ -2,23 +2,18 @@ import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQueryClient } from '@tanstack/react-query';
-import { CrossVector, VerifyVector, VoteVector } from '@/assets';
+import { CrossVector, LeftChevronVector, LoopVector, VerifyVector, VoteVector } from '@/assets';
 import { Box, HStack, VStack } from '@/components/ui';
 import {
   AppBackground,
   AppIconButton,
   AppPrimaryButton,
+  AppStateScreen,
   AppText,
   HeaderTitle,
   VoteSidesCarousel,
 } from '@/src/components';
-import {
-  useGetStoryById,
-  useGetStoryImageUrls,
-  useGetStorySides,
-  useVoteStory,
-  voteKeys,
-} from '@/src/actions';
+import { useGetStoryImageUrls, useGetStorySides, useVoteStory, voteKeys } from '@/src/actions';
 import { useAuth, useReward, useTheme } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
 
@@ -35,8 +30,7 @@ export default function StoryVotePage() {
 
   const [selectedSide, setSelectedSide] = useState<string>('');
 
-  const { data: story } = useGetStoryById(id);
-  const { data: sides = [] } = useGetStorySides(id);
+  const { data: sides = [], refetch, error } = useGetStorySides(id);
 
   const avatarPaths = sides?.map((scene) => scene.avatar_path) ?? [];
 
@@ -69,7 +63,15 @@ export default function StoryVotePage() {
     );
   };
 
-  if (!story) return <></>;
+  if (!sides)
+    return (
+      <AppStateScreen
+        title="Hikaye Tarafları Bulunamadı"
+        description={error?.message}
+        primaryButton={{ icon: LoopVector, label: 'Tekrar Dene', onPress: refetch }}
+        secondaryButton={{ icon: LeftChevronVector, label: 'Geri Dön', onPress: back }}
+      />
+    );
 
   return (
     <AppBackground>
