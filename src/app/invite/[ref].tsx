@@ -7,18 +7,18 @@ import { useAuth } from '@/src/hooks';
 const ReferralDeepLink = () => {
   const { ref } = useLocalSearchParams<{ ref?: string }>();
   const { replace } = useRouter();
-  const dispatch = useAppDispatch();
   const { user } = useAuth();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!ref) return;
-
-    dispatch(setRefCode(ref));
 
     if (user) {
       replace('/(tabs)/profile');
       return;
     }
+
+    dispatch(setRefCode(ref));
 
     replace({
       pathname: '/auth/login',
