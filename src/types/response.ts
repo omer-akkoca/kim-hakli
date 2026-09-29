@@ -80,3 +80,8 @@ export interface UpdateProfileResponse {
 export interface GetMyTotalCreditsResponse {
   total_credits: number;
 }
+
+export interface GetStoryImagesResponse {
+  path: string;
+  signedUrl: string;
+}

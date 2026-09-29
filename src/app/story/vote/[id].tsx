@@ -7,6 +7,7 @@ import { Box, HStack, VStack } from '@/components/ui';
 import {
   AppBackground,
   AppIconButton,
+  AppLoading,
   AppPrimaryButton,
   AppStateScreen,
   AppText,
@@ -16,6 +17,7 @@ import {
 import { useGetStoryImageUrls, useGetStorySides, useVoteStory, voteKeys } from '@/src/actions';
 import { useAuth, useReward, useTheme } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
+import { DEFAULT_SIDE_IMAGE } from '@/src/constants';
 
 export default function StoryVotePage() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -30,7 +32,7 @@ export default function StoryVotePage() {
 
   const [selectedSide, setSelectedSide] = useState<string>('');
 
-  const { data: sides = [], refetch, error } = useGetStorySides(id);
+  const { data: sides = [], refetch, error, isLoading } = useGetStorySides(id);
 
   const avatarPaths = sides?.map((scene) => scene.avatar_path) ?? [];
 
@@ -38,7 +40,8 @@ export default function StoryVotePage() {
 
   const sidesWithAvatar = sides.map((side) => ({
     ...side,
-    avatar_url: signedAvatars.find((img) => img.includes(side.avatar_path))!,
+    avatar_url:
+      signedAvatars.find((img) => img.path === side.avatar_path)?.signedUrl ?? DEFAULT_SIDE_IMAGE,
   }));
 
   const { mutate, isPending } = useVoteStory(user?.id);
@@ -62,6 +65,14 @@ export default function StoryVotePage() {
       },
     );
   };
+
+  if (isLoading) {
+    return (
+      <AppBackground>
+        <AppLoading fullScreen />
+      </AppBackground>
+    );
+  }
 
   if (!sides)
     return (

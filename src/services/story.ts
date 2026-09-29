@@ -13,6 +13,7 @@ import {
   GetStoryAccessResponse,
   GetHomeStoriesResponse,
   StoryWithVoteCount,
+  GetStoryImagesResponse,
 } from '@/src/types';
 import {
   GET_HOME_STORIES,
@@ -128,14 +129,16 @@ export const getStoryScenes = async (storyId: string): Promise<GetStoryScenesRes
   return await attachSignedImageUrls(data ?? []);
 };
 
-export const getStoryImageUrls = async (paths: string[]) => {
+export const getStoryImageUrls = async (paths: string[]): Promise<GetStoryImagesResponse[]> => {
   const { data, error } = await supabase.storage
     .from('story-assets')
     .createSignedUrls(paths, 60 * 60);
 
   if (error) throw error;
 
-  return data.map((e) => e.signedUrl ?? '');
+  const value = data.map((e) => ({ path: e.path!, signedUrl: e.signedUrl! }));
+
+  return value;
 };
 
 export const getStorySides = async (storyId: string): Promise<IStorySide[]> => {
