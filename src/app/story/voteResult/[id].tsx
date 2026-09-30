@@ -25,7 +25,7 @@ import {
   VoteCountCard,
   WinnerResultCard,
 } from '@/src/components';
-import { ADS } from '@/src/constants';
+import { ADS, DEFAULT_SIDE_IMAGE } from '@/src/constants';
 import { handleShareStory, requestNativeAppReview } from '@/src/utils';
 import { useAppSelector } from '@/src/store';
 import { useTheme } from '@/src/hooks';
@@ -51,13 +51,14 @@ const StoryVoteResultPage = () => {
     [stats],
   );
 
-  const { data: avatars = [] } = useGetStoryImageUrls({
+  const { data: signedAvatars = [] } = useGetStoryImageUrls({
     paths: avatarPaths,
   });
 
   const resultsWithAvatar = stats.map((item) => ({
     ...item,
-    avatar_url: avatars.find((img) => img.includes(item.avatar_path))!,
+    avatar_url:
+      signedAvatars.find((img) => img.path === item.avatar_path)?.signedUrl ?? DEFAULT_SIDE_IMAGE,
   }));
 
   const totalVote = Object.values(stats).reduce((sum, stat) => sum + stat.vote_count, 0);
