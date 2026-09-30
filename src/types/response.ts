@@ -10,8 +10,7 @@ export interface UnlockStoryResponse {
 
 export interface VoteStoryResponse {
   success: boolean;
-  story_id: string;
-  side_id: string;
+  earned_credit: number;
 }
 
 export interface UserStoryStats {

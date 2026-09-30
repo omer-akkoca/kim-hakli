@@ -14,6 +14,7 @@ import {
   GetHomeStoriesResponse,
   StoryWithVoteCount,
   GetStoryImagesResponse,
+  VoteStoryParams,
 } from '@/src/types';
 import {
   GET_HOME_STORIES,
@@ -155,13 +156,8 @@ export const getStorySides = async (storyId: string): Promise<IStorySide[]> => {
   return data ?? [];
 };
 
-export const voteStory = async ({
-  storyId,
-  sideId,
-}: {
-  storyId: string;
-  sideId: string;
-}): Promise<VoteStoryResponse> => {
+export const voteStory = async (params: VoteStoryParams): Promise<VoteStoryResponse> => {
+  const { sideId, storyId } = params;
   const { data, error } = await supabase.rpc(VOTE_STORY, {
     p_story_id: storyId,
     p_side_id: sideId,
@@ -169,7 +165,7 @@ export const voteStory = async ({
 
   if (error) throw error;
 
-  return data as VoteStoryResponse;
+  return data;
 };
 
 export const getStoryVoteResults = async (storyId: string): Promise<StoryVoteResult[]> => {

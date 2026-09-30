@@ -58,3 +58,8 @@ export type SavePushTokenParams = {
   userId: string;
   token: string;
 };
+
+export interface VoteStoryParams {
+  storyId: string;
+  sideId: string;
+}

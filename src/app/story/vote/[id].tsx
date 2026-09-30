@@ -15,7 +15,7 @@ import {
   VoteSidesCarousel,
 } from '@/src/components';
 import { useGetStoryImageUrls, useGetStorySides, useVoteStory, voteKeys } from '@/src/actions';
-import { useAuth, useReward, useTheme } from '@/src/hooks';
+import { useAuth, useTheme, useToast } from '@/src/hooks';
 import { increaseCredit, useAppDispatch } from '@/src/store';
 import { DEFAULT_SIDE_IMAGE } from '@/src/constants';
 
@@ -26,7 +26,7 @@ export default function StoryVotePage() {
   const { back, replace } = useRouter();
   const { top } = useSafeAreaInsets();
   const { user } = useAuth();
-  const { showReward } = useReward();
+  const { show } = useToast();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
@@ -50,17 +50,23 @@ export default function StoryVotePage() {
     mutate(
       { sideId: selectedSide, storyId: id },
       {
-        onSuccess: (data) => {
-          if (data.success) {
-            replace(`/story/voteResult/${id}`);
-            showReward({ amount: 6 }, () => dispatch(increaseCredit(6)));
+        onSuccess: (result) => {
+          const { earned_credit, success } = result;
+          if (success) {
+            const description = `Hikaye oylayarak +${earned_credit} kredi kazandın.`;
+            show({ type: 'success', title: 'Tebrikler', description });
+            dispatch(increaseCredit(earned_credit));
             queryClient.invalidateQueries({
               queryKey: voteKeys.voteHistory(),
             });
             queryClient.invalidateQueries({
-              queryKey: voteKeys.voteResults(data.story_id),
+              queryKey: voteKeys.voteResults(id),
             });
+            replace(`/story/voteResult/${id}`);
           }
+        },
+        onError: (error) => {
+          show({ type: 'error', title: 'Hata Oluştu', description: error.message });
         },
       },
     );
