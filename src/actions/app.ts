@@ -1,5 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllTimeLeaderBoard, getAppConfig, getMonthlyLeaderBoard } from '@/src/services';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  claimAdReward,
+  getAllTimeLeaderBoard,
+  getAppConfig,
+  getMonthlyLeaderBoard,
+} from '@/src/services';
 import { useAuth } from '@/src/hooks/useAuth';
 
 const appKeys = {
@@ -47,5 +52,11 @@ export const useGetMonthlyLeaderBoard = () => {
     enabled: Boolean(user?.id),
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
+  });
+};
+
+export const useClaimAdReward = () => {
+  return useMutation({
+    mutationFn: claimAdReward,
   });
 };

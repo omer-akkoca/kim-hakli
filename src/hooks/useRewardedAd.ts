@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { AdEventType, RewardedAd, RewardedAdEventType } from 'react-native-google-mobile-ads';
 import { ADS } from '@/src/constants';
-import { supabase } from '@/src/configs';
-import { useToast } from './useToast';
 import { useAppDispatch, increaseCredit } from '@/src/store';
-
-type AdRewardResult = {
-  success: boolean;
-  remaining_ads: number;
-  credit_count: number;
-};
+import { useClaimAdReward } from '@/src/actions';
+import { useToast } from './useToast';
 
 const REWARDED_AD_MAX_AGE_MS = 55 * 60 * 1000;
 
@@ -27,6 +21,8 @@ export const useRewardedAd = () => {
 
   const isLoading = isWatching || isRewarding;
   const isDisabled = !isLoaded || isLoading;
+
+  const { mutate } = useClaimAdReward();
 
   useEffect(() => {
     const rewardedAd = rewardedAdRef.current;
@@ -59,35 +55,29 @@ export const useRewardedAd = () => {
       async () => {
         setIsRewarding(true);
 
-        const { data, error } = await supabase.rpc('claim_ad_reward');
-
-        setIsRewarding(false);
-
-        if (error) {
-          show({
-            type: 'error',
-            title: 'Kredi eklenemedi.',
-            description: 'Lütfen tekrar dene.',
-          });
-          return;
-        }
-
-        const result = data as AdRewardResult;
-
-        if (result.success) {
-          dispatch(increaseCredit(3));
-          show({
-            type: 'success',
-            title: '+3 kredi kazandın!',
-            description: `Bugün ${result.remaining_ads} reklam hakkın kaldı.`,
-          });
-          return;
-        }
-
-        show({
-          type: 'warning',
-          title: 'Günlük limite ulaştın.',
-          description: 'Yarın yeniden reklam izleyerek kredi kazanabilirsin.',
+        mutate(undefined, {
+          onError: () => {
+            show({
+              type: 'error',
+              title: 'Kredi eklenemedi.',
+              description: 'Lütfen tekrar dene.',
+            });
+          },
+          onSuccess: (data) => {
+            if (data.success) {
+              dispatch(increaseCredit(data.earned_credit));
+              const title = `+${data.earned_credit} kredi kazandın!`;
+              const description = `Bugün ${data.remaining_ads} reklam hakkın kaldı.`;
+              show({ type: 'success', title, description });
+            } else {
+              show({
+                type: 'warning',
+                title: 'Günlük limite ulaştın.',
+                description: 'Yarın yeniden reklam izleyerek kredi kazanabilirsin.',
+              });
+            }
+          },
+          onSettled: () => setIsRewarding(false),
         });
       },
     );

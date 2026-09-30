@@ -13,3 +13,4 @@ export const COMPLETE_PROFILE = 'complete_profile';
 export const CAN_APPLY_REFERRAL_CODE = 'can_apply_referral_code';
 export const GET_MY_STORY_VOTE_SIDE_ID = 'get_my_story_vote_side_id';
 export const GET_MY_TOTAL_CREDITS = 'get_my_total_credits';
+export const CLAIM_AD_REWARD = 'claim_ad_reward';

@@ -1,6 +1,10 @@
 import { supabase } from '@/src/configs';
-import { GET_ALL_TIME_LEADERBOARD, GET_MONTHLY_LEADERBOARD } from '@/src/constants';
-import { GetLeaderBoardResponse, IAppConfig } from '@/src/types';
+import {
+  CLAIM_AD_REWARD,
+  GET_ALL_TIME_LEADERBOARD,
+  GET_MONTHLY_LEADERBOARD,
+} from '@/src/constants';
+import { ClaimAdRewardResponse, GetLeaderBoardResponse, IAppConfig } from '@/src/types';
 import { mapLeaderBoardProfiles } from './storage';
 
 export const getAppConfig = async (): Promise<IAppConfig> => {
@@ -48,4 +52,12 @@ export const getMonthlyLeaderBoard = async (): Promise<GetLeaderBoardResponse> =
     leaderboard: sortedLeaderboard,
     current_user: currentUser ?? null,
   };
+};
+
+export const claimAdReward = async (): Promise<ClaimAdRewardResponse> => {
+  const { data, error } = await supabase.rpc(CLAIM_AD_REWARD);
+
+  if (error) throw error;
+
+  return data;
 };

@@ -85,3 +85,9 @@ export interface GetStoryImagesResponse {
   path: string;
   signedUrl: string;
 }
+
+export interface ClaimAdRewardResponse {
+  success: boolean;
+  remaining_ads: number;
+  earned_credit: number;
+}
