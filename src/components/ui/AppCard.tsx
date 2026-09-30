@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
+import { ViewStyle } from 'react-native';
 import { Pressable } from '@/components/ui';
 import { useTheme } from '@/src/hooks';
-import { ViewStyle } from 'react-native';
 
 interface AppCardProps extends PropsWithChildren {
   flex?: boolean;
@@ -22,7 +22,7 @@ const AppCard: React.FC<AppCardProps> = ({ onPress, flex, className, style, chil
           flex: flex ? 1 : undefined,
           backgroundColor: colors.appCardBg,
           boxShadow: colors.shadow,
-          borderColor: colors.white_10,
+          borderColor: colors.appCardBorder,
         },
         style,
       ]}

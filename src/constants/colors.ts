@@ -45,6 +45,7 @@ export const lightColors = {
   navBarBg: 'rgba(245, 245, 245, 0.78)',
   divider: 'rgba(60, 60, 67, 0.10)',
   appBarBg: 'rgba(245, 245, 245, 0.78)',
+  appCardBorder: '#F3F3F8',
 };
 
 export const darkColors = {
@@ -67,4 +68,5 @@ export const darkColors = {
   navBarBg: 'rgba(28, 31, 48, 0.78)',
   divider: 'rgba(255 255 255 / 0.1)',
   appBarBg: 'rgba(28, 31, 48, 0.78)',
+  appCardBorder: '#333542',
 };

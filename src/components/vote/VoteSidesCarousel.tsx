@@ -111,7 +111,7 @@ const VoteSegment: React.FC<SegmentProps> = ({ item, index, scrollX, active, set
           height: ITEM_HEIGHT,
           boxShadow: active ? '0 0 14px rgba(241,118,42,0.24)' : colors.shadow,
           borderWidth: 1.75,
-          borderColor: active ? colors.primary : colors.white_10,
+          borderColor: active ? colors.primary : colors.appCardBorder,
         }}
       >
         <Box className="flex-1 relative">
