@@ -35,7 +35,7 @@ const NormalTitle: React.FC<{ title: string }> = ({ title }) => (
   <AppText
     color="headline"
     size={25}
-    lineHeight={22}
+    lineHeight={26}
     weight={800}
     numberOfLines={1}
     adjustsFontSizeToFit

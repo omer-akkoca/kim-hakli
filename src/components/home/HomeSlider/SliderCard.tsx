@@ -1,5 +1,7 @@
 import React, { PropsWithChildren } from 'react';
+import { View } from 'react-native';
 import Animated, { interpolate, SharedValue, useAnimatedStyle } from 'react-native-reanimated';
+
 import { useTheme } from '@/src/hooks';
 import { cardHeight, cardOverlap, cardWidth, MIN_SCALE, snapInterval } from './dimensions';
 
@@ -9,9 +11,9 @@ interface SlideCardProps extends PropsWithChildren {
   scrollX: SharedValue<number>;
 }
 
-const SlideCard: React.FC<SlideCardProps> = ({ children, ...rest }) => {
+const SlideCard: React.FC<SlideCardProps> = ({ children, index, isLast, scrollX }) => {
   const { colors } = useTheme();
-  const { index, isLast, scrollX } = rest;
+
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
       scrollX.value,
@@ -27,21 +29,28 @@ const SlideCard: React.FC<SlideCardProps> = ({ children, ...rest }) => {
   return (
     <Animated.View
       style={[
-        animatedStyle,
         {
-          overflow: 'hidden',
           width: cardWidth,
           height: cardHeight,
           marginRight: isLast ? 0 : -cardOverlap,
+        },
+        animatedStyle,
+      ]}
+    >
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
           borderRadius: 24,
           borderWidth: 1,
           backgroundColor: colors.appCardBg,
-          boxShadow: colors.shadow,
           borderColor: colors.appCardBorder,
-        },
-      ]}
-    >
-      {children}
+          boxShadow: colors.shadow,
+        }}
+      >
+        {children}
+      </View>
     </Animated.View>
   );
 };
