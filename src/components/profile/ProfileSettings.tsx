@@ -67,6 +67,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onSave }) => {
       setPhoto(asset);
     } catch {
       show({
+        type: 'error',
         title: 'Hata',
         description: 'Fotoğraf seçiminde bir hata meydana geldi.',
       });

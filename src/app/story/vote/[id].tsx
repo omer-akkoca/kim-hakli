@@ -54,7 +54,7 @@ export default function StoryVotePage() {
           const { earned_credit, success } = result;
           if (success) {
             const description = `Hikaye oylayarak +${earned_credit} kredi kazandın.`;
-            show({ type: 'success', title: 'Tebrikler', description });
+            show({ type: 'credit', title: 'Tebrikler', description, credit: `+${earned_credit}` });
             dispatch(increaseCredit(earned_credit));
             queryClient.invalidateQueries({
               queryKey: voteKeys.voteHistory(),

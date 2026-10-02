@@ -17,12 +17,13 @@ export interface IFaq {
 export type CreditFilter = (typeof CREDIT_FILTERS)[number]['value'];
 
 export type AlertType = 'success' | 'error' | 'warning';
-export type ToastType = 'success' | 'error' | 'warning';
+export type ToastType = 'success' | 'error' | 'warning' | 'credit';
 export type ShowToastProps = {
   type?: ToastType;
   title: string;
   description: string;
   duration?: number;
+  credit?: string;
 };
 
 export interface IAppConfig {
@@ -32,6 +33,8 @@ export interface IAppConfig {
   update_message: string;
   android_version: string;
   ios_version: string;
+  ad_prize: number;
+  vote_prize: number;
 }
 
 export interface ILeaderBoardUser {

@@ -66,9 +66,9 @@ export const useRewardedAd = () => {
           onSuccess: (data) => {
             if (data.success) {
               dispatch(increaseCredit(data.earned_credit));
-              const title = `+${data.earned_credit} kredi kazandın!`;
-              const description = `Bugün ${data.remaining_ads} reklam hakkın kaldı.`;
-              show({ type: 'success', title, description });
+              const title = `Tebrikler!`;
+              const description = `İzleyerek +${data.earned_credit} kredi kazandın! Bugün ${data.remaining_ads} izleme hakkın kaldı.`;
+              show({ type: 'credit', title, description, credit: `+${data.earned_credit}` });
             } else {
               show({
                 type: 'warning',

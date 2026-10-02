@@ -31,12 +31,14 @@ const ReferralSource = () => {
             dispatch(setReferralSource(source));
             router.replace('/');
             show({
+              type: 'success',
               title: 'Teşekkürler 🧡',
               description: 'Cevabın başarıyla kaydedildi.',
             });
           },
           onError: (error) => {
             show({
+              type: 'error',
               title: 'Bir hata oluştu',
               description: error.message,
             });
