@@ -11,7 +11,7 @@ export const getAppConfig = async (): Promise<IAppConfig> => {
   const { data, error } = await supabase
     .from('app_config')
     .select(
-      'version, latest_version, minimum_required_version, update_message, android_version, ios_version',
+      'version, latest_version, minimum_required_version, update_message, android_version, ios_version, ad_prize, vote_prize',
     )
     .single();
 

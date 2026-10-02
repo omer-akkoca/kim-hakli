@@ -64,9 +64,9 @@ const HomePage = () => {
         </HStack>
       </AppBar>
       <Box className="flex-1">
-        <AppScrollView bottomPadding topPadding>
+        <AppScrollView bottomPadding>
+          <HomeSlider />
           <VStack space="xl">
-            <HomeSlider />
             {isLoading ? (
               <HomeSkeleton />
             ) : (
