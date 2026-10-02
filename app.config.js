@@ -15,14 +15,14 @@ export default ({ config }) => ({
     googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     bundleIdentifier: 'com.oakkoca.kimhakli',
     usesAppleSignIn: true,
-    buildNumber: '38',
+    buildNumber: '39',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
     associatedDomains: ['applinks:kimhakli.tr'],
   },
   android: {
-    versionCode: 38,
+    versionCode: 39,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#1C1F30',
