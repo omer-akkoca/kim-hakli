@@ -19,15 +19,7 @@ import {
 import { uploadAvatar } from './storage';
 
 export const getProfile = async (userId: string): Promise<IUser | null> => {
-  const { data: profile, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', userId)
-    .single();
-
-  if (error) {
-    throw new Error('Profil bilgileri çekilirken hata oluştu.');
-  }
+  const { data: profile } = await supabase.from('users').select('*').eq('id', userId).single();
 
   return profile;
 };
